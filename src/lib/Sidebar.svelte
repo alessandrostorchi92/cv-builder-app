@@ -1,17 +1,18 @@
 <script lang="ts">
   let formData: {
-    filePicture: FileList | null;
-    name: string;
-    surname: string;
-    profession: string;
-    address: string;
-    phonePrefix: string;
-    phone: string;
-    email: string;
-    profileSummary: string;
-    careerGoals: string;
+    filePicture: FileList | null,
+    name: string,
+    surname: string,
+    profession: string,
+    address: string,
+    phonePrefix: string,
+    phone: string,
+    email: string,
+    profileSummary: string,
+    careerGoals: string,
     languagesSkills: { lang: string; level: string }[];
-    jobs: WorkHistory[];
+    jobs: WorkHistory[],
+    educations: AcademicHistory[],
   } = {
     filePicture: null,
     name: "",
@@ -25,6 +26,7 @@
     careerGoals: "",
     languagesSkills: [],
     jobs: [],
+    educations: []
   };
 
   const phonePrefixes = [
@@ -146,13 +148,13 @@
 
     if(academicHistory.length > 1) {
       disableAddAcademicEducationButton = true;
-    };  
+    }; 
   };
 
   function removeAcademicEducation(index: number): void {
     academicHistory.splice(index, 1);
     academicHistory = academicHistory;
-    disableAddAcademicEducationButton = false; 
+    disableAddAcademicEducationButton = false;
   };
 
   let disableAddLanguageButton: boolean = false;
@@ -161,7 +163,9 @@
 
   function handleSubmit() {
     formData.languagesSkills = selectedLanguages;
-    formData.jobs = workHistory;  
+    formData.jobs = workHistory;
+    formData.educations = academicHistory;
+    console.log(formData);
   };
 
 </script>
@@ -187,7 +191,7 @@
           </div>
         </div>
 
-        <div class="flex-center-utility mt-3">
+        <div class="flex-center-utility py-4">
           <label for="file-input" class="custom-file-input">
             Scegli file
           </label>
@@ -566,13 +570,6 @@
         <div class="flex-center-utility">
           <button type="button" class="btn-add-style" on:click={() => addAcademicEducation()} disabled={disableAddAcademicEducationButton}>Aggiungi Formazione</button>
         </div>
-
-
-
-
-
-
-
 
         <!-- Submit -->
 
