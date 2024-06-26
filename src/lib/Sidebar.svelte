@@ -72,54 +72,92 @@
         endDateWorkExperience: string,
    };
 
-   let workHistory: WorkHistory[] = [{
-        role: "",
-        company: "",
-        workExperienceResults: "",
-        startDateWorkExperience: "",
-        endDateWorkExperience: ""
-    }];
+  let workHistory: WorkHistory[] = [{
+      role: "",
+      company: "",
+      workExperienceResults: "",
+      startDateWorkExperience: "",
+      endDateWorkExperience: ""
+  }];
+
+  type AcademicHistory = {
+      educationType: string,
+      qualification: string,
+      educationGoals: string,
+      startDateAcademicEducation: string,
+      endDateAcademicEducation: string,
+  };
+
+  let academicHistory: AcademicHistory[] = [{
+    educationType: "",
+    qualification: "",
+    educationGoals: "",
+    startDateAcademicEducation: "",
+    endDateAcademicEducation: "",
+  }]
 
   const maxTextAreaLength: number = 500;
   const mediumTextAreaLength: number = 400;
+  const minextAreaLength: number = 300;
 
   function addLanguage(): void {
     if (selectedLanguages.length < 3) {
       selectedLanguages.push({lang: "", level: ""});
       selectedLanguages = selectedLanguages;
-    }
+    };
     
     
     if(selectedLanguages.length >= 3) {
-        disableButton = true;
-    }
+      disableAddLanguageButton = true;
+    };
   };
 
   function removeLanguage(index: number): void {
     selectedLanguages.splice(index, 1);
     selectedLanguages = selectedLanguages;
-    disableButton = false; 
+    disableAddLanguageButton = false; 
   };
 
   function addWorkExperience(): void {
     if(workHistory.length < 2) {
-        workHistory.push({role: "", company: "", workExperienceResults: "", startDateWorkExperience: "", endDateWorkExperience: ""});
+        workHistory.push({role: "", company: "", workExperienceResults: "", startDateWorkExperience: "", endDateAcademicEducation: ""});
         workHistory = workHistory;
-    }
+    };
 
     if(workHistory.length > 1) {
-        disableButton = true;
-    }
+      disableAddWorkExperienceButton = true;
+    };
 
-  }
+  };
 
   function removeWorkExperience(index:number): void {
     workHistory.splice(index, 1);
     workHistory = workHistory;
-    disableButton = false; 
-  }
+    disableAddWorkExperienceButton = false; 
 
-  let disableButton: boolean = false;
+  };
+
+  function addAcademicEducation(): void {
+
+    if(academicHistory.length < 2) {
+      academicHistory.push({educationType: "", qualification: "",  educationGoals: "", startDateAcademicEducation: "", endDateAcademicEducation: ""});
+      academicHistory = academicHistory;
+    };
+
+    if(academicHistory.length > 1) {
+      disableAddAcademicEducationButton = true;
+    };  
+  };
+
+  function removeAcademicEducation(index: number): void {
+    academicHistory.splice(index, 1);
+    academicHistory = academicHistory;
+    disableAddAcademicEducationButton = false; 
+  };
+
+  let disableAddLanguageButton: boolean = false;
+  let disableAddWorkExperienceButton: boolean = false;
+  let disableAddAcademicEducationButton: boolean = false;
 
   function handleSubmit() {
     formData.languagesSkills = selectedLanguages;
@@ -362,7 +400,7 @@
         {/each}
 
         <div class="flex-center-utility">
-          <button type="button" class="btn-add-style" on:click={() => addLanguage()} disabled={disableButton}>Aggiungi Lingua</button>
+          <button type="button" class="btn-add-style" on:click={() => addLanguage()} disabled={disableAddLanguageButton}>Aggiungi Lingua</button>
         </div>
 
          <!-- Dettagli Carriera -->
@@ -376,13 +414,25 @@
             <div class="form-group mb-3">
                 <label for="formInputRole">Ruolo</label>
                 <span class="isRequired">*</span>
-                <input type="text" class="form-control" id="formInputRole{jobIndex}" name="jobRole" placeholder="Inserisci la posizione lavorativa che hai ricoperto" bind:value={job.role}/>
+                <input type="text" 
+                       class="form-control" 
+                       id="formInputRole{jobIndex}" 
+                       name="jobRole" 
+                       placeholder="Inserisci la posizione lavorativa che hai ricoperto" 
+                       bind:value={job.role}
+                />
             </div>
 
             <div class="form-group mb-3">
                 <label for="formInputCompany">Azienda</label>
                 <span class="isRequired">*</span>
-                <input type="text" class="form-control" id="formInputCompany{jobIndex}" name="company" placeholder="Inserisci il nome dell'azienda" bind:value={job.company}/>
+                <input type="text" 
+                       class="form-control" 
+                       id="formInputCompany{jobIndex}" 
+                       name="company" 
+                       placeholder="Inserisci il nome dell'azienda" 
+                       bind:value={job.company}
+                />
             </div>
 
             <div class="form-group mb-3 position-relative">
@@ -423,17 +473,98 @@
             </div>
 
             {#if jobIndex > 0}
-
-            <div class="flex-center-utility mb-3">
-              <button type="button" class="btn-remove-style" on:click={() => removeWorkExperience(jobIndex)}>Rimuovi Lingua</button>
-            </div>
-              
+              <div class="flex-center-utility mb-3">
+                <button type="button" class="btn-remove-style" on:click={() => removeWorkExperience(jobIndex)}>Rimuovi Lavoro</button>
+              </div> 
             {/if}
 
         {/each}
 
         <div class="flex-center-utility">
-          <button type="button" class="btn-add-style" on:click={addWorkExperience} disabled={disableButton}>Aggiungi Lavoro</button>
+          <button type="button" class="btn-add-style" on:click={() => addWorkExperience()} disabled={disableAddWorkExperienceButton}>Aggiungi Lavoro</button>
+        </div>
+
+        <!-- Dettagli Formazione -->
+
+        <div class="flex-center-utility p-5">
+          <h4>Dettagli Formazione</h4>
+        </div>
+
+        {#each academicHistory as education, educationIndex}
+
+          <div class="form-group mb-3">
+            <label for="formInputEducationType">Università/Corso/Scuola</label>
+            <span class="isRequired">*</span>
+            <input type="text" 
+                   class="form-control" 
+                   id="formInputEducationType{educationIndex}" 
+                   name="educationType" 
+                   placeholder="Inserisci la tipologia di formazione"
+                   bind:value={education.educationType}
+            />
+          </div>
+
+          <div class="form-group mb-3">
+            <label for="formInputQualification">Titolo di studio</label>
+            <span class="isRequired">*</span>
+            <input type="text" 
+                   class="form-control" 
+                   id="formInputQualification{educationIndex}" 
+                   name="qualification" 
+                   placeholder="Inserisci il titolo di studio"
+                   bind:value={education.qualification}
+            />
+          </div>
+
+          <div class="form-group mb-3 position-relative">
+            <label for="formInputEducationGoals">Risultati accademici raggiunti</label>
+            <span class="isRequired">*</span>
+            <textarea
+                class="form-control"
+                id="formInputEducationGoals{educationIndex}"
+                rows="4"
+                maxlength={minextAreaLength}
+                placeholder="Parlaci degli obiettivi accademici che hai raggiunto..."
+                bind:value={education.educationGoals}
+            ></textarea>
+            <span class="maxChars" class:text-danger={education.educationGoals.length === minextAreaLength}>
+                {education.educationGoals.length} / {minextAreaLength}
+            </span>
+          </div>
+
+          <div class="form-group mb-3 flex-center-utility justify-content-around">
+            <div>
+              <label for="formInputStartDate" class="custom-date-input">Data di inizio</label>
+              <span class="isRequired">*</span>
+                <input type="month"
+                class="form-control" 
+                id="formInputStartDate{educationIndex}" 
+                name="startDateAcademicEducation"
+                bind:value={education.startDateAcademicEducation}
+                />
+            </div>
+
+            <div>
+              <label for="formInputEndDate" class="custom-date-input">Data di fine</label>
+                <span class="isRequired">*</span>
+                  <input type="month"
+                  class="form-control"
+                  id="formInputEndDate{educationIndex}"
+                  name="endDateAcademicEducation"
+                  bind:value={education.endDateAcademicEducation}
+                />
+            </div>
+          </div>
+
+          {#if educationIndex > 0}
+            <div class="flex-center-utility mb-3">
+              <button type="button" class="btn-remove-style" on:click={() => removeAcademicEducation(educationIndex)}>Rimuovi Formazione</button>
+            </div>    
+          {/if}
+        {/each}
+
+        <div class="flex-center-utility">
+          <button type="button" class="btn-add-style" on:click={() => addAcademicEducation()} disabled={disableAddAcademicEducationButton}>Aggiungi Formazione</button>
         </div>
 
 
@@ -443,7 +574,7 @@
 
 
 
-
+        <!-- Submit -->
 
         <div class="flex-center-utility py-5">
             <button type="submit" class="btn btn-secondary">Invia</button>
@@ -543,7 +674,7 @@
     background-color: red;
     color: white;
     font-size: 11px;
-    width: 90px;
+    width: 110px;
     padding: 0.3rem;
     border: none;
     border-radius: 8px;
