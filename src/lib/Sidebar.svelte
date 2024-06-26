@@ -11,6 +11,7 @@
     profileSummary: string;
     careerGoals: string;
     languagesSkills: { lang: string; level: string }[];
+    jobs: WorkHistory[];
   } = {
     filePicture: null,
     name: "",
@@ -23,6 +24,7 @@
     profileSummary: "",
     careerGoals: "",
     languagesSkills: [],
+    jobs: [],
   };
 
   const phonePrefixes = [
@@ -58,11 +60,28 @@
     { value: "C2", label: "Madrelingua" },
   ];
 
-  let selectedLanguages: [{ lang: string; level: string }] = [
+  let selectedLanguages: [{ lang: string, level: string }] = [
     { lang: "", level: "" },
   ];
 
+  type WorkHistory = {
+        role: string,
+        company: string,
+        workExperienceResults: string,
+        startDateWorkExperience: string,
+        endDateWorkExperience: string,
+   };
+
+   let workHistory: WorkHistory[] = [{
+        role: "",
+        company: "",
+        workExperienceResults: "",
+        startDateWorkExperience: "",
+        endDateWorkExperience: ""
+    }];
+
   const maxTextAreaLength: number = 500;
+  const mediumTextAreaLength: number = 400;
 
   function addLanguage(): void {
     if (selectedLanguages.length < 3) {
@@ -77,18 +96,34 @@
   };
 
   function removeLanguage(index: number): void {
-    if (index !== -1) {
-      selectedLanguages.splice(index, 1);
-      selectedLanguages = selectedLanguages;
-      disableButton = false;
-    }
+    selectedLanguages.splice(index, 1);
+    selectedLanguages = selectedLanguages;
+    disableButton = false; 
   };
+
+  function addWorkExperience(): void {
+    if(workHistory.length < 2) {
+        workHistory.push({role: "", company: "", workExperienceResults: "", startDateWorkExperience: "", endDateWorkExperience: ""});
+        workHistory = workHistory;
+    }
+
+    if(workHistory.length > 1) {
+        disableButton = true;
+    }
+
+  }
+
+  function removeWorkExperience(index:number): void {
+    workHistory.splice(index, 1);
+    workHistory = workHistory;
+    disableButton = false; 
+  }
 
   let disableButton: boolean = false;
 
   function handleSubmit() {
-    console.log("Form submitted");
-    formData.languagesSkills =  selectedLanguages;
+    formData.languagesSkills = selectedLanguages;
+    formData.jobs = workHistory;  
   };
 
 </script>
@@ -290,6 +325,7 @@
           <div class="input-group mb-3">
             <select
               class="form-select"
+              id="formSelectLanguage{languageIndex}"
               name="languages"
               bind:value={selectedLanguage.lang}
             >
@@ -304,6 +340,7 @@
 
             <select
               class="form-select"
+              id="formSelectLanguageLevels{languageIndex}"
               name="languageLevels"
               bind:value={selectedLanguage.level}
             >
@@ -319,24 +356,94 @@
 
           {#if languageIndex > 0}
             <div class="flex-center-utility mb-3">
-              <button
-                type="button"
-                class="btn-remove-style"
-                on:click={() => removeLanguage(languageIndex)}
-                >Rimuovi Lingua</button
-              >
+              <button type="button" class="btn-remove-style" on:click={() => removeLanguage(languageIndex)}>Rimuovi Lingua</button>
             </div>
           {/if}
         {/each}
 
-        <div class=" flex-center-utility">
-          <button
-            type="button"
-            class="btn-add-style"
-            on:click={() => addLanguage()}
-            disabled={disableButton}>Aggiungi Lingua</button
-          >
+        <div class="flex-center-utility">
+          <button type="button" class="btn-add-style" on:click={() => addLanguage()} disabled={disableButton}>Aggiungi Lingua</button>
         </div>
+
+         <!-- Dettagli Carriera -->
+
+         <div class="flex-center-utility p-5">
+            <h4>Dettagli Carriera</h4>
+        </div>
+
+        {#each workHistory as job, jobIndex}
+
+            <div class="form-group mb-3">
+                <label for="formInputRole">Ruolo</label>
+                <span class="isRequired">*</span>
+                <input type="text" class="form-control" id="formInputRole{jobIndex}" name="jobRole" placeholder="Inserisci la posizione lavorativa che hai ricoperto" bind:value={job.role}/>
+            </div>
+
+            <div class="form-group mb-3">
+                <label for="formInputCompany">Azienda</label>
+                <span class="isRequired">*</span>
+                <input type="text" class="form-control" id="formInputCompany{jobIndex}" name="company" placeholder="Inserisci il nome dell'azienda" bind:value={job.company}/>
+            </div>
+
+            <div class="form-group mb-3 position-relative">
+                <label for="formInputWorkExperienceResults">Risultati professionali ottenuti</label>
+                <span class="isRequired">*</span>
+                <textarea
+                    class="form-control"
+                    id="formInputWorkExperienceResults{jobIndex}"
+                    name="workExperienceResults"
+                    rows="4"
+                    maxlength={mediumTextAreaLength}
+                    placeholder="Parlaci dei risultati professionali che hai conseguito..."
+                    bind:value={job.workExperienceResults}
+                ></textarea>
+                <span class="maxChars" class:text-danger={job.workExperienceResults.length === mediumTextAreaLength}>{job.workExperienceResults.length} / {mediumTextAreaLength}</span>
+            </div>
+
+            <div class="form-group mb-3 flex-center-utility justify-content-around">
+                <div>
+                    <label for="formInputStartDateWorkExperience" class="custom-date-input">Data di inizio</label>
+                        <span class="isRequired">*</span>
+                        <input type="month" class="form-control"
+                            id="formInputStartDateWorkExperience{jobIndex}"
+                            name="startDateWorkExperience"
+                            bind:value={job.startDateWorkExperience}
+                        />
+                </div>
+
+                <div>
+                    <label for="formInputEndDateWorkExperience" class="custom-date-input">Data di fine</label>
+                        <span class="isRequired">*</span>
+                        <input type="month" class="form-control" 
+                            id="formInputEndDateWorkExperience{jobIndex}"
+                            name="endDateWorkExperience"
+                            bind:value={job.endDateWorkExperience}
+                        />
+                </div>
+            </div>
+
+            {#if jobIndex > 0}
+
+            <div class="flex-center-utility mb-3">
+              <button type="button" class="btn-remove-style" on:click={() => removeWorkExperience(jobIndex)}>Rimuovi Lingua</button>
+            </div>
+              
+            {/if}
+
+        {/each}
+
+        <div class="flex-center-utility">
+          <button type="button" class="btn-add-style" on:click={addWorkExperience} disabled={disableButton}>Aggiungi Lavoro</button>
+        </div>
+
+
+
+
+
+
+
+
+
 
         <div class="flex-center-utility py-5">
             <button type="submit" class="btn btn-secondary">Invia</button>
