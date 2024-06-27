@@ -1,5 +1,6 @@
 <script lang="ts">
 
+import CvPreview from "$lib/CvPreview.svelte";
 import Sidebar from "$lib/Sidebar.svelte";
 import "../app.css";
 
@@ -12,11 +13,9 @@ import "../app.css";
 
         <Sidebar></Sidebar>
 
-
-        <div id="curriculum-content"></div>
-
+        <CvPreview></CvPreview>
+        
     </div>
-
 
 </main>
 
@@ -27,11 +26,5 @@ import "../app.css";
         display: flex;
         height: 100%;
     }
-
-    #curriculum-content {
-        flex-grow: 1;
-        border: 2px solid lightblue;
-    }
-
 
 </style>

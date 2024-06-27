@@ -1,19 +1,9 @@
 <script lang="ts">
-  let formData: {
-    filePicture: FileList | null,
-    name: string,
-    surname: string,
-    profession: string,
-    address: string,
-    phonePrefix: string,
-    phone: string,
-    email: string,
-    profileSummary: string,
-    careerGoals: string,
-    languagesSkills: { lang: string; level: string }[];
-    jobs: WorkHistory[],
-    educations: AcademicHistory[],
-  } = {
+
+import * as formTypes from '../types/form_types';
+
+  let formData: formTypes.FormData = {
+
     filePicture: null,
     name: "",
     surname: "",
@@ -27,8 +17,27 @@
     languagesSkills: [],
     jobs: [],
     educations: []
+
   };
 
+  let workHistory: formTypes.WorkHistory[] = [{
+        role: "",
+        company: "",
+        workExperienceResults: "",
+        startDateWorkExperience: "",
+        endDateWorkExperience: ""
+  }];
+
+
+  let academicHistory: formTypes.AcademicHistory[] = [{
+    educationType: "",
+    qualification: "",
+    educationGoals: "",
+    startDateAcademicEducation: "",
+    endDateAcademicEducation: "",
+  }];
+
+  
   const phonePrefixes = [
     { value: "39", label: "Italia (+39)" },
     { value: "1", label: "Stati Uniti (+1)" },
@@ -66,41 +75,10 @@
     { lang: "", level: "" },
   ];
 
-  type WorkHistory = {
-        role: string,
-        company: string,
-        workExperienceResults: string,
-        startDateWorkExperience: string,
-        endDateWorkExperience: string,
-   };
-
-  let workHistory: WorkHistory[] = [{
-      role: "",
-      company: "",
-      workExperienceResults: "",
-      startDateWorkExperience: "",
-      endDateWorkExperience: ""
-  }];
-
-  type AcademicHistory = {
-      educationType: string,
-      qualification: string,
-      educationGoals: string,
-      startDateAcademicEducation: string,
-      endDateAcademicEducation: string,
-  };
-
-  let academicHistory: AcademicHistory[] = [{
-    educationType: "",
-    qualification: "",
-    educationGoals: "",
-    startDateAcademicEducation: "",
-    endDateAcademicEducation: "",
-  }]
-
   const maxTextAreaLength: number = 500;
   const mediumTextAreaLength: number = 400;
   const minextAreaLength: number = 300;
+
 
   function addLanguage(): void {
     if (selectedLanguages.length < 3) {
@@ -117,13 +95,14 @@
   function removeLanguage(index: number): void {
     selectedLanguages.splice(index, 1);
     selectedLanguages = selectedLanguages;
+    formData.languagesSkills = selectedLanguages;
     disableAddLanguageButton = false; 
   };
 
   function addWorkExperience(): void {
     if(workHistory.length < 2) {
-        workHistory.push({role: "", company: "", workExperienceResults: "", startDateWorkExperience: "", endDateAcademicEducation: ""});
-        workHistory = workHistory;
+      workHistory.push({role: "", company: "", workExperienceResults: "", startDateWorkExperience: "", endDateWorkExperience: ""});
+      workHistory = workHistory;
     };
 
     if(workHistory.length > 1) {
@@ -135,8 +114,8 @@
   function removeWorkExperience(index:number): void {
     workHistory.splice(index, 1);
     workHistory = workHistory;
+    formData.jobs = workHistory;
     disableAddWorkExperienceButton = false; 
-
   };
 
   function addAcademicEducation(): void {
@@ -154,6 +133,7 @@
   function removeAcademicEducation(index: number): void {
     academicHistory.splice(index, 1);
     academicHistory = academicHistory;
+    formData.educations = academicHistory;
     disableAddAcademicEducationButton = false;
   };
 
@@ -161,12 +141,13 @@
   let disableAddWorkExperienceButton: boolean = false;
   let disableAddAcademicEducationButton: boolean = false;
 
-  function handleSubmit() {
+  function handleOnChange() {
     formData.languagesSkills = selectedLanguages;
     formData.jobs = workHistory;
     formData.educations = academicHistory;
-    console.log(formData);
   };
+
+$: console.log(formData);
 
 </script>
 
@@ -177,12 +158,12 @@
     <h4>Informazioni di Contatto</h4>
   </div>
 
-  <form on:submit|preventDefault={handleSubmit}>
-    <!------------------------------------->
-
+  <form on:change={handleOnChange}>
+  
     <div class="container p-3">
 
       <div class="row">
+
         <!-- Immagine di profilo -->
 
         <div class="flex-center-utility">
@@ -571,12 +552,6 @@
           <button type="button" class="btn-add-style" on:click={() => addAcademicEducation()} disabled={disableAddAcademicEducationButton}>Aggiungi Formazione</button>
         </div>
 
-        <!-- Submit -->
-
-        <div class="flex-center-utility py-5">
-            <button type="submit" class="btn btn-secondary">Invia</button>
-        </div>
-
       </div>
 
     </div>
@@ -644,7 +619,6 @@
     color: red;
     font-size: 13px;
   }
-
   input::placeholder,
   textarea::placeholder {
     opacity: 0.5;
