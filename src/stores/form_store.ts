@@ -1,7 +1,7 @@
 import { writable } from "svelte/store";
 import * as formTypes from '../types/form_types'
 
-let formData: formTypes.FormData = {
+let userFormData: formTypes.FormData = {
 
     filePicture: null,
     name: "",
@@ -19,8 +19,4 @@ let formData: formTypes.FormData = {
 
 }
 
-export const formDataStore = writable({
-
-    userFormData: formData
-
-});
+export const formDataStore = writable(userFormData);
