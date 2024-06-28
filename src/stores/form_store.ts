@@ -13,9 +13,21 @@ let userFormData: formTypes.FormData = {
     email: "",
     profileSummary: "",
     careerGoals: "",
-    languagesSkills: [],
-    jobs: [],
-    educations: []
+    languagesSkills: [{ lang: "", level: "" },],
+    jobs: [{
+        role: "",
+        company: "",
+        workExperienceResults: "",
+        startDateWorkExperience: "",
+        endDateWorkExperience: ""
+    }],
+    educations: [{
+        educationType: "",
+        qualification: "",
+        educationGoals: "",
+        startDateAcademicEducation: "",
+        endDateAcademicEducation: "",
+      }]
 
 }
 

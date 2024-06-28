@@ -1,24 +1,6 @@
 <script lang="ts">
 
-  import * as formTypes from '../types/form_types';
   import { formDataStore } from '../stores/form_store';
-  import { tick } from 'svelte';
-
-  let workHistory: formTypes.WorkHistory[] = [{
-        role: "",
-        company: "",
-        workExperienceResults: "",
-        startDateWorkExperience: "",
-        endDateWorkExperience: ""
-  }];
-
-  let academicHistory: formTypes.AcademicHistory[] = [{
-    educationType: "",
-    qualification: "",
-    educationGoals: "",
-    startDateAcademicEducation: "",
-    endDateAcademicEducation: "",
-  }];
 
   const phonePrefixes = [
     { value: "39", label: "Italia (+39)" },
@@ -51,75 +33,64 @@
     { value: "C2", label: "Madrelingua" },
   ];
 
-  let selectedLanguages: [{ lang: string, level: string }] = [
-    { lang: "", level: "" },
-  ];
-
   const maxTextAreaLength: number = 500;
   const mediumTextAreaLength: number = 400;
   const minextAreaLength: number = 300;
 
   function addLanguage(): void {
-    if (selectedLanguages.length < 3) {
-      selectedLanguages.push({lang: "", level: ""});
-      selectedLanguages = selectedLanguages;
+    if ($formDataStore.languagesSkills.length < 3) {
+      $formDataStore.languagesSkills.push({lang: "", level: ""});
+      $formDataStore.languagesSkills = $formDataStore.languagesSkills;
     };
     
-    if(selectedLanguages.length >= 3) {
+    if($formDataStore.languagesSkills.length >= 3) {
       disableAddLanguageButton = true;
     };
 
   };
 
   function removeLanguage(index: number): void {
-    selectedLanguages.splice(index, 1);
-    selectedLanguages = selectedLanguages;
+    $formDataStore.languagesSkills.splice(index, 1);
+    $formDataStore.languagesSkills = $formDataStore.languagesSkills;
 
-    if(selectedLanguages) {
-
-      $formDataStore.languagesSkills = selectedLanguages;
-      
-    };
 
     disableAddLanguageButton = false; 
 
   };
 
   function addWorkExperience(): void {
-    if(workHistory.length < 2) {
-      workHistory.push({role: "", company: "", workExperienceResults: "", startDateWorkExperience: "", endDateWorkExperience: ""});
-      workHistory = workHistory;
+    if($formDataStore.jobs.length < 2) {
+      $formDataStore.jobs.push({role: "", company: "", workExperienceResults: "", startDateWorkExperience: "", endDateWorkExperience: ""});
+      $formDataStore.jobs = $formDataStore.jobs;
     };
 
-    if(workHistory.length > 1) {
+    if($formDataStore.jobs.length > 1) {
       disableAddWorkExperienceButton = true;
     };
 
   };
 
   function removeWorkExperience(index:number): void {
-    workHistory.splice(index, 1);
-    workHistory = workHistory;
-    $formDataStore.jobs = workHistory;
+    $formDataStore.jobs.splice(index, 1);
+    $formDataStore.jobs = $formDataStore.jobs;
     disableAddWorkExperienceButton = false; 
   };
 
   function addAcademicEducation(): void {
 
-    if(academicHistory.length < 2) {
-      academicHistory.push({educationType: "", qualification: "",  educationGoals: "", startDateAcademicEducation: "", endDateAcademicEducation: ""});
-      academicHistory = academicHistory;
+    if($formDataStore.educations.length < 2) {
+      $formDataStore.educations.push({educationType: "", qualification: "",  educationGoals: "", startDateAcademicEducation: "", endDateAcademicEducation: ""});
+      $formDataStore.educations = $formDataStore.educations;
     };
 
-    if(academicHistory.length > 1) {
+    if($formDataStore.educations.length > 1) {
       disableAddAcademicEducationButton = true;
     }; 
   };
 
   function removeAcademicEducation(index: number): void {
-    academicHistory.splice(index, 1);
-    academicHistory = academicHistory;
-    $formDataStore.educations = academicHistory;
+    $formDataStore.educations.splice(index, 1);
+    $formDataStore.educations = $formDataStore.educations;
     disableAddAcademicEducationButton = false;
   };
 
@@ -130,18 +101,6 @@
   $: if($formDataStore) {
     console.log($formDataStore);
   }
-
-  async function updateFormData() {
-
-    // $formDataStore.languagesSkills = selectedLanguages;
-    // $formDataStore.jobs = workHistory;
-    // $formDataStore.educations = academicHistory;
-
-    await tick();
-
-    formDataStore.update(currentData => ({...currentData, formDataStore}));
-
-  };
 
 </script>
 
@@ -337,15 +296,14 @@
           <span class="isRequired">*</span>
         </div>
 
-        {#each selectedLanguages as selectedLanguage, languageIndex}
+        {#each $formDataStore.languagesSkills as selectedLanguage, languageIndex}
           <div class="input-group mb-3">
             <select
               class="form-select"
               id="formSelectLanguage{languageIndex}"
               name="languages"
-              bind:value={selectedLanguage.lang}
-              on:change={() => updateFormData()}
-            >
+              bind:value={selectedLanguage.lang}>
+
               <option value="" disabled selected>Lingue</option>
 
               {#each optionsLanguages as optionsLanguage (optionsLanguage)}
@@ -359,9 +317,7 @@
               class="form-select"
               id="formSelectLanguageLevels{languageIndex}"
               name="languageLevels"
-              bind:value={selectedLanguage.level}
-              on:change={() => updateFormData()}
-            >
+              bind:value={selectedLanguage.level}>
               <option value="" disabled selected>Livello</option>
 
               {#each optionslanguageLevels as optionslanguageLevel (optionslanguageLevel)}
@@ -389,7 +345,7 @@
             <h4>Dettagli Carriera</h4>
         </div>
 
-        {#each workHistory as job, jobIndex}
+        {#each $formDataStore.jobs as job, jobIndex}
 
             <div class="form-group mb-3">
                 <label for="formInputRole">Ruolo</label>
@@ -400,7 +356,6 @@
                        name="jobRole" 
                        placeholder="Inserisci la posizione lavorativa che hai ricoperto" 
                        bind:value={job.role}
-                       on:change={() => updateFormData()}
                 />
             </div>
 
@@ -413,7 +368,6 @@
                        name="company" 
                        placeholder="Inserisci il nome dell'azienda" 
                        bind:value={job.company}
-                       on:change={() => updateFormData()}
                 />
             </div>
 
@@ -428,7 +382,6 @@
                     maxlength={mediumTextAreaLength}
                     placeholder="Parlaci dei risultati professionali che hai conseguito..."
                     bind:value={job.workExperienceResults}
-                    on:change={() => updateFormData()}
                 ></textarea>
                 <span class="maxChars" class:text-danger={job.workExperienceResults.length === mediumTextAreaLength}>{job.workExperienceResults.length} / {mediumTextAreaLength}</span>
             </div>
@@ -441,7 +394,6 @@
                             id="formInputStartDateWorkExperience{jobIndex}"
                             name="startDateWorkExperience"
                             bind:value={job.startDateWorkExperience}
-                            on:change={() => updateFormData()}
                         />
                 </div>
 
@@ -452,7 +404,6 @@
                             id="formInputEndDateWorkExperience{jobIndex}"
                             name="endDateWorkExperience"
                             bind:value={job.endDateWorkExperience}
-                            on:change={() => updateFormData()}
                         />
                 </div>
             </div>
@@ -475,7 +426,7 @@
           <h4>Dettagli Formazione</h4>
         </div>
 
-        {#each academicHistory as education, educationIndex}
+        {#each $formDataStore.educations as education, educationIndex}
 
           <div class="form-group mb-3">
             <label for="formInputEducationType">Università/Corso/Scuola</label>
@@ -486,7 +437,6 @@
                    name="educationType" 
                    placeholder="Inserisci la tipologia di formazione"
                    bind:value={education.educationType}
-                   on:change={() => updateFormData()}
             />
           </div>
 
@@ -499,7 +449,6 @@
                    name="qualification" 
                    placeholder="Inserisci il titolo di studio"
                    bind:value={education.qualification}
-                   on:change={() => updateFormData()}
             />
           </div>
 
@@ -513,7 +462,6 @@
                 maxlength={minextAreaLength}
                 placeholder="Parlaci degli obiettivi accademici che hai raggiunto..."
                 bind:value={education.educationGoals}
-                on:change={() => updateFormData()}
             ></textarea>
             <span class="maxChars" class:text-danger={education.educationGoals.length === minextAreaLength}>
                 {education.educationGoals.length} / {minextAreaLength}
@@ -525,23 +473,21 @@
               <label for="formInputStartDate" class="custom-date-input">Data di inizio</label>
               <span class="isRequired">*</span>
                 <input type="month"
-                class="form-control" 
-                id="formInputStartDate{educationIndex}" 
-                name="startDateAcademicEducation"
-                bind:value={education.startDateAcademicEducation}
-                on:change={() => updateFormData()}
+                  class="form-control" 
+                  id="formInputStartDate{educationIndex}" 
+                  name="startDateAcademicEducation"
+                  bind:value={education.startDateAcademicEducation}
                 />
             </div>
 
             <div>
               <label for="formInputEndDate" class="custom-date-input">Data di fine</label>
                 <span class="isRequired">*</span>
-                  <input type="month"
-                  class="form-control"
-                  id="formInputEndDate{educationIndex}"
-                  name="endDateAcademicEducation"
-                  bind:value={education.endDateAcademicEducation}
-                  on:change={() => updateFormData()}
+                <input type="month"
+                       class="form-control"
+                       id="formInputEndDate{educationIndex}"
+                       name="endDateAcademicEducation"
+                       bind:value={education.endDateAcademicEducation}
                 />
             </div>
           </div>
