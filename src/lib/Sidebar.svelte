@@ -34,7 +34,6 @@
   ];
 
   const maxTextAreaLength: number = 500;
-  const mediumTextAreaLength: number = 400;
   const minextAreaLength: number = 300;
 
   function addLanguage(): void {
@@ -289,9 +288,9 @@
           </span>
         </div>
 
-        <!-- Lingue -->
+         <!-- Lingue -->
 
-        <div class="d-flex">
+         <div class="d-flex">
           <label for="formLabelLanguages">Lingue</label>
           <span class="isRequired">*</span>
         </div>
@@ -379,11 +378,11 @@
                     id="formInputWorkExperienceResults{jobIndex}"
                     name="workExperienceResults"
                     rows="4"
-                    maxlength={mediumTextAreaLength}
+                    maxlength={maxTextAreaLength}
                     placeholder="Parlaci dei risultati professionali che hai conseguito..."
                     bind:value={job.workExperienceResults}
                 ></textarea>
-                <span class="maxChars" class:text-danger={job.workExperienceResults.length === mediumTextAreaLength}>{job.workExperienceResults.length} / {mediumTextAreaLength}</span>
+                <span class="maxChars" class:text-danger={job.workExperienceResults.length === maxTextAreaLength}>{job.workExperienceResults.length} / {maxTextAreaLength}</span>
             </div>
 
             <div class="form-group mb-3 flex-center-utility justify-content-around">
