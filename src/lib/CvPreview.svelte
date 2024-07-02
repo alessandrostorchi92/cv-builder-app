@@ -1,5 +1,9 @@
 <script lang="ts">
 
+import { formDataStore } from '../stores/form_store';
+
+console.log($formDataStore.filePicture);
+
 
 
 </script>
@@ -10,13 +14,21 @@
 
         <div class="cv-header-container">
 
+            <!---- Profile Picture ---->
+
             <div class="file-picture-container">
-                <div class="file-picture"></div>
+                <div style="background-image: url(/{$formDataStore.filePicture});" class="file-picture"></div>
             </div>
-    
+
+            
+                <!---- Full Name & Profession ---->
             <div>
-                <h2 class="text-uppercase">Nome Cognome</h2>
-                <h4 class="text-center fst-italic">Professione</h4>
+
+                <h2 class="text-uppercase">{ $formDataStore.name } { $formDataStore.surname }</h2>
+
+        
+                <h4 class="text-center fst-italic">{ $formDataStore.profession }</h4>
+
             </div>
 
         </div>
@@ -32,7 +44,7 @@
                     <div>
 
                         <span><i class="fa-solid fa-envelope"></i></span>
-                        <span>storchi.alle@gmail.com</span>
+                        <span>{ $formDataStore.email }</span>
     
                      </div>
 
@@ -41,8 +53,8 @@
                     <div>
 
                         <span><i class="fa-solid fa-phone"></i></span>
-                        <span>+39</span>
-                        <span>3884051036</span>
+                        <span>{ $formDataStore.phonePrefix }</span>
+                        <span>{ $formDataStore.phone }</span>
         
                     </div>
 
@@ -51,7 +63,7 @@
                     <div>
 
                         <span><i class="fa-solid fa-house"></i></span>
-                        <span>Via Olinto Cremaschi 191, 41123, Modena</span>
+                        <span>{ $formDataStore.address }</span>
 
                     </div>
                 
@@ -63,27 +75,21 @@
 
                     <h6 class="text-center">Profilo Personale</h6>
 
-                    <p>
+                    <div class="container">
 
-                      Sono un professionista dinamico con oltre 10 anni di esperienza nel settore del marketing digitale. 
-                      Ho guidato con successo team di progetto, aumentando l'efficienza e migliorando la visibilità online di numerosi brand. 
-                      Le mie competenze includono SEO, SEM e gestione delle campagne pubblicitarie. 
-                      Ho conseguito risultati significativi, incrementando il traffico web del 30%. Parlo fluentemente inglese, spagnolo e francese, il che 
-                      mi permette di lavorare efficacemente in contesti internazionali.
+                        <p>{ $formDataStore.profileSummary }</p>
 
-                    </p>
+                    </div>
 
                     <!-- Successi Professionali -->
 
                     <h6 class="text-center">Successi Professionali</h6>
 
-                    <p>
-                        Nel corso della mia carriera, ho raggiunto numerosi obiettivi professionali che mi hanno permesso di crescere e
-                        sviluppare competenze chiave. Ho guidato con successo team di progetto, migliorando l'efficienza operativa del 20%. 
-                        Ho implementato strategie innovative che hanno incrementato i ricavi del 15% annuale. 
-                        Inoltre, ho conseguito certificazioni rilevanti nel mio settore, rafforzando la mia competenza tecnica. 
-                        Questi traguardi testimoniano il mio impegno continuo verso l'eccellenza professionale e l'innovazione.
-                    </p>
+                    <div class="container">
+
+                        <p>{ $formDataStore.careerGoals }</p>
+    
+                    </div>
 
                     <!-- Lingue -->
 
@@ -93,24 +99,16 @@
 
                         <div>
 
-                           <span>Italiano:</span>
-                           <span>Madrelingua</span>
+                            {#each $formDataStore.languagesSkills as selectedLanguage(selectedLanguage)}
 
-                        </div>
+                            <div>
 
-                        
-                        <div>
+                                {selectedLanguage.lang} {selectedLanguage.level}
 
-                           <span>Inglese:</span>
-                           <span>Intermedio</span>
-  
-                        </div>
+                            </div>
 
-                        <div>
+                            {/each}
 
-                           <span>Spagnolo:</span>
-                           <span>Elementare</span>
-   
                         </div>
 
                     </div>
@@ -121,111 +119,73 @@
 
             <div class="right-section px-2">
 
-                <div class="user-work-experience">
+                <!-- Esperienza lavorativa -->
 
                     <div class="user-work-experience-info">
 
                         <div class="text-center py-2">ESPERIENZE LAVORATIVE</div>
 
-                        <!-- 1° Esperienza lavorativa -->
+                        {#each $formDataStore.jobs as job(job)}
 
-                      <span class="role-info">Front-end Developer</span>
-                      <span>presso</span>
-                      <span class="company-info">Reindal srl</span>
+                           <span class="role-info">{ job.role }</span>
 
-                      <div class="date-info">
+                           {#if job.role}
 
-                        <span>(03/06/2024 - </span>
-                        <span>30/11/2024)</span>
+                           <span>presso</span>
 
-                      </div>
+                           {/if}
 
-                      <p class="results-info">
+                           <span class="company-info">{ job.company }</span>
 
-                        Ho progettato e sviluppato applicazioni web utilizzando HTML, CSS, JavaScript e React. 
-                        Ho collaborato con team di progettazione per creare interfacce utente intuitive e responsive. 
-                        Ho migliorato le prestazioni dei siti web riducendo i tempi di caricamento del 30%. 
-                        Ho guidato il processo di test e debug, risolvendo bug critici e migliorando la performance generale del sito. 
-                        Ho anche formato nuovi membri del team e migliorato la documentazione tecnica.
+                           <div class="date-info">
 
-                      </p>
+                            {#if job.company}
 
-                      
-                    <!-- 2° Esperienza lavorativa -->
+                                <span>({ job.startDateWorkExperience } / { job.endDateWorkExperience })</span>
+ 
+                            {/if}
 
-                      <span class="role-info">Back-end Developer</span>
-                      <span>presso</span>
-                      <span class="company-info">Reindal srl</span>
+                           </div>
 
-                      <div class="date-info">
+                           <p class="results-info">{ job.workExperienceResults }</p>
 
-                        <span>(03/06/2023 - </span>
-                        <span>30/11/2023)</span>
-
-                      </div>
-
-                      <p class="results-info">
-
-                        Ho progettato e sviluppato applicazioni web utilizzando HTML, CSS, JavaScript e React. 
-                        Ho collaborato con team di progettazione per creare interfacce utente intuitive e responsive. 
-                        Ho migliorato le prestazioni dei siti web riducendo i tempi di caricamento del 30%. 
-                        Ho guidato il processo di test e debug, risolvendo bug critici e migliorando la performance generale del sito. 
-                        Ho anche formato nuovi membri del team e migliorato la documentazione tecnica.
-
-                      </p>
+                        {/each}
 
                     </div>
 
-                </div>
+                <!-- Formazione Accademica -->
 
-                <div class="user-education-history-info">
+                    <div class="user-education-history-info">
 
-                    <div class="text-center py-2">FORMAZIONE ACCADEMICA</div>
 
-                     <!-- 1° Formazione Accademica -->
+                        <div class="text-center py-2">FORMAZIONE ACCADEMICA</div>
 
-                    <span class="qualification-info">Laurea in Giurisprudenza</span>
-                    <span>presso</span>
-                    <span class="training-institution-info">Unimore</span>
-                    
-                    <div class="date-info">
+                            {#each $formDataStore.educations as education(education)}
 
-                      <span>(11/09/2015) - </span>
-                      <span>07/03/2022)</span>
+                                <span class="qualification-info">{ education.qualification }</span>
 
+                                {#if education.educationType}
+
+                                    <span>presso</span>
+
+                                {/if}
+
+                                <span class="training-institution-info">{ education.educationType }</span>
+
+                                {#if education.qualification }
+
+                                    <div class="date-info">
+
+                                        <span>({ education.startDateAcademicEducation } / { education.endDateAcademicEducation })</span>
+                
+                                    </div>
+
+                                {/if}
+
+                                <p class="goals-info">{ education.educationGoals }</p>
+
+                            {/each}
                     </div>
-
-                    <p class="goals-info">
-
-
-                      Ho seguito corsi di diritto civile, penale e amministrativo, partecipando a simulazioni di processi e moot court. 
-                      Ho collaborato con professori e colleghi in progetti di ricerca, approfondendo tematiche giuridiche complesse e 
-                      sviluppando competenze analitiche e di argomentazione legale.
-
-                    </p>
-                    
-                     <!-- 2° Formazione Accademica -->
-
-                     <span class="qualification-info">Full Stack Developer</span>
-                     <span>presso</span>
-                     <span class="training-institution-info">Boolean</span>
-                     
-                     <div class="date-info">
- 
-                       <span>(12/05/2023) - </span>
-                       <span>17/11/2023)</span>
- 
-                     </div>
- 
-                     <p class="goals-info">
-
-                        Ho seguito corsi di HTML, CSS, JavaScript, React, Node.js e MongoDB, sviluppando progetti completi 
-                        dal frontend al backend. Ho collaborato in team per creare applicazioni web funzionali, migliorando le competenze 
-                        in problem solving e sviluppo agile.
- 
-                     </p>
-
-                </div>
 
             </div>
     
@@ -235,6 +195,8 @@
 
     <div>
 
+        <!---- Download Button ---->
+
         <div class="flex-center-utility py-2">
 
             <button class="download-btn">DOWNLOAD CV</button>
@@ -242,12 +204,8 @@
         </div>
 
     </div>
-
-
        
- </div>
-
-
+</div>
 
 <style>
 
@@ -293,7 +251,6 @@
     position: absolute;
     height: 100%;
     width: 100%;
-    background-image: url("/background-profile-picture.png");
     background-position: center;
     background-size: cover;
 }

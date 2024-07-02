@@ -3,27 +3,27 @@
   import { formDataStore } from '../stores/form_store';
 
   const phonePrefixes = [
-    { value: "39", label: "Italia (+39)" },
-    { value: "1", label: "Stati Uniti (+1)" },
-    { value: "44", label: "Regno Unito (+44)" },
-    { value: "49", label: "Germania (+49)" },
-    { value: "33", label: "Francia (+33)" },
-    { value: "34", label: "Spagna (+34)" },
-    { value: "351", label: "Portogallo (+351)" },
-    { value: "353", label: "Irlanda (+353)" },
-    { value: "31", label: "Olanda (+31)" },
+    { value: "+39", label: "Italia (+39)" },
+    { value: "+1", label: "Stati Uniti (+1)" },
+    { value: "+44", label: "Regno Unito (+44)" },
+    { value: "+49", label: "Germania (+49)" },
+    { value: "+33", label: "Francia (+33)" },
+    { value: "+34", label: "Spagna (+34)" },
+    { value: "+351", label: "Portogallo (+351)" },
+    { value: "+353", label: "Irlanda (+353)" },
+    { value: "+31", label: "Olanda (+31)" },
   ];
 
   const optionsLanguages = [
-    { value: "🇮🇹", label: "Italiano" },
-    { value: "🇬🇧", label: "Inglese" },
-    { value: "🇩🇪", label: "Tedesco" },
-    { value: "🇫🇷", label: "Francese" },
-    { value: "🇪🇸", label: "Spagnolo" },
-    { value: "🇯🇵", label: "Giapponese" },
-    { value: "🇷🇺", label: "Russo" },
-    { value: "🇨🇳", label: "Cinese" },
-    { value: "🇸🇦", label: "Arabo" },
+    { value: "Italiano", label: "🇮🇹" },
+    { value: "Inglese", label: "🇬🇧" },
+    { value: "Tedesco", label: "🇩🇪" },
+    { value: "Francese🇫🇷", label: "🇫🇷" },
+    { value: "Spagnolo", label: "🇪🇸" },
+    { value: "Giapponese", label: "🇯🇵" },
+    { value: "Russo", label: "🇷🇺" },
+    { value: "Cinese", label: "🇨🇳" },
+    { value: "Arabo", label: "🇸🇦" },
   ];
 
   let optionslanguageLevels = [
@@ -354,7 +354,7 @@
                        id="formInputRole{jobIndex}" 
                        name="jobRole" 
                        placeholder="Inserisci la posizione lavorativa che hai ricoperto" 
-                       bind:value={job.role}
+                       bind:value={ job.role }
                 />
             </div>
 
@@ -366,7 +366,7 @@
                        id="formInputCompany{jobIndex}" 
                        name="company" 
                        placeholder="Inserisci il nome dell'azienda" 
-                       bind:value={job.company}
+                       bind:value={ job.company }
                 />
             </div>
 
@@ -380,7 +380,7 @@
                     rows="4"
                     maxlength={maxTextAreaLength}
                     placeholder="Parlaci dei risultati professionali che hai conseguito..."
-                    bind:value={job.workExperienceResults}
+                    bind:value={ job.workExperienceResults }
                 ></textarea>
                 <span class="maxChars" class:text-danger={job.workExperienceResults.length === maxTextAreaLength}>{job.workExperienceResults.length} / {maxTextAreaLength}</span>
             </div>
@@ -392,7 +392,7 @@
                         <input type="month" class="form-control"
                             id="formInputStartDateWorkExperience{jobIndex}"
                             name="startDateWorkExperience"
-                            bind:value={job.startDateWorkExperience}
+                            bind:value={ job.startDateWorkExperience }
                         />
                 </div>
 
@@ -402,7 +402,7 @@
                         <input type="month" class="form-control" 
                             id="formInputEndDateWorkExperience{jobIndex}"
                             name="endDateWorkExperience"
-                            bind:value={job.endDateWorkExperience}
+                            bind:value={ job.endDateWorkExperience }
                         />
                 </div>
             </div>
@@ -427,6 +427,18 @@
 
         {#each $formDataStore.educations as education, educationIndex}
 
+        <div class="form-group mb-3">
+          <label for="formInputQualification">Titolo di studio</label>
+          <span class="isRequired">*</span>
+          <input type="text" 
+                 class="form-control" 
+                 id="formInputQualification{educationIndex}" 
+                 name="qualification" 
+                 placeholder="Inserisci il titolo di studio"
+                 bind:value={education.qualification}
+          />
+        </div>
+
           <div class="form-group mb-3">
             <label for="formInputEducationType">Università/Corso/Scuola</label>
             <span class="isRequired">*</span>
@@ -436,18 +448,6 @@
                    name="educationType" 
                    placeholder="Inserisci la tipologia di formazione"
                    bind:value={education.educationType}
-            />
-          </div>
-
-          <div class="form-group mb-3">
-            <label for="formInputQualification">Titolo di studio</label>
-            <span class="isRequired">*</span>
-            <input type="text" 
-                   class="form-control" 
-                   id="formInputQualification{educationIndex}" 
-                   name="qualification" 
-                   placeholder="Inserisci il titolo di studio"
-                   bind:value={education.qualification}
             />
           </div>
 
