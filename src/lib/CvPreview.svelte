@@ -1,25 +1,33 @@
 <script lang="ts">
 
-import { formDataStore } from '../stores/form_store';
-
-console.log($formDataStore.filePicture);
-
+import { formDataStore, selectedFilePicture } from '../stores/form_store';
 
 
 </script>
 
 <div id="curriculum-content" class="flex-column-utility flex-center-utility  py-2">
 
+    <h1>Curriculum Vitae</h1>
+
     <div class="cv-preview-container">
+
 
         <div class="cv-header-container">
 
             <!---- Profile Picture ---->
 
             <div class="file-picture-container">
-                <div style="background-image: url(/{$formDataStore.filePicture});" class="file-picture"></div>
-            </div>
 
+                
+                {#if $formDataStore.filePicture}
+
+                    <img class="file-picture" src="{ $selectedFilePicture }" alt="Immagine profilo">
+                    
+                {/if}
+    
+                
+
+            </div>
             
                 <!---- Full Name & Profession ---->
             <div>
@@ -39,41 +47,60 @@ console.log($formDataStore.filePicture);
 
                 <div class="contact-information-container">
 
-                    <!---- Email ---->
+                    <!---- Location ---->
 
                     <div>
 
-                        <span><i class="fa-solid fa-envelope"></i></span>
-                        <span>{ $formDataStore.email }</span>
-    
-                     </div>
+                        {#if $formDataStore.address }
 
-                    <!---- Phone ---->
-    
-                    <div>
+                            <span><i class="fa-solid fa-house"></i></span>
+ 
+                        {/if}
 
-                        <span><i class="fa-solid fa-phone"></i></span>
+                        <span>{ $formDataStore.address }</span>
+
+                    </div>
+
+                     <!---- Phone ---->
+    
+                     <div>
+
+                        {#if $formDataStore.phonePrefix  || $formDataStore.phone }
+
+                            <span><i class="fa-solid fa-phone"></i></span>
+
+                        {/if}
+
                         <span>{ $formDataStore.phonePrefix }</span>
                         <span>{ $formDataStore.phone }</span>
         
                     </div>
 
-                    <!---- Location ---->
+                    <!---- Email ---->
 
                     <div>
 
-                        <span><i class="fa-solid fa-house"></i></span>
-                        <span>{ $formDataStore.address }</span>
+                        {#if $formDataStore.email }
 
-                    </div>
-                
+                        <span><i class="fa-solid fa-envelope"></i></span>
+
+                        {/if}
+
+                        <span>{ $formDataStore.email }</span>
+    
+                     </div>
+
                 </div>
             
-                <div class="profile-details-container py-4 px-2"><div></div>
+                <div class="profile-details-container py-4 px-2">
 
                     <!-- Profilo Personale -->
 
-                    <h6 class="text-center">Profilo Personale</h6>
+                    {#if $formDataStore.profileSummary }
+
+                        <h6 class="text-center">Profilo Personale</h6>
+                        
+                    {/if}
 
                     <div class="container">
 
@@ -83,7 +110,11 @@ console.log($formDataStore.filePicture);
 
                     <!-- Successi Professionali -->
 
-                    <h6 class="text-center">Successi Professionali</h6>
+                    {#if $formDataStore.careerGoals }
+
+                        <h6 class="text-center">Successi Professionali</h6>
+
+                    {/if}
 
                     <div class="container">
 
@@ -95,7 +126,11 @@ console.log($formDataStore.filePicture);
 
                     <div class="lang-skills-container">
 
-                        <h6>Competenze Linguistiche</h6>
+                        {#if $formDataStore.languagesSkills.some(selectedLanguage => selectedLanguage.lang !== "" || selectedLanguage.level !== "" )  }
+
+                            <h6>Competenze Linguistiche</h6>
+
+                        {/if}
 
                         <div>
 
@@ -123,34 +158,38 @@ console.log($formDataStore.filePicture);
 
                     <div class="user-work-experience-info">
 
-                        <div class="text-center py-2">ESPERIENZE LAVORATIVE</div>
+                        {#if $formDataStore.jobs.some(job => job.role !== "" || job.company !== "" || job.workExperienceResults !== "" || job.startDateWorkExperience !== "" || job.endDateWorkExperience !== "" )}
+
+                            <div class="text-center py-2">ESPERIENZE LAVORATIVE</div>
+
+                        {/if}
 
                         {#each $formDataStore.jobs as job(job)}
 
-                           <span class="role-info">{ job.role }</span>
+                            <span class="role-info">{ job.role }</span>
 
-                           {#if job.role}
+                            {#if job.role}
 
-                           <span>presso</span>
+                                <span>presso</span>
 
-                           {/if}
-
-                           <span class="company-info">{ job.company }</span>
-
-                           <div class="date-info">
-
-                            {#if job.company}
-
-                                <span>({ job.startDateWorkExperience } / { job.endDateWorkExperience })</span>
- 
                             {/if}
 
-                           </div>
+                            <span class="company-info">{ job.company }</span>
 
-                           <p class="results-info">{ job.workExperienceResults }</p>
+                            <div class="date-info">
 
-                        {/each}
+                                {#if job.startDateWorkExperience !== "" ||  job.endDateWorkExperience !== ""}
 
+                                    <span>({ job.startDateWorkExperience } / { job.endDateWorkExperience })</span>
+
+                                {/if}
+
+                            </div>
+
+                            <p class="results-info">{ job.workExperienceResults }</p>
+
+                            {/each}
+                        
                     </div>
 
                 <!-- Formazione Accademica -->
@@ -158,33 +197,40 @@ console.log($formDataStore.filePicture);
                     <div class="user-education-history-info">
 
 
-                        <div class="text-center py-2">FORMAZIONE ACCADEMICA</div>
+                        {#if $formDataStore.educations.some(education => education.educationType !== "" || education.qualification !== "" || education.educationGoals !== "" || education.startDateAcademicEducation !== "" || education.endDateAcademicEducation !== "" )}
+
+                            <div class="text-center py-2">FORMAZIONE ACCADEMICA</div>
+
+                        {/if}
 
                             {#each $formDataStore.educations as education(education)}
 
-                                <span class="qualification-info">{ education.qualification }</span>
+                            <span class="qualification-info">{ education.qualification }</span>
 
-                                {#if education.educationType}
+                            {#if education.educationType}
 
-                                    <span>presso</span>
+                                <span>presso</span>
+
+                            {/if}
+
+                            <span class="training-institution-info">{ education.educationType }</span>
+
+                            
+
+                            <div class="date-info">
+
+                                {#if education.startDateAcademicEducation || education.endDateAcademicEducation }
+
+                                <span>({ education.startDateAcademicEducation } / { education.endDateAcademicEducation })</span>
 
                                 {/if}
+            
+                            </div>
 
-                                <span class="training-institution-info">{ education.educationType }</span>
+                            <p class="goals-info">{ education.educationGoals }</p>
 
-                                {#if education.qualification }
-
-                                    <div class="date-info">
-
-                                        <span>({ education.startDateAcademicEducation } / { education.endDateAcademicEducation })</span>
-                
-                                    </div>
-
-                                {/if}
-
-                                <p class="goals-info">{ education.educationGoals }</p>
-
-                            {/each}
+                         {/each}
+                            
                     </div>
 
             </div>
@@ -237,13 +283,15 @@ console.log($formDataStore.filePicture);
     display: flex;
     justify-content: space-around;
     align-items: center;
+    padding: 1rem 0;
 }
 
 .file-picture-container {
     position: relative;
-    width: 140px;
-    height: 140px;
+    width: 180px;
+    height: 180px;
     border-radius: 50%;
+    border: 5px solid #ccc;
     overflow: hidden;
 }
 

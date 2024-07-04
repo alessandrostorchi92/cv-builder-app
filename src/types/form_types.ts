@@ -38,6 +38,8 @@
         endDateAcademicEducation: string,
     };
 
+    export let selectedFilePicture:string;
+
 
 
 

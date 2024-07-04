@@ -1,6 +1,8 @@
 import { writable } from "svelte/store";
 import * as formTypes from '../types/form_types'
 
+export let selectedFilePicture = writable("");
+
 let userFormData: formTypes.FormData = {
 
     filePicture: null,

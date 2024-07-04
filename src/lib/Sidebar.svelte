@@ -1,7 +1,7 @@
 <script lang="ts">
 
-  import { formDataStore } from '../stores/form_store';
-
+  import { formDataStore, selectedFilePicture } from '../stores/form_store';
+  
   const phonePrefixes = [
     { value: "+39", label: "Italia (+39)" },
     { value: "+1", label: "Stati Uniti (+1)" },
@@ -13,17 +13,17 @@
     { value: "+353", label: "Irlanda (+353)" },
     { value: "+31", label: "Olanda (+31)" },
   ];
-
+  
   const optionsLanguages = [
-    { value: "Italiano", label: "🇮🇹" },
-    { value: "Inglese", label: "🇬🇧" },
-    { value: "Tedesco", label: "🇩🇪" },
-    { value: "Francese🇫🇷", label: "🇫🇷" },
-    { value: "Spagnolo", label: "🇪🇸" },
-    { value: "Giapponese", label: "🇯🇵" },
-    { value: "Russo", label: "🇷🇺" },
-    { value: "Cinese", label: "🇨🇳" },
-    { value: "Arabo", label: "🇸🇦" },
+    { value: "Italiano", label: "Italiano" },
+    { value: "Inglese", label: "Inglese" },
+    { value: "Tedesco", label: "Tedesco" },
+    { value: "Francese", label: "Francese" },
+    { value: "Spagnolo", label: "Spagnolo" },
+    { value: "Portoghese", label: "Portoghese" },
+    { value: "Russo", label: "Russo" },
+    { value: "Cinese", label: "Cinese" },
+    { value: "Arabo", label: "Arabo" },
   ];
 
   let optionslanguageLevels = [
@@ -35,6 +35,17 @@
 
   const maxTextAreaLength: number = 500;
   const minextAreaLength: number = 300;
+
+  function getUrlImg() {
+
+    if($formDataStore.filePicture) {
+
+    $selectedFilePicture = URL.createObjectURL($formDataStore.filePicture[0]);
+
+    }; 
+    
+  };
+
 
   function addLanguage(): void {
     if ($formDataStore.languagesSkills.length < 3) {
@@ -49,10 +60,9 @@
   };
 
   function removeLanguage(index: number): void {
-    $formDataStore.languagesSkills.splice(index, 1);
+
+    $formDataStore.languagesSkills = $formDataStore.languagesSkills.filter((selectedLanguage, i) => i !== index);
     $formDataStore.languagesSkills = $formDataStore.languagesSkills;
-
-
     disableAddLanguageButton = false; 
 
   };
@@ -70,7 +80,7 @@
   };
 
   function removeWorkExperience(index:number): void {
-    $formDataStore.jobs.splice(index, 1);
+    $formDataStore.jobs = $formDataStore.jobs.filter((job, i) => i !== index);
     $formDataStore.jobs = $formDataStore.jobs;
     disableAddWorkExperienceButton = false; 
   };
@@ -88,7 +98,7 @@
   };
 
   function removeAcademicEducation(index: number): void {
-    $formDataStore.educations.splice(index, 1);
+    $formDataStore.educations = $formDataStore.educations.filter((education, i) => i !== index);
     $formDataStore.educations = $formDataStore.educations;
     disableAddAcademicEducationButton = false;
   };
@@ -134,6 +144,7 @@
             id="file-input"
             name="filePicture"
             bind:files={$formDataStore.filePicture}
+            on:change={() => getUrlImg()}
             accept="image/*"
           />
         </div>
@@ -298,6 +309,7 @@
         {#each $formDataStore.languagesSkills as selectedLanguage, languageIndex}
           <div class="input-group mb-3">
             <select
+
               class="form-select"
               id="formSelectLanguage{languageIndex}"
               name="languages"
@@ -305,11 +317,10 @@
 
               <option value="" disabled selected>Lingue</option>
 
-              {#each optionsLanguages as optionsLanguage (optionsLanguage)}
-                <option value={optionsLanguage.value}
-                  >{optionsLanguage.label}</option
-                >
+              {#each optionsLanguages as optionsLanguage (optionsLanguage.value)}
+                <option value={ optionsLanguage.value }> { optionsLanguage.label }</option>
               {/each}
+
             </select>
 
             <select
@@ -319,7 +330,7 @@
               bind:value={selectedLanguage.level}>
               <option value="" disabled selected>Livello</option>
 
-              {#each optionslanguageLevels as optionslanguageLevel (optionslanguageLevel)}
+              {#each optionslanguageLevels as optionslanguageLevel (optionslanguageLevel.value)}
                 <option value={optionslanguageLevel.value}
                   >{optionslanguageLevel.label}</option
                 >
@@ -532,11 +543,11 @@
 
   .file-picture-container {
     position: relative;
-    width: 140px;
-    height: 140px;
+    width: 180px;
+    height: 180px;
     border-radius: 50%;
     overflow: hidden;
-    border: 1px solid #ccc;
+    border: 5px solid #ccc;
   }
 
   .file-picture {
