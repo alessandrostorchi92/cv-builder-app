@@ -2,32 +2,65 @@
 
 import { formDataStore, selectedFilePicture } from '../stores/form_store';
 
+import { jsPDF } from "jspdf";
 
+function downloadCV() {
+    const cvContent = document.querySelector('.cv-preview-container') as HTMLElement | null;
+
+    if (cvContent) {
+
+        const cvPdf = new jsPDF('p', 'px', 'a4');
+
+        const contentWidth: number = cvContent.offsetWidth;
+        const contentHeight: number = cvContent.offsetHeight;
+        const pageWidth: number = cvPdf.internal.pageSize.getWidth();
+        const pageHeight: number = cvPdf.internal.pageSize.getHeight();
+       
+    
+        cvPdf.html(cvContent, {
+            callback: function (pdf) {
+
+                pdf.save('curriculum-vitae.pdf');
+            },
+
+            x: (pageWidth - contentWidth * 0.5) / 2,
+            y: (pageHeight - contentHeight * 0.5) / 2,    
+            
+            html2canvas: {
+                scale: 0.5,
+            },
+            
+        });
+
+    } else {
+        console.error('Curriculum non trovato');
+    }
+}
+
+
+          
 </script>
 
 <div id="curriculum-content" class="flex-column-utility flex-center-utility  py-2">
 
-    <h1>Curriculum Vitae</h1>
-
+    
     <div class="cv-preview-container">
-
+        
+        <h1 class="text-center">Curriculum Vitae</h1>
 
         <div class="cv-header-container">
 
             <!---- Profile Picture ---->
 
-            <div class="file-picture-container">
+            {#if $formDataStore.filePicture}
 
-                
-                {#if $formDataStore.filePicture}
-
-                    <img class="file-picture" src="{ $selectedFilePicture }" alt="Immagine profilo">
+                <div class="file-picture-container"> 
                     
-                {/if}
-    
-                
-
-            </div>
+                    <img class="file-picture" src="{ $selectedFilePicture }" alt="Immagine profilo">
+        
+                </div>
+            
+            {/if}
             
                 <!---- Full Name & Profession ---->
             <div>
@@ -101,18 +134,17 @@ import { formDataStore, selectedFilePicture } from '../stores/form_store';
                         <h6 class="text-center">Profilo Personale</h6>
                         
                     {/if}
-
-                    <div class="container">
-
-                        <p>{ $formDataStore.profileSummary }</p>
-
-                    </div>
-
+                        
+                        <div>
+    
+                            <p>{ $formDataStore.profileSummary }</p>
+    
+                        </div>
                     <!-- Successi Professionali -->
 
                     {#if $formDataStore.careerGoals }
 
-                        <h6 class="text-center">Successi Professionali</h6>
+                        <h6 class="text-center add-space-utility">Successi Professionali</h6>
 
                     {/if}
 
@@ -197,25 +229,32 @@ import { formDataStore, selectedFilePicture } from '../stores/form_store';
                     <div class="user-education-history-info">
 
 
-                        {#if $formDataStore.educations.some(education => education.educationType !== "" || education.qualification !== "" || education.educationGoals !== "" || education.startDateAcademicEducation !== "" || education.endDateAcademicEducation !== "" )}
+                        {#if $formDataStore.educations.some(education => education.educationType !== "" || education.fieldOfStudy !== "" || education.qualification.length > 0 || education.educationGoals !== "" || education.startDateAcademicEducation !== "" || education.endDateAcademicEducation !== "" )}
 
                             <div class="text-center py-2">FORMAZIONE ACCADEMICA</div>
 
                         {/if}
 
                             {#each $formDataStore.educations as education(education)}
-
+                            
                             <span class="qualification-info">{ education.qualification }</span>
 
-                            {#if education.educationType}
-
-                                <span>presso</span>
-
+                            {#if education.fieldOfStudy}
+                            
+                            <span>in</span>
+                            
                             {/if}
+                            
+                            <span class="qualification-info">{ education.fieldOfStudy }</span>
 
+                            {#if education.educationType}
+                            
+                            <span>presso</span>
+                            
+                            {/if}
+                            
                             <span class="training-institution-info">{ education.educationType }</span>
 
-                            
 
                             <div class="date-info">
 
@@ -239,17 +278,14 @@ import { formDataStore, selectedFilePicture } from '../stores/form_store';
    
     </div>
 
-    <div>
+    <!---- Download Button ---->
 
-        <!---- Download Button ---->
+    <div class="flex-center-utility py-2">
 
-        <div class="flex-center-utility py-2">
-
-            <button class="download-btn">DOWNLOAD CV</button>
-
-        </div>
+        <button class="download-btn" on:click={downloadCV}>DOWNLOAD CV</button>
 
     </div>
+
        
 </div>
 
@@ -257,7 +293,8 @@ import { formDataStore, selectedFilePicture } from '../stores/form_store';
 
 #curriculum-content {
     flex-grow: 1;
-    border: 2px solid lightblue;  
+    overflow: -moz-scrollbars-none; 
+    overflow: -moz-scrollbars-none; 
 }
 
 .flex-column-utility {
@@ -272,9 +309,12 @@ import { formDataStore, selectedFilePicture } from '../stores/form_store';
     align-items: center;
 }
 
+::-webkit-scrollbar {
+  display: none;
+  }
+
 .cv-preview-container {
     padding: 0.5rem;
-    border: 1px solid black;
     overflow-y: auto;
     width: 800px;
 }
@@ -333,35 +373,28 @@ import { formDataStore, selectedFilePicture } from '../stores/form_store';
 
     font-size: 0.8rem;
     display: inline-block;
-
 }
 
 .user-work-experience-info .role-info, .user-education-history-info .qualification-info {
-
     font-size: 1rem;
     font-weight:600;
-
 }
 
 .user-work-experience-info .company-info, .user-education-history-info .training-institution-info  {
-
     font-size: 1rem;
     font-weight:400;
     font-style: oblique;
-
-
 }
 
 .user-work-experience-info .results-info, .user-education-history-info .goals-info{
-
     font-size: small;
     padding: 0.3rem 0;
-
 }
 
 .download-btn {
   padding: 0.5rem;
   font-size: 1rem;
+  text-decoration: none;
   font-weight: bold;
   color: #fff;
   background-color: #e74c3c;
@@ -376,11 +409,5 @@ import { formDataStore, selectedFilePicture } from '../stores/form_store';
   background-color: #c0392b;
   transform: translateY(-2px);
 }
-
-.download-btn:active {
-  background-color: #a93226;
-  transform: translateY(0);
-}
-
 
 </style>

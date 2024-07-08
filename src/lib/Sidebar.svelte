@@ -26,11 +26,22 @@
     { value: "Arabo", label: "Arabo" },
   ];
 
-  let optionslanguageLevels = [
+  const optionslanguageLevels = [
     { value: "A1", label: "Elementare" },
     { value: "B1", label: "Intermedio" },
     { value: "B2", label: "Avanzato" },
     { value: "C2", label: "Madrelingua" },
+  ];
+
+  const educationLevels = [
+    { value: "Diploma" },
+    { value: "Certificato di Specializzazione" },
+    { value: "Laurea Triennale" },
+    { value: "Laurea Magistrale" },
+    { value: "Laurea a Ciclo Unico" },
+    { value: "Master" },
+    { value: "Dottorato di Ricerca" }
+
   ];
 
   const maxTextAreaLength: number = 500;
@@ -45,7 +56,6 @@
     }; 
     
   };
-
 
   function addLanguage(): void {
     if ($formDataStore.languagesSkills.length < 3) {
@@ -68,13 +78,9 @@
   };
 
   function addWorkExperience(): void {
-    if($formDataStore.jobs.length < 2) {
+    if($formDataStore.jobs.length > 0) {
       $formDataStore.jobs.push({role: "", company: "", workExperienceResults: "", startDateWorkExperience: "", endDateWorkExperience: ""});
       $formDataStore.jobs = $formDataStore.jobs;
-    };
-
-    if($formDataStore.jobs.length > 1) {
-      disableAddWorkExperienceButton = true;
     };
 
   };
@@ -87,14 +93,17 @@
 
   function addAcademicEducation(): void {
 
-    if($formDataStore.educations.length < 2) {
-      $formDataStore.educations.push({educationType: "", qualification: "",  educationGoals: "", startDateAcademicEducation: "", endDateAcademicEducation: ""});
+    if($formDataStore.educations.length > 0) {
+      $formDataStore.educations.push({
+        qualification: "",
+        fieldOfStudy:  "", 
+        educationType: "", 
+        educationGoals: "", 
+        startDateAcademicEducation: "", 
+        endDateAcademicEducation: ""
+      });
       $formDataStore.educations = $formDataStore.educations;
     };
-
-    if($formDataStore.educations.length > 1) {
-      disableAddAcademicEducationButton = true;
-    }; 
   };
 
   function removeAcademicEducation(index: number): void {
@@ -104,8 +113,7 @@
   };
 
   let disableAddLanguageButton: boolean = false;
-  let disableAddWorkExperienceButton: boolean = false;
-  let disableAddAcademicEducationButton: boolean = false;
+  
 
   $: if($formDataStore) {
     console.log($formDataStore);
@@ -211,15 +219,15 @@
 
         <!-- Cellulare -->
 
-        <div class="d-flex">
-          <label for="formInputPhone">Cellulare</label>
+        <div>
+          <label for="formSelectPhone">Cellulare</label>
           <span class="isRequired">*</span>
         </div>
 
         <div class="input-group mb-3">
           <select
             class="form-select"
-            id="formInputPhonePrefix"
+            id="formSelectPhonePrefix"
             name="phonePrefix"
             bind:value={$formDataStore.phonePrefix}
 >
@@ -231,7 +239,7 @@
           <input
             type="tel"
             class="form-control"
-            id="formInputPhone"
+            id="formSelectPhone"
             name="phone"
             placeholder="Numero di cellulare"
             bind:value={$formDataStore.phone}
@@ -240,7 +248,7 @@
 
         <!---- Email ---->
 
-        <div class="form-group mb-3">
+        <div class="mb-3">
           <label for="formInputEmail">Email</label>
           <span class="isRequired">*</span>
           <input
@@ -255,7 +263,7 @@
 
         <!---- Profilo Personale ---->
 
-        <div class="form-group mb-3 position-relative">
+        <div class="mb-3 position-relative">
           <label for="formInputProfileSummary">Profilo personale</label>
           <span class="isRequired">*</span>
           <textarea
@@ -278,7 +286,7 @@
 
         <!-- Successi Professionali -->
 
-        <div class="form-group mb-3 position-relative">
+        <div class="mb-3 position-relative">
           <label for="formInputCareerGoals">Obietti professionali</label>
           <span class="isRequired">*</span>
           <textarea
@@ -311,7 +319,7 @@
             <select
 
               class="form-select"
-              id="formSelectLanguage{languageIndex}"
+              id="formSelectLanguages{languageIndex}"
               name="languages"
               bind:value={selectedLanguage.lang}>
 
@@ -340,13 +348,13 @@
 
           {#if languageIndex > 0}
             <div class="flex-center-utility mb-3">
-              <button type="button" class="btn-remove-style" on:click={() => removeLanguage(languageIndex)}>Rimuovi Lingua</button>
+              <button type="button" class="btn-remove-style" on:click={() => removeLanguage(languageIndex)}><i class="fa-solid fa-trash"></i></button>
             </div>
           {/if}
         {/each}
 
         <div class="flex-center-utility">
-          <button type="button" class="btn-add-style" on:click={() => addLanguage()} disabled={disableAddLanguageButton}>Aggiungi Lingua</button>
+          <button type="button" class="btn-add-style" on:click={() => addLanguage()} disabled={disableAddLanguageButton}><i class="fa-solid fa-plus"></i></button>
         </div>
 
          <!-- Dettagli Carriera -->
@@ -420,14 +428,14 @@
 
             {#if jobIndex > 0}
               <div class="flex-center-utility mb-3">
-                <button type="button" class="btn-remove-style" on:click={() => removeWorkExperience(jobIndex)}>Rimuovi Lavoro</button>
+                <button type="button" class="btn-remove-style" on:click={() => removeWorkExperience(jobIndex)}><i class="fa-solid fa-trash"></i></button>
               </div> 
             {/if}
 
         {/each}
 
         <div class="flex-center-utility">
-          <button type="button" class="btn-add-style" on:click={() => addWorkExperience()} disabled={disableAddWorkExperienceButton}>Aggiungi Lavoro</button>
+          <button type="button" class="btn-add-style" on:click={() => addWorkExperience()}><i class="fa-solid fa-plus"></i></button>
         </div>
 
         <!-- Dettagli Formazione -->
@@ -438,79 +446,103 @@
 
         {#each $formDataStore.educations as education, educationIndex}
 
-        <div class="form-group mb-3">
-          <label for="formInputQualification">Titolo di studio</label>
-          <span class="isRequired">*</span>
-          <input type="text" 
-                 class="form-control" 
-                 id="formInputQualification{educationIndex}" 
-                 name="qualification" 
-                 placeholder="Inserisci il titolo di studio"
-                 bind:value={education.qualification}
-          />
-        </div>
+          <div>
 
-          <div class="form-group mb-3">
-            <label for="formInputEducationType">Università/Corso/Scuola</label>
+            <label for="formInputQualification">Titolo di studio</label>
+            <span class="isRequired">*</span>
+
+          </div>
+        
+          <div class="input-group mb-3">
+
+            <select
+
+              class="form-select"
+              id="formSelectQualification{educationIndex}"
+              name="qualification"
+              bind:value={education.qualification}>
+
+              <option value="" disabled selected>Titolo di Studio</option>
+
+              {#each educationLevels as educationLevel(educationLevel.value)}
+              <option value={educationLevel.value}>{educationLevel.value}</option>
+              {/each}
+
+            </select>
+
+
+            <input type="text"
+                  class="form-control"
+                  id="formInputFieldOfStudy{educationIndex}"
+                  name="FieldOfStudy"
+                  placeholder="Inserisci il campo di studio"
+                  bind:value={education.fieldOfStudy} 
+            >
+
+          </div>
+
+          <div class="mb-3">
+            <label for="formInputEducationType">Università/Ente di formazione/Scuola</label>
             <span class="isRequired">*</span>
             <input type="text" 
-                   class="form-control" 
-                   id="formInputEducationType{educationIndex}" 
-                   name="educationType" 
-                   placeholder="Inserisci la tipologia di formazione"
-                   bind:value={education.educationType}
+                  class="form-control" 
+                  id="formInputEducationType{educationIndex}" 
+                  name="educationType" 
+                  placeholder="Inserisci la tipologia di formazione"
+                  bind:value={education.educationType}
             />
           </div>
 
-          <div class="form-group mb-3 position-relative">
-            <label for="formInputEducationGoals">Risultati accademici raggiunti</label>
-            <span class="isRequired">*</span>
-            <textarea
-                class="form-control"
-                id="formInputEducationGoals{educationIndex}"
-                rows="4"
-                maxlength={minextAreaLength}
-                placeholder="Parlaci degli obiettivi accademici che hai raggiunto..."
-                bind:value={education.educationGoals}
-            ></textarea>
-            <span class="maxChars" class:text-danger={education.educationGoals.length === minextAreaLength}>
-                {education.educationGoals.length} / {minextAreaLength}
-            </span>
-          </div>
-
-          <div class="form-group mb-3 flex-center-utility justify-content-around">
-            <div>
-              <label for="formInputStartDate" class="custom-date-input">Data di inizio</label>
+            <div class="mb-3 position-relative">
+              <label for="formInputEducationGoals">Risultati accademici raggiunti</label>
               <span class="isRequired">*</span>
-                <input type="month"
-                  class="form-control" 
-                  id="formInputStartDate{educationIndex}" 
-                  name="startDateAcademicEducation"
-                  bind:value={education.startDateAcademicEducation}
-                />
+              <textarea
+                  class="form-control"
+                  id="formInputEducationGoals{educationIndex}"
+                  rows="4"
+                  maxlength={minextAreaLength}
+                  placeholder="Parlaci degli obiettivi accademici che hai raggiunto..."
+                  bind:value={education.educationGoals}
+              ></textarea>
+              <span class="maxChars" class:text-danger={education.educationGoals.length === minextAreaLength}>
+                  {education.educationGoals.length} / {minextAreaLength}
+              </span>
             </div>
 
-            <div>
-              <label for="formInputEndDate" class="custom-date-input">Data di fine</label>
+            <div class="mb-3 flex-center-utility justify-content-around">
+              <div>
+                <label for="formInputStartDate" class="custom-date-input">Data di inizio</label>
                 <span class="isRequired">*</span>
-                <input type="month"
-                       class="form-control"
-                       id="formInputEndDate{educationIndex}"
-                       name="endDateAcademicEducation"
-                       bind:value={education.endDateAcademicEducation}
-                />
-            </div>
-          </div>
+                  <input type="month"
+                    class="form-control" 
+                    id="formInputStartDate{educationIndex}" 
+                    name="startDateAcademicEducation"
+                    bind:value={education.startDateAcademicEducation}
+                  />
+              </div>
 
-          {#if educationIndex > 0}
-            <div class="flex-center-utility mb-3">
-              <button type="button" class="btn-remove-style" on:click={() => removeAcademicEducation(educationIndex)}>Rimuovi Formazione</button>
-            </div>    
-          {/if}
+              <div>
+                <label for="formInputEndDate" class="custom-date-input">Data di fine</label>
+                  <span class="isRequired">*</span>
+                  <input type="month"
+                        class="form-control"
+                        id="formInputEndDate{educationIndex}"
+                        name="endDateAcademicEducation"
+                        bind:value={education.endDateAcademicEducation}
+                  />
+              </div>
+            </div>
+
+            {#if educationIndex > 0}
+              <div class="flex-center-utility mb-3">
+                <button type="button" class="btn-remove-style" on:click={() => removeAcademicEducation(educationIndex)}><i class="fa-solid fa-trash"></i></button>
+              </div>    
+            {/if}
+
         {/each}
 
         <div class="flex-center-utility">
-          <button type="button" class="btn-add-style" on:click={() => addAcademicEducation()} disabled={disableAddAcademicEducationButton}>Aggiungi Formazione</button>
+          <button type="button" class="btn-add-style" on:click={() => addAcademicEducation()}><i class="fa-solid fa-plus"></i></button>
         </div>
 
       </div>
@@ -526,7 +558,8 @@
     flex-shrink: 0;
     overflow-y: auto;
     flex-basis: 40%;
-    border: 2px solid orange;
+    overflow: -moz-scrollbars-none; 
+    overflow: -moz-scrollbars-none; 
   }
 
   .flex-column-utility {
@@ -539,6 +572,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+
+  ::-webkit-scrollbar {
+  display: none;
   }
 
   .file-picture-container {
@@ -594,21 +631,40 @@
   }
 
   .btn-add-style {
-    width: 160px;
+    width: 120px;
     margin-top: 1rem;
     border: none;
     font-size: 14px;
     border-radius: 8px;
     padding: 0.5rem;
+    background-color: #007bff; 
+    color: white; 
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  .btn-add-style:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
   }
 
   .btn-remove-style {
-    background-color: red;
+    background-color: #e74c3c;
+    font-size: 0.8rem;
     color: white;
-    font-size: 11px;
     width: 110px;
-    padding: 0.3rem;
+    padding: 0.5rem;
+    cursor: pointer;
     border: none;
     border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  .btn-remove-style:hover {
+
+    background-color: #c0392b;
+    transform: translateY(-2px);
   }
 </style>

@@ -24,8 +24,9 @@ let userFormData: formTypes.FormData = {
         endDateWorkExperience: ""
     }],
     educations: [{
-        educationType: "",
         qualification: "",
+        fieldOfStudy: "",
+        educationType: "",
         educationGoals: "",
         startDateAcademicEducation: "",
         endDateAcademicEducation: "",
