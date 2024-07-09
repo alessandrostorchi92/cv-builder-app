@@ -125,13 +125,13 @@ function downloadCV() {
 
                 </div>
             
-                <div class="profile-details-container py-4 px-2">
+                <div class="profile-details-container py-4">
 
                     <!-- Profilo Personale -->
 
                     {#if $formDataStore.profileSummary }
 
-                        <h6 class="text-center">Profilo Personale</h6>
+                        <h6 class="title-center-utility">Profilo Personale</h6>
                         
                     {/if}
                         
@@ -140,15 +140,16 @@ function downloadCV() {
                             <p>{ $formDataStore.profileSummary }</p>
     
                         </div>
+                        
                     <!-- Successi Professionali -->
 
                     {#if $formDataStore.careerGoals }
 
-                        <h6 class="text-center add-space-utility">Successi Professionali</h6>
+                        <h6 class="title-center-utility">Successi Professionali</h6>
 
                     {/if}
 
-                    <div class="container">
+                    <div>
 
                         <p>{ $formDataStore.careerGoals }</p>
     
@@ -160,7 +161,7 @@ function downloadCV() {
 
                         {#if $formDataStore.languagesSkills.some(selectedLanguage => selectedLanguage.lang !== "" || selectedLanguage.level !== "" )  }
 
-                            <h6>Competenze Linguistiche</h6>
+                            <h6 class="title-center-utility">Competenze Linguistiche</h6>
 
                         {/if}
 
@@ -177,6 +178,23 @@ function downloadCV() {
                             {/each}
 
                         </div>
+
+                    </div>
+
+                    <div>
+
+                        {#if $formDataStore.drivingLicence}
+
+                        <h6 class="title-center-utility">Patente</h6>
+
+                        {/if}
+
+                        <div class="driving-licence-container">
+
+                            <span >{ $formDataStore.drivingLicence }</span>
+
+                        </div>
+
 
                     </div>
 
@@ -220,7 +238,7 @@ function downloadCV() {
 
                             <p class="results-info">{ job.workExperienceResults }</p>
 
-                            {/each}
+                        {/each}
                         
                     </div>
 
@@ -229,7 +247,9 @@ function downloadCV() {
                     <div class="user-education-history-info">
 
 
-                        {#if $formDataStore.educations.some(education => education.educationType !== "" || education.fieldOfStudy !== "" || education.qualification.length > 0 || education.educationGoals !== "" || education.startDateAcademicEducation !== "" || education.endDateAcademicEducation !== "" )}
+                        {#if $formDataStore.educations.some(education => education.educationType !== "" || education.fieldOfStudy !== "" || 
+                        education.qualification.length > 0 || education.educationGoals !== "" || education.startDateAcademicEducation !== "" || 
+                        education.endDateAcademicEducation !== "" )}
 
                             <div class="text-center py-2">FORMAZIONE ACCADEMICA</div>
 
@@ -237,21 +257,21 @@ function downloadCV() {
 
                             {#each $formDataStore.educations as education(education)}
                             
-                            <span class="qualification-info">{ education.qualification }</span>
+                                <span class="qualification-info">{ education.qualification }</span>
 
-                            {#if education.fieldOfStudy}
+                                {#if education.fieldOfStudy}
+                                
+                                    <span>in</span>
+                                
+                                {/if}
                             
-                            <span>in</span>
-                            
-                            {/if}
-                            
-                            <span class="qualification-info">{ education.fieldOfStudy }</span>
+                                <span class="qualification-info">{ education.fieldOfStudy }</span>
 
-                            {#if education.educationType}
-                            
-                            <span>presso</span>
-                            
-                            {/if}
+                                {#if education.educationType}
+                                
+                                    <span>presso</span>
+                                
+                                {/if}
                             
                             <span class="training-institution-info">{ education.educationType }</span>
 
@@ -260,7 +280,7 @@ function downloadCV() {
 
                                 {#if education.startDateAcademicEducation || education.endDateAcademicEducation }
 
-                                <span>({ education.startDateAcademicEducation } / { education.endDateAcademicEducation })</span>
+                                    <span>({ education.startDateAcademicEducation } / { education.endDateAcademicEducation })</span>
 
                                 {/if}
             
@@ -307,6 +327,10 @@ function downloadCV() {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.title-center-utility {
+    text-align: center;
 }
 
 ::-webkit-scrollbar {
@@ -360,7 +384,7 @@ function downloadCV() {
     font-size: 0.8rem;
 }
 
-.lang-skills-container {
+.lang-skills-container, .driving-licence-container {
     text-align: center;
 }
 

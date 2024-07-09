@@ -44,6 +44,15 @@
 
   ];
 
+  const drivingLicences = [
+    { value: "Patente A" },
+    { value: "Patente B" },
+    { value: "Patente C" },
+    { value: "Patente D" },
+    { value: "Patente E" }
+  ];
+
+
   const maxTextAreaLength: number = 500;
   const minextAreaLength: number = 300;
 
@@ -56,6 +65,8 @@
     }; 
     
   };
+
+  let disableAddLanguageButton: boolean = false;
 
   function addLanguage(): void {
     if ($formDataStore.languagesSkills.length < 3) {
@@ -88,7 +99,6 @@
   function removeWorkExperience(index:number): void {
     $formDataStore.jobs = $formDataStore.jobs.filter((job, i) => i !== index);
     $formDataStore.jobs = $formDataStore.jobs;
-    disableAddWorkExperienceButton = false; 
   };
 
   function addAcademicEducation(): void {
@@ -109,10 +119,8 @@
   function removeAcademicEducation(index: number): void {
     $formDataStore.educations = $formDataStore.educations.filter((education, i) => i !== index);
     $formDataStore.educations = $formDataStore.educations;
-    disableAddAcademicEducationButton = false;
   };
 
-  let disableAddLanguageButton: boolean = false;
   
 
   $: if($formDataStore) {
@@ -356,6 +364,28 @@
         <div class="flex-center-utility">
           <button type="button" class="btn-add-style" on:click={() => addLanguage()} disabled={disableAddLanguageButton}><i class="fa-solid fa-plus"></i></button>
         </div>
+
+         <!-- Patente -->
+
+         <div>
+          <label for="formLabelDrivingLicence">Patente</label>
+          <span class="isRequired">*</span>
+         </div>
+
+         <select
+
+          class="form-select"
+          id="formSelectQualification"
+          name="qualification"
+          bind:value={$formDataStore.drivingLicence}>
+
+          <option value="" disabled selected>Tipologia patente</option>
+
+          {#each drivingLicences as drivingLicence(drivingLicence.value)}
+          <option value={drivingLicence.value}>{drivingLicence.value}</option>
+          {/each}
+
+        </select>
 
          <!-- Dettagli Carriera -->
 
@@ -647,6 +677,14 @@
   .btn-add-style:hover {
   background-color: #0056b3;
   transform: translateY(-2px);
+  }
+
+  .btn-add-style:disabled {
+
+    color: #999;
+    background-color: #f0f0f0; 
+    cursor: not-allowed; 
+
   }
 
   .btn-remove-style {

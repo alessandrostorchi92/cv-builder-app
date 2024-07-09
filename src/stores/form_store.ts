@@ -16,6 +16,7 @@ let userFormData: formTypes.FormData = {
     profileSummary: "",
     careerGoals: "",
     languagesSkills: [{ lang: "", level: "" },],
+    drivingLicence: "",
     jobs: [{
         role: "",
         company: "",

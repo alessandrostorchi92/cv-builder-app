@@ -12,9 +12,9 @@
         profileSummary: string,
         careerGoals: string,
         languagesSkills: { lang: string; level: string }[];
+        drivingLicence: string,       
         jobs: WorkHistory[],
-        educations: AcademicHistory[],
-        
+        educations: AcademicHistory[],  
     }
 
   
