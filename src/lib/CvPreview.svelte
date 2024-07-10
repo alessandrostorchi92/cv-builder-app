@@ -4,7 +4,12 @@ import { formDataStore, selectedFilePicture } from '../stores/form_store';
 
 import { jsPDF } from "jspdf";
 
+let hasPrivacyPolicyApproval = false;
+
+// $: console.log(hasPrivacyPolicyApproval);
+
 function downloadCV() {
+
     const cvContent = document.querySelector('.cv-preview-container') as HTMLElement | null;
 
     if (cvContent) {
@@ -36,17 +41,15 @@ function downloadCV() {
         console.error('Curriculum non trovato');
     }
 }
-
-
           
 </script>
 
-<div id="curriculum-content" class="flex-column-utility flex-center-utility  py-2">
+<div id="curriculum-content" class="flex-column-utility flex-center-utility">
 
     
     <div class="cv-preview-container">
         
-        <h1 class="text-center">Curriculum Vitae</h1>
+        <h1 class="text-center py-4">Curriculum Vitae</h1>
 
         <div class="cv-header-container">
 
@@ -76,9 +79,9 @@ function downloadCV() {
 
         <div class="cv-main-container">
 
-            <div class="left-section py-2">
+            <div class="left-section">
 
-                <div class="contact-information-container">
+                <div class="profile-information-container add-vertical-space-utility">
 
                     <!---- Location ---->
 
@@ -115,7 +118,7 @@ function downloadCV() {
 
                         {#if $formDataStore.email }
 
-                        <span><i class="fa-solid fa-envelope"></i></span>
+                            <span><i class="fa-solid fa-envelope"></i></span>
 
                         {/if}
 
@@ -123,9 +126,40 @@ function downloadCV() {
     
                      </div>
 
+                     <!---- Categorie protette ---->
+
+                     <div>
+
+                        {#if $formDataStore.isProtectedCategory }
+
+                            <span><i class="fa-solid fa-user-shield"></i></span>
+                            <span>Categorie protette:</span>
+
+                        {/if}
+
+                        <span>{ $formDataStore.isProtectedCategory }</span>
+    
+                     </div>
+
+                     <!---- Automunito ---->
+
+                     <div>
+
+                        {#if $formDataStore.hasOwnCar }
+
+                            <span><i class="fa-solid fa-car"></i></span>
+                            <span>Automunito:</span>
+
+                        {/if}
+                        
+                        <span>{ $formDataStore.hasOwnCar }</span>
+    
+                     </div>
+
+
                 </div>
             
-                <div class="profile-details-container py-4">
+                <div class="user-details-container add-vertical-space-utility">
 
                     <!-- Profilo Personale -->
 
@@ -135,12 +169,8 @@ function downloadCV() {
                         
                     {/if}
                         
-                        <div>
+                    <p>{ $formDataStore.profileSummary }</p>
     
-                            <p>{ $formDataStore.profileSummary }</p>
-    
-                        </div>
-                        
                     <!-- Successi Professionali -->
 
                     {#if $formDataStore.careerGoals }
@@ -149,15 +179,9 @@ function downloadCV() {
 
                     {/if}
 
-                    <div>
-
-                        <p>{ $formDataStore.careerGoals }</p>
+                    <p>{ $formDataStore.careerGoals }</p>
     
-                    </div>
-
                     <!-- Lingue -->
-
-                    <div class="lang-skills-container">
 
                         {#if $formDataStore.languagesSkills.some(selectedLanguage => selectedLanguage.lang !== "" || selectedLanguage.level !== "" )  }
 
@@ -165,44 +189,32 @@ function downloadCV() {
 
                         {/if}
 
-                        <div>
+                        {#each $formDataStore.languagesSkills as selectedLanguage(selectedLanguage)}
 
-                            {#each $formDataStore.languagesSkills as selectedLanguage(selectedLanguage)}
+                            <div class="title-center-utility">
 
-                            <div>
-
-                                {selectedLanguage.lang} {selectedLanguage.level}
+                                <span>{selectedLanguage.lang} {selectedLanguage.level}</span>
 
                             </div>
 
-                            {/each}
+                        {/each}
+
+                        <div  class="driving-licence-container title-center-utility">
+
+                            {#if $formDataStore.drivingLicence}
+
+                            <h6 class="title-center-utility">Patente</h6>
+
+                            {/if}
+
+                            <span>{ $formDataStore.drivingLicence }</span>
 
                         </div>
-
-                    </div>
-
-                    <div>
-
-                        {#if $formDataStore.drivingLicence}
-
-                        <h6 class="title-center-utility">Patente</h6>
-
-                        {/if}
-
-                        <div class="driving-licence-container">
-
-                            <span >{ $formDataStore.drivingLicence }</span>
-
-                        </div>
-
-
-                    </div>
-
                 </div>
 
             </div>
 
-            <div class="right-section px-2">
+            <div class="right-section">
 
                 <!-- Esperienza lavorativa -->
 
@@ -298,11 +310,25 @@ function downloadCV() {
    
     </div>
 
+    <!---- Privacy Policy ---->
+
+    <div>
+        <div class="form-check form-switch privacy-label ">
+            <input class="form-check-input" 
+                   type="checkbox" 
+                   role="switch" 
+                   id="privacyPolicySwitch" 
+                   bind:checked={hasPrivacyPolicyApproval}>
+            <label class="form-check-label" for="flexSwitchCheckChecked">Accetta la privacy policy per scaricare il CV</label>
+        </div>
+           
+    </div>
+
     <!---- Download Button ---->
 
     <div class="flex-center-utility py-2">
 
-        <button class="download-btn" on:click={downloadCV}>DOWNLOAD CV</button>
+        <button class="download-btn" on:click={downloadCV} disabled={!hasPrivacyPolicyApproval}>DOWNLOAD CV</button>
 
     </div>
 
@@ -331,6 +357,16 @@ function downloadCV() {
 
 .title-center-utility {
     text-align: center;
+}
+
+.left-section p, .right-section p {
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    max-width: 100%;
+}
+
+.add-vertical-space-utility {
+    padding: 0.5rem 0;
 }
 
 ::-webkit-scrollbar {
@@ -371,26 +407,29 @@ function downloadCV() {
     display: flex;
 }
 
+.driving-licence-container {
+    padding: 1rem 0;
+}
+
 .left-section {
     flex-shrink: 0;
     flex-basis: 40%;
+    overflow: hidden;
+    padding: 0 1rem; 
 }
 
-.contact-information-container {
+.profile-information-container {
+
     font-size: 0.9rem;
 }
 
-.profile-details-container {
+.user-details-container {
     font-size: 0.8rem;
 }
-
-.lang-skills-container, .driving-licence-container {
-    text-align: center;
-}
-
 .right-section {
     flex-grow: 1;
-    width: 60%;
+    overflow: hidden;
+    padding: 0 1rem;  
 }
 
 .user-work-experience-info .date-info,  .user-education-history-info .date-info {
@@ -415,6 +454,12 @@ function downloadCV() {
     padding: 0.3rem 0;
 }
 
+.privacy-label {
+    font-size: 0.8rem ;
+    font-style: oblique;
+    font-weight: 500;
+}
+
 .download-btn {
   padding: 0.5rem;
   font-size: 1rem;
@@ -427,6 +472,12 @@ function downloadCV() {
   cursor: pointer;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.download-btn:disabled {
+    color: #999;
+    background-color: #f0f0f0; 
+    cursor: not-allowed; 
 }
 
 .download-btn:hover {

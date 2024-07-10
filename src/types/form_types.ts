@@ -10,9 +10,11 @@
         phone: string,
         email: string,
         profileSummary: string,
+        isProtectedCategory:string,
         careerGoals: string,
         languagesSkills: { lang: string; level: string }[];
-        drivingLicence: string,       
+        drivingLicence: string,
+        hasOwnCar: string,       
         jobs: WorkHistory[],
         educations: AcademicHistory[],  
     }

@@ -52,7 +52,6 @@
     { value: "Patente E" }
   ];
 
-
   const maxTextAreaLength: number = 500;
   const minextAreaLength: number = 300;
 
@@ -67,7 +66,7 @@
   };
 
   let disableAddLanguageButton: boolean = false;
-
+  
   function addLanguage(): void {
     if ($formDataStore.languagesSkills.length < 3) {
       $formDataStore.languagesSkills.push({lang: "", level: ""});
@@ -120,8 +119,6 @@
     $formDataStore.educations = $formDataStore.educations.filter((education, i) => i !== index);
     $formDataStore.educations = $formDataStore.educations;
   };
-
-  
 
   $: if($formDataStore) {
     console.log($formDataStore);
@@ -271,7 +268,7 @@
 
         <!---- Profilo Personale ---->
 
-        <div class="mb-3 position-relative">
+        <div class="mb-1 position-relative">
           <label for="formInputProfileSummary">Profilo personale</label>
           <span class="isRequired">*</span>
           <textarea
@@ -290,6 +287,27 @@
           >
             {$formDataStore.profileSummary.length} / {maxTextAreaLength}
           </span>
+        </div>
+
+        <!-- Categorie protette -->
+
+        <div class="mb-3">
+
+          <span class="me-1">
+            <label for="formLabelSelfDriven">Appartenente alle categorie protette:</label>
+            <span class="isRequired">*</span>
+          </span>
+
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="inlineProtectedCategoryRadioOptions" id="inlineProtectedCategoryLeftRadio" bind:group={$formDataStore.isProtectedCategory} value="Si">
+            <label class="form-check-label" for="inlineRadio1">Sì</label>
+          </div>
+
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="inlineProtectedCategoryRadioOptions" id="inlineProtectedCategoryRightRadio"  bind:group={$formDataStore.isProtectedCategory} value="No">
+            <label class="form-check-label" for="inlineRadio2">No</label>
+          </div>
+
         </div>
 
         <!-- Successi Professionali -->
@@ -320,7 +338,7 @@
          <div class="d-flex">
           <label for="formLabelLanguages">Lingue</label>
           <span class="isRequired">*</span>
-        </div>
+         </div>
 
         {#each $formDataStore.languagesSkills as selectedLanguage, languageIndex}
           <div class="input-group mb-3">
@@ -385,7 +403,28 @@
           <option value={drivingLicence.value}>{drivingLicence.value}</option>
           {/each}
 
-        </select>
+         </select>
+
+         <!-- Automunito -->
+
+         <div class="py-2">
+
+          <span class="me-1">
+            <label for="formLabelSelfDriven">Sei automunito?</label>
+            <span class="isRequired">*</span>
+          </span>
+
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="inlineDrivingLicenceRadioOptions" id="inlineDrivingLicenceLeftRadio" bind:group={$formDataStore.hasOwnCar} value="Si">
+            <label class="form-check-label" for="inlineRadio1">Sì</label>
+          </div>
+
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="inlineDrivingLicenceRadioOptions" id="inlineDrivingLicenceRightRadio"  bind:group={$formDataStore.hasOwnCar} value="No">
+            <label class="form-check-label" for="inlineRadio2">No</label>
+          </div>
+
+         </div>
 
          <!-- Dettagli Carriera -->
 
@@ -680,11 +719,9 @@
   }
 
   .btn-add-style:disabled {
-
     color: #999;
     background-color: #f0f0f0; 
     cursor: not-allowed; 
-
   }
 
   .btn-remove-style {
