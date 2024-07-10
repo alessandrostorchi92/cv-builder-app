@@ -5,13 +5,15 @@
         name: string,
         surname: string,
         profession: string,
+        birthDate: string,
+        birthPlace: string
         address: string,
         phonePrefix: string,
         phone: string,
         email: string,
         profileSummary: string,
         isProtectedCategory:string,
-        careerGoals: string,
+        digitalSkills: string,
         languagesSkills: { lang: string; level: string }[];
         drivingLicence: string,
         hasOwnCar: string,       

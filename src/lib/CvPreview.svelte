@@ -41,6 +41,12 @@ function downloadCV() {
         console.error('Curriculum non trovato');
     }
 }
+
+function formattedDate(date: string) : string {
+    if (!date) return '';
+    const [year, month, day] = date.split('-');
+    return `${day}/${month}/${year}`;
+}
           
 </script>
 
@@ -53,7 +59,7 @@ function downloadCV() {
 
         <div class="cv-header-container">
 
-            <!---- Profile Picture ---->
+            <!---- Immagine di profilo ---->
 
             {#if $formDataStore.filePicture}
 
@@ -65,7 +71,7 @@ function downloadCV() {
             
             {/if}
             
-                <!---- Full Name & Profession ---->
+                <!---- Nome e Professione ---->
             <div>
 
                 <h2 class="text-uppercase">{ $formDataStore.name } { $formDataStore.surname }</h2>
@@ -82,6 +88,16 @@ function downloadCV() {
             <div class="left-section">
 
                 <div class="profile-information-container add-vertical-space-utility">
+
+                    <!---- Data di Nascita ---->
+
+                    {#if $formDataStore.birthDate }
+
+                        <span><i class="fa-solid fa-calendar-days"></i></span>
+                            
+                    {/if}
+
+                    <span>{ formattedDate($formDataStore.birthDate) }</span>
 
                     <!---- Location ---->
 
@@ -173,13 +189,13 @@ function downloadCV() {
     
                     <!-- Successi Professionali -->
 
-                    {#if $formDataStore.careerGoals }
+                    {#if $formDataStore.digitalSkills }
 
-                        <h6 class="title-center-utility">Successi Professionali</h6>
+                        <h6 class="title-center-utility">Competenze digitali</h6>
 
                     {/if}
 
-                    <p>{ $formDataStore.careerGoals }</p>
+                    <p>{ $formDataStore.digitalSkills }</p>
     
                     <!-- Lingue -->
 
@@ -422,6 +438,7 @@ function downloadCV() {
 
     font-size: 0.9rem;
 }
+
 
 .user-details-container {
     font-size: 0.8rem;

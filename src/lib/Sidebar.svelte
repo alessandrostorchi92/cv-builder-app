@@ -206,6 +206,20 @@
             bind:value={$formDataStore.profession}
           />
         </div>
+        
+        <!---- Data di Nascita ---->
+
+        <div class="form-group mb-3">
+          <label for="formInputBirthDate">Data di nascita</label>
+          <span class="isRequired">*</span>
+
+          <input type="date"
+                 class="form-control"
+                 id="formInputBirthDate" 
+                 name="birthDate" 
+                 bind:value={$formDataStore.birthDate}
+          />
+        </div>
 
         <!-- Indirizzo di Residenza -->
 
@@ -310,26 +324,26 @@
 
         </div>
 
-        <!-- Successi Professionali -->
+        <!-- Competenze digitali -->
 
         <div class="mb-3 position-relative">
-          <label for="formInputCareerGoals">Obietti professionali</label>
+          <label for="formInputCareerGoals">Competenze Digitali</label>
           <span class="isRequired">*</span>
           <textarea
-            bind:value={$formDataStore.careerGoals}
+            bind:value={$formDataStore.digitalSkills}
             class="form-control"
-            id="formInputCareerGoals"
-            name="careerGoals"
+            id="formInputDigitalSkills"
+            name="DigitalSkills"
             rows="4"
             maxLength={maxTextAreaLength}
-            placeholder="Raccontaci i tuoi successi professionali..."
+            placeholder="Illustraci le tue competenze digitali..."
           ></textarea>
           <span
             class="maxChars"
-            class:text-danger={$formDataStore.careerGoals.length ===
+            class:text-danger={$formDataStore.digitalSkills.length ===
               maxTextAreaLength}
           >
-            {$formDataStore.careerGoals.length} / {maxTextAreaLength}
+            {$formDataStore.digitalSkills.length} / {maxTextAreaLength}
           </span>
         </div>
 
