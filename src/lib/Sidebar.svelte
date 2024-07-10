@@ -738,7 +738,6 @@
   }
 
   .btn-remove-style:hover {
-
     background-color: #c0392b;
     transform: translateY(-2px);
   }

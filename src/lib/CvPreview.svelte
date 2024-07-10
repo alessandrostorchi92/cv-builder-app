@@ -474,15 +474,15 @@ function downloadCV() {
   transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
+.download-btn:hover {
+  background-color: #c0392b;
+  transform: translateY(-2px);
+}
+
 .download-btn:disabled {
     color: #999;
     background-color: #f0f0f0; 
     cursor: not-allowed; 
-}
-
-.download-btn:hover {
-  background-color: #c0392b;
-  transform: translateY(-2px);
 }
 
 </style>
