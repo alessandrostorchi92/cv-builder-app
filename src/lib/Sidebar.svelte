@@ -3,17 +3,165 @@
   import { formDataStore, selectedFilePicture } from '../stores/form_store';
   
   const phonePrefixes = [
-    { value: "+39", label: "Italia (+39)" },
-    { value: "+1", label: "Stati Uniti (+1)" },
-    { value: "+44", label: "Regno Unito (+44)" },
-    { value: "+49", label: "Germania (+49)" },
+
+  { value: "+93", label: "Afghanistan (+93)" },
+    { value: "+355", label: "Albania (+355)" },
+    { value: "+213", label: "Algeria (+213)" },
+    { value: "+376", label: "Andorra (+376)" },
+    { value: "+244", label: "Angola (+244)" },
+    { value: "+54", label: "Argentina (+54)" },
+    { value: "+374", label: "Armenia (+374)" },
+    { value: "+297", label: "Aruba (+297)" },
+    { value: "+61", label: "Australia (+61)" },
+    { value: "+43", label: "Austria (+43)" },
+    { value: "+994", label: "Azerbaijan (+994)" },
+    { value: "+973", label: "Bahrain (+973)" },
+    { value: "+880", label: "Bangladesh (+880)" },
+    { value: "+32", label: "Belgio (+32)" },
+    { value: "+501", label: "Belize (+501)" },
+    { value: "+975", label: "Bhutan (+975)" },
+    { value: "+591", label: "Bolivia (+591)" },
+    { value: "+267", label: "Botswana (+267)" },
+    { value: "+55", label: "Brasile (+55)" },
+    { value: "+673", label: "Brunei Darussalam (+673)" },
+    { value: "+359", label: "Bulgaria (+359)" },
+    { value: "+226", label: "Burkina Faso (+226)" },
+    { value: "+257", label: "Burundi (+257)" },
+    { value: "+855", label: "Cambogia (+855)" },
+    { value: "+237", label: "Camerun (+237)" },
+    { value: "+1", label: "Canada (+1)" },
+    { value: "+238", label: "Capo Verde (+238)" },
+    { value: "+56", label: "Cile (+56)" },
+    { value: "+86", label: "Cina (RPC) (+86)" },
+    { value: "+57", label: "Colombia (+57)" },
+    { value: "+506", label: "Costa Rica (+506)" },
+    { value: "+385", label: "Croazia (+385)" },
+    { value: "+53", label: "Cuba (+53)" },
+    { value: "+357", label: "Cipro (+357)" },
+    { value: "+420", label: "Repubblica Ceca (+420)" },
+    { value: "+45", label: "Danimarca (+45)" },
+    { value: "+253", label: "Gibuti (+253)" },
+    { value: "+593", label: "Ecuador (+593)" },
+    { value: "+20", label: "Egitto (+20)" },
+    { value: "+503", label: "El Salvador (+503)" },
+    { value: "+251", label: "Etiopia (+251)" },
+    { value: "+679", label: "Figi (+679)" },
+    { value: "+358", label: "Finlandia (+358)" },
     { value: "+33", label: "Francia (+33)" },
-    { value: "+34", label: "Spagna (+34)" },
-    { value: "+351", label: "Portogallo (+351)" },
+    { value: "+995", label: "Georgia (+995)" },
+    { value: "+49", label: "Germania (+49)" },
+    { value: "+233", label: "Ghana (+233)" },
+    { value: "+30", label: "Grecia (+30)" },
+    { value: "+502", label: "Guatemala (+502)" },
+    { value: "+224", label: "Guinea (+224)" },
+    { value: "+592", label: "Guyana (+592)" },
+    { value: "+509", label: "Haiti (+509)" },
+    { value: "+504", label: "Honduras (+504)" },
+    { value: "+852", label: "Hong Kong (+852)" },
+    { value: "+36", label: "Ungheria (+36)" },
+    { value: "+354", label: "Islanda (+354)" },
+    { value: "+91", label: "India (+91)" },
+    { value: "+62", label: "Indonesia (+62)" },
+    { value: "+98", label: "Iran (+98)" },
+    { value: "+964", label: "Iraq (+964)" },
     { value: "+353", label: "Irlanda (+353)" },
-    { value: "+31", label: "Olanda (+31)" },
+    { value: "+972", label: "Israele (+972)" },
+    { value: "+39", label: "Italia (+39)" },
+    { value: "+81", label: "Giappone (+81)" },
+    { value: "+962", label: "Giordania (+962)" },
+    { value: "+254", label: "Kenya (+254)" },
+    { value: "+850", label: "Corea del Nord (+850)" },
+    { value: "+82", label: "Corea del Sud (+82)" },
+    { value: "+965", label: "Kuwait (+965)" },
+    { value: "+856", label: "Laos (+856)" },
+    { value: "+371", label: "Lettonia (+371)" },
+    { value: "+961", label: "Libano (+961)" },
+    { value: "+231", label: "Liberia (+231)" },
+    { value: "+218", label: "Libia (+218)" },
+    { value: "+423", label: "Liechtenstein (+423)" },
+    { value: "+370", label: "Lituania (+370)" },
+    { value: "+352", label: "Lussemburgo (+352)" },
+    { value: "+389", label: "Macedonia (+389)" },
+    { value: "+261", label: "Madagascar (+261)" },
+    { value: "+265", label: "Malawi (+265)" },
+    { value: "+60", label: "Malesia (+60)" },
+    { value: "+960", label: "Maldive (+960)" },
+    { value: "+223", label: "Mali (+223)" },
+    { value: "+356", label: "Malta (+356)" },
+    { value: "+692", label: "Isole Marshall (+692)" },
+    { value: "+222", label: "Mauritania (+222)" },
+    { value: "+230", label: "Mauritius (+230)" },
+    { value: "+52", label: "Messico (+52)" },
+    { value: "+373", label: "Moldavia (+373)" },
+    { value: "+377", label: "Monaco (+377)" },
+    { value: "+976", label: "Mongolia (+976)" },
+    { value: "+212", label: "Marocco (+212)" },
+    { value: "+258", label: "Mozambico (+258)" },
+    { value: "+264", label: "Namibia (+264)" },
+    { value: "+977", label: "Nepal (+977)" },
+    { value: "+31", label: "Paesi Bassi (+31)" },
+    { value: "+64", label: "Nuova Zelanda (+64)" },
+    { value: "+505", label: "Nicaragua (+505)" },
+    { value: "+227", label: "Niger (+227)" },
+    { value: "+234", label: "Nigeria (+234)" },
+    { value: "+47", label: "Norvegia (+47)" },
+    { value: "+968", label: "Oman (+968)" },
+    { value: "+92", label: "Pakistan (+92)" },
+    { value: "+507", label: "Panama (+507)" },
+    { value: "+675", label: "Papua Nuova Guinea (+675)" },
+    { value: "+51", label: "Perù (+51)" },
+    { value: "+63", label: "Filippine (+63)" },
+    { value: "+48", label: "Polonia (+48)" },
+    { value: "+351", label: "Portogallo (+351)" },
+    { value: "+974", label: "Qatar (+974)" },
+    { value: "+40", label: "Romania (+40)" },
+    { value: "+7", label: "Russia (+7)" },
+    { value: "+250", label: "Ruanda (+250)" },
+    { value: "+966", label: "Arabia Saudita (+966)" },
+    { value: "+221", label: "Senegal (+221)" },
+    { value: "+381", label: "Serbia (+381)" },
+    { value: "+248", label: "Seychelles (+248)" },
+    { value: "+232", label: "Sierra Leone (+232)" },
+    { value: "+65", label: "Singapore (+65)" },
+    { value: "+421", label: "Slovacchia (+421)" },
+    { value: "+386", label: "Slovenia (+386)" },
+    { value: "+252", label: "Somalia (+252)" },
+    { value: "+27", label: "Sud Africa (+27)" },
+    { value: "+34", label: "Spagna (+34)" },
+    { value: "+94", label: "Sri Lanka (+94)" },
+    { value: "+249", label: "Sudan (+249)" },
+    { value: "+597", label: "Suriname (+597)" },
+    { value: "+268", label: "Swaziland (+268)" },
+    { value: "+46", label: "Svezia (+46)" },
+    { value: "+41", label: "Svizzera (+41)" },
+    { value: "+963", label: "Siria (+963)" },
+    { value: "+886", label: "Taiwan (+886)" },
+    { value: "+992", label: "Tagikistan (+992)" },
+    { value: "+255", label: "Tanzania (+255)" },
+    { value: "+66", label: "Thailandia (+66)" },
+    { value: "+228", label: "Togo (+228)" },
+    { value: "+676", label: "Tonga (+676)" },
+    { value: "+216", label: "Tunisia (+216)" },
+    { value: "+90", label: "Turchia (+90)" },
+    { value: "+993", label: "Turkmenistan (+993)" },
+    { value: "+256", label: "Uganda (+256)" },
+    { value: "+380", label: "Ucraina (+380)" },
+    { value: "+971", label: "Emirati Arabi Uniti (+971)" },
+    { value: "+44", label: "Regno Unito (+44)" },
+    { value: "+1", label: "Stati Uniti (+1)" },
+    { value: "+598", label: "Uruguay (+598)" },
+    { value: "+998", label: "Uzbekistan (+998)" },
+    { value: "+678", label: "Vanuatu (+678)" },
+    { value: "+58", label: "Venezuela (+58)" },
+    { value: "+84", label: "Vietnam (+84)" },
+    { value: "+967", label: "Yemen (+967)" },
+    { value: "+260", label: "Zambia (+260)" },
+    { value: "+263", label: "Zimbabwe (+263)" }
+    
+    
+
   ];
-  
+
   const optionsLanguages = [
     { value: "Italiano", label: "Italiano" },
     { value: "Inglese", label: "Inglese" },
@@ -33,6 +181,14 @@
     { value: "C2", label: "Madrelingua" },
   ];
 
+  const drivingLicenceCheckBoxs = [
+    { value: 'A', label: 'Patente A' },
+    { value: 'B', label: 'Patente B' },
+    { value: 'C', label: 'Patente C' },
+    { value: 'D', label: 'Patente D' },
+    { value: 'E', label: 'Patente E' }
+  ];
+
   const educationLevels = [
     { value: "Diploma" },
     { value: "Certificato di Specializzazione" },
@@ -42,14 +198,6 @@
     { value: "Master" },
     { value: "Dottorato di Ricerca" }
 
-  ];
-
-  const drivingLicences = [
-    { value: "Patente A" },
-    { value: "Patente B" },
-    { value: "Patente C" },
-    { value: "Patente D" },
-    { value: "Patente E" }
   ];
 
   const maxTextAreaLength: number = 500;
@@ -143,18 +291,20 @@
 
         <div class="flex-center-utility">
           <div class="file-picture-container">
-            <div class="file-picture"></div>
+            <label for="img-input">
+              <div class="file-picture"></div>
+            </label>
           </div>
         </div>
 
         <div class="flex-center-utility py-4">
-          <label for="file-input" class="custom-file-input">
-            Scegli file
+          <label for="img-input" class="custom-file-input">
+            Scegli foto
           </label>
 
           <input
             type="file"
-            id="file-input"
+            id="img-input"
             name="filePicture"
             bind:files={$formDataStore.filePicture}
             on:change={() => getUrlImg()}
@@ -207,6 +357,21 @@
           />
         </div>
         
+        <!---- Luogo di Nascita ---->
+
+        <div class="form-group mb-3">
+          <label for="formInputBirthDate">Luogo di nascita</label>
+          <span class="isRequired">*</span>
+
+          <input type="text"
+                 class="form-control"
+                 id="formInputPlaceDate" 
+                 name="birthDate"
+                 placeholder="Inserisci il tuo luogo di nascita" 
+                 bind:value={$formDataStore.birthPlace}
+          />
+        </div>
+
         <!---- Data di Nascita ---->
 
         <div class="form-group mb-3">
@@ -221,10 +386,10 @@
           />
         </div>
 
-        <!-- Indirizzo di Residenza -->
+        <!-- Residenza/Domicilio -->
 
         <div class="form-group mb-3">
-          <label for="formInputAddress">Indirizzo di residenza</label>
+          <label for="formInputAddress">Residenza/Domicilio</label>
           <span class="isRequired">*</span>
           <input
             type="text"
@@ -250,7 +415,7 @@
             name="phonePrefix"
             bind:value={$formDataStore.phonePrefix}
 >
-            <option value="" disabled selected>Prefisso</option>
+            <option value="" disabled selected class="prefix-option">Prefisso</option>
             {#each phonePrefixes as phonePrefixe}
               <option value={phonePrefixe.value}> {phonePrefixe.label}</option>
             {/each}
@@ -372,7 +537,7 @@
             </select>
 
             <select
-              class="form-select"
+              class="form-select me-1"
               id="formSelectLanguageLevels{languageIndex}"
               name="languageLevels"
               bind:value={selectedLanguage.level}>
@@ -384,13 +549,15 @@
                 >
               {/each}
             </select>
+
+            {#if languageIndex > 0}
+              <div class="input-group-append">
+                <button type="button" class="btn-remove-style" on:click={() => removeLanguage(languageIndex)}><i class="fa-solid fa-trash"></i></button>
+              </div>
+            {/if}
+  
           </div>
 
-          {#if languageIndex > 0}
-            <div class="flex-center-utility mb-3">
-              <button type="button" class="btn-remove-style" on:click={() => removeLanguage(languageIndex)}><i class="fa-solid fa-trash"></i></button>
-            </div>
-          {/if}
         {/each}
 
         <div class="flex-center-utility">
@@ -399,25 +566,26 @@
 
          <!-- Patente -->
 
-         <div>
+        <div>
           <label for="formLabelDrivingLicence">Patente</label>
           <span class="isRequired">*</span>
-         </div>
+        </div>
 
-         <select
-
-          class="form-select"
-          id="formSelectQualification"
-          name="qualification"
-          bind:value={$formDataStore.drivingLicence}>
-
-          <option value="" disabled selected>Tipologia patente</option>
-
-          {#each drivingLicences as drivingLicence(drivingLicence.value)}
-          <option value={drivingLicence.value}>{drivingLicence.value}</option>
+          {#each drivingLicenceCheckBoxs as drivingLicenceCheckBox}
+            <div class="form-check form-check-inline">
+              <input 
+                class="form-check-input" 
+                type="checkbox" 
+                id={"formCheckBoxDrivingLicence" + drivingLicenceCheckBox.value}
+                bind:group={$formDataStore.drivingLicences}
+                value={drivingLicenceCheckBox.label}>
+              <label 
+                class="form-check-label" 
+                for={"formCheckBoxDrivingLicence" + drivingLicenceCheckBox.value}>
+                {drivingLicenceCheckBox.label}
+              </label>
+            </div>
           {/each}
-
-         </select>
 
          <!-- Automunito -->
 
@@ -429,13 +597,13 @@
           </span>
 
           <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="inlineDrivingLicenceRadioOptions" id="inlineDrivingLicenceLeftRadio" bind:group={$formDataStore.hasOwnCar} value="Si">
-            <label class="form-check-label" for="inlineRadio1">Sì</label>
+            <input class="form-check-input" type="radio" name="inlineDrivingLicenceRadioOptions" id="inlineDrivingLicenceLeftRadioYes" bind:group={$formDataStore.hasOwnCar} value="Si">
+            <label class="form-check-label" for="inlineDrivingLicenceLeftRadioYes">Sì</label>
           </div>
 
           <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="inlineDrivingLicenceRadioOptions" id="inlineDrivingLicenceRightRadio"  bind:group={$formDataStore.hasOwnCar} value="No">
-            <label class="form-check-label" for="inlineRadio2">No</label>
+            <input class="form-check-input" type="radio" name="inlineDrivingLicenceRadioOptions" id="inlineDrivingLicenceRightRadioNo"  bind:group={$formDataStore.hasOwnCar} value="No">
+            <label class="form-check-label" for="inlineDrivingLicenceRightRadioNo">No</label>
           </div>
 
          </div>
@@ -663,8 +831,8 @@
 
   .file-picture-container {
     position: relative;
-    width: 180px;
-    height: 180px;
+    width: 200px;
+    height: 200px;
     border-radius: 50%;
     overflow: hidden;
     border: 5px solid #ccc;
@@ -672,11 +840,12 @@
 
   .file-picture {
     position: absolute;
+    top: 0;
     height: 100%;
     width: 100%;
     background-image: url("/background-profile-picture.png");
-    background-position: center;
     background-size: cover;
+    cursor: pointer;
   }
 
   input[type="file"] {
@@ -688,7 +857,8 @@
     border: 1px solid black;
     font-size: 14px;
     font-style: normal;
-    padding: 0.5rem;
+    padding: 0.8rem;
+    cursor: pointer;
   }
 
   label {
@@ -704,6 +874,9 @@
   textarea::placeholder {
     opacity: 0.5;
   }
+  option.prefix-option {
+  color: #999;
+  }
 
   .maxChars {
     position: absolute;
@@ -714,10 +887,10 @@
   }
 
   .btn-add-style {
-    width: 120px;
-    margin-top: 1rem;
+    width: 80px;
+    margin-top: 0.2rem;
     border: none;
-    font-size: 14px;
+    font-size: 1rem;
     border-radius: 8px;
     padding: 0.5rem;
     background-color: #007bff; 
@@ -740,9 +913,9 @@
 
   .btn-remove-style {
     background-color: #e74c3c;
-    font-size: 0.8rem;
+    font-size: 1rem;
     color: white;
-    width: 110px;
+    width: 50px;
     padding: 0.5rem;
     cursor: pointer;
     border: none;

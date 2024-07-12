@@ -59,45 +59,70 @@ function formattedDate(date: string) : string {
 
         <div class="cv-header-container">
 
-            <!---- Immagine di profilo ---->
-
-            {#if $formDataStore.filePicture}
-
-                <div class="file-picture-container"> 
-                    
-                    <img class="file-picture" src="{ $selectedFilePicture }" alt="Immagine profilo">
-        
-                </div>
-            
-            {/if}
-            
-                <!---- Nome e Professione ---->
-            <div>
-
-                <h2 class="text-uppercase">{ $formDataStore.name } { $formDataStore.surname }</h2>
-
-        
-                <h4 class="text-center fst-italic">{ $formDataStore.profession }</h4>
+            <div class="header-left-section flex-center-utility">
+                
+                <!---- Immagine di profilo ---->
+                
+                {#if $formDataStore.filePicture}
+                
+                    <div class="file-picture-container"> 
+                
+                        <img class="file-picture" src="{ $selectedFilePicture }" alt="Immagine profilo">
+                        
+                    </div>
+                            
+                {/if}
 
             </div>
 
+            <div class="header-right-section flex-center-utility">
+
+                <!---- Nome e Professione ---->
+    
+                <div class="text-wrap-utility">
+        
+                    <h2 class="text-uppercase">{ $formDataStore.name } { $formDataStore.surname }</h2>
+                    <h4 class="text-center fst-italic">{ $formDataStore.profession }</h4>
+        
+                </div>
+
+            </div>
+            
         </div>
 
         <div class="cv-main-container">
 
-            <div class="left-section">
+            <div class="main-left-section">
 
-                <div class="profile-information-container add-vertical-space-utility">
+                <div class="profile-info-container text-wrap-utility add-vertical-space-utility">
+
+                    <!---- Luogo di Nascita ---->
+
+                    <div>
+
+                        {#if $formDataStore.birthPlace }
+    
+                            <span class="profile-info-label">Luogo di nascita:</span>
+                            
+                        {/if}
+    
+                        <span>{ $formDataStore.birthPlace }</span>
+
+                    </div>
 
                     <!---- Data di Nascita ---->
 
-                    {#if $formDataStore.birthDate }
+                    <div>
 
-                        <span><i class="fa-solid fa-calendar-days"></i></span>
-                            
-                    {/if}
+                        {#if $formDataStore.birthDate }
+    
+                            <span class="profile-info-label">Data di nascita:</span>
+                                
+                        {/if}
 
-                    <span>{ formattedDate($formDataStore.birthDate) }</span>
+                        <span>{ formattedDate($formDataStore.birthDate) }</span>
+
+                    </div>
 
                     <!---- Location ---->
 
@@ -105,7 +130,7 @@ function formattedDate(date: string) : string {
 
                         {#if $formDataStore.address }
 
-                            <span><i class="fa-solid fa-house"></i></span>
+                            <span class="profile-info-label">Residenza/Domicilio:</span>
  
                         {/if}
 
@@ -119,7 +144,7 @@ function formattedDate(date: string) : string {
 
                         {#if $formDataStore.phonePrefix  || $formDataStore.phone }
 
-                            <span><i class="fa-solid fa-phone"></i></span>
+                            <span class="profile-info-label">Cellulare:</span>
 
                         {/if}
 
@@ -134,7 +159,7 @@ function formattedDate(date: string) : string {
 
                         {#if $formDataStore.email }
 
-                            <span><i class="fa-solid fa-envelope"></i></span>
+                            <span class="profile-info-label">E-mail:</span>
 
                         {/if}
 
@@ -148,30 +173,13 @@ function formattedDate(date: string) : string {
 
                         {#if $formDataStore.isProtectedCategory }
 
-                            <span><i class="fa-solid fa-user-shield"></i></span>
-                            <span>Categorie protette:</span>
+                            <span class="profile-info-label">Categorie protette:</span>
 
                         {/if}
 
                         <span>{ $formDataStore.isProtectedCategory }</span>
     
                      </div>
-
-                     <!---- Automunito ---->
-
-                     <div>
-
-                        {#if $formDataStore.hasOwnCar }
-
-                            <span><i class="fa-solid fa-car"></i></span>
-                            <span>Automunito:</span>
-
-                        {/if}
-                        
-                        <span>{ $formDataStore.hasOwnCar }</span>
-    
-                     </div>
-
 
                 </div>
             
@@ -209,7 +217,11 @@ function formattedDate(date: string) : string {
 
                             <div class="title-center-utility">
 
-                                <span>{selectedLanguage.lang} {selectedLanguage.level}</span>
+                                <span>{selectedLanguage.lang}</span>
+
+                                {#if selectedLanguage.lang}
+                                <span>{selectedLanguage.level}</span>
+                                {/if}
 
                             </div>
 
@@ -217,20 +229,36 @@ function formattedDate(date: string) : string {
 
                         <div  class="driving-licence-container title-center-utility">
 
-                            {#if $formDataStore.drivingLicence}
+                            {#if $formDataStore.drivingLicences}
 
-                            <h6 class="title-center-utility">Patente</h6>
+                                <h6>Patente</h6>
 
                             {/if}
 
-                            <span>{ $formDataStore.drivingLicence }</span>
+                            <span>{ $formDataStore.drivingLicences.join(', ') }</span>
 
                         </div>
+
+                        <!---- Automunito ---->
+
+                     <div class="text-center">
+
+                        {#if $formDataStore.hasOwnCar }
+
+                            <span><i class="fa-solid fa-car"></i></span>
+                            <span>Automunito:</span>
+
+                        {/if}
+                        
+                        <span>{ $formDataStore.hasOwnCar }</span>
+    
+                     </div>
+
                 </div>
 
             </div>
 
-            <div class="right-section">
+            <div class="main-right-section">
 
                 <!-- Esperienza lavorativa -->
 
@@ -238,7 +266,7 @@ function formattedDate(date: string) : string {
 
                         {#if $formDataStore.jobs.some(job => job.role !== "" || job.company !== "" || job.workExperienceResults !== "" || job.startDateWorkExperience !== "" || job.endDateWorkExperience !== "" )}
 
-                            <div class="text-center py-2">ESPERIENZE LAVORATIVE</div>
+                            <div class="text-center fw-bold py-1">ESPERIENZE LAVORATIVE</div>
 
                         {/if}
 
@@ -279,7 +307,7 @@ function formattedDate(date: string) : string {
                         education.qualification.length > 0 || education.educationGoals !== "" || education.startDateAcademicEducation !== "" || 
                         education.endDateAcademicEducation !== "" )}
 
-                            <div class="text-center py-2">FORMAZIONE ACCADEMICA</div>
+                            <div class="text-center fw-bold py-1">FORMAZIONE ACCADEMICA</div>
 
                         {/if}
 
@@ -289,7 +317,7 @@ function formattedDate(date: string) : string {
 
                                 {#if education.fieldOfStudy}
                                 
-                                    <span>in</span>
+                                    <span>:</span>
                                 
                                 {/if}
                             
@@ -301,22 +329,22 @@ function formattedDate(date: string) : string {
                                 
                                 {/if}
                             
-                            <span class="training-institution-info">{ education.educationType }</span>
+                                <span class="training-institution-info">{ education.educationType }</span>
 
 
-                            <div class="date-info">
+                                <div class="date-info">
 
-                                {#if education.startDateAcademicEducation || education.endDateAcademicEducation }
+                                    {#if education.startDateAcademicEducation || education.endDateAcademicEducation }
 
-                                    <span>({ education.startDateAcademicEducation } / { education.endDateAcademicEducation })</span>
+                                        <span>({ education.startDateAcademicEducation } / { education.endDateAcademicEducation })</span>
 
-                                {/if}
-            
-                            </div>
+                                    {/if}
+                
+                                </div>
 
-                            <p class="goals-info">{ education.educationGoals }</p>
+                                <p class="goals-info">{ education.educationGoals }</p>
 
-                         {/each}
+                            {/each}
                             
                     </div>
 
@@ -329,7 +357,7 @@ function formattedDate(date: string) : string {
     <!---- Privacy Policy ---->
 
     <div>
-        <div class="form-check form-switch privacy-label ">
+        <div class="form-check form-switch privacy-label">
             <input class="form-check-input" 
                    type="checkbox" 
                    role="switch" 
@@ -375,14 +403,22 @@ function formattedDate(date: string) : string {
     text-align: center;
 }
 
-.left-section p, .right-section p {
+.cv-header-container, .cv-main-container {
+    display: flex;
+}
+
+.main-left-section p, .main-right-section p {
     word-wrap: break-word;
-    white-space: pre-wrap;
     max-width: 100%;
 }
 
 .add-vertical-space-utility {
-    padding: 0.5rem 0;
+    padding: 1rem 0 ;
+}
+
+.text-wrap-utility {
+    overflow-wrap: break-word;
+    overflow: hidden;
 }
 
 ::-webkit-scrollbar {
@@ -393,13 +429,6 @@ function formattedDate(date: string) : string {
     padding: 0.5rem;
     overflow-y: auto;
     width: 800px;
-}
-
-.cv-header-container {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    padding: 1rem 0;
 }
 
 .file-picture-container {
@@ -419,31 +448,29 @@ function formattedDate(date: string) : string {
     background-size: cover;
 }
 
-.cv-main-container {
-    display: flex;
-}
-
 .driving-licence-container {
-    padding: 1rem 0;
+    padding: 0.5rem 0;
 }
 
-.left-section {
+.main-left-section, .header-left-section {
     flex-shrink: 0;
     flex-basis: 40%;
     overflow: hidden;
     padding: 0 1rem; 
 }
 
-.profile-information-container {
-
-    font-size: 0.9rem;
+.profile-info-container {
+    font-size: 1rem;
 }
 
+.profile-info-label {
+    font-weight: 600;
+}
 
 .user-details-container {
     font-size: 0.8rem;
 }
-.right-section {
+.main-right-section, .header-right-section {
     flex-grow: 1;
     overflow: hidden;
     padding: 0 1rem;  
@@ -461,7 +488,7 @@ function formattedDate(date: string) : string {
 }
 
 .user-work-experience-info .company-info, .user-education-history-info .training-institution-info  {
-    font-size: 1rem;
+    font-size: 0.9rem;
     font-weight:400;
     font-style: oblique;
 }

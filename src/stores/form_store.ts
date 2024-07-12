@@ -10,6 +10,7 @@ let userFormData: formTypes.FormData = {
     surname: "",
     profession: "",
     birthDate: "",
+    birthPlace: "",
     address: "",
     phonePrefix: "",
     phone: "",
@@ -18,7 +19,7 @@ let userFormData: formTypes.FormData = {
     isProtectedCategory: "",
     digitalSkills: "",
     languagesSkills: [{ lang: "", level: "" },],
-    drivingLicence: "",
+    drivingLicences: [],
     hasOwnCar: "",   
     jobs: [{
         role: "",

@@ -15,7 +15,7 @@
         isProtectedCategory:string,
         digitalSkills: string,
         languagesSkills: { lang: string; level: string }[];
-        drivingLicence: string,
+        drivingLicences: string[],
         hasOwnCar: string,       
         jobs: WorkHistory[],
         educations: AcademicHistory[],  
