@@ -183,55 +183,69 @@ function formattedDate(date: string) : string {
 
                 </div>
             
-                <div class="user-details-container add-vertical-space-utility">
+                <div class="user-details-container">
 
                     <!-- Profilo Personale -->
 
-                    {#if $formDataStore.profileSummary }
+                    <div class="title-center-utility add-vertical-space-utility">
+                        
+                        {#if $formDataStore.profileSummary }
+                        
+                            <h6>Profilo Personale</h6>
+                                                
+                        {/if}
+                                                
+                        <p>{ $formDataStore.profileSummary }</p>
 
-                        <h6 class="title-center-utility">Profilo Personale</h6>
-                        
-                    {/if}
-                        
-                    <p>{ $formDataStore.profileSummary }</p>
+                    </div>
     
                     <!-- Successi Professionali -->
 
-                    {#if $formDataStore.digitalSkills }
 
-                        <h6 class="title-center-utility">Competenze digitali</h6>
+                    <div class="title-center-utility add-vertical-space-utility">
 
-                    {/if}
+                        {#if $formDataStore.digitalSkills }
+    
+                            <h6>Competenze digitali</h6>
+    
+                        {/if}
+    
+                        <p>{ $formDataStore.digitalSkills }</p>
 
-                    <p>{ $formDataStore.digitalSkills }</p>
+                    </div>
+
     
                     <!-- Lingue -->
 
+                    <div class="title-center-utility add-vertical-space-utility">
+
                         {#if $formDataStore.languagesSkills.some(selectedLanguage => selectedLanguage.lang !== "" || selectedLanguage.level !== "" )  }
-
-                            <h6 class="title-center-utility">Competenze Linguistiche</h6>
-
+    
+                            <h6>Competenze Linguistiche</h6>
+    
                         {/if}
 
                         {#each $formDataStore.languagesSkills as selectedLanguage(selectedLanguage)}
-
+    
                             <div class="title-center-utility">
-
+    
                                 <span>{selectedLanguage.lang}</span>
-
+    
                                 {#if selectedLanguage.lang}
                                 <span>{selectedLanguage.level}</span>
                                 {/if}
-
+    
                             </div>
-
+    
                         {/each}
 
-                        <div  class="driving-licence-container title-center-utility">
+                    </div>
 
-                            {#if $formDataStore.drivingLicences}
+                        <div class="title-center-utility add-vertical-space-utility">
 
-                                <h6>Patente</h6>
+                            {#if $formDataStore.drivingLicences.length > 0}
+
+                                <h6 class="mt-4">Patente</h6>
 
                             {/if}
 
@@ -241,7 +255,7 @@ function formattedDate(date: string) : string {
 
                         <!---- Automunito ---->
 
-                     <div class="text-center">
+                    <div class="title-center-utility">
 
                         {#if $formDataStore.hasOwnCar }
 
@@ -252,7 +266,7 @@ function formattedDate(date: string) : string {
                         
                         <span>{ $formDataStore.hasOwnCar }</span>
     
-                     </div>
+                    </div>
 
                 </div>
 
@@ -321,7 +335,7 @@ function formattedDate(date: string) : string {
                                 
                                 {/if}
                             
-                                <span class="qualification-info">{ education.fieldOfStudy }</span>
+                                <span class="fieldOfStudy-detail">{ education.fieldOfStudy }</span>
 
                                 {#if education.educationType}
                                 
@@ -413,7 +427,7 @@ function formattedDate(date: string) : string {
 }
 
 .add-vertical-space-utility {
-    padding: 1rem 0 ;
+    padding: 0.6rem 0 ;
 }
 
 .text-wrap-utility {
@@ -448,10 +462,6 @@ function formattedDate(date: string) : string {
     background-size: cover;
 }
 
-.driving-licence-container {
-    padding: 0.5rem 0;
-}
-
 .main-left-section, .header-left-section {
     flex-shrink: 0;
     flex-basis: 40%;
@@ -482,9 +492,17 @@ function formattedDate(date: string) : string {
     display: inline-block;
 }
 
-.user-work-experience-info .role-info, .user-education-history-info .qualification-info {
+.user-work-experience-info .role-info, .qualification-info {
+    font-size: 1rem;
+    font-weight:700;
+}
+
+.user-education-history-info .fieldOfStudy-detail {
+
     font-size: 1rem;
     font-weight:600;
+
+
 }
 
 .user-work-experience-info .company-info, .user-education-history-info .training-institution-info  {

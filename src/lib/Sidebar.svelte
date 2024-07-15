@@ -314,7 +314,7 @@
 
         <!-- Name -->
 
-        <div class="form-group mb-3">
+        <div class="form-group mb-3 position-relative">
           <label for="formInputName">Nome</label>
           <span class="isRequired">*</span>
           <input
@@ -323,13 +323,21 @@
             id="formInputName"
             name="name"
             placeholder="Inserisci il tuo nome"
+            maxlength="30"
             bind:value={$formDataStore.name}
           />
+          <span
+            class="maxChars"
+            class:text-danger={$formDataStore.name.length ===
+              30}
+          >
+            {$formDataStore.name.length} / 30
+          </span>
         </div>
 
         <!-- Cognome -->
 
-        <div class="form-group mb-3">
+        <div class="form-group mb-3 position-relative">
           <label for="formInputSurname">Cognome</label>
           <span class="isRequired">*</span>
           <input
@@ -338,13 +346,21 @@
             id="formInputSurname"
             name="surname"
             placeholder="Inserisci il tuo cognome"
+            maxlength="20"
             bind:value={$formDataStore.surname}
           />
+          <span
+            class="maxChars"
+            class:text-danger={$formDataStore.surname.length ===
+              20}
+          >
+            {$formDataStore.surname.length} / 20
+          </span>
         </div>
 
         <!-- Professione -->
 
-        <div class="form-group mb-3">
+        <div class="form-group mb-3 position-relative">
           <label for="formInputProfession">Professione</label>
           <span class="isRequired">*</span>
           <input
@@ -353,13 +369,21 @@
             id="formInputProfession"
             name="profession"
             placeholder="Inserisci la tua professione"
+            maxlength="30"
             bind:value={$formDataStore.profession}
           />
+          <span
+            class="maxChars"
+            class:text-danger={$formDataStore.profession.length ===
+              30}
+          >
+            {$formDataStore.profession.length} / 30
+          </span>
         </div>
         
         <!---- Luogo di Nascita ---->
 
-        <div class="form-group mb-3">
+        <div class="form-group mb-3 position-relative">
           <label for="formInputBirthDate">Luogo di nascita</label>
           <span class="isRequired">*</span>
 
@@ -367,9 +391,17 @@
                  class="form-control"
                  id="formInputPlaceDate" 
                  name="birthDate"
-                 placeholder="Inserisci il tuo luogo di nascita" 
+                 placeholder="Inserisci il tuo luogo di nascita"
+                 maxlength="30"
                  bind:value={$formDataStore.birthPlace}
           />
+          <span
+          class="maxChars"
+          class:text-danger={$formDataStore.birthPlace.length ===
+            30}
+          >
+          {$formDataStore.birthPlace.length} / 30
+          </span>
         </div>
 
         <!---- Data di Nascita ---->
@@ -388,7 +420,7 @@
 
         <!-- Residenza/Domicilio -->
 
-        <div class="form-group mb-3">
+        <div class="form-group mb-3 position-relative">
           <label for="formInputAddress">Residenza/Domicilio</label>
           <span class="isRequired">*</span>
           <input
@@ -397,8 +429,15 @@
             id="formInputAddress"
             name="address"
             placeholder="Es: Via Roma 123, 00100 Roma"
+            maxlength="80"
             bind:value={$formDataStore.address}
           />
+          <span
+          class="maxChars"
+          class:text-danger={$formDataStore.address.length ===
+            80}
+          >
+          {$formDataStore.address.length} / 80
         </div>
 
         <!-- Cellulare -->
@@ -408,16 +447,16 @@
           <span class="isRequired">*</span>
         </div>
 
-        <div class="input-group mb-3">
+        <div class="input-group mb-3 position-relative">
           <select
             class="form-select"
             id="formSelectPhonePrefix"
             name="phonePrefix"
             bind:value={$formDataStore.phonePrefix}
->
+          >
             <option value="" disabled selected class="prefix-option">Prefisso</option>
-            {#each phonePrefixes as phonePrefixe}
-              <option value={phonePrefixe.value}> {phonePrefixe.label}</option>
+            {#each phonePrefixes as phonePrefix}
+              <option value={phonePrefix.value}> {phonePrefix.label}</option>
             {/each}
           </select>
           <input
@@ -426,13 +465,17 @@
             id="formSelectPhone"
             name="phone"
             placeholder="Numero di cellulare"
+            maxlength="10"
             bind:value={$formDataStore.phone}
           />
+          <span class="maxChars" class:text-danger={($formDataStore.phone.length === 10)}>
+            {$formDataStore.phone.length} / 10
+          </span>
         </div>
 
         <!---- Email ---->
 
-        <div class="mb-3">
+        <div class="mb-3 position-relative">
           <label for="formInputEmail">Email</label>
           <span class="isRequired">*</span>
           <input
@@ -441,8 +484,15 @@
             id="formInputEmail"
             name="email"
             placeholder="Inserisci la tua email"
+            maxlength="50"
             bind:value={$formDataStore.email}
           />
+          <span
+          class="maxChars"
+          class:text-danger={$formDataStore.email.length ===
+            50}
+          >
+          {$formDataStore.email.length} / 50
         </div>
 
         <!---- Profilo Personale ---->
@@ -566,26 +616,32 @@
 
          <!-- Patente -->
 
-        <div>
-          <label for="formLabelDrivingLicence">Patente</label>
-          <span class="isRequired">*</span>
-        </div>
+         <div class="d-flex align-items-center">
 
-          {#each drivingLicenceCheckBoxs as drivingLicenceCheckBox}
-            <div class="form-check form-check-inline">
-              <input 
-                class="form-check-input" 
-                type="checkbox" 
-                id={"formCheckBoxDrivingLicence" + drivingLicenceCheckBox.value}
-                bind:group={$formDataStore.drivingLicences}
-                value={drivingLicenceCheckBox.label}>
-              <label 
-                class="form-check-label" 
-                for={"formCheckBoxDrivingLicence" + drivingLicenceCheckBox.value}>
-                {drivingLicenceCheckBox.label}
-              </label>
-            </div>
-          {/each}
+          <div class="mt-5 me-3">
+            <label for="formLabelDrivingLicence">Patente</label>
+            <span class="isRequired">*</span>
+          </div>
+        
+          <div class="mt-5 d-flex">
+            {#each drivingLicenceCheckBoxs as drivingLicenceCheckBox}
+              <div class="form-check form-check-inline me-2">
+                <input 
+                  class="form-check-input" 
+                  type="checkbox" 
+                  id={"formCheckBoxDrivingLicence" + drivingLicenceCheckBox.value}
+                  bind:group={$formDataStore.drivingLicences}
+                  value={drivingLicenceCheckBox.label}>
+                <label 
+                  class="form-check-label" 
+                  for={"formCheckBoxDrivingLicence" + drivingLicenceCheckBox.value}>
+                  {drivingLicenceCheckBox.label}
+                </label>
+              </div>
+            {/each}
+          </div>
+        
+        </div>
 
          <!-- Automunito -->
 
@@ -616,28 +672,38 @@
 
         {#each $formDataStore.jobs as job, jobIndex}
 
-            <div class="form-group mb-3">
+            <div class="form-group mb-3 position-relative">
                 <label for="formInputRole">Ruolo</label>
                 <span class="isRequired">*</span>
                 <input type="text" 
                        class="form-control" 
                        id="formInputRole{jobIndex}" 
                        name="jobRole" 
-                       placeholder="Inserisci la posizione lavorativa che hai ricoperto" 
+                       placeholder="Inserisci la posizione lavorativa che hai ricoperto"
+                       maxlength="30"
                        bind:value={ job.role }
                 />
+                <span class="maxChars" class:text-danger={job.role.length ===
+                30}>
+                  {job.role.length} / 30
+                </span>
             </div>
 
-            <div class="form-group mb-3">
+            <div class="form-group mb-3 position-relative">
                 <label for="formInputCompany">Azienda</label>
                 <span class="isRequired">*</span>
                 <input type="text" 
                        class="form-control" 
                        id="formInputCompany{jobIndex}" 
                        name="company" 
-                       placeholder="Inserisci il nome dell'azienda" 
+                       placeholder="Inserisci il nome dell'azienda"
+                       maxlength="30"
                        bind:value={ job.company }
                 />
+                <span class="maxChars" class:text-danger={ job.company.length ===
+                  30 }>
+                  { job.company.length } / 30
+                </span>
             </div>
 
             <div class="form-group mb-3 position-relative">
@@ -704,7 +770,7 @@
 
           </div>
         
-          <div class="input-group mb-3">
+          <div class="input-group mb-3 position-relative">
 
             <select
 
@@ -727,12 +793,17 @@
                   id="formInputFieldOfStudy{educationIndex}"
                   name="FieldOfStudy"
                   placeholder="Inserisci il campo di studio"
+                  maxlength="30"
                   bind:value={education.fieldOfStudy} 
             >
+            <span class="maxChars" class:text-danger={ education.fieldOfStudy.length ===
+              30 }>
+              { education.fieldOfStudy.length } / 30
+            </span>
 
           </div>
 
-          <div class="mb-3">
+          <div class="mb-3 position-relative">
             <label for="formInputEducationType">Università/Ente di formazione/Scuola</label>
             <span class="isRequired">*</span>
             <input type="text" 
@@ -740,8 +811,13 @@
                   id="formInputEducationType{educationIndex}" 
                   name="educationType" 
                   placeholder="Inserisci la tipologia di formazione"
+                  maxlength="30"
                   bind:value={education.educationType}
             />
+            <span class="maxChars" class:text-danger={ education.educationType.length ===
+              30 }>
+              { education.educationType.length } / 30
+            </span>
           </div>
 
             <div class="mb-3 position-relative">
@@ -880,6 +956,7 @@
 
   .maxChars {
     position: absolute;
+    z-index: 5;
     font-size: 10px;
     bottom: 5px;
     right: 20px;
