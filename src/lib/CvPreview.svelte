@@ -219,7 +219,7 @@ function formattedDate(date: string) : string {
 
                     <div class="title-center-utility add-vertical-space-utility">
 
-                        {#if $formDataStore.languagesSkills.some(selectedLanguage => selectedLanguage.lang !== "" || selectedLanguage.level !== "" )  }
+                        {#if $formDataStore.languagesSkills.some(selectedLanguage => selectedLanguage.lang !== "")}
     
                             <h6>Competenze Linguistiche</h6>
     

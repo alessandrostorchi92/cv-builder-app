@@ -322,6 +322,7 @@
             class="form-control"
             id="formInputName"
             name="name"
+            autocomplete="off"
             placeholder="Inserisci il tuo nome"
             maxlength="30"
             bind:value={$formDataStore.name}
@@ -345,6 +346,7 @@
             class="form-control"
             id="formInputSurname"
             name="surname"
+            autocomplete="off"
             placeholder="Inserisci il tuo cognome"
             maxlength="20"
             bind:value={$formDataStore.surname}
@@ -368,6 +370,7 @@
             class="form-control"
             id="formInputProfession"
             name="profession"
+            autocomplete="off"
             placeholder="Inserisci la tua professione"
             maxlength="30"
             bind:value={$formDataStore.profession}
@@ -391,6 +394,7 @@
                  class="form-control"
                  id="formInputPlaceDate" 
                  name="birthDate"
+                 autocomplete="off"
                  placeholder="Inserisci il tuo luogo di nascita"
                  maxlength="30"
                  bind:value={$formDataStore.birthPlace}
@@ -412,7 +416,7 @@
 
           <input type="date"
                  class="form-control"
-                 id="formInputBirthDate" 
+                 id="formInputBirthDate"
                  name="birthDate" 
                  bind:value={$formDataStore.birthDate}
           />
@@ -428,6 +432,7 @@
             class="form-control"
             id="formInputAddress"
             name="address"
+            autocomplete="off"
             placeholder="Es: Via Roma 123, 00100 Roma"
             maxlength="80"
             bind:value={$formDataStore.address}
@@ -451,6 +456,7 @@
           <select
             class="form-select"
             id="formSelectPhonePrefix"
+            aria-label="phonePrefix select"
             name="phonePrefix"
             bind:value={$formDataStore.phonePrefix}
           >
@@ -464,6 +470,7 @@
             class="form-control"
             id="formSelectPhone"
             name="phone"
+            autocomplete="off"
             placeholder="Numero di cellulare"
             maxlength="10"
             bind:value={$formDataStore.phone}
@@ -483,6 +490,7 @@
             class="form-control"
             id="formInputEmail"
             name="email"
+            autocomplete="off"
             placeholder="Inserisci la tua email"
             maxlength="50"
             bind:value={$formDataStore.email}
@@ -575,6 +583,7 @@
 
               class="form-select"
               id="formSelectLanguages{languageIndex}"
+              aria-label="Language select"
               name="languages"
               bind:value={selectedLanguage.lang}>
 
@@ -589,6 +598,7 @@
             <select
               class="form-select me-1"
               id="formSelectLanguageLevels{languageIndex}"
+              aria-label="Language level select"
               name="languageLevels"
               bind:value={selectedLanguage.level}>
               <option value="" disabled selected>Livello</option>
@@ -678,7 +688,8 @@
                 <input type="text" 
                        class="form-control" 
                        id="formInputRole{jobIndex}" 
-                       name="jobRole" 
+                       name="jobRole"
+                       autocomplete="off"
                        placeholder="Inserisci la posizione lavorativa che hai ricoperto"
                        maxlength="30"
                        bind:value={ job.role }
@@ -695,7 +706,8 @@
                 <input type="text" 
                        class="form-control" 
                        id="formInputCompany{jobIndex}" 
-                       name="company" 
+                       name="company"
+                       autocomplete="off" 
                        placeholder="Inserisci il nome dell'azienda"
                        maxlength="30"
                        bind:value={ job.company }
@@ -776,6 +788,7 @@
 
               class="form-select"
               id="formSelectQualification{educationIndex}"
+              aria-label="Qualification select"
               name="qualification"
               bind:value={education.qualification}>
 
@@ -792,6 +805,7 @@
                   class="form-control"
                   id="formInputFieldOfStudy{educationIndex}"
                   name="FieldOfStudy"
+                  autocomplete="off"
                   placeholder="Inserisci il campo di studio"
                   maxlength="30"
                   bind:value={education.fieldOfStudy} 
@@ -809,7 +823,8 @@
             <input type="text" 
                   class="form-control" 
                   id="formInputEducationType{educationIndex}" 
-                  name="educationType" 
+                  name="educationType"
+                  autocomplete="off" 
                   placeholder="Inserisci la tipologia di formazione"
                   maxlength="30"
                   bind:value={education.educationType}
@@ -928,6 +943,10 @@
     display: none;
   }
 
+  input[type="date"] {
+    color: #9e9e9e;
+  }
+
   .custom-file-input {
     border-radius: 8px;
     border: 1px solid black;
@@ -935,6 +954,14 @@
     font-style: normal;
     padding: 0.8rem;
     cursor: pointer;
+  }
+
+  select {
+    color: #9e9e9e; 
+  }
+
+  option:not(:first-of-type) {
+    color: black;
   }
 
   label {
@@ -946,6 +973,8 @@
     color: red;
     font-size: 13px;
   }
+
+
   input::placeholder,
   textarea::placeholder {
     opacity: 0.5;
