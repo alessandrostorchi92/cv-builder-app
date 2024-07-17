@@ -2,50 +2,54 @@
 
 import { formDataStore, selectedFilePicture } from '../stores/form_store';
 
-import { jsPDF } from "jspdf";
+// import { jsPDF } from "jspdf";
 
 let hasPrivacyPolicyApproval = false;
 
-// $: console.log(hasPrivacyPolicyApproval);
+// function downloadCV() {
 
-function downloadCV() {
+//     const cvContent = document.querySelector('.cv-preview-container') as HTMLElement | null;
 
-    const cvContent = document.querySelector('.cv-preview-container') as HTMLElement | null;
+//     if (cvContent) {
 
-    if (cvContent) {
+//         const cvPdf = new jsPDF('p', 'px', 'a4');
 
-        const cvPdf = new jsPDF('p', 'px', 'a4');
-
-        const contentWidth: number = cvContent.offsetWidth;
-        const contentHeight: number = cvContent.offsetHeight;
-        const pageWidth: number = cvPdf.internal.pageSize.getWidth();
-        const pageHeight: number = cvPdf.internal.pageSize.getHeight();
+//         const contentWidth: number = cvContent.offsetWidth;
+//         const contentHeight: number = cvContent.offsetHeight;
+//         const pageWidth: number = cvPdf.internal.pageSize.getWidth();
+//         const pageHeight: number = cvPdf.internal.pageSize.getHeight();
        
     
-        cvPdf.html(cvContent, {
-            callback: function (pdf) {
+//         cvPdf.html(cvContent, {
+//             callback: function (pdf) {
 
-                pdf.save('curriculum-vitae.pdf');
-            },
+//                 pdf.save('curriculum-vitae.pdf');
+//             },
 
-            x: (pageWidth - contentWidth * 0.5) / 2,
-            y: (pageHeight - contentHeight * 0.5) / 2,    
+//             x: (pageWidth - contentWidth * 0.5) / 2,
+//             y: (pageHeight - contentHeight * 0.5) / 2,    
             
-            html2canvas: {
-                scale: 0.5,
-            },
+//             html2canvas: {
+//                 scale: 0.5,
+//             },
             
-        });
+//         });
 
-    } else {
-        console.error('Curriculum non trovato');
-    }
-}
+//     } else {
+//         console.error('Curriculum non trovato');
+//     }
+// }
 
-function formattedDate(date: string) : string {
+function formattedBirtDate(date: string) : string {
     if (!date) return '';
     const [year, month, day] = date.split('-');
     return `${day}/${month}/${year}`;
+}
+
+function formattedWorkAccademicDate(date: string) : string {
+    if (!date) return '';
+    const [year, month] = date.split('-');
+    return `${month}/${year}`;
 }
           
 </script>
@@ -120,7 +124,7 @@ function formattedDate(date: string) : string {
                                 
                         {/if}
 
-                        <span>{ formattedDate($formDataStore.birthDate) }</span>
+                        <span>{ formattedBirtDate($formDataStore.birthDate) }</span>
 
                     </div>
 
@@ -300,7 +304,7 @@ function formattedDate(date: string) : string {
 
                                 {#if job.startDateWorkExperience !== "" ||  job.endDateWorkExperience !== ""}
 
-                                    <span>({ job.startDateWorkExperience } / { job.endDateWorkExperience })</span>
+                                    <span>({ formattedWorkAccademicDate(job.startDateWorkExperience) } / { formattedWorkAccademicDate(job.endDateWorkExperience) })</span>
 
                                 {/if}
 
@@ -350,7 +354,7 @@ function formattedDate(date: string) : string {
 
                                     {#if education.startDateAcademicEducation || education.endDateAcademicEducation }
 
-                                        <span>({ education.startDateAcademicEducation } / { education.endDateAcademicEducation })</span>
+                                        <span>({ formattedWorkAccademicDate(education.startDateAcademicEducation) }  / { formattedWorkAccademicDate(education.endDateAcademicEducation) })</span>
 
                                     {/if}
                 

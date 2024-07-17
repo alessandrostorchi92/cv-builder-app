@@ -460,7 +460,7 @@
             name="phonePrefix"
             bind:value={$formDataStore.phonePrefix}
           >
-            <option value="" disabled selected class="prefix-option">Prefisso</option>
+            <option value="" disabled selected class="prefix-option" id="defaultOption"><span>Prefisso</span></option>
             {#each phonePrefixes as phonePrefix}
               <option value={phonePrefix.value}> {phonePrefix.label}</option>
             {/each}
@@ -956,13 +956,6 @@
     cursor: pointer;
   }
 
-  select {
-    color: #9e9e9e; 
-  }
-
-  option:not(:first-of-type) {
-    color: black;
-  }
 
   label {
     font-style: italic;
@@ -973,7 +966,6 @@
     color: red;
     font-size: 13px;
   }
-
 
   input::placeholder,
   textarea::placeholder {
