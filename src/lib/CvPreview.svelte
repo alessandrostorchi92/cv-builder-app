@@ -6,6 +6,13 @@ import { formDataStore, selectedFilePicture } from '../stores/form_store';
 
 let hasPrivacyPolicyApproval = false;
 
+function downloadCV() {
+
+    console.log("Download CV");
+    
+}
+
+
 // function downloadCV() {
 
 //     const cvContent = document.querySelector('.cv-preview-container') as HTMLElement | null;

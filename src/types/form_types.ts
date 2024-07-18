@@ -46,12 +46,5 @@
     export let selectedFilePicture:string;
 
 
-
-
-
-
-
-        
-
-
+    
 

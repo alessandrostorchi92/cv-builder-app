@@ -1,7 +1,9 @@
 <script lang="ts">
 
   import { formDataStore, selectedFilePicture } from '../stores/form_store';
-  
+
+  import { checkNameInput, checkSurnameInput, checkProfessionInput, checkBirthPlaceInput } from '../validators/form_validation';
+
   const phonePrefixes = [
 
   { value: "+93", label: "Afghanistan (+93)" },
@@ -314,26 +316,24 @@
 
         <!-- Name -->
 
-        <div class="form-group mb-3 position-relative">
-          <label for="formInputName">Nome</label>
-          <span class="isRequired">*</span>
-          <input
-            type="text"
-            class="form-control"
-            id="formInputName"
-            name="name"
-            autocomplete="off"
-            placeholder="Inserisci il tuo nome"
-            maxlength="30"
-            bind:value={$formDataStore.name}
-          />
-          <span
-            class="maxChars"
-            class:text-danger={$formDataStore.name.length ===
-              30}
-          >
-            {$formDataStore.name.length} / 30
-          </span>
+          <div class="form-group mb-3">
+            <label for="formInputName">Nome</label>
+            <span class="isRequired">*</span>
+
+            <input
+              type="text"
+              class="form-control"
+              id="formInputName"
+              name="name"
+              autocomplete="off"
+              placeholder="Inserisci il tuo nome"
+              bind:value={$formDataStore.name}
+              on:blur={() => checkNameInput()}
+            />
+
+          <div class="success-name-message"></div>
+          <div class="error-name-messages"></div>
+
         </div>
 
         <!-- Cognome -->
@@ -341,6 +341,7 @@
         <div class="form-group mb-3 position-relative">
           <label for="formInputSurname">Cognome</label>
           <span class="isRequired">*</span>
+
           <input
             type="text"
             class="form-control"
@@ -348,16 +349,13 @@
             name="surname"
             autocomplete="off"
             placeholder="Inserisci il tuo cognome"
-            maxlength="20"
             bind:value={$formDataStore.surname}
+            on:blur={() => checkSurnameInput()}
           />
-          <span
-            class="maxChars"
-            class:text-danger={$formDataStore.surname.length ===
-              20}
-          >
-            {$formDataStore.surname.length} / 20
-          </span>
+
+          <div class="success-surname-message"></div>
+          <div class="error-surname-messages"></div>
+          
         </div>
 
         <!-- Professione -->
@@ -365,6 +363,7 @@
         <div class="form-group mb-3 position-relative">
           <label for="formInputProfession">Professione</label>
           <span class="isRequired">*</span>
+
           <input
             type="text"
             class="form-control"
@@ -372,16 +371,13 @@
             name="profession"
             autocomplete="off"
             placeholder="Inserisci la tua professione"
-            maxlength="30"
             bind:value={$formDataStore.profession}
+            on:blur={() => checkProfessionInput()}
           />
-          <span
-            class="maxChars"
-            class:text-danger={$formDataStore.profession.length ===
-              30}
-          >
-            {$formDataStore.profession.length} / 30
-          </span>
+
+          <div class="success-profession-message"></div>
+          <div class="error-profession-messages"></div>
+          
         </div>
         
         <!---- Luogo di Nascita ---->
@@ -396,16 +392,13 @@
                  name="birthDate"
                  autocomplete="off"
                  placeholder="Inserisci il tuo luogo di nascita"
-                 maxlength="30"
                  bind:value={$formDataStore.birthPlace}
+                 on:blur={() => checkBirthPlaceInput()}
           />
-          <span
-          class="maxChars"
-          class:text-danger={$formDataStore.birthPlace.length ===
-            30}
-          >
-          {$formDataStore.birthPlace.length} / 30
-          </span>
+          
+          <div class="success-birthplace-message"></div>
+          <div class="error-birthplace-messages"></div>
+
         </div>
 
         <!---- Data di Nascita ---->
@@ -456,11 +449,11 @@
           <select
             class="form-select"
             id="formSelectPhonePrefix"
-            aria-label="phonePrefix select"
+            aria-label="PhonePrefixSelect"
             name="phonePrefix"
             bind:value={$formDataStore.phonePrefix}
           >
-            <option value="" disabled selected class="prefix-option" id="defaultOption"><span>Prefisso</span></option>
+            <option value="" disabled class="prefix-option" id="defaultOption"><span>Prefisso</span></option>
             {#each phonePrefixes as phonePrefix}
               <option value={phonePrefix.value}> {phonePrefix.label}</option>
             {/each}
@@ -583,11 +576,11 @@
 
               class="form-select"
               id="formSelectLanguages{languageIndex}"
-              aria-label="Language select"
+              aria-label="LanguageSelect"
               name="languages"
               bind:value={selectedLanguage.lang}>
 
-              <option value="" disabled selected>Lingue</option>
+              <option value="" disabled>Lingue</option>
 
               {#each optionsLanguages as optionsLanguage (optionsLanguage.value)}
                 <option value={ optionsLanguage.value }> { optionsLanguage.label }</option>
@@ -598,10 +591,10 @@
             <select
               class="form-select me-1"
               id="formSelectLanguageLevels{languageIndex}"
-              aria-label="Language level select"
+              aria-label="LanguageLevelSelect"
               name="languageLevels"
               bind:value={selectedLanguage.level}>
-              <option value="" disabled selected>Livello</option>
+              <option value="" disabled>Livello</option>
 
               {#each optionslanguageLevels as optionslanguageLevel (optionslanguageLevel.value)}
                 <option value={optionslanguageLevel.value}
@@ -788,11 +781,11 @@
 
               class="form-select"
               id="formSelectQualification{educationIndex}"
-              aria-label="Qualification select"
+              aria-label="QualificationSelect"
               name="qualification"
               bind:value={education.qualification}>
 
-              <option value="" disabled selected>Titolo di Studio</option>
+              <option value="" disabled>Titolo di Studio</option>
 
               {#each educationLevels as educationLevel(educationLevel.value)}
               <option value={educationLevel.value}>{educationLevel.value}</option>
@@ -956,32 +949,28 @@
     cursor: pointer;
   }
 
-
   label {
-    font-style: italic;
-    font-size: 13px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #293133;
   }
 
   .isRequired {
     color: red;
-    font-size: 13px;
+    font-size: 14px;
   }
 
   input::placeholder,
   textarea::placeholder {
     opacity: 0.5;
-  }
-  option.prefix-option {
-  color: #999;
-  }
+  } 
 
   .maxChars {
-    position: absolute;
-    z-index: 5;
-    font-size: 10px;
-    bottom: 5px;
-    right: 20px;
+   
+    font-size: 11px;
     color: grey;
+    width: 100px;
+    padding: 0 1rem;
   }
 
   .btn-add-style {
