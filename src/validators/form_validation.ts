@@ -1,4 +1,3 @@
-
 export function checkNameInput(): void {
 
     const userNameInput: HTMLInputElement | null = document.querySelector("[name='name']");
@@ -544,7 +543,7 @@ export function checkEmailInput() {
 
 };
 
-export function checkProfileSummary(){
+export function checkProfileSummaryTextArea(){
 
     const profileSummaryTextArea: HTMLTextAreaElement | null = document.querySelector("[name='profileSummary']");
     const errorProfileSummaryMessages: HTMLDivElement | null = document.querySelector(".error-profile-summary-messages");
@@ -608,7 +607,7 @@ export function checkProfileSummary(){
 
 };
 
-export function checkDigitalSkills() {
+export function checkDigitalSkillsTextArea() {
 
     const digitalSkillsTextArea: HTMLTextAreaElement | null = document.querySelector("[name='digitalSkills']");
     const errorDigitalSkillsMessages: HTMLDivElement | null = document.querySelector(".error-digital-skills-messages");
@@ -725,27 +724,27 @@ export function checkProtectedCategoryRadios() {
     } else {
         setProtectedCategorySuccessFeedback('Opzione selezionata correttamente');
     }
-}
+};
 
-export function checklanguageSelect() {
+export function checkLanguageSelect(index: number) {
 
-    const userLanguageSelect: HTMLInputElement | null = document.querySelector("[name='languages']");
-    const errorLanguageMessage: HTMLDivElement | null = document.querySelector(".error-language-message");
-    const successLanguageMessage: HTMLDivElement | null = document.querySelector(".success-language-message");
-
+    const languageSelect: HTMLSelectElement | null = document.querySelector(`#formSelectLanguages${index}`);
+    const errorLanguageMessage: HTMLDivElement | null = document.querySelector(`#error-language-message${index}`);
+    const successLanguageMessage: HTMLDivElement | null = document.querySelector(`#success-language-message${index}`);
+    
     const setLanguageErrorFeedback = (message:string) => {
 
-        if(errorLanguageMessage) {
+        if (errorLanguageMessage) {
             errorLanguageMessage.innerText = message;
             errorLanguageMessage.classList.add("error-user-data", "fw-medium");
             errorLanguageMessage.style.fontSize = "0.8rem";
         }
 
-        if(userLanguageSelect) {
-            userLanguageSelect.classList.add("is-invalid");
+        if (languageSelect) {
+            languageSelect.classList.add("is-invalid");
         }
 
-        if(successLanguageMessage) {
+        if (successLanguageMessage) {
             successLanguageMessage.innerText = "";
         }
 
@@ -753,28 +752,28 @@ export function checklanguageSelect() {
 
     const setLanguageSuccessFeedback = (message:string) => {
 
-        if(successLanguageMessage) {
+        if (successLanguageMessage) {
             successLanguageMessage.innerText = message;
             successLanguageMessage.classList.add("success-user-data", "fw-medium");
             successLanguageMessage.style.fontSize = "0.8rem";
         }
 
-        if(userLanguageSelect) {
-            userLanguageSelect.classList.remove("is-invalid");
-            userLanguageSelect.classList.add("is-valid");
+        if (languageSelect) {
+            languageSelect.classList.remove("is-invalid");
+            languageSelect.classList.add("is-valid");
         }
 
-        if(errorLanguageMessage) {
+        if (errorLanguageMessage) {
             errorLanguageMessage.innerText = "";
         }
 
     };
 
-    if(userLanguageSelect) {
+    if (languageSelect) {
 
-        const userLanguageOption = userLanguageSelect.value.trim();
+        const languageOption = languageSelect.value.trim();
 
-        if(userLanguageOption === "") {
+        if (languageOption === "") {
 
             setLanguageErrorFeedback("Seleziona almeno una lingua");
 
@@ -788,25 +787,25 @@ export function checklanguageSelect() {
 
 };
 
-export function checklanguageLevelSelect() {
+export function checkLanguageLevelSelect(index: number) {
 
-    const userLanguageLevelSelect: HTMLInputElement | null = document.querySelector("[name='languageLevels']");
-    const errorLanguageLevelMessage: HTMLDivElement | null = document.querySelector(".error-language-level-message");
-    const successLanguageLevelMessage: HTMLDivElement | null = document.querySelector(".success-language-level-message");
+    const languageLevelSelect: HTMLInputElement | null = document.querySelector(`#formSelectLanguageLevels${index}`);
+    const errorLanguageLevelMessage: HTMLDivElement | null = document.querySelector(`#error-language-level-message${index}`);
+    const successLanguageLevelMessage: HTMLDivElement | null = document.querySelector(`#success-language-level-message${index}`);
 
     const setLanguageLevelErrorFeedback = (message:string) => {
 
-        if(errorLanguageLevelMessage) {
+        if (errorLanguageLevelMessage) {
             errorLanguageLevelMessage.innerText = message;
             errorLanguageLevelMessage.classList.add("error-user-data", "fw-medium");
             errorLanguageLevelMessage.style.fontSize = "0.8rem";
         }
 
-        if(userLanguageLevelSelect) {
-            userLanguageLevelSelect.classList.add("is-invalid");
+        if (languageLevelSelect) {
+            languageLevelSelect.classList.add("is-invalid");
         }
 
-        if(successLanguageLevelMessage) {
+        if (successLanguageLevelMessage) {
             successLanguageLevelMessage.innerText = "";
         }
 
@@ -814,28 +813,28 @@ export function checklanguageLevelSelect() {
 
     const setLanguageLevelSuccessFeedback = (message:string) => {
 
-        if(successLanguageLevelMessage) {
+        if (successLanguageLevelMessage) {
             successLanguageLevelMessage.innerText = message;
             successLanguageLevelMessage.classList.add("success-user-data", "fw-medium");
             successLanguageLevelMessage.style.fontSize = "0.8rem";
         }
 
-        if(userLanguageLevelSelect) {
-            userLanguageLevelSelect.classList.remove("is-invalid");
-            userLanguageLevelSelect.classList.add("is-valid");
+        if (languageLevelSelect) {
+            languageLevelSelect.classList.remove("is-invalid");
+            languageLevelSelect.classList.add("is-valid");
         }
 
-        if(errorLanguageLevelMessage) {
+        if (errorLanguageLevelMessage) {
             errorLanguageLevelMessage.innerText = "";
         }
 
     };
 
-    if(userLanguageLevelSelect) {
+    if (languageLevelSelect) {
 
-        const userLanguageLevelOption = userLanguageLevelSelect.value.trim();
+        const languageLevelOption = languageLevelSelect.value.trim();
 
-        if(userLanguageLevelOption  === "") {
+        if (languageLevelOption === "") {
 
             setLanguageLevelErrorFeedback("Seleziona almeno un livello di lingua");
 
@@ -849,9 +848,160 @@ export function checklanguageLevelSelect() {
 
 };
 
+export function checkJobRoleTextInput(index: number) {
+
+    const jobRoleTextInput: HTMLInputElement | null = document.querySelector(`#textInputJobRole${index}`);
+    const errorJobRoleMessages: HTMLDivElement | null = document.querySelector(`#error-job-role-messages${index}`);
+    const successJobRoleMessage: HTMLDivElement | null = document.querySelector(`#success-job-role-message${index}`);
+
+
+    const setJobRoleErrorFeedBack = (message:string) => {
+
+        if(errorJobRoleMessages) {
+            errorJobRoleMessages.innerText = message;
+            errorJobRoleMessages.classList.add("error-user-data", "fw-medium");
+            errorJobRoleMessages.style.fontSize = "0.8rem";
+        }
+
+        if(jobRoleTextInput) {
+            jobRoleTextInput.classList.add("is-invalid");
+        }
+
+        if(successJobRoleMessage) {
+            successJobRoleMessage.innerText = "";
+        }
+
+    };
+
+    const setJobRoleSuccessFeedback= (message:string) => {
+
+        if(successJobRoleMessage) {
+            successJobRoleMessage.innerText = message;
+            successJobRoleMessage.classList.add("success-user-data", "fw-medium");
+            successJobRoleMessage.style.fontSize = "0.8rem";
+        }
+
+        if(jobRoleTextInput) {
+            jobRoleTextInput.classList.remove("is-invalid");
+            jobRoleTextInput.classList.add("is-valid");
+        }
+
+        if(errorJobRoleMessages) {
+            errorJobRoleMessages.innerText = "";
+        }
+
+    };
+
+    if(jobRoleTextInput) {
+
+        const jobRoleValue = jobRoleTextInput.value.trim();
+
+        if(jobRoleValue === "") {
+
+            setJobRoleErrorFeedBack("Il campo ruolo è obbligatorio");
+
+        } else if(jobRoleValue.length > 40) {
+
+            setJobRoleErrorFeedBack("Mi dispiace, il campo ruolo non può contenere più di 30 caratteri");
+
+        } else {
+
+            setJobRoleSuccessFeedback("Ottimo lavoro, il campo ruolo è corretto");
+
+        }
+    
+    }
+
+};
+
+export function checkCompanyTextInput(index: number) {
+
+    const companyTextInput: HTMLInputElement | null = document.querySelector(`#textInputCompany${index}`);
+    const errorCompanyMessages: HTMLDivElement | null = document.querySelector(`#error-company-messages${index}`);
+    const successCompanyMessage: HTMLDivElement | null = document.querySelector(`#success-company-message${index}`);
+
+    const setCompanyErrorFeedBack = (message:string) => {
+
+        if(errorCompanyMessages) {
+            errorCompanyMessages.innerText = message;
+            errorCompanyMessages.classList.add("error-user-data", "fw-medium");
+            errorCompanyMessages.style.fontSize = "0.8rem";
+        }
+
+        if(companyTextInput) {
+            companyTextInput.classList.add("is-invalid");
+        }
+
+        if(successCompanyMessage) {
+            successCompanyMessage.innerText = "";
+        }
+
+    };
+
+    const setCompanySuccessFeedback= (message:string) => {
+
+        if(successCompanyMessage) {
+            successCompanyMessage.innerText = message;
+            successCompanyMessage.classList.add("success-user-data", "fw-medium");
+            successCompanyMessage.style.fontSize = "0.8rem";
+        }
+
+        if(companyTextInput) {
+            companyTextInput.classList.remove("is-invalid");
+            companyTextInput.classList.add("is-valid");
+        }
+
+        if(errorCompanyMessages) {
+            errorCompanyMessages.innerText = "";
+        }
+
+        if(companyTextInput) {
+
+            const companyValue = companyTextInput.value.trim();
+    
+            if(companyValue === "") {
+    
+                setCompanyErrorFeedBack("Il campo azienda è obbligatorio");
+    
+            } else if(companyValue.length > 30) {
+    
+                setCompanyErrorFeedBack("Mi dispiace, il campo azienda non può contenere più di 30 caratteri");
+    
+            } else {
+    
+                setCompanySuccessFeedback("Ottimo lavoro, il campo azienda è corretto");
+    
+            }
+        
+        }
+
+    };
+
+    if(companyTextInput) {
+
+        const companyValue = companyTextInput.value.trim();
+
+        if(companyValue === "") {
+
+            setCompanyErrorFeedBack("Mi dispiace, il campo azienda è obbligatorio");
+
+        } else if(companyValue.length > 40) {
+
+            setCompanyErrorFeedBack("Mi dispiace, il campo azienda non può contenere più di 30 caratteri");
+
+        } else {
+
+            setCompanySuccessFeedback("Ottimo lavoro, il campo azienda è corretto");
+
+        }
+    
+    }
+
+};
+
 export function checkWorkExperienceResults(index: number) {
 
-    const workExperienceResultsTextArea: HTMLTextAreaElement | null = document.querySelector(`#formInputTextAreaWorkExperienceResults${index}`);
+    const workExperienceResultsTextArea: HTMLTextAreaElement | null = document.querySelector(`#textAreaInputWorkExperienceResults${index}`);
     const errorWorkExperienceResultsMessages: HTMLDivElement | null = document.querySelector(`#error-work-experience-results-messages${index}`);
     const successWorkExperienceResultsMessage: HTMLDivElement | null = document.querySelector(`#success-work-experience-results-message${index}`);
 
@@ -905,13 +1055,135 @@ export function checkWorkExperienceResults(index: number) {
 
         } else {
 
-            setProfileSummarySuccessFeedback ("Ottimo, il campo profilo personale è corretto");
+            setProfileSummarySuccessFeedback ("Ottimo lavoro, il campo profilo personale è corretto");
 
         }
     
     }
 
-}
+};
+
+export function checkStartAndEndWorkExperienceDateInput(index: number) {
+    
+    const startDateWorkExperienceDateInput: HTMLInputElement | null = document.querySelector(`#startDateInputWorkExperience${index}`);
+    const errorStartDateWorkExperienceMessage: HTMLDivElement | null = document.querySelector(`#error-startDateWorkExperience-message${index}`);
+    const successStartDateWorkExperienceMessage: HTMLDivElement | null = document.querySelector(`#success-startDateWorkExperience-message${index}`);
+    
+    const setStartDateWorkExperienceErrorFeedBack = (message: string) => {
+
+        if(errorStartDateWorkExperienceMessage) {
+            errorStartDateWorkExperienceMessage.innerText = message;
+            errorStartDateWorkExperienceMessage.classList.add("error-user-data", "fw-medium");
+            errorStartDateWorkExperienceMessage.style.fontSize = "0.8rem";
+        }
+
+        if(startDateWorkExperienceDateInput) {
+            startDateWorkExperienceDateInput.classList.add("is-invalid");
+        }
+
+        if(successStartDateWorkExperienceMessage) {
+            successStartDateWorkExperienceMessage.innerText = "";
+        }
+    };
+
+    const setStartDateWorkExperienceSuccessFeedBack = (message: string) => {
+
+        if(successStartDateWorkExperienceMessage) {
+            successStartDateWorkExperienceMessage.innerText = message;
+            successStartDateWorkExperienceMessage.classList.add("success-user-data", "fw-medium");
+            successStartDateWorkExperienceMessage.style.fontSize = "0.8rem"
+        }
+
+        if(startDateWorkExperienceDateInput) {
+            startDateWorkExperienceDateInput.classList.remove("is-invalid");
+            startDateWorkExperienceDateInput.classList.add("is-valid");
+        }
+
+        if(errorStartDateWorkExperienceMessage) {
+            errorStartDateWorkExperienceMessage.innerText = "";
+        }
+
+    };
+
+    const endDateWorkExperienceDateInput: HTMLInputElement | null = document.querySelector(`#endDateInputWorkExperience${index}`);
+    const errorEndDateWorkExperienceMessage: HTMLDivElement | null = document.querySelector(`#error-endDateWorkExperience-message${index}`);
+    const successEndDateWorkExperienceMessage: HTMLDivElement | null = document.querySelector(`#success-endDateWorkExperience-message${index}`);
+
+    const setEndDateWorkExperienceErrorFeedBack = (message: string) => {
+
+        if(errorEndDateWorkExperienceMessage) {
+            errorEndDateWorkExperienceMessage.innerText = message;
+            errorEndDateWorkExperienceMessage.classList.add("error-user-data", "fw-medium");
+            errorEndDateWorkExperienceMessage.style.fontSize = "0.8rem";
+        }
+
+        if(endDateWorkExperienceDateInput) {
+            endDateWorkExperienceDateInput.classList.add("is-invalid");
+        }
+
+        if(successEndDateWorkExperienceMessage) {
+            successEndDateWorkExperienceMessage.innerText = "";
+        }
+    };
+
+    const setEndDateWorkExperienceSuccessFeedBack = (message: string) => {
+
+        if(successEndDateWorkExperienceMessage) {
+            successEndDateWorkExperienceMessage.innerText = message;
+            successEndDateWorkExperienceMessage.classList.add("success-user-data", "fw-medium");
+            successEndDateWorkExperienceMessage.style.fontSize = "0.8rem"
+        }
+
+        if(endDateWorkExperienceDateInput) {
+            endDateWorkExperienceDateInput.classList.remove("is-invalid");
+            endDateWorkExperienceDateInput.classList.add("is-valid");
+        }
+
+        if(errorEndDateWorkExperienceMessage) {
+            errorEndDateWorkExperienceMessage.innerText = "";
+        }
+
+    };
+
+    if((startDateWorkExperienceDateInput && endDateWorkExperienceDateInput)) {
+
+        const startDateWorkExperienceValue = startDateWorkExperienceDateInput.value.trim();
+        const endDateWorkExperienceValue = endDateWorkExperienceDateInput.value.trim();
+
+        if(startDateWorkExperienceValue === "") {
+
+            setStartDateWorkExperienceErrorFeedBack("Mi dispiace, il campo data di inizio è obbligatorio");
+
+        } 
+        
+        if(endDateWorkExperienceValue === "") {
+
+            setEndDateWorkExperienceErrorFeedBack("Mi dispiace, il campo data di fine è obbligatorio");
+
+        } 
+        
+        if(startDateWorkExperienceValue !== "" && endDateWorkExperienceValue !== ""){
+
+            const startDateWorkExperienceObject = new Date(startDateWorkExperienceValue);
+            const endDateWorkExperienceObject = new Date(endDateWorkExperienceValue);
+
+            if (startDateWorkExperienceObject > endDateWorkExperienceObject) {
+
+                setStartDateWorkExperienceErrorFeedBack("Mi dispiace, la data di inizio non può essere successiva alla data di fine");
+                setEndDateWorkExperienceErrorFeedBack("Mi dispiace, la data di fine non può essere precedente alla data di inizio");
+
+            } else {
+
+                setStartDateWorkExperienceSuccessFeedBack("Ottimo lavoro, il campo data di inizio è corretto");
+                setEndDateWorkExperienceSuccessFeedBack("Ottimo lavoro, il campo data di fine è corretto");
+
+            }
+
+        }
+  
+    }
+
+};
 
 export function checkEducationGoals(index:number) {
 
@@ -969,13 +1241,14 @@ export function checkEducationGoals(index:number) {
 
         } else {
 
-            setProfileSummarySuccessFeedback ("Ottimo, il campo risultati accademici raggiunti è corretto");
+            setProfileSummarySuccessFeedback ("Ottimo lavoro, il campo risultati accademici raggiunti è corretto");
 
         }
     
     }
 
-}
+};
+
 
             
         

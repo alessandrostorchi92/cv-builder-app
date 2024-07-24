@@ -1,9 +1,8 @@
 <script lang="ts">
 
   import { formDataStore, selectedFilePicture } from '../stores/form_store';
-
-  import { checkNameInput, checkSurnameInput, checkProfessionInput, checkBirthPlaceInput, checkAddressInput, checkPhonePrefixSelect, checkPhoneInput, checkEmailInput, checkProfileSummary, checkProtectedCategoryRadios, checkDigitalSkills, checklanguageSelect, checklanguageLevelSelect, checkWorkExperienceResults, checkEducationGoals } from '../validators/form_validation';
-
+  import * as validators from '../validators/form_validation'
+  
   const phonePrefixes = [
 
   { value: "+93", label: "Afghanistan (+93)" },
@@ -202,9 +201,6 @@
 
   ];
 
-  const maxTextAreaLength: number = 500;
-  const minextAreaLength: number = 300;
-
   function getUrlImg() {
 
     if($formDataStore.filePicture) {
@@ -277,6 +273,7 @@
 </script>
 
 <div id="sidebar" class="flex-column-utility">
+
   <!-- Informazioni di contatto -->
 
   <div class="flex-center-utility p-4">
@@ -334,7 +331,7 @@
               autocomplete="off"
               placeholder="Inserisci il tuo nome"
               bind:value={$formDataStore.name}
-              on:blur={() => checkNameInput()}
+              on:blur={() => validators.checkNameInput()}
           />
           
           <div class="success-user-data success-name-message"></div>
@@ -356,7 +353,7 @@
             autocomplete="off"
             placeholder="Inserisci il tuo cognome"
             bind:value={$formDataStore.surname}
-            on:blur={() => checkSurnameInput()}
+            on:blur={() => validators.checkSurnameInput()}
           />
 
           <div class="success-user-data success-surname-message"></div>
@@ -378,7 +375,7 @@
             autocomplete="off"
             placeholder="Inserisci la tua professione"
             bind:value={$formDataStore.profession}
-            on:blur={() => checkProfessionInput()}
+            on:blur={() => validators.checkProfessionInput()}
           />
 
           <div class="success-user-data success-profession-message"></div>
@@ -399,7 +396,7 @@
                  autocomplete="off"
                  placeholder="Inserisci il tuo luogo di nascita"
                  bind:value={$formDataStore.birthPlace}
-                 on:blur={() => checkBirthPlaceInput()}
+                 on:blur={() => validators.checkBirthPlaceInput()}
           />
           
           <div class="success-birthplace-message"></div>
@@ -437,7 +434,7 @@
             autocomplete="off"
             placeholder="Es: Via Roma 123, 00100 Roma"
             bind:value={$formDataStore.address}
-            on:blur={() => checkAddressInput()}
+            on:blur={() => validators.checkAddressInput()}
           />
 
           <div class="success-address-message"></div>
@@ -460,7 +457,7 @@
               aria-label="PhonePrefixSelect"
               name="phonePrefix"
               bind:value={$formDataStore.phonePrefix}
-              on:blur={() => checkPhonePrefixSelect()}>
+              on:blur={() => validators.checkPhonePrefixSelect()}>
 
               <option value="" disabled class="prefix-option" id="defaultOption"><span>Prefisso</span></option>
               {#each phonePrefixes as phonePrefix}
@@ -477,7 +474,7 @@
               autocomplete="off"
               placeholder="Numero di cellulare"
               bind:value={$formDataStore.phone}
-            on:blur={() => checkPhoneInput()}
+            on:blur={() => validators.checkPhoneInput()}
           />
 
           <div class="visual-feedback-group-container">
@@ -509,7 +506,7 @@
             autocomplete="off"
             placeholder="mario.rossi@gmail.com"
             bind:value={$formDataStore.email}
-            on:input={() => checkEmailInput()}
+            on:input={() => validators.checkEmailInput()}
           />
 
           <div class="success-email-message"></div>
@@ -529,7 +526,7 @@
           rows="4"
           placeholder="Descriviti in poche righe..."
           bind:value={$formDataStore.profileSummary}
-          on:input={() => checkProfileSummary()}
+          on:input={() => validators.checkProfileSummaryTextArea()}
           ></textarea>
 
           <div class="success-profile-summary-message"></div>
@@ -552,7 +549,7 @@
                 id="protectedCategoryLeftRadio" 
                 value="Si"
                 bind:group={$formDataStore.isProtectedCategory}
-                on:blur={() => checkProtectedCategoryRadios()}
+                on:blur={() => validators.checkProtectedCategoryRadios()}
             >
             <label class="form-check-label" for="radio1">Sì</label>
           </div>
@@ -564,7 +561,7 @@
                 id="protectedCategoryRightRadio"  
                 value="No"
                 bind:group={$formDataStore.isProtectedCategory}
-                on:blur={() => checkProtectedCategoryRadios()}
+                on:blur={() => validators.checkProtectedCategoryRadios()}
               >
             <label class="form-check-label" for="radio2">No</label>
           </div>
@@ -586,7 +583,7 @@
           rows="4"
           placeholder="Illustraci le tue competenze digitali..."
           bind:value={$formDataStore.digitalSkills}
-          on:input={() => checkDigitalSkills()}
+          on:input={() => validators.checkDigitalSkillsTextArea()}
           ></textarea>
 
           <div class="success-digital-skills-message"></div>
@@ -595,70 +592,53 @@
 
          <!-- Lingue -->
 
-         <div class="d-flex">
+         <div>
           <label for="formLabelLanguages">Lingue</label>
           <span class="isRequired">*</span>
          </div>
 
-        {#each $formDataStore.languagesSkills as selectedLanguage, languageIndex}
-
-          <div class="input-group mb-3">
-
-            <select
-              class="form-select"
-              style="width: 40%;"
-              id="formSelectLanguages{languageIndex}"
-              aria-label="LanguageSelect"
-              name="languages"
-              bind:value={selectedLanguage.lang}
-              on:blur={() => checklanguageSelect()}>
-
-              <option value="" disabled>Lingue</option>
-
-              {#each optionsLanguages as optionsLanguage (optionsLanguage.value)}
-                <option value={ optionsLanguage.value }> { optionsLanguage.label }</option>
-              {/each}
-            </select>
-
-            <select
-              class="form-select"
-              style="width: 60%;"
-              id="formSelectLanguageLevels{languageIndex}"
-              aria-label="LanguageLevelSelect"
-              name="languageLevels"
-              bind:value={selectedLanguage.level}
-              on:blur={() => checklanguageLevelSelect()}>
-
-              <option value="" disabled>Livello</option>
-
-              {#each optionslanguageLevels as optionslanguageLevel (optionslanguageLevel.value)}
-                <option value={optionslanguageLevel.value}>{optionslanguageLevel.label}</option>
-              {/each}
-            </select>
-
-            {#if languageIndex > 0}
-              <div class="input-group-append">
-                <button type="button" class="btn-remove-style" on:click={() => removeLanguage(languageIndex)}><i class="fa-solid fa-trash"></i></button>
-              </div>
-            {/if}
-
-            <div class="visual-feedback-group-container">
-
-              <div class="left-visual-feedback-position">
-                <div class="success-user-data success-language-message"></div>
-                <div class="error-user-data error-language-message"></div>
-              </div>
-  
-              <div class="right-visual-feedback-position">
-                <div class="success-user-data success-language-level-message"></div>
-                <div class="error-user-data error-language-level-message"></div>
-              </div>
-
-            </div>
-
-          </div>
-
-        {/each}
+         {#each $formDataStore.languagesSkills as selectedLanguage, languageIndex}
+         <div class="input-group mb-3">
+             <select
+                 class="form-select"
+                 id="formSelectLanguages{languageIndex}"
+                 name="languages"
+                 bind:value={selectedLanguage.lang}
+                 on:blur={() => validators.checkLanguageSelect(languageIndex)}>
+                 <option value="" disabled>Lingue</option>
+                 {#each optionsLanguages as optionsLanguage (optionsLanguage.value)}
+                     <option value={optionsLanguage.value}>{optionsLanguage.label}</option>
+                 {/each}
+             </select>
+             <select
+                 class="form-select"
+                 id="formSelectLanguageLevels{languageIndex}"
+                 name="languageLevels"
+                 bind:value={selectedLanguage.level}
+                 on:blur={() => validators.checkLanguageLevelSelect(languageIndex)}>
+                 <option value="" disabled>Livello</option>
+                 {#each optionslanguageLevels as optionslanguageLevel (optionslanguageLevel.value)}
+                     <option value={optionslanguageLevel.value}>{optionslanguageLevel.label}</option>
+                 {/each}
+             </select>
+             {#if languageIndex > 0}
+                 <div class="input-group-append px-2"
+                      style="width: 10%;">
+                     <button type="button" class="btn-remove-style" on:click={() => removeLanguage(languageIndex)}><i class="fa-solid fa-trash"></i></button>
+                 </div>
+             {/if}
+             <div class="visual-feedback-group-container">
+                 <div class="left-visual-feedback-position">
+                     <div class="success-user-data" id="success-language-message{languageIndex}"></div>
+                     <div class="error-user-data" id="error-language-message{languageIndex}"></div>
+                 </div>
+                 <div class="right-visual-feedback-position">
+                     <div class="success-user-data" id="success-language-level-message{languageIndex}"></div>
+                     <div class="error-user-data" id="error-language-level-message{languageIndex}"></div>
+                 </div>
+             </div>
+         </div>
+         {/each}
 
         <div class="flex-center-utility">
           <button type="button" class="btn-add-style" on:click={() => addLanguage()} disabled={disableAddLanguageButton}><i class="fa-solid fa-plus"></i></button>
@@ -715,52 +695,53 @@
 
         {#each $formDataStore.jobs as job, jobIndex}
 
-            <div class="form-group mb-3 position-relative">
-                <label for="formInputRole">Ruolo</label>
+            <div class="form-group mb-3">
+                <label for="textInputJobRole{jobIndex}">Ruolo</label>
                 <span class="isRequired">*</span>
                 <input type="text" 
                        class="form-control" 
-                       id="formInputRole{jobIndex}" 
+                       id="textInputJobRole{jobIndex}" 
                        name="jobRole"
                        autocomplete="off"
                        placeholder="Inserisci la posizione lavorativa che hai ricoperto"
-                       maxlength="30"
                        bind:value={ job.role }
+                       on:input={() => validators.checkJobRoleTextInput(jobIndex)}
                 />
-                <span class="maxChars" class:text-danger={job.role.length === 30}>
-                  {job.role.length} / 30
-                </span>
-            </div>
 
-            <div class="form-group mb-3 position-relative">
-                <label for="formInputCompany">Azienda</label>
-                <span class="isRequired">*</span>
-                <input type="text" 
-                       class="form-control" 
-                       id="formInputCompany{jobIndex}" 
-                       name="company"
-                       autocomplete="off" 
-                       placeholder="Inserisci il nome dell'azienda"
-                       maxlength="30"
-                       bind:value={ job.company }
-                />
-                <span class="maxChars" class:text-danger={ job.company.length ===
-                  30 }>
-                  { job.company.length } / 30
-                </span>
+                <div id="success-job-role-message{jobIndex}"></div>
+                <div id="error-job-role-messages{jobIndex}"></div>
+
             </div>
 
             <div class="form-group mb-3">
-                <label for="formInputWorkExperienceResults{jobIndex}">Risultati professionali ottenuti</label>
+                <label for="textInputCompany{jobIndex}">Azienda</label>
+                <span class="isRequired">*</span>
+                <input type="text" 
+                       class="form-control" 
+                       id="textInputCompany{jobIndex}" 
+                       name="company"
+                       autocomplete="off" 
+                       placeholder="Inserisci il nome dell'azienda"
+                       bind:value={ job.company }
+                       on:input={() => validators.checkCompanyTextInput(jobIndex)}
+                />
+
+                <div id="success-company-message{jobIndex}"></div>
+                <div id="error-company-messages{jobIndex}"></div>
+                
+            </div>
+
+            <div class="form-group mb-3">
+                <label for="textAreaInputWorkExperienceResults{jobIndex}">Risultati professionali ottenuti</label>
                 <span class="isRequired">*</span>
                 <textarea
                     class="form-control"
-                    id="formInputTextAreaWorkExperienceResults{jobIndex}"
+                    id="textAreaInputWorkExperienceResults{jobIndex}"
                     name="workExperienceResults"
                     rows="4"
                     placeholder="Parlaci dei risultati professionali che hai conseguito..."
                     bind:value={ job.workExperienceResults }
-                    on:input={() => checkWorkExperienceResults(jobIndex)}
+                    on:input={() => validators.checkWorkExperienceResults(jobIndex)}
                 ></textarea>
 
                 <div id="success-work-experience-results-message{jobIndex}"></div>
@@ -768,25 +749,39 @@
             </div>
 
             <div class="form-group mb-3 flex-center-utility justify-content-around">
+
               <div>
-                <label for="formInputStartDateWorkExperience" class="custom-date-input">Data di inizio</label>
+
+                <label for="startDateInputWorkExperience{jobIndex}" class="custom-date-input">Data di inizio</label>
                  <span class="isRequired">*</span>
-                  <input type="month" class="form-control"
-                    id="formInputStartDateWorkExperience{jobIndex}"
-                    name="startDateWorkExperience"
-                    bind:value={ job.startDateWorkExperience }
-                    >
+                <input type="month" class="form-control"
+                  id="startDateInputWorkExperience{jobIndex}"
+                  name="startDateWorkExperience"
+                  bind:value={ job.startDateWorkExperience }
+                  on:blur={() => validators.checkStartAndEndWorkExperienceDateInput(jobIndex)}
+                >
+
+                <div id="success-startDateWorkExperience-message{jobIndex}"></div>
+                <div id="error-startDateWorkExperience-message{jobIndex}"></div>
+
               </div>
 
               <div>
-                <label for="formInputEndDateWorkExperience" class="custom-date-input">Data di fine</label>
+
+                <label for="endDateInputWorkExperience{jobIndex}" class="custom-date-input">Data di fine</label>
                 <span class="isRequired">*</span>
                 <input type="month" class="form-control" 
-                  id="formInputEndDateWorkExperience{jobIndex}"
+                  id="endDateInputWorkExperience{jobIndex}"
                   name="endDateWorkExperience"
                   bind:value={ job.endDateWorkExperience }
+                  on:blur={() => validators.checkStartAndEndWorkExperienceDateInput(jobIndex)}
                 />
+
+                <div id="success-endDateWorkExperience-message{jobIndex}"></div>
+                <div id="error-endDateWorkExperience-message{jobIndex}"></div>
+
               </div>
+
             </div>
 
             {#if jobIndex > 0}
@@ -878,7 +873,7 @@
                   rows="4"
                   placeholder="Parlaci degli obiettivi accademici che hai raggiunto..."
                   bind:value={education.educationGoals}
-                  on:input={() => checkEducationGoals(educationIndex)}
+                  on:input={() => validators.checkEducationGoals(educationIndex)}
               ></textarea>
 
               <div id="success-education-goals-message{educationIndex}"></div>
@@ -1067,12 +1062,9 @@
     display:flex;
     width: 100%;
   }
-  .left-visual-feedback-position {
-    width: 40%;
-  }
 
-  .right-visual-feedback-position {
-    width: 60%;
+  .left-visual-feedback-position, .right-visual-feedback-position {
+    width: 45%;
   }
 
 </style>
