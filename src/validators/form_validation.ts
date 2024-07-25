@@ -1149,28 +1149,38 @@ export function checkStartAndEndWorkExperienceDateInput(index: number) {
 
         const startDateWorkExperienceValue = startDateWorkExperienceDateInput.value.trim();
         const endDateWorkExperienceValue = endDateWorkExperienceDateInput.value.trim();
+        const startDateWorkExperienceObject = new Date(startDateWorkExperienceValue);
+        const endDateWorkExperienceObject = new Date(endDateWorkExperienceValue);
 
-        if(startDateWorkExperienceValue === "") {
+        if(startDateWorkExperienceValue === "" && endDateWorkExperienceValue !== "") {
 
             setStartDateWorkExperienceErrorFeedBack("Mi dispiace, il campo data di inizio è obbligatorio");
+            endDateWorkExperienceDateInput.classList.remove("is-invalid");
+            errorEndDateWorkExperienceMessage?.remove();
 
-        } 
-        
-        if(endDateWorkExperienceValue === "") {
+        }
+
+        if(endDateWorkExperienceValue === "" && startDateWorkExperienceValue !== "") {
 
             setEndDateWorkExperienceErrorFeedBack("Mi dispiace, il campo data di fine è obbligatorio");
+            startDateWorkExperienceDateInput.classList.remove("is-invalid");
+            errorStartDateWorkExperienceMessage?.remove();
+            
+        }
 
-        } 
+        if(startDateWorkExperienceValue === "" && endDateWorkExperienceValue === "") {
+
+            setStartDateWorkExperienceErrorFeedBack("Mi dispiace, il campo data di inizio è obbligatorio");
+            setEndDateWorkExperienceErrorFeedBack("Mi dispiace, il campo data di fine è obbligatorio");
+
+        }
         
         if(startDateWorkExperienceValue !== "" && endDateWorkExperienceValue !== ""){
 
-            const startDateWorkExperienceObject = new Date(startDateWorkExperienceValue);
-            const endDateWorkExperienceObject = new Date(endDateWorkExperienceValue);
-
             if (startDateWorkExperienceObject > endDateWorkExperienceObject) {
 
-                setStartDateWorkExperienceErrorFeedBack("Mi dispiace, la data di inizio non può essere successiva alla data di fine");
-                setEndDateWorkExperienceErrorFeedBack("Mi dispiace, la data di fine non può essere precedente alla data di inizio");
+                setStartDateWorkExperienceErrorFeedBack("Mi dispiace, la data inserita è successiva alla data di fine");
+                setEndDateWorkExperienceErrorFeedBack("Mi dispiace, la data inserita è precedente alla data di inizio");
 
             } else {
 
@@ -1184,6 +1194,8 @@ export function checkStartAndEndWorkExperienceDateInput(index: number) {
     }
 
 };
+
+
 
 export function checkEducationGoals(index:number) {
 
