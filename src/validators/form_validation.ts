@@ -205,8 +205,8 @@ export function checkProfessionInput() {
 
 export function checkBirthPlaceInput() { 
 
-    const userBirthPlaceInput: HTMLInputElement | null = document.querySelector("[name='birthDate']");
-    const errorBirthPlaceMessages: HTMLDivElement | null = document.querySelector(".error-birthplace-messages");
+    const userBirthPlaceInput: HTMLInputElement | null = document.querySelector("[name='birthPlace']");
+    const errorBirthPlaceMessages: HTMLDivElement | null = document.querySelector(".error-birthplace-message");
     const successBirthPlaceMessage: HTMLDivElement | null = document.querySelector(".success-birthplace-message");
 
     const setBirthPlaceErrorFeedback = (message:string) => {
@@ -252,11 +252,11 @@ export function checkBirthPlaceInput() {
 
         if(userBirthPlaceValue === "") {
 
-            setBirthPlaceErrorFeedback("Il campo luogo di nascita è obbligatorio");
+            setBirthPlaceErrorFeedback("Mi dispiace, il luogo di nascita è obbligatorio");
 
-        } else if(userBirthPlaceValue.length > 40) {
+        } else if(userBirthPlaceValue.length > 30) {
 
-            setBirthPlaceErrorFeedback("Il campo luogo di nascita non può avere più di 40 caratteri");
+            setBirthPlaceErrorFeedback("Mi dispiace, Il luogo di nascita non può contenere più di 30 caratteri");
 
         } else {
 
@@ -264,6 +264,69 @@ export function checkBirthPlaceInput() {
 
         }
 
+    }
+
+};
+
+export function checkBirthDateInput() {
+
+    const birthDateInput: HTMLInputElement | null = document.querySelector("[name='birthDate']");
+    const errorBirthDateMessage: HTMLDivElement | null = document.querySelector(".error-birthdate-message");
+    const successBirthDateMessage: HTMLDivElement | null = document.querySelector(".success-birthdate-message");
+
+    const setBirthDateErrorFeedback = (message:string) => {
+
+        if(errorBirthDateMessage) {
+            errorBirthDateMessage.innerText = message;
+            errorBirthDateMessage.classList.add("error-user-data", "fw-medium");
+            errorBirthDateMessage.style.fontSize = "0.8rem";
+        }
+
+        if(birthDateInput) {
+            birthDateInput.classList.add("is-invalid");
+        }
+
+        if(successBirthDateMessage) {
+            successBirthDateMessage.innerText = "";
+        }
+
+    };
+
+    const setBirthDateSuccessFeedback = (message:string) => {
+
+        if(successBirthDateMessage) {
+            successBirthDateMessage.innerText = message;
+            successBirthDateMessage.classList.add("success-user-data", "fw-medium");
+            successBirthDateMessage.style.fontSize = "0.8rem";
+        }
+
+        if(birthDateInput) {
+            birthDateInput.classList.remove("is-invalid");
+            birthDateInput.classList.add("is-valid");
+        }
+
+        if( errorBirthDateMessage) {
+            errorBirthDateMessage.innerText = "";
+        }
+
+    };
+
+    if(birthDateInput) {
+
+        const birthDateValue = birthDateInput.value;
+
+        console.log(birthDateValue);
+
+        if(birthDateValue === "") {
+
+            setBirthDateErrorFeedback("Mi dispiace, la data di nascita è obbligatoria");
+
+        } else {
+
+            setBirthDateSuccessFeedback("Ottimo lavoro, la data di nascita è corretta");
+            
+        }
+        
     }
 
 };
@@ -1139,8 +1202,6 @@ export function checkStartAndEndWorkExperienceDateInput(index: number) {
 
         const startDateWorkExperienceValue = startDateWorkExperienceDateInput.value.trim();
         const endDateWorkExperienceValue = endDateWorkExperienceDateInput.value.trim();
-        const startDateWorkExperienceObject = new Date(startDateWorkExperienceValue);
-        const endDateWorkExperienceObject = new Date(endDateWorkExperienceValue);
 
         if(startDateWorkExperienceValue === "" && endDateWorkExperienceValue === "") {
 
@@ -1153,33 +1214,16 @@ export function checkStartAndEndWorkExperienceDateInput(index: number) {
             endDateWorkExperienceDateInput.classList.remove("is-invalid");
             errorEndDateWorkExperienceMessages?.remove();
 
-        } else if(endDateWorkExperienceValue === "" && startDateWorkExperienceValue !== "") {
+        } else if(startDateWorkExperienceValue !== "" && endDateWorkExperienceValue === "") {
 
             setEndDateWorkExperienceErrorFeedBack("Mi dispiace, il campo data di fine è obbligatorio");
             startDateWorkExperienceDateInput.classList.remove("is-invalid");
             errorStartDateWorkExperienceMessages?.remove();
             
-        } else if(startDateWorkExperienceValue !== "" && endDateWorkExperienceValue !== "") {
-
-            if (startDateWorkExperienceObject > endDateWorkExperienceObject) {
-
-                setEndDateWorkExperienceErrorFeedBack("Mi dispiace, la data inserita è precedente alla data di inizio");
-                setStartDateWorkExperienceErrorFeedBack("Mi dispiace, la data inserita è successiva alla data di fine");
-
-            } else {
+        } else {
                 
-                setStartDateWorkExperienceSuccessFeedBack("Ottimo lavoro, il campo data di inizio è corretto");
-                
-            }
-
-            if(endDateWorkExperienceObject < startDateWorkExperienceObject) {
-            
-            
-            } else {
-                
-                setEndDateWorkExperienceSuccessFeedBack("Ottimo lavoro, il campo data di fine è corretto");
-
-            }
+            setStartDateWorkExperienceSuccessFeedBack("Ottimo lavoro, il campo data di inizio è corretto");
+            setEndDateWorkExperienceSuccessFeedBack("Ottimo lavoro, il campo data di fine è corretto");
 
         }
   
@@ -1500,7 +1544,6 @@ export function checkStartAndEndAcademicEducationDateInput(index: number) {
 
         if(endDateAcademicEducationDateInput) {
             endDateAcademicEducationDateInput.classList.add("is-invalid");
-            console.log("NOOOOOOOOOOOOOOO")
         }
 
         if(successEndDateAcademicEducationMessage) {

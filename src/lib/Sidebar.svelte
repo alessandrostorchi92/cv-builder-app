@@ -307,7 +307,6 @@
             name="filePicture"
             bind:files={$formDataStore.filePicture}
             on:change={() => getUrlImg()}
-            on:blur={() => checkFilePictureInput()}
             accept="image/*"
           />
 
@@ -392,7 +391,7 @@
           <input type="text"
                  class="form-control"
                  id="textInputBirthDate" 
-                 name="birthDate"
+                 name="birthPlace"
                  autocomplete="off"
                  placeholder="Inserisci il tuo luogo di nascita"
                  bind:value={$formDataStore.birthPlace}
@@ -400,7 +399,7 @@
           />
           
           <div class="success-birthplace-message"></div>
-          <div class="error-birthplace-messages"></div>
+          <div class="error-birthplace-message"></div>
 
         </div>
 
@@ -415,10 +414,11 @@
                  id="formInputBirthDate"
                  name="birthDate" 
                  bind:value={$formDataStore.birthDate}
+                 on:blur={() => validators.checkBirthDateInput()}
           />
 
           <div class="success-birthdate-message"></div>
-          <div class="error-birthdate-messages"></div>
+          <div class="error-birthdate-message"></div>
         </div>
 
         <!-- Residenza/Domicilio -->
@@ -993,14 +993,6 @@
 
   input[type="file"] {
     display: none;
-  }
-
-  input[type="date"] {
-    color: #9e9e9e;
-  }
-
-  input[type="date"]:focus {
-    color: black;
   }
 
   .custom-file-input {
