@@ -320,18 +320,18 @@
 
         <div class="form-group mb-3">
 
-          <label for="formInputName">Nome</label>
+          <label for="textInputName">Nome</label>
           <span class="isRequired">*</span>
 
           <input
               type="text"
               class="form-control"
-              id="formInputName"
+              id="textInputName"
               name="name"
               autocomplete="off"
               placeholder="Inserisci il tuo nome"
               bind:value={$formDataStore.name}
-              on:blur={() => validators.checkNameInput()}
+              on:input={() => validators.checkNameInput()}
           />
           
           <div class="success-user-data success-name-message"></div>
@@ -342,18 +342,18 @@
         <!-- Cognome -->
 
         <div class="form-group mb-3">
-          <label for="formInputSurname">Cognome</label>
+          <label for="textInputSurname">Cognome</label>
           <span class="isRequired">*</span>
 
           <input
             type="text"
             class="form-control"
-            id="formInputSurname"
+            id="textInputSurname"
             name="surname"
             autocomplete="off"
             placeholder="Inserisci il tuo cognome"
             bind:value={$formDataStore.surname}
-            on:blur={() => validators.checkSurnameInput()}
+            on:input={() => validators.checkSurnameInput()}
           />
 
           <div class="success-user-data success-surname-message"></div>
@@ -364,18 +364,18 @@
         <!-- Professione -->
 
         <div class="form-group mb-3">
-          <label for="formInputProfession">Professione</label>
+          <label for="textInputProfession">Professione</label>
           <span class="isRequired">*</span>
 
           <input
             type="text"
             class="form-control"
-            id="formInputProfession"
+            id="textInputProfession"
             name="profession"
             autocomplete="off"
             placeholder="Inserisci la tua professione"
             bind:value={$formDataStore.profession}
-            on:blur={() => validators.checkProfessionInput()}
+            on:input={() => validators.checkProfessionInput()}
           />
 
           <div class="success-user-data success-profession-message"></div>
@@ -386,17 +386,17 @@
         <!---- Luogo di Nascita ---->
 
         <div class="form-group mb-3">
-          <label for="formInputBirthDate">Luogo di nascita</label>
+          <label for="textInputBirthDate">Luogo di nascita</label>
           <span class="isRequired">*</span>
 
           <input type="text"
                  class="form-control"
-                 id="formInputPlaceDate" 
+                 id="textInputBirthDate" 
                  name="birthDate"
                  autocomplete="off"
                  placeholder="Inserisci il tuo luogo di nascita"
                  bind:value={$formDataStore.birthPlace}
-                 on:blur={() => validators.checkBirthPlaceInput()}
+                 on:input={() => validators.checkBirthPlaceInput()}
           />
           
           <div class="success-birthplace-message"></div>
@@ -432,9 +432,9 @@
             id="formInputAddress"
             name="address"
             autocomplete="off"
-            placeholder="Es: Via Roma 123, 00100 Roma"
+            placeholder="Via Roma 123, 00100 Roma"
             bind:value={$formDataStore.address}
-            on:blur={() => validators.checkAddressInput()}
+            on:input={() => validators.checkAddressInput()}
           />
 
           <div class="success-address-message"></div>
@@ -452,7 +452,7 @@
 
           <select
               class="form-select"
-              style="width: 40%;"
+              style="width: 50%;"
               id="formSelectPhonePrefix"
               aria-label="PhonePrefixSelect"
               name="phonePrefix"
@@ -468,13 +468,13 @@
           <input
               type="tel"
               class="form-control"
-              style="width: 60%;"
+              style="width: 50%;"
               id="formSelectPhone"
               name="phone"
               autocomplete="off"
               placeholder="Numero di cellulare"
               bind:value={$formDataStore.phone}
-            on:blur={() => validators.checkPhoneInput()}
+              on:input={() => validators.checkPhoneInput()}
           />
 
           <div class="visual-feedback-group-container">
@@ -762,7 +762,7 @@
                 >
 
                 <div id="success-startDateWorkExperience-message{jobIndex}"></div>
-                <div id="error-startDateWorkExperience-message{jobIndex}"></div>
+                <div id="error-startDateWorkExperience-messages{jobIndex}"></div>
 
               </div>
 
@@ -778,7 +778,7 @@
                 />
 
                 <div id="success-endDateWorkExperience-message{jobIndex}"></div>
-                <div id="error-endDateWorkExperience-message{jobIndex}"></div>
+                <div id="error-endDateWorkExperience-messages{jobIndex}"></div>
 
               </div>
 
@@ -806,20 +806,22 @@
 
           <div>
 
-            <label for="formInputQualification">Titolo di studio</label>
+            <label for="selectQualification{educationIndex}">Titolo di studio</label>
             <span class="isRequired">*</span>
 
           </div>
         
-          <div class="input-group mb-3 position-relative">
+          <div class="input-group mb-3">
 
             <select
 
               class="form-select"
-              id="formSelectQualification{educationIndex}"
+              id="selectQualification{educationIndex}"
+              style="width: 50%;"
               aria-label="QualificationSelect"
               name="qualification"
-              bind:value={education.qualification}>
+              bind:value={education.qualification}
+              on:blur={() => validators.checkQualificationsSelect(educationIndex)}>
 
               <option value="" disabled>Titolo di Studio</option>
 
@@ -832,36 +834,43 @@
 
             <input type="text"
                   class="form-control"
-                  id="formInputFieldOfStudy{educationIndex}"
-                  name="FieldOfStudy"
+                  id="textInputFieldOfStudy{educationIndex}"
+                  style="width: 50%;"
+                  name="fieldOfStudy"
                   autocomplete="off"
                   placeholder="Inserisci il campo di studio"
-                  maxlength="30"
-                  bind:value={education.fieldOfStudy} 
+                  bind:value={education.fieldOfStudy}
+                  on:input={() => validators.checkFieldOfStudyTextInput(educationIndex)}
             >
-            <span class="maxChars" class:text-danger={ education.fieldOfStudy.length ===
-              30 }>
-              { education.fieldOfStudy.length } / 30
-            </span>
-
+            
+            <div class="visual-feedback-group-container">
+              <div class="left-visual-feedback-position">
+                  <div class="success-user-data" id="success-qualification-message{educationIndex}"></div>
+                  <div class="error-user-data" id="error-qualification-message{educationIndex}"></div>
+              </div>
+              <div class="right-visual-feedback-position">
+                  <div class="success-user-data" id="success-field-study-message{educationIndex}"></div>
+                  <div class="error-user-data" id="error-field-study-message{educationIndex}"></div>
+              </div>
+            </div>
           </div>
 
           <div class="mb-3">
-            <label for="formInputEducationType">Università/Ente di formazione/Scuola</label>
+            <label for="textInputEducationType{educationIndex}">Università/Ente di formazione/Scuola</label>
             <span class="isRequired">*</span>
             <input type="text" 
                   class="form-control" 
-                  id="formInputEducationType{educationIndex}" 
+                  id="textInputEducationType{educationIndex}" 
                   name="educationType"
                   autocomplete="off" 
                   placeholder="Inserisci la tipologia di formazione"
-                  maxlength="30"
                   bind:value={education.educationType}
+                  on:input={() => validators.checkEducationTypeTextInput(educationIndex)}
             />
-            <span class="maxChars" class:text-danger={ education.educationType.length ===
-              30 }>
-              { education.educationType.length } / 30
-            </span>
+
+            <div id="success-education-type-message{educationIndex}"></div>
+            <div id="error-education-type-messages{educationIndex}"></div>
+        
           </div>
 
             <div class="mb-3">
@@ -882,26 +891,38 @@
 
             <div class="mb-3 flex-center-utility justify-content-around">
               <div>
-                <label for="formInputStartDate" class="custom-date-input">Data di inizio</label>
+                <label for="startDateInputAcademicEducation{educationIndex}" class="custom-date-input">Data di inizio</label>
                 <span class="isRequired">*</span>
                   <input type="month"
                     class="form-control" 
-                    id="formInputStartDate{educationIndex}" 
+                    id="startDateInputAcademicEducation{educationIndex}" 
                     name="startDateAcademicEducation"
+                    max={education.endDateAcademicEducation}
                     bind:value={education.startDateAcademicEducation}
+                    on:blur={() => validators.checkStartAndEndAcademicEducationDateInput(educationIndex)}
                   />
+
+                  <div id="success-startDateAcademicEducation-message{educationIndex}"></div>
+                  <div id="error-startDateAcademicEducation-messages{educationIndex}"></div>
+
               </div>
 
               <div>
-                <label for="formInputEndDate" class="custom-date-input">Data di fine</label>
+                <label for="endDateInputAcademicEducation{educationIndex}" class="custom-date-input">Data di fine</label>
                   <span class="isRequired">*</span>
                   <input type="month"
                          class="form-control"
-                         id="formInputEndDate{educationIndex}"
+                         id="endDateInputAcademicEducation{educationIndex}"
                          name="endDateAcademicEducation"
+                         min={education.startDateAcademicEducation}
                          bind:value={education.endDateAcademicEducation}
+                         on:blur={() => validators.checkStartAndEndAcademicEducationDateInput(educationIndex)}
                   />
+
+                  <div id="success-endDateAcademicEducation-message{educationIndex}"></div>
+                  <div id="error-endDateAcademicEducation-messages{educationIndex}"></div>
               </div>
+
             </div>
 
             {#if educationIndex > 0}
@@ -1059,12 +1080,12 @@
   }
 
   .visual-feedback-group-container {
-    display:flex;
+    display: flex;
     width: 100%;
   }
 
   .left-visual-feedback-position, .right-visual-feedback-position {
-    width: 45%;
+    flex-basis: 50%;
   }
 
 </style>

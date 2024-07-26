@@ -142,7 +142,6 @@ export function checkProfessionInput() {
     const userProfessionInput: HTMLInputElement | null = document.querySelector("[name='profession']");
     const errorProfessionMessages: HTMLDivElement | null = document.querySelector(".error-profession-messages");
     const successProfessionMessage: HTMLDivElement | null = document.querySelector(".success-profession-message");
-    const professionPattern = /^[A-Za-z\s]+$/;
 
     const setProfessionErrorFeedbak = (message:string) => {
 
@@ -190,10 +189,6 @@ export function checkProfessionInput() {
 
             setProfessionErrorFeedbak("Il campo professione è obbligatorio");
 
-        } else if(!professionPattern.test(userProfessionValue)) {
-
-            setProfessionErrorFeedbak("Il campo professione deve contenere solo lettere maiuscole o minuscole");
-
         } else if(userProfessionValue.length > 40) {
 
             setProfessionErrorFeedbak("Il campo professione non può avere più di 40 caratteri");
@@ -213,7 +208,6 @@ export function checkBirthPlaceInput() {
     const userBirthPlaceInput: HTMLInputElement | null = document.querySelector("[name='birthDate']");
     const errorBirthPlaceMessages: HTMLDivElement | null = document.querySelector(".error-birthplace-messages");
     const successBirthPlaceMessage: HTMLDivElement | null = document.querySelector(".success-birthplace-message");
-    const birthPlacePattern = /^[A-Za-z\s]+$/;
 
     const setBirthPlaceErrorFeedback = (message:string) => {
 
@@ -259,10 +253,6 @@ export function checkBirthPlaceInput() {
         if(userBirthPlaceValue === "") {
 
             setBirthPlaceErrorFeedback("Il campo luogo di nascita è obbligatorio");
-
-        } else if(!birthPlacePattern.test(userBirthPlaceValue)) {
-
-            setBirthPlaceErrorFeedback("Il campo luogo di nascita deve contenere solo lettere maiuscole o minuscole");
 
         } else if(userBirthPlaceValue.length > 40) {
 
@@ -332,7 +322,7 @@ export function checkAddressInput() {
     
         } else if(!addressRegex.test(userAddressValue)) {
             
-            setAddressErrorFeedback("Il campo residenza/domicilio non è corretto");
+            setAddressErrorFeedback("Il campo residenza/domicilio non rispetta l'esempio fornito");
             
         } else {
             
@@ -455,19 +445,19 @@ export function checkPhoneInput() {
 
         if(userPhoneValue === "") {
 
-            setBirthPlaceErrorFeedback("Il campo del numero di cellulare è obbligatorio");
+            setBirthPlaceErrorFeedback("Il numero di cellulare è obbligatorio");
 
         } else if(!PhonePattern.test(userPhoneValue)) {
 
-            setBirthPlaceErrorFeedback("Il campo del numero di cellulare inserito non è valido");
+            setBirthPlaceErrorFeedback("Il numero di cellulare inserito contiene caratteri non validi");
 
         } else if(userPhoneValue.length >= 15) {
 
-            setBirthPlaceErrorFeedback("Il campo del numero di cellulare non può avere più di 15 numeri");
+            setBirthPlaceErrorFeedback("Il numero di cellulare non può avere più di 15 numeri");
 
         } else {
 
-            setBirthPlaceSuccessFeedback("Il campo del numero di cellulare è corretto");
+            setBirthPlaceSuccessFeedback("Il numero di cellulare è corretto");
 
         }
 
@@ -527,15 +517,15 @@ export function checkEmailInput() {
 
         } else if(!emailPattern.test(userEmailValue)) {
 
-            setEmailErrorFeedBack("Mi dispiace, il campo email contiene caratteri non validi");
+            setEmailErrorFeedBack("Mi dispiace, l'email inserita non rispetta l'esempio fornito");
 
         } else if(userEmailValue.length >= 30) {
 
-            setEmailErrorFeedBack("Mi dispiace, l'email che hai inserito non è valida");
+            setEmailErrorFeedBack("Mi dispiace, l'email inserita non deve contenere più di 30 caratteri");
 
         } else {
 
-            setEmailSuccessFeedback("Ottimo, il campo email è corretto");
+            setEmailSuccessFeedback("Ottimo lavoro, l'email è corretta");
 
         }
 
@@ -1066,15 +1056,15 @@ export function checkWorkExperienceResults(index: number) {
 export function checkStartAndEndWorkExperienceDateInput(index: number) {
     
     const startDateWorkExperienceDateInput: HTMLInputElement | null = document.querySelector(`#startDateInputWorkExperience${index}`);
-    const errorStartDateWorkExperienceMessage: HTMLDivElement | null = document.querySelector(`#error-startDateWorkExperience-message${index}`);
+    const errorStartDateWorkExperienceMessages: HTMLDivElement | null = document.querySelector(`#error-startDateWorkExperience-messages${index}`);
     const successStartDateWorkExperienceMessage: HTMLDivElement | null = document.querySelector(`#success-startDateWorkExperience-message${index}`);
     
     const setStartDateWorkExperienceErrorFeedBack = (message: string) => {
 
-        if(errorStartDateWorkExperienceMessage) {
-            errorStartDateWorkExperienceMessage.innerText = message;
-            errorStartDateWorkExperienceMessage.classList.add("error-user-data", "fw-medium");
-            errorStartDateWorkExperienceMessage.style.fontSize = "0.8rem";
+        if(errorStartDateWorkExperienceMessages) {
+            errorStartDateWorkExperienceMessages.innerText = message;
+            errorStartDateWorkExperienceMessages.classList.add("error-user-data", "fw-medium");
+            errorStartDateWorkExperienceMessages.style.fontSize = "0.8rem";
         }
 
         if(startDateWorkExperienceDateInput) {
@@ -1099,22 +1089,22 @@ export function checkStartAndEndWorkExperienceDateInput(index: number) {
             startDateWorkExperienceDateInput.classList.add("is-valid");
         }
 
-        if(errorStartDateWorkExperienceMessage) {
-            errorStartDateWorkExperienceMessage.innerText = "";
+        if(errorStartDateWorkExperienceMessages) {
+            errorStartDateWorkExperienceMessages.innerText = "";
         }
 
     };
 
     const endDateWorkExperienceDateInput: HTMLInputElement | null = document.querySelector(`#endDateInputWorkExperience${index}`);
-    const errorEndDateWorkExperienceMessage: HTMLDivElement | null = document.querySelector(`#error-endDateWorkExperience-message${index}`);
+    const errorEndDateWorkExperienceMessages: HTMLDivElement | null = document.querySelector(`#error-endDateWorkExperience-messages${index}`);
     const successEndDateWorkExperienceMessage: HTMLDivElement | null = document.querySelector(`#success-endDateWorkExperience-message${index}`);
 
     const setEndDateWorkExperienceErrorFeedBack = (message: string) => {
 
-        if(errorEndDateWorkExperienceMessage) {
-            errorEndDateWorkExperienceMessage.innerText = message;
-            errorEndDateWorkExperienceMessage.classList.add("error-user-data", "fw-medium");
-            errorEndDateWorkExperienceMessage.style.fontSize = "0.8rem";
+        if(errorEndDateWorkExperienceMessages) {
+            errorEndDateWorkExperienceMessages.innerText = message;
+            errorEndDateWorkExperienceMessages.classList.add("error-user-data", "fw-medium");
+            errorEndDateWorkExperienceMessages.style.fontSize = "0.8rem";
         }
 
         if(endDateWorkExperienceDateInput) {
@@ -1139,52 +1129,54 @@ export function checkStartAndEndWorkExperienceDateInput(index: number) {
             endDateWorkExperienceDateInput.classList.add("is-valid");
         }
 
-        if(errorEndDateWorkExperienceMessage) {
-            errorEndDateWorkExperienceMessage.innerText = "";
+        if(errorEndDateWorkExperienceMessages) {
+            errorEndDateWorkExperienceMessages.innerText = "";
         }
 
     };
 
-    if((startDateWorkExperienceDateInput && endDateWorkExperienceDateInput)) {
+    if(startDateWorkExperienceDateInput && endDateWorkExperienceDateInput) {
 
         const startDateWorkExperienceValue = startDateWorkExperienceDateInput.value.trim();
         const endDateWorkExperienceValue = endDateWorkExperienceDateInput.value.trim();
         const startDateWorkExperienceObject = new Date(startDateWorkExperienceValue);
         const endDateWorkExperienceObject = new Date(endDateWorkExperienceValue);
 
-        if(startDateWorkExperienceValue === "" && endDateWorkExperienceValue !== "") {
-
-            setStartDateWorkExperienceErrorFeedBack("Mi dispiace, il campo data di inizio è obbligatorio");
-            endDateWorkExperienceDateInput.classList.remove("is-invalid");
-            errorEndDateWorkExperienceMessage?.remove();
-
-        }
-
-        if(endDateWorkExperienceValue === "" && startDateWorkExperienceValue !== "") {
-
-            setEndDateWorkExperienceErrorFeedBack("Mi dispiace, il campo data di fine è obbligatorio");
-            startDateWorkExperienceDateInput.classList.remove("is-invalid");
-            errorStartDateWorkExperienceMessage?.remove();
-            
-        }
-
         if(startDateWorkExperienceValue === "" && endDateWorkExperienceValue === "") {
 
             setStartDateWorkExperienceErrorFeedBack("Mi dispiace, il campo data di inizio è obbligatorio");
             setEndDateWorkExperienceErrorFeedBack("Mi dispiace, il campo data di fine è obbligatorio");
 
-        }
-        
-        if(startDateWorkExperienceValue !== "" && endDateWorkExperienceValue !== ""){
+        } else if(startDateWorkExperienceValue === "" && endDateWorkExperienceValue !== "") {
+
+            setStartDateWorkExperienceErrorFeedBack("Mi dispiace, il campo data di inizio è obbligatorio");
+            endDateWorkExperienceDateInput.classList.remove("is-invalid");
+            errorEndDateWorkExperienceMessages?.remove();
+
+        } else if(endDateWorkExperienceValue === "" && startDateWorkExperienceValue !== "") {
+
+            setEndDateWorkExperienceErrorFeedBack("Mi dispiace, il campo data di fine è obbligatorio");
+            startDateWorkExperienceDateInput.classList.remove("is-invalid");
+            errorStartDateWorkExperienceMessages?.remove();
+            
+        } else if(startDateWorkExperienceValue !== "" && endDateWorkExperienceValue !== "") {
 
             if (startDateWorkExperienceObject > endDateWorkExperienceObject) {
 
-                setStartDateWorkExperienceErrorFeedBack("Mi dispiace, la data inserita è successiva alla data di fine");
                 setEndDateWorkExperienceErrorFeedBack("Mi dispiace, la data inserita è precedente alla data di inizio");
+                setStartDateWorkExperienceErrorFeedBack("Mi dispiace, la data inserita è successiva alla data di fine");
 
             } else {
-
+                
                 setStartDateWorkExperienceSuccessFeedBack("Ottimo lavoro, il campo data di inizio è corretto");
+                
+            }
+
+            if(endDateWorkExperienceObject < startDateWorkExperienceObject) {
+            
+            
+            } else {
+                
                 setEndDateWorkExperienceSuccessFeedBack("Ottimo lavoro, il campo data di fine è corretto");
 
             }
@@ -1195,7 +1187,198 @@ export function checkStartAndEndWorkExperienceDateInput(index: number) {
 
 };
 
+export function checkQualificationsSelect(index:number) {
 
+    const qualificationsSelect: HTMLSelectElement | null = document.querySelector(`#selectQualification${index}`);
+    const errorQualificationMessage: HTMLDivElement | null = document.querySelector(`#error-qualification-message${index}`);
+    const successQualificationMessage: HTMLDivElement | null = document.querySelector(`#success-qualification-message${index}`);
+    
+    const setQualificationErrorFeedback = (message:string) => {
+
+        if (errorQualificationMessage) {
+            errorQualificationMessage.innerText = message;
+            errorQualificationMessage.classList.add("error-user-data", "fw-medium");
+            errorQualificationMessage.style.fontSize = "0.8rem";
+        }
+
+        if (qualificationsSelect) {
+            qualificationsSelect.classList.add("is-invalid");
+        }
+
+        if (successQualificationMessage) {
+            successQualificationMessage.innerText = "";
+        }
+
+    };
+
+    const setQualificationSuccessFeedback = (message:string) => {
+
+        if (successQualificationMessage) {
+            successQualificationMessage.innerText = message;
+            successQualificationMessage.classList.add("success-user-data", "fw-medium");
+            successQualificationMessage.style.fontSize = "0.8rem";
+        }
+
+        if (qualificationsSelect) {
+            qualificationsSelect.classList.remove("is-invalid");
+            qualificationsSelect.classList.add("is-valid");
+        }
+
+        if (errorQualificationMessage) {
+            errorQualificationMessage.innerText = "";
+        }
+
+    };
+
+    if (qualificationsSelect) {
+
+        const qualificationOption = qualificationsSelect.value.trim();
+
+        if (qualificationOption === "") {
+
+            setQualificationErrorFeedback("Per favore, seleziona almeno una qualifica");
+
+        } else {
+
+            setQualificationSuccessFeedback("Ottimo lavoro, hai selezionato una qualifica");
+
+        }
+
+    } 
+    
+};
+
+export function checkFieldOfStudyTextInput(index: number) {
+
+    const fieldOfStudyTextInput: HTMLInputElement | null = document.querySelector(`#textInputFieldOfStudy${index}`);
+    const errorFieldOfStudyMessages: HTMLDivElement | null = document.querySelector(`#error-field-study-message${index}`);
+    const successFieldOfStudyMessage: HTMLDivElement | null = document.querySelector(`#success-field-study-message${index}`);
+
+
+    const setFieldOfStudyErrorFeedBack = (message:string) => {
+
+        if(errorFieldOfStudyMessages) {
+            errorFieldOfStudyMessages.innerText = message;
+            errorFieldOfStudyMessages.classList.add("error-user-data", "fw-medium");
+            errorFieldOfStudyMessages.style.fontSize = "0.8rem";
+        }
+
+        if(fieldOfStudyTextInput) {
+            fieldOfStudyTextInput.classList.add("is-invalid");
+        }
+
+        if(successFieldOfStudyMessage) {
+            successFieldOfStudyMessage.innerText = "";
+        }
+
+    };
+
+    const setFieldOfStudySuccessFeedback = (message:string) => {
+
+        if(successFieldOfStudyMessage) {
+            successFieldOfStudyMessage.innerText = message;
+            successFieldOfStudyMessage.classList.add("success-user-data", "fw-medium");
+            successFieldOfStudyMessage.style.fontSize = "0.8rem";
+        }
+
+        if(fieldOfStudyTextInput) {
+            fieldOfStudyTextInput.classList.remove("is-invalid");
+            fieldOfStudyTextInput.classList.add("is-valid");
+        }
+
+        if(errorFieldOfStudyMessages) {
+            errorFieldOfStudyMessages.innerText = "";
+        }
+
+    };
+
+    if(fieldOfStudyTextInput) {
+
+        const fieldOfStudyValue = fieldOfStudyTextInput.value.trim();
+
+        if(fieldOfStudyValue === "") {
+
+            setFieldOfStudyErrorFeedBack("Il campo di studio è obbligatorio");
+
+        } else if(fieldOfStudyValue.length > 40) {
+
+            setFieldOfStudyErrorFeedBack("Mi dispiace, il campo di studio non può contenere più di 40 caratteri");
+
+        } else {
+
+            setFieldOfStudySuccessFeedback("Ottimo lavoro, il campo di studio è corretto");
+
+        }
+    
+    }
+
+};
+
+export function checkEducationTypeTextInput(index: number) {
+
+    const educationTypeTextInput: HTMLInputElement | null = document.querySelector(`#textInputEducationType${index}`);
+    const errorEducationTypeMessages: HTMLDivElement | null = document.querySelector(`#error-education-type-messages${index}`);
+    const successEducationTypeMessage: HTMLDivElement | null = document.querySelector(`#success-education-type-message${index}`);
+
+
+    const setEducationTypeErrorFeedBack = (message:string) => {
+
+        if(errorEducationTypeMessages) {
+            errorEducationTypeMessages.innerText = message;
+            errorEducationTypeMessages.classList.add("error-user-data", "fw-medium");
+            errorEducationTypeMessages.style.fontSize = "0.8rem";
+        }
+
+        if(educationTypeTextInput) {
+            educationTypeTextInput.classList.add("is-invalid");
+        }
+
+        if(successEducationTypeMessage) {
+            successEducationTypeMessage.innerText = "";
+        }
+
+    };
+
+    const setEducationTypeSuccessFeedback = (message:string) => {
+
+        if(successEducationTypeMessage) {
+            successEducationTypeMessage.innerText = message;
+            successEducationTypeMessage.classList.add("success-user-data", "fw-medium");
+            successEducationTypeMessage.style.fontSize = "0.8rem";
+        }
+
+        if(educationTypeTextInput) {
+            educationTypeTextInput.classList.remove("is-invalid");
+            educationTypeTextInput.classList.add("is-valid");
+        }
+
+        if(errorEducationTypeMessages) {
+            errorEducationTypeMessages.innerText = "";
+        }
+
+    };
+
+    if(educationTypeTextInput) {
+
+        const educationTypeValue = educationTypeTextInput.value.trim();
+
+        if(educationTypeValue === "") {
+
+            setEducationTypeErrorFeedBack("Mi dispiace, la tipologia di formazione è obbligatoria");
+
+        } else if(educationTypeValue.length > 40) {
+
+            setEducationTypeErrorFeedBack("Mi dispiace, la tipologia di formazione non può contenere più di 40 caratteri");
+
+        } else {
+
+            setEducationTypeSuccessFeedback("Ottimo lavoro, la tipologia di formazione è corretta");
+
+        }
+    
+    }
+
+};
 
 export function checkEducationGoals(index:number) {
 
@@ -1260,6 +1443,123 @@ export function checkEducationGoals(index:number) {
     }
 
 };
+
+export function checkStartAndEndAcademicEducationDateInput(index: number) {
+
+    const startDateAcademicEducationDateInput: HTMLInputElement | null = document.querySelector(`#startDateInputAcademicEducation${index}`);
+    const errorStartDateAcademicEducationMessages: HTMLDivElement | null = document.querySelector(`#error-startDateAcademicEducation-messages${index}`);
+    const successStartDateAcademicEducationMessage: HTMLDivElement | null = document.querySelector(`#success-startDateAcademicEducation-message${index}`);
+    
+    const setStartDateAcademicEducationErrorFeedBack = (message: string) => {
+
+        if(errorStartDateAcademicEducationMessages) {
+            errorStartDateAcademicEducationMessages.innerText = message;
+            errorStartDateAcademicEducationMessages.classList.add("error-user-data", "fw-medium");
+            errorStartDateAcademicEducationMessages.style.fontSize = "0.8rem";
+        }
+
+        if(startDateAcademicEducationDateInput) {
+            startDateAcademicEducationDateInput.classList.add("is-invalid");
+        }
+
+        if(successStartDateAcademicEducationMessage) {
+            successStartDateAcademicEducationMessage.innerText = "";
+        }
+    };
+
+    const setStartDateAcademicEducationSuccessFeedBack = (message: string) => {
+
+        if(successStartDateAcademicEducationMessage) {
+            successStartDateAcademicEducationMessage.innerText = message;
+            successStartDateAcademicEducationMessage.classList.add("success-user-data", "fw-medium");
+            successStartDateAcademicEducationMessage.style.fontSize = "0.8rem"
+        }
+
+        if(startDateAcademicEducationDateInput) {
+            startDateAcademicEducationDateInput.classList.remove("is-invalid");
+            startDateAcademicEducationDateInput.classList.add("is-valid");
+        }
+
+        if(errorStartDateAcademicEducationMessages) {
+            errorStartDateAcademicEducationMessages.innerText = "";
+        }
+
+    };
+
+    const endDateAcademicEducationDateInput: HTMLInputElement | null = document.querySelector(`#endDateInputAcademicEducation${index}`);
+    const errorEndDateAcademicEducationMessages: HTMLDivElement | null = document.querySelector(`#error-endDateAcademicEducation-messages${index}`);
+    const successEndDateAcademicEducationMessage: HTMLDivElement | null = document.querySelector(`#success-endDateAcademicEducation-message${index}`);
+
+    const setEndDateAcademicEducationErrorFeedBack = (message: string) => {
+
+        if(errorEndDateAcademicEducationMessages) {
+            errorEndDateAcademicEducationMessages.innerText = message;
+            errorEndDateAcademicEducationMessages.classList.add("error-user-data", "fw-medium");
+            errorEndDateAcademicEducationMessages.style.fontSize = "0.8rem";
+        }
+
+        if(endDateAcademicEducationDateInput) {
+            endDateAcademicEducationDateInput.classList.add("is-invalid");
+            console.log("NOOOOOOOOOOOOOOO")
+        }
+
+        if(successEndDateAcademicEducationMessage) {
+            successEndDateAcademicEducationMessage.innerText = "";
+        }
+    };
+
+    const setEndDateAcademicEducationSuccessFeedBack = (message: string) => {
+
+        if(successEndDateAcademicEducationMessage) {
+            successEndDateAcademicEducationMessage.innerText = message;
+            successEndDateAcademicEducationMessage.classList.add("success-user-data", "fw-medium");
+            successEndDateAcademicEducationMessage.style.fontSize = "0.8rem"
+        }
+
+        if(endDateAcademicEducationDateInput) {
+            endDateAcademicEducationDateInput.classList.remove("is-invalid");
+            endDateAcademicEducationDateInput.classList.add("is-valid");
+        }
+
+        if(errorEndDateAcademicEducationMessages) {
+            errorEndDateAcademicEducationMessages.innerText = "";
+        }
+
+    };
+
+    if(startDateAcademicEducationDateInput && endDateAcademicEducationDateInput) {
+
+        const startAcademicEducationValue = startDateAcademicEducationDateInput.value.trim();
+        const endDateAcademicEducationValue = endDateAcademicEducationDateInput.value.trim();
+
+        if(startAcademicEducationValue === "" && endDateAcademicEducationValue === "") {
+
+            setStartDateAcademicEducationErrorFeedBack("Mi dispiace, il campo data di inizio è obbligatorio");
+            setEndDateAcademicEducationErrorFeedBack("Mi dispiace, il campo data di fine è obbligatorio");
+
+        } else if(startAcademicEducationValue === "" && endDateAcademicEducationValue  !== "") {
+
+            setStartDateAcademicEducationErrorFeedBack("Mi dispiace, il campo data di inizio è obbligatorio");
+            endDateAcademicEducationDateInput.classList.remove("is-invalid");
+            errorEndDateAcademicEducationMessages?.remove();
+
+        } else if(startAcademicEducationValue !== "" && endDateAcademicEducationValue  === "") {
+
+            setEndDateAcademicEducationErrorFeedBack("Mi dispiace, il campo data di fine è obbligatorio");
+            startDateAcademicEducationDateInput.classList.remove("is-invalid");
+            errorStartDateAcademicEducationMessages?.remove();
+            
+        } else {
+                
+            setStartDateAcademicEducationSuccessFeedBack("Ottimo lavoro, la data di inizio inserita è corretta");
+            setEndDateAcademicEducationSuccessFeedBack("Ottimo lavoro, la data di fine inserita è corretta");   
+
+        }
+  
+    }
+
+};
+
 
 
             
