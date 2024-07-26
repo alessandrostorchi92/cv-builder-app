@@ -549,7 +549,7 @@
                 id="protectedCategoryLeftRadio" 
                 value="Si"
                 bind:group={$formDataStore.isProtectedCategory}
-                on:blur={() => validators.checkProtectedCategoryRadios()}
+                on:click={() => validators.isProtectedCategoryRadiosSelected()}
             >
             <label class="form-check-label" for="radio1">Sì</label>
           </div>
@@ -561,7 +561,7 @@
                 id="protectedCategoryRightRadio"  
                 value="No"
                 bind:group={$formDataStore.isProtectedCategory}
-                on:blur={() => validators.checkProtectedCategoryRadios()}
+                on:click={() => validators.isProtectedCategoryRadiosSelected()}
               >
             <label class="form-check-label" for="radio2">No</label>
           </div>

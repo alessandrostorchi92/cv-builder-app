@@ -6,10 +6,42 @@ import { formDataStore, selectedFilePicture } from '../stores/form_store';
 
 let hasPrivacyPolicyApproval = false;
 
-function downloadCV() {
+function isProtectedCategoryRadiosSelected(): void {
 
-    console.log("Download CV");
-    
+    const protectedCategoryRadiosInput: NodeListOf<HTMLInputElement> = document.querySelectorAll('input[name="protectedCategoryRadioOptions"]');
+    const errorProtectedCategoryMessage: HTMLDivElement | null = document.querySelector(".error-protected-category-message");
+    let isSelected = false;
+
+    protectedCategoryRadiosInput.forEach(protectedCategoryRadio => {
+
+        if (protectedCategoryRadio.checked) {
+            isSelected = true;
+        } else {
+            protectedCategoryRadio.classList.add("is-invalid");
+        }
+
+    });
+
+    const setProtectedCategoryErrorFeedBack = (message: string) => {
+
+        if (errorProtectedCategoryMessage) {
+            errorProtectedCategoryMessage.innerText = message;
+            errorProtectedCategoryMessage.classList.add("error-user-data", "fw-medium");
+            errorProtectedCategoryMessage.style.fontSize = "0.8rem";
+        }
+
+    };
+
+    if (!isSelected) {
+        setProtectedCategoryErrorFeedBack("Mi dispiace, devi selezionare almeno un'opzione");
+    }
+}
+
+
+function downloadCV(): void {
+
+    isProtectedCategoryRadiosSelected();
+  
 }
 
 

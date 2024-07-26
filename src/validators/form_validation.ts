@@ -48,19 +48,19 @@ export function checkNameInput(): void {
 
         if(userNameValue === "") {
 
-            setNameErrorFeedBack("Il campo nome è obbligatorio");
+            setNameErrorFeedBack("Mi dipiace, il nome è obbligatorio");
 
         } else if(!namePattern.test(userNameValue)) {
 
-            setNameErrorFeedBack("Il campo nome deve contenere solo lettere maiuscole o minuscuole");
+            setNameErrorFeedBack("Mi dipiace, il nome deve contenere solo lettere maiuscole o minuscuole");
 
         } else if(userNameValue.length > 30) {
 
-            setNameErrorFeedBack("Il campo nome non può avere più di 30 caratteri");
+            setNameErrorFeedBack("Mi dipiace, il nome non può contenere più di 30 caratteri");
 
         } else {
 
-            setNameSuccessFeedback("Il campo nome è corretto");
+            setNameSuccessFeedback("Ottimo lavoro, il nome è corretto");
 
         }
     
@@ -117,19 +117,19 @@ export function checkSurnameInput() {
 
         if(userSurnameValue === "") {
 
-            setSurnameErrorFeedBack("Il campo cognome è obbligatorio");
+            setSurnameErrorFeedBack("Mi dispiace, ol cognome è obbligatorio");
 
         } else if(!surnamePattern.test(userSurnameValue)) {
 
-            setSurnameErrorFeedBack("Il campo cognome deve contenere solo lettere maiuscole o minuscole");
+            setSurnameErrorFeedBack("Mi dispiace, il cognome deve contenere solo lettere maiuscole o minuscole");
 
         } else if(userSurnameValue.length > 30) {
 
-            setSurnameErrorFeedBack("Il campo cognome non può avere più di 30 caratteri");
+            setSurnameErrorFeedBack("Mi dispiace, il cognome non può avere più di 30 caratteri");
 
         } else {
 
-            setSurnameSuccessFeedback ("Il campo cognome è corretto");
+            setSurnameSuccessFeedback ("Ottimo lavoro, il cognome è corretto");
 
         }
     
@@ -187,15 +187,15 @@ export function checkProfessionInput() {
 
         if(userProfessionValue === "") {
 
-            setProfessionErrorFeedbak("Il campo professione è obbligatorio");
+            setProfessionErrorFeedbak("Mi dispiace, la professione è obbligatoria");
 
-        } else if(userProfessionValue.length > 40) {
+        } else if(userProfessionValue.length > 30) {
 
-            setProfessionErrorFeedbak("Il campo professione non può avere più di 40 caratteri");
+            setProfessionErrorFeedbak("Mi dispiace, la professione non può contenere più di 40 caratteri");
 
         } else {
 
-            setProfessionSuccessFeedback("Il campo professione è corretto");
+            setProfessionSuccessFeedback("Ottimo lavoro, la professione è corretta");
 
         }
     
@@ -260,7 +260,7 @@ export function checkBirthPlaceInput() {
 
         } else {
 
-            setBirthPlaceSuccessFeedback("Il campo luogo di nascita è corretto");
+            setBirthPlaceSuccessFeedback("Ottimo lavoro, Il luogo di nascita è corretto");
 
         }
 
@@ -381,15 +381,15 @@ export function checkAddressInput() {
     
         if(userAddressValue === "") {
     
-            setAddressErrorFeedback("Il campo residenza/domicilio è obbligatorio");
+            setAddressErrorFeedback("Mi dispiace, il campo residenza/domicilio è obbligatorio");
     
         } else if(!addressRegex.test(userAddressValue)) {
             
-            setAddressErrorFeedback("Il campo residenza/domicilio non rispetta l'esempio fornito");
+            setAddressErrorFeedback("Mi dispiace, il campo residenza/domicilio non rispetta l'esempio fornito");
             
         } else {
             
-            setBirthPlaceSuccessFeedback("Il campo residenza/domicilio è corretto");
+            setBirthPlaceSuccessFeedback("Ottimo lavoro, il campo residenza/domicilio è corretto");
 
         }
     
@@ -446,11 +446,11 @@ export function checkPhonePrefixSelect() {
 
         if(userPhonePrefixOption === "") {
 
-            setPhonePrefixErrorFeedback("Seleziona almeno un prefisso telefonico");
+            setPhonePrefixErrorFeedback("Mi dispiace, seleziona almeno un prefisso telefonico");
 
         } else {
 
-            setPhonePrefixSuccessFeedback("Hai selezionato un prefisso telefonico");
+            setPhonePrefixSuccessFeedback("Ottimo lavoro, hai selezionato un prefisso telefonico");
 
         }
 
@@ -463,7 +463,6 @@ export function checkPhoneInput() {
     const userPhoneInput: HTMLInputElement | null = document.querySelector("[name='phone']");
     const errorPhoneMessages: HTMLDivElement | null = document.querySelector(".error-phone-messages");
     const successPhoneMessage: HTMLDivElement | null = document.querySelector(".success-phone-message");
-    const PhonePattern = /^\(?\d{1,4}\)?[\s.-]?\d{1,4}[\s.-]?\d{1,4}[\s.-]?\d{1,4}$/;
 
     const setBirthPlaceErrorFeedback = (message:string) => {
 
@@ -508,19 +507,15 @@ export function checkPhoneInput() {
 
         if(userPhoneValue === "") {
 
-            setBirthPlaceErrorFeedback("Il numero di cellulare è obbligatorio");
-
-        } else if(!PhonePattern.test(userPhoneValue)) {
-
-            setBirthPlaceErrorFeedback("Il numero di cellulare inserito contiene caratteri non validi");
+            setBirthPlaceErrorFeedback("Mi dispaice, il numero di cellulare è obbligatorio");
 
         } else if(userPhoneValue.length >= 15) {
 
-            setBirthPlaceErrorFeedback("Il numero di cellulare non può avere più di 15 numeri");
+            setBirthPlaceErrorFeedback("Mi dispiace, il numero di cellulare non può contenere più di 15 numeri");
 
         } else {
 
-            setBirthPlaceSuccessFeedback("Il numero di cellulare è corretto");
+            setBirthPlaceSuccessFeedback("Ottimo lavoro, il numero di cellulare è corretto");
 
         }
 
@@ -576,7 +571,7 @@ export function checkEmailInput() {
 
         if(userEmailValue === "") {
 
-            setEmailErrorFeedBack("Il campo email è obbligatorio");
+            setEmailErrorFeedBack(" Mi dispiace, l'email è obbligatoria");
 
         } else if(!emailPattern.test(userEmailValue)) {
 
@@ -644,15 +639,15 @@ export function checkProfileSummaryTextArea(){
 
         if(profileSummaryValue === "") {
 
-            setProfileSummaryErrorFeedBack("Il campo profilo personale è obbligatorio");
+            setProfileSummaryErrorFeedBack("Mi dispiace, Il profilo personale è obbligatorio");
 
         } else if(profileSummaryValue.length >= 500) {
 
-            setProfileSummaryErrorFeedBack("Mi dispiace, il campo profilo personale non può contenere più di 500 caratteri");
+            setProfileSummaryErrorFeedBack("Mi dispiace, il profilo personale non può contenere più di 500 caratteri");
 
         } else {
 
-            setProfileSummarySuccessFeedback ("Il campo profilo personale è corretto");
+            setProfileSummarySuccessFeedback ("Ottimo lavoro, il profilo personale è corretto");
 
         }
     
@@ -708,75 +703,51 @@ export function checkDigitalSkillsTextArea() {
 
         if( digitalSkillsValue === "") {
 
-            setDigitalSkillsErrorFeedBack("Il campo competenze digitali è obbligatorio");
+            setDigitalSkillsErrorFeedBack("Mi dispiace, il campo competenze digitali è obbligatorio");
 
         } else if(digitalSkillsValue.length >= 500) {
 
-            setDigitalSkillsErrorFeedBack("Il campo competenze digitali non può avere più di 500 caratteri");
+            setDigitalSkillsErrorFeedBack("Mi dispiace, il campo competenze digitali non può contenere più di 500 caratteri");
 
         } else {
 
-            setDigitalSkillsSuccessFeedback("Il campo competenze digitali è corretto");
+            setDigitalSkillsSuccessFeedback("Ottimo lavoro, ll campo competenze digitali è corretto");
 
         }
     
     }
 };
 
-export function checkProtectedCategoryRadios() {
-    const userProtectedCategoryRadios: NodeListOf<HTMLInputElement> = document.querySelectorAll('input[name="protectedCategoryRadioOptions"]');
-    const errorProtectedCategoryMessage: HTMLDivElement | null = document.querySelector(".error-protected-category-message");
+export function isProtectedCategoryRadiosSelected() {
+
+    const protectedCategoryRadiosInput: NodeListOf<HTMLInputElement> = document.querySelectorAll('input[name="protectedCategoryRadioOptions"]');
     const successProtectedCategoryMessage: HTMLDivElement | null = document.querySelector(".success-protected-category-message");
+
     let isSelected = false;
 
-    // Funzione per impostare il messaggio di errore
-    const setProtectedCategoryErrorFeedBack = (message: string) => {
-        if (errorProtectedCategoryMessage) {
-            errorProtectedCategoryMessage.innerText = message;
-            errorProtectedCategoryMessage.classList.add("error-user-data", "fw-medium");
-            errorProtectedCategoryMessage.style.fontSize = "0.8rem";
+    protectedCategoryRadiosInput.forEach(protectedCategoryRadio => {
+
+        if (protectedCategoryRadio.checked) {
+            protectedCategoryRadio.classList.add("is-valid");
+            isSelected = true;
         }
 
-        userProtectedCategoryRadios.forEach(radio => {
-            radio.classList.add("is-invalid");
-        });
+    });
 
-        if (successProtectedCategoryMessage) {
-            successProtectedCategoryMessage.innerText = "";
-        }
-    };
-
-    // Funzione per impostare il messaggio di successo
     const setProtectedCategorySuccessFeedback = (message: string) => {
+
         if (successProtectedCategoryMessage) {
             successProtectedCategoryMessage.innerText = message;
             successProtectedCategoryMessage.classList.add("success-user-data", "fw-medium");
             successProtectedCategoryMessage.style.fontSize = "0.8rem";
         }
-
-        userProtectedCategoryRadios.forEach(radio => {
-            radio.classList.remove("is-invalid");
-            radio.classList.add("is-valid");
-        });
-
-        if (errorProtectedCategoryMessage) {
-            errorProtectedCategoryMessage.innerText = "";
-        }
+    
     };
 
-    // Verifica se almeno un radio button è selezionato
-    userProtectedCategoryRadios.forEach(radio => {
-        if (radio.checked) {
-            isSelected = true;
-        }
-    });
-
-    // Mostra il messaggio di errore se nessun radio button è selezionato
-    if (!isSelected) {
-        setProtectedCategoryErrorFeedBack("Devi selezionare almeno un'opzione");
-    } else {
-        setProtectedCategorySuccessFeedback('Opzione selezionata correttamente');
+    if (isSelected) {
+        setProtectedCategorySuccessFeedback("Ottimo lavoro, hai selezionato un'opzione");
     }
+
 };
 
 export function checkLanguageSelect(index: number) {
