@@ -757,6 +757,7 @@
                 <input type="month" class="form-control"
                   id="startDateInputWorkExperience{jobIndex}"
                   name="startDateWorkExperience"
+                  max={job.endDateWorkExperience}
                   bind:value={ job.startDateWorkExperience }
                   on:blur={() => validators.checkStartAndEndWorkExperienceDateInput(jobIndex)}
                 >
@@ -773,6 +774,7 @@
                 <input type="month" class="form-control" 
                   id="endDateInputWorkExperience{jobIndex}"
                   name="endDateWorkExperience"
+                  min={job.startDateWorkExperience}
                   bind:value={ job.endDateWorkExperience }
                   on:blur={() => validators.checkStartAndEndWorkExperienceDateInput(jobIndex)}
                 />
