@@ -677,14 +677,32 @@
 
         <div class="py-2">
           <div class="form-check">
-            <input class="form-check-input" type="radio" name="inlineDrivingLicenceRadioOptions" id="inlineDrivingLicenceLeftRadioYes" bind:group={$formDataStore.hasOwnCar} value="Si">
+            <input class="form-check-input" 
+                   type="radio" 
+                   name="drivingLicenceRadioOptions" 
+                   id="drivingLicenceLeftRadioYes" 
+                   value="Si"
+                   bind:group={$formDataStore.hasOwnCar} 
+                   on:click={() => validators.isHasOwnCarRadiosSelected()}
+              >
             <label class="form-check-label" for="inlineDrivingLicenceLeftRadioYes">Sì</label>
           </div>
   
           <div class="form-check">
-            <input class="form-check-input" type="radio" name="inlineDrivingLicenceRadioOptions" id="inlineDrivingLicenceRightRadioNo"  bind:group={$formDataStore.hasOwnCar} value="No">
+            <input class="form-check-input" 
+                   type="radio" 
+                   name="drivingLicenceRadioOptions" 
+                   id="drivingLicenceRightRadioNo"  
+                   value="No"
+                   bind:group={$formDataStore.hasOwnCar}
+                   on:click={() => validators.isHasOwnCarRadiosSelected()} 
+              >
             <label class="form-check-label" for="inlineDrivingLicenceRightRadioNo">No</label>
           </div>
+
+          <div class="success-has-own-car-message"></div>
+          <div class="error-has-own-car-message"></div>        
+        
         </div>
       
          <!-- Dettagli Carriera -->

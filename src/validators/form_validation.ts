@@ -68,7 +68,7 @@ export function checkNameInput(): void {
 
 };
 
-export function checkSurnameInput() {
+export function checkSurnameInput(): void {
 
     const userSurnameInput: HTMLInputElement | null = document.querySelector("[name='surname']");
     const errorSurnameMessages: HTMLDivElement | null = document.querySelector(".error-surname-messages");
@@ -137,7 +137,7 @@ export function checkSurnameInput() {
 
 };
 
-export function checkProfessionInput() {
+export function checkProfessionInput(): void {
 
     const userProfessionInput: HTMLInputElement | null = document.querySelector("[name='profession']");
     const errorProfessionMessages: HTMLDivElement | null = document.querySelector(".error-profession-messages");
@@ -203,7 +203,7 @@ export function checkProfessionInput() {
 
 };
 
-export function checkBirthPlaceInput() { 
+export function checkBirthPlaceInput(): void { 
 
     const userBirthPlaceInput: HTMLInputElement | null = document.querySelector("[name='birthPlace']");
     const errorBirthPlaceMessages: HTMLDivElement | null = document.querySelector(".error-birthplace-message");
@@ -268,7 +268,7 @@ export function checkBirthPlaceInput() {
 
 };
 
-export function checkBirthDateInput() {
+export function checkBirthDateInput(): void {
 
     const birthDateInput: HTMLInputElement | null = document.querySelector("[name='birthDate']");
     const errorBirthDateMessage: HTMLDivElement | null = document.querySelector(".error-birthdate-message");
@@ -331,7 +331,7 @@ export function checkBirthDateInput() {
 
 };
 
-export function checkAddressInput() {
+export function checkAddressInput(): void {
 
     const userAddressInput: HTMLInputElement | null = document.querySelector("[name='address']");
     const errorAddressMessages: HTMLDivElement | null = document.querySelector(".error-address-messages");
@@ -397,7 +397,7 @@ export function checkAddressInput() {
 
 };
 
-export function checkPhonePrefixSelect() {
+export function checkPhonePrefixSelect(): void {
     
     const userPhonePrefixSelect: HTMLInputElement | null = document.querySelector("[name='phonePrefix']");
     const errorPhonePrefixMessage: HTMLDivElement | null = document.querySelector(".error-phoneprefix-message");
@@ -458,7 +458,7 @@ export function checkPhonePrefixSelect() {
 
 };
 
-export function checkPhoneInput() {
+export function checkPhoneInput(): void {
 
     const userPhoneInput: HTMLInputElement | null = document.querySelector("[name='phone']");
     const errorPhoneMessages: HTMLDivElement | null = document.querySelector(".error-phone-messages");
@@ -522,7 +522,7 @@ export function checkPhoneInput() {
     }
 }; 
 
-export function checkEmailInput() {
+export function checkEmailInput(): void {
         
     const userEmailInput: HTMLInputElement | null = document.querySelector("[name='email']");
     const errorEmailMessages: HTMLDivElement | null = document.querySelector(".error-email-messages");
@@ -591,7 +591,7 @@ export function checkEmailInput() {
 
 };
 
-export function checkProfileSummaryTextArea(){
+export function checkProfileSummaryTextArea(): void {
 
     const profileSummaryTextArea: HTMLTextAreaElement | null = document.querySelector("[name='profileSummary']");
     const errorProfileSummaryMessages: HTMLDivElement | null = document.querySelector(".error-profile-summary-messages");
@@ -655,7 +655,7 @@ export function checkProfileSummaryTextArea(){
 
 };
 
-export function checkDigitalSkillsTextArea() {
+export function checkDigitalSkillsTextArea(): void {
 
     const digitalSkillsTextArea: HTMLTextAreaElement | null = document.querySelector("[name='digitalSkills']");
     const errorDigitalSkillsMessages: HTMLDivElement | null = document.querySelector(".error-digital-skills-messages");
@@ -718,39 +718,46 @@ export function checkDigitalSkillsTextArea() {
     }
 };
 
-export function isProtectedCategoryRadiosSelected() {
+export function isProtectedCategoryRadiosSelected(): void {
 
-    const protectedCategoryRadiosInput: NodeListOf<HTMLInputElement> = document.querySelectorAll('input[name="protectedCategoryRadioOptions"]');
+    const protectedCategoryRadioInputs: NodeListOf<HTMLInputElement> = document.querySelectorAll('input[name="protectedCategoryRadioOptions"]');
     const successProtectedCategoryMessage: HTMLDivElement | null = document.querySelector(".success-protected-category-message");
-
+    const errorProtectedCategoryMessage: HTMLDivElement | null = document.querySelector(".error-protected-category-message");
     let isSelected = false;
 
-    protectedCategoryRadiosInput.forEach(protectedCategoryRadio => {
-
-        if (protectedCategoryRadio.checked) {
-            protectedCategoryRadio.classList.add("is-valid");
+    protectedCategoryRadioInputs.forEach(protectedCategoryRadioInput => {
+        if (protectedCategoryRadioInput.checked) {
+            protectedCategoryRadioInput.classList.add("is-valid");
             isSelected = true;
         }
-
     });
 
     const setProtectedCategorySuccessFeedback = (message: string) => {
-
         if (successProtectedCategoryMessage) {
             successProtectedCategoryMessage.innerText = message;
             successProtectedCategoryMessage.classList.add("success-user-data", "fw-medium");
             successProtectedCategoryMessage.style.fontSize = "0.8rem";
         }
-    
+
+        if (protectedCategoryRadioInputs) {
+            protectedCategoryRadioInputs.forEach(protectedCategoryRadioInput => {
+                if (protectedCategoryRadioInput) {
+                    protectedCategoryRadioInput.classList.remove("is-invalid");
+                }
+            });
+        }
+
+        if (errorProtectedCategoryMessage) {
+            errorProtectedCategoryMessage.remove();
+        }
     };
 
     if (isSelected) {
         setProtectedCategorySuccessFeedback("Ottimo lavoro, hai selezionato un'opzione");
     }
+}
 
-};
-
-export function checkLanguageSelect(index: number) {
+export function checkLanguageSelect(index: number): void {
 
     const languageSelect: HTMLSelectElement | null = document.querySelector(`#formSelectLanguages${index}`);
     const errorLanguageMessage: HTMLDivElement | null = document.querySelector(`#error-language-message${index}`);
@@ -811,7 +818,7 @@ export function checkLanguageSelect(index: number) {
 
 };
 
-export function checkLanguageLevelSelect(index: number) {
+export function checkLanguageLevelSelect(index: number): void {
 
     const languageLevelSelect: HTMLInputElement | null = document.querySelector(`#formSelectLanguageLevels${index}`);
     const errorLanguageLevelMessage: HTMLDivElement | null = document.querySelector(`#error-language-level-message${index}`);
@@ -872,7 +879,43 @@ export function checkLanguageLevelSelect(index: number) {
 
 };
 
-export function checkJobRoleTextInput(index: number) {
+export function isHasOwnCarRadiosSelected(): void {
+
+    const isHasOwnCarRadioInputs: NodeListOf<HTMLInputElement> = document.querySelectorAll('input[name="drivingLicenceRadioOptions"]');
+    const successHasOwnCarMessage: HTMLDivElement | null = document.querySelector(".success-has-own-car-message");
+    const errorHasOwnCarMessage: HTMLDivElement | null = document.querySelector(".error-has-own-car-message");
+    let isSelected = false;
+
+    isHasOwnCarRadioInputs.forEach(isHasOwnCarRadioInput => {
+
+        if (isHasOwnCarRadioInput.checked) {
+            isHasOwnCarRadioInput.classList.add("is-valid");
+            isSelected = true;
+        }
+
+    });
+
+    const setHasOwnCarSuccessFeedback = (message: string) => {
+
+        if (successHasOwnCarMessage) {
+            successHasOwnCarMessage.innerText = message;
+            successHasOwnCarMessage.classList.add("success-user-data", "fw-medium");
+            successHasOwnCarMessage.style.fontSize = "0.8rem";
+        }
+
+        if(errorHasOwnCarMessage) {
+            errorHasOwnCarMessage.remove();
+        }
+    
+    };
+
+    if (isSelected) {
+        setHasOwnCarSuccessFeedback("Ottimo lavoro, hai selezionato un'opzione");
+    }
+
+};
+
+export function checkJobRoleTextInput(index: number): void {
 
     const jobRoleTextInput: HTMLInputElement | null = document.querySelector(`#textInputJobRole${index}`);
     const errorJobRoleMessages: HTMLDivElement | null = document.querySelector(`#error-job-role-messages${index}`);
@@ -938,7 +981,7 @@ export function checkJobRoleTextInput(index: number) {
 
 };
 
-export function checkCompanyTextInput(index: number) {
+export function checkCompanyTextInput(index: number): void {
 
     const companyTextInput: HTMLInputElement | null = document.querySelector(`#textInputCompany${index}`);
     const errorCompanyMessages: HTMLDivElement | null = document.querySelector(`#error-company-messages${index}`);
@@ -1023,7 +1066,7 @@ export function checkCompanyTextInput(index: number) {
 
 };
 
-export function checkWorkExperienceResults(index: number) {
+export function checkWorkExperienceResults(index: number): void {
 
     const workExperienceResultsTextArea: HTMLTextAreaElement | null = document.querySelector(`#textAreaInputWorkExperienceResults${index}`);
     const errorWorkExperienceResultsMessages: HTMLDivElement | null = document.querySelector(`#error-work-experience-results-messages${index}`);
@@ -1087,7 +1130,7 @@ export function checkWorkExperienceResults(index: number) {
 
 };
 
-export function checkStartAndEndWorkExperienceDateInput(index: number) {
+export function checkStartAndEndWorkExperienceDateInput(index: number): void {
     
     const startDateWorkExperienceDateInput: HTMLInputElement | null = document.querySelector(`#startDateInputWorkExperience${index}`);
     const errorStartDateWorkExperienceMessages: HTMLDivElement | null = document.querySelector(`#error-startDateWorkExperience-messages${index}`);
@@ -1202,7 +1245,7 @@ export function checkStartAndEndWorkExperienceDateInput(index: number) {
 
 };
 
-export function checkQualificationsSelect(index:number) {
+export function checkQualificationsSelect(index:number): void {
 
     const qualificationsSelect: HTMLSelectElement | null = document.querySelector(`#selectQualification${index}`);
     const errorQualificationMessage: HTMLDivElement | null = document.querySelector(`#error-qualification-message${index}`);
@@ -1263,7 +1306,7 @@ export function checkQualificationsSelect(index:number) {
     
 };
 
-export function checkFieldOfStudyTextInput(index: number) {
+export function checkFieldOfStudyTextInput(index: number): void {
 
     const fieldOfStudyTextInput: HTMLInputElement | null = document.querySelector(`#textInputFieldOfStudy${index}`);
     const errorFieldOfStudyMessages: HTMLDivElement | null = document.querySelector(`#error-field-study-message${index}`);
@@ -1329,7 +1372,7 @@ export function checkFieldOfStudyTextInput(index: number) {
 
 };
 
-export function checkEducationTypeTextInput(index: number) {
+export function checkEducationTypeTextInput(index: number): void {
 
     const educationTypeTextInput: HTMLInputElement | null = document.querySelector(`#textInputEducationType${index}`);
     const errorEducationTypeMessages: HTMLDivElement | null = document.querySelector(`#error-education-type-messages${index}`);
@@ -1395,7 +1438,7 @@ export function checkEducationTypeTextInput(index: number) {
 
 };
 
-export function checkEducationGoals(index:number) {
+export function checkEducationGoals(index:number): void {
 
     const educationGoalsTextArea: HTMLTextAreaElement | null = document.querySelector(`#formInputEducationGoals${index}`);
     const errorEducationGoalsMessages: HTMLDivElement | null = document.querySelector(`#error-education-goals-messages${index}`);
@@ -1459,7 +1502,7 @@ export function checkEducationGoals(index:number) {
 
 };
 
-export function checkStartAndEndAcademicEducationDateInput(index: number) {
+export function checkStartAndEndAcademicEducationDateInput(index: number): void {
 
     const startDateAcademicEducationDateInput: HTMLInputElement | null = document.querySelector(`#startDateInputAcademicEducation${index}`);
     const errorStartDateAcademicEducationMessages: HTMLDivElement | null = document.querySelector(`#error-startDateAcademicEducation-messages${index}`);

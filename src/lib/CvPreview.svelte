@@ -37,10 +37,43 @@ function isProtectedCategoryRadiosSelected(): void {
     }
 }
 
+export function isHasOwnCarRadiosSelected(): void {
+
+    const isHasOwnCarRadioInputs: NodeListOf<HTMLInputElement> = document.querySelectorAll('input[name="drivingLicenceRadioOptions"]');
+    const errorHasOwnCarMessage: HTMLDivElement | null = document.querySelector(".error-has-own-car-message");
+
+    let isSelected = false;
+
+    isHasOwnCarRadioInputs.forEach(isHasOwnCarRadioInput => {
+
+        if (isHasOwnCarRadioInput.checked) {
+            isHasOwnCarRadioInput.classList.add("is-valid");
+            isSelected = true;
+        }
+
+    });
+
+    const setHasOwnCarErrorFeedback = (message: string) => {
+
+        if (errorHasOwnCarMessage) {
+            errorHasOwnCarMessage.innerText = message;
+            errorHasOwnCarMessage.classList.add("error-user-data", "fw-medium");
+            errorHasOwnCarMessage.style.fontSize = "0.8rem";
+        }
+    
+    };
+
+    if (!isSelected) {
+        setHasOwnCarErrorFeedback ("Mi dispiace, devi selezionare almeno un'opzione");
+    }
+
+};
+
 
 function downloadCV(): void {
 
     isProtectedCategoryRadiosSelected();
+    isHasOwnCarRadiosSelected();
   
 }
 
