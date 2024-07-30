@@ -621,12 +621,27 @@
                      <option value={optionslanguageLevel.value}>{optionslanguageLevel.label}</option>
                  {/each}
              </select>
+
              {#if languageIndex > 0}
                  <div class="input-group-append px-2"
-                      style="width: 10%;">
+                      style="width: 20%;">
                      <button type="button" class="btn-remove-style" on:click={() => removeLanguage(languageIndex)}><i class="fa-solid fa-trash"></i></button>
                  </div>
+                 <div class="visual-feedback-group-container"
+                      style="width: 80%;">
+                  <div class="left-visual-feedback-position"
+                       style="width: 40%;">
+                      <div class="success-user-data" id="success-language-message{languageIndex}"></div>
+                      <div class="error-user-data" id="error-language-message{languageIndex}"></div>
+                  </div>
+                  <div class="right-visual-feedback-position"
+                       style="width: 40%;">
+                      <div class="success-user-data" id="success-language-level-message{languageIndex}"></div>
+                      <div class="error-user-data" id="error-language-level-message{languageIndex}"></div>
+                  </div>
+              </div>
              {/if}
+
              <div class="visual-feedback-group-container">
                  <div class="left-visual-feedback-position">
                      <div class="success-user-data" id="success-language-message{languageIndex}"></div>
