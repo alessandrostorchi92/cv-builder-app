@@ -725,9 +725,9 @@ export function isProtectedCategoryRadiosSelected(): void {
     const errorProtectedCategoryMessage: HTMLDivElement | null = document.querySelector(".error-protected-category-message");
     let isSelected = false;
 
-    protectedCategoryRadioInputs.forEach(protectedCategoryRadioInput => {
-        if (protectedCategoryRadioInput.checked) {
-            protectedCategoryRadioInput.classList.add("is-valid");
+    protectedCategoryRadioInputs.forEach(protectedCategoryRadio => {
+        if (protectedCategoryRadio.checked) {
+            protectedCategoryRadio.classList.add("is-valid");
             isSelected = true;
         }
     });
@@ -740,9 +740,9 @@ export function isProtectedCategoryRadiosSelected(): void {
         }
 
         if (protectedCategoryRadioInputs) {
-            protectedCategoryRadioInputs.forEach(protectedCategoryRadioInput => {
-                if (protectedCategoryRadioInput) {
-                    protectedCategoryRadioInput.classList.remove("is-invalid");
+            protectedCategoryRadioInputs.forEach(protectedCategoryRadio => {
+                if (protectedCategoryRadio) {
+                    protectedCategoryRadio.classList.remove("is-invalid");
                 }
             });
         }
@@ -877,6 +877,50 @@ export function checkLanguageLevelSelect(index: number): void {
 
     } 
 
+};
+
+export function checkDrivingLicenceCheckboxesInput(): void {
+
+    const drivingLicenceCheckBoxInputs: NodeListOf<HTMLInputElement> = document.querySelectorAll('input[name="drivingLicenceCheckBoxOptions"]');
+    const successDrivingLicenceMessage: HTMLDivElement | null = document.querySelector(".success-driving-licence-message");
+    const errorDrivingLicenceMessage: HTMLDivElement | null = document.querySelector(".error-driving-licence-message");
+    let isSelected = false;
+
+    drivingLicenceCheckBoxInputs.forEach(drivingLicenceCheckBox => {
+
+        if (drivingLicenceCheckBox.checked) {
+            drivingLicenceCheckBox.classList.add("is-valid");
+            isSelected = true;
+        }
+
+    });
+
+    const setDrivingLicenceSuccessFeedback = (message: string) => {
+
+        if (successDrivingLicenceMessage) {
+            successDrivingLicenceMessage.innerText = message;
+            successDrivingLicenceMessage.classList.add("success-user-data", "fw-medium");
+            successDrivingLicenceMessage.style.fontSize = "0.8rem";
+        }
+
+        if (drivingLicenceCheckBoxInputs) {
+            drivingLicenceCheckBoxInputs.forEach(drivingLicenceCheckBox => {
+                if (drivingLicenceCheckBox) {
+                    drivingLicenceCheckBox.classList.remove("is-invalid");
+                }
+            });
+        }
+
+        if(errorDrivingLicenceMessage) {
+            errorDrivingLicenceMessage.remove();
+        }
+    
+    };
+
+    if (isSelected) {
+        setDrivingLicenceSuccessFeedback("Ottimo lavoro, hai selezionato un'opzione");
+    }
+    
 };
 
 export function isHasOwnCarRadiosSelected(): void {

@@ -35,9 +35,40 @@ function isProtectedCategoryRadiosSelected(): void {
     if (!isSelected) {
         setProtectedCategoryErrorFeedBack("Mi dispiace, devi selezionare almeno un'opzione");
     }
-}
+};
 
-export function isHasOwnCarRadiosSelected(): void {
+function checkDrivingLicenceCheckboxesInput(): void {
+    
+    const drivingLicenceCheckboxInputs: NodeListOf<HTMLInputElement> = document.querySelectorAll('input[name="drivingLicenceCheckBoxOptions"]');
+    const errorDrivingLicenceMessage: HTMLDivElement | null = document.querySelector(".error-driving-licence-message");
+    let isSelected = false;
+
+    drivingLicenceCheckboxInputs.forEach(drivingLicenceCheckbox => {
+
+        if (drivingLicenceCheckbox.checked) {
+            isSelected = true;
+        } else {
+            drivingLicenceCheckbox.classList.add("is-invalid");
+        }
+
+    });
+
+    const setDrivingLicenceErrorFeedBack = (message: string) => {
+
+        if (errorDrivingLicenceMessage) {
+            errorDrivingLicenceMessage.innerText = message;
+            errorDrivingLicenceMessage.classList.add("error-user-data", "fw-medium");
+            errorDrivingLicenceMessage.style.fontSize = "0.8rem";
+        }
+
+    };
+
+    if (!isSelected) {
+        setDrivingLicenceErrorFeedBack("Mi dispiace, devi selezionare almeno un'opzione");
+    }
+};
+
+function isHasOwnCarRadiosSelected(): void {
 
     const isHasOwnCarRadioInputs: NodeListOf<HTMLInputElement> = document.querySelectorAll('input[name="drivingLicenceRadioOptions"]');
     const errorHasOwnCarMessage: HTMLDivElement | null = document.querySelector(".error-has-own-car-message");
@@ -73,6 +104,7 @@ export function isHasOwnCarRadiosSelected(): void {
 function downloadCV(): void {
 
     isProtectedCategoryRadiosSelected();
+    checkDrivingLicenceCheckboxesInput();
     isHasOwnCarRadiosSelected();
   
 }

@@ -656,16 +656,22 @@
             <div class="form-check">
               <input 
                 class="form-check-input" 
-                type="checkbox" 
+                type="checkbox"
+                name="drivingLicenceCheckBoxOptions" 
                 id={"formCheckBoxDrivingLicence" + drivingLicenceCheckBox.value}
-                bind:group={$formDataStore.drivingLicences}
                 value={drivingLicenceCheckBox.label}  
+                bind:group={$formDataStore.drivingLicences}
+                on:click={() => validators.checkDrivingLicenceCheckboxesInput()}
               >
               <label class="form-check-label" for={"formCheckBoxDrivingLicence" + drivingLicenceCheckBox.value}>
                 {drivingLicenceCheckBox.label}
               </label>
             </div>
           {/each}
+
+          <div class="success-driving-licence-message"></div>
+          <div class="error-driving-licence-message"></div>
+
         </div>
         
          <!-- Automunito -->
