@@ -6,6 +6,30 @@ import { formDataStore, selectedFilePicture } from '../stores/form_store';
 
 let hasPrivacyPolicyApproval = false;
 
+function isProfilePictureUploaded(): void {
+    const filePictureUploadedInput: HTMLInputElement | null = document.querySelector('[name="filePicture"]');
+    const errorProfilePictureUploadedMessage: HTMLDivElement | null = document.querySelector(".error-file-picture-message");
+
+    const setProfilePictureUploadedErrorFeedBack = (message: string) => {
+
+        if (errorProfilePictureUploadedMessage) {
+            errorProfilePictureUploadedMessage.innerText = message;
+            errorProfilePictureUploadedMessage.classList.add("error-user-data", "fw-medium");
+            errorProfilePictureUploadedMessage.style.fontSize = "0.8rem";
+        }
+
+    };
+
+    if (filePictureUploadedInput) {
+        
+        if (!filePictureUploadedInput.files || filePictureUploadedInput.files.length === 0) {
+            setProfilePictureUploadedErrorFeedBack("Mi dispiace, devi caricare la tua immagine di profillo");
+        }
+
+    }
+    
+};
+
 function isProtectedCategoryRadiosSelected(): void {
 
     const protectedCategoryRadiosInput: NodeListOf<HTMLInputElement> = document.querySelectorAll('input[name="protectedCategoryRadioOptions"]');
@@ -103,6 +127,7 @@ function isHasOwnCarRadiosSelected(): void {
 
 function downloadCV(): void {
 
+    isProfilePictureUploaded();
     isProtectedCategoryRadiosSelected();
     checkDrivingLicenceCheckboxesInput();
     isHasOwnCarRadiosSelected();

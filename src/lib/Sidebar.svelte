@@ -274,6 +274,9 @@
 
 <div id="sidebar" class="flex-column-utility">
 
+  <h1 class="text-center py-3">CREA IL TUO CURRICULUM VITAE</h1>
+  <h3 class="text-center py-3">Fai il tuo primo passo verso il tuo lavoro ideale: crea il tuo curriculum e fai decollare la tua carriera</h3>
+
   <!-- Informazioni di contatto -->
 
   <div class="flex-center-utility p-4">
@@ -282,7 +285,7 @@
 
   <form>
   
-    <div class="container p-3">
+    <div class="container py-4">
 
       <div class="row">
 
@@ -296,24 +299,26 @@
           </div>
         </div>
 
-        <div class="flex-center-utility py-4">
-          <label for="file-picture-input" class="custom-file-input">
-            Scegli foto
-          </label>
+        <div class="text-center py-4">
+
+          <label for="file-picture-input" class="custom-file-input">Scegli foto</label>
 
           <input
             type="file"
             id="file-picture-input"
             name="filePicture"
             bind:files={$formDataStore.filePicture}
-            on:change={() => getUrlImg()}
+            on:change={() => { validators.isProfilePictureUploaded(); getUrlImg(); }}
             accept="image/*"
           />
 
-          <div class="success-user-data success-file-picture-message"></div>
-          <div class="error-user-data error-file-picture-message"></div>
+          <div style="width: 50%; margin: 0 auto;">
+            <div class="success-user-data success-file-picture-message"></div>
+            <div class="error-user-data error-file-picture-message"></div>
+          </div>
           
         </div>
+
 
         <!-- Name -->
 
@@ -472,7 +477,7 @@
               id="formSelectPhone"
               name="phone"
               autocomplete="off"
-              placeholder="Numero di cellulare"
+              placeholder="Cellulare"
               bind:value={$formDataStore.phone}
               on:input={() => validators.checkPhoneInput()}
           />

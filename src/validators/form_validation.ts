@@ -1,3 +1,31 @@
+export function isProfilePictureUploaded(): void {
+
+    const filePictureUploadedInput: HTMLInputElement | null = document.querySelector('[name="filePicture"]');
+    const successProfilePictureUploadedMessage: HTMLDivElement | null = document.querySelector(".success-file-picture-message");
+    const errorProfilePictureUploadedMessage: HTMLDivElement | null = document.querySelector(".error-file-picture-message");
+
+    const setProfilePictureUploadedSuccessFeedback = (message: string) => {
+
+        if (successProfilePictureUploadedMessage) {
+            successProfilePictureUploadedMessage.innerText = message;
+            successProfilePictureUploadedMessage.classList.add("success-user-data", "fw-medium");
+            successProfilePictureUploadedMessage.style.fontSize = "0.8rem";
+        }
+
+    }
+
+    if(filePictureUploadedInput?.files) {
+            
+        if (filePictureUploadedInput.files.length > 0) {
+            setProfilePictureUploadedSuccessFeedback("Ottimo lavoro, hai caricato la tua immagine di profilo");
+            if(errorProfilePictureUploadedMessage) {
+                errorProfilePictureUploadedMessage.remove();
+            }
+        } 
+    }
+
+}
+    
 export function checkNameInput(): void {
 
     const userNameInput: HTMLInputElement | null = document.querySelector("[name='name']");
