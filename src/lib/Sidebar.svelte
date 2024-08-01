@@ -1,7 +1,9 @@
 <script lang="ts">
 
   import { formDataStore, selectedFilePicture } from '../stores/form_store';
-  import * as validators from '../validators/form_validation'
+  import * as validators from '../validators/form_validation';
+  import * as storages from '../storages/data_stored';
+  import { onMount } from 'svelte';
   
   const phonePrefixes = [
 
@@ -269,6 +271,30 @@
   $: if($formDataStore) {
     console.log($formDataStore);
   }
+
+  onMount(() => {
+
+        const savedNameValue = localStorage.getItem("name");
+        if (savedNameValue) {
+          $formDataStore.name = savedNameValue;
+        }
+
+        const savedSurnameValue = localStorage.getItem("surname");
+        if (savedSurnameValue) {
+          $formDataStore.surname = savedSurnameValue;
+        }
+
+        const savedProfessionValue = localStorage.getItem("profession");
+        if (savedProfessionValue) {
+          $formDataStore.profession = savedProfessionValue;
+        }
+
+        const savedBirthPlaceValue = localStorage.getItem("birthPlace");
+        if (savedBirthPlaceValue) {
+          $formDataStore.birthPlace = savedBirthPlaceValue;
+        }
+
+  });
   
 </script>
 
@@ -335,7 +361,7 @@
               autocomplete="off"
               placeholder="Inserisci il tuo nome"
               bind:value={$formDataStore.name}
-              on:input={() => validators.checkNameInput()}
+              on:input={() => { validators.checkNameInput(); storages.saveNameData(); }}
           />
           
           <div class="success-user-data success-name-message"></div>
@@ -357,7 +383,7 @@
             autocomplete="off"
             placeholder="Inserisci il tuo cognome"
             bind:value={$formDataStore.surname}
-            on:input={() => validators.checkSurnameInput()}
+            on:input={() => { validators.checkSurnameInput(); storages.saveSurnameData(); }}
           />
 
           <div class="success-user-data success-surname-message"></div>
@@ -379,7 +405,7 @@
             autocomplete="off"
             placeholder="Inserisci la tua professione"
             bind:value={$formDataStore.profession}
-            on:input={() => validators.checkProfessionInput()}
+            on:input={() => { validators.checkProfessionInput(); storages.saveProfessionData(); }}
           />
 
           <div class="success-user-data success-profession-message"></div>
@@ -400,7 +426,7 @@
                  autocomplete="off"
                  placeholder="Inserisci il tuo luogo di nascita"
                  bind:value={$formDataStore.birthPlace}
-                 on:input={() => validators.checkBirthPlaceInput()}
+                 on:input={() => { validators.checkBirthPlaceInput(); storages.savebirthPlaceData(); }}
           />
           
           <div class="success-birthplace-message"></div>
