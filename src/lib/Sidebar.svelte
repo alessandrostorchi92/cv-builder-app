@@ -294,6 +294,47 @@
           $formDataStore.birthPlace = savedBirthPlaceValue;
         }
 
+        const savedBirthDateValue = localStorage.getItem("birthDate");
+        if (savedBirthDateValue) {
+          $formDataStore.birthDate = savedBirthDateValue;
+        }
+
+        const savedAddressValue = localStorage.getItem("address");
+        if (savedAddressValue) {
+          $formDataStore.address = savedAddressValue;
+        }
+
+        const savedPhonePrefixValue = localStorage.getItem("phonePrefix");
+        if (savedPhonePrefixValue) {
+          $formDataStore.phonePrefix = savedPhonePrefixValue;
+        }
+
+        const savedPhoneValue = localStorage.getItem("phone");
+        if (savedPhoneValue) {
+          $formDataStore.phone = savedPhoneValue;
+        }
+
+        const saveEmailValue = localStorage.getItem("email");
+        if (saveEmailValue) {
+          $formDataStore.email = saveEmailValue;
+        }
+
+        const saveProfileSummaryValue = localStorage.getItem("profileSummary");
+        if (saveProfileSummaryValue) {
+          $formDataStore.profileSummary = saveProfileSummaryValue;
+        }
+
+        const saveProtectedCategoryValue = localStorage.getItem("protectedCategoryRadioOptions");
+        if (saveProtectedCategoryValue) {
+          $formDataStore.isProtectedCategory = saveProtectedCategoryValue;
+        }
+
+        const saveDigitalSkillsValue = localStorage.getItem("digitalSkills");
+        if (saveDigitalSkillsValue ) {
+          $formDataStore.digitalSkills = saveDigitalSkillsValue ;
+        }
+
+
   });
   
 </script>
@@ -357,8 +398,8 @@
               type="text"
               class="form-control"
               id="textInputName"
-              name="name"
               autocomplete="off"
+              name="name"
               placeholder="Inserisci il tuo nome"
               bind:value={$formDataStore.name}
               on:input={() => { validators.checkNameInput(); storages.saveNameData(); }}
@@ -379,7 +420,6 @@
             type="text"
             class="form-control"
             id="textInputSurname"
-            name="surname"
             autocomplete="off"
             placeholder="Inserisci il tuo cognome"
             bind:value={$formDataStore.surname}
@@ -401,8 +441,8 @@
             type="text"
             class="form-control"
             id="textInputProfession"
-            name="profession"
             autocomplete="off"
+            name="profession"
             placeholder="Inserisci la tua professione"
             bind:value={$formDataStore.profession}
             on:input={() => { validators.checkProfessionInput(); storages.saveProfessionData(); }}
@@ -422,11 +462,11 @@
           <input type="text"
                  class="form-control"
                  id="textInputBirthDate" 
-                 name="birthPlace"
                  autocomplete="off"
+                 name="birthPlace"
                  placeholder="Inserisci il tuo luogo di nascita"
                  bind:value={$formDataStore.birthPlace}
-                 on:input={() => { validators.checkBirthPlaceInput(); storages.savebirthPlaceData(); }}
+                 on:input={() => { validators.checkBirthPlaceInput(); storages.saveBirthPlaceData(); }}
           />
           
           <div class="success-birthplace-message"></div>
@@ -443,9 +483,10 @@
           <input type="date"
                  class="form-control"
                  id="formInputBirthDate"
+                 autocomplete="off"
                  name="birthDate" 
                  bind:value={$formDataStore.birthDate}
-                 on:blur={() => validators.checkBirthDateInput()}
+                 on:blur={() => { validators.checkBirthDateInput(); storages.saveBirthDateData(); }}
           />
 
           <div class="success-birthdate-message"></div>
@@ -461,11 +502,11 @@
             type="text"
             class="form-control"
             id="formInputAddress"
-            name="address"
             autocomplete="off"
+            name="address"
             placeholder="Via Roma 123, 00100 Roma"
             bind:value={$formDataStore.address}
-            on:input={() => validators.checkAddressInput()}
+            on:input={() => { validators.checkAddressInput(); storages.saveAddressData(); }}
           />
 
           <div class="success-address-message"></div>
@@ -486,9 +527,10 @@
               style="width: 50%;"
               id="formSelectPhonePrefix"
               aria-label="PhonePrefixSelect"
+              autocomplete="off"
               name="phonePrefix"
               bind:value={$formDataStore.phonePrefix}
-              on:blur={() => validators.checkPhonePrefixSelect()}>
+              on:blur={() => { validators.checkPhonePrefixSelect(); storages.savePhonePrefixData(); }}>
 
               <option value="" disabled class="prefix-option" id="defaultOption"><span>Prefisso</span></option>
               {#each phonePrefixes as phonePrefix}
@@ -505,7 +547,7 @@
               autocomplete="off"
               placeholder="Cellulare"
               bind:value={$formDataStore.phone}
-              on:input={() => validators.checkPhoneInput()}
+              on:input={() => { validators.checkPhoneInput(); storages.savePhoneData();}}
           />
 
           <div class="visual-feedback-group-container">
@@ -537,7 +579,7 @@
             autocomplete="off"
             placeholder="mario.rossi@gmail.com"
             bind:value={$formDataStore.email}
-            on:input={() => validators.checkEmailInput()}
+            on:input={() => { validators.checkEmailInput(); storages.saveEmailData(); }}
           />
 
           <div class="success-email-message"></div>
@@ -555,9 +597,10 @@
           id="formInputProfileSummary"
           name="profileSummary"
           rows="4"
+          maxlength="500"
           placeholder="Descriviti in poche righe..."
           bind:value={$formDataStore.profileSummary}
-          on:input={() => validators.checkProfileSummaryTextArea()}
+          on:input={() => { validators.checkProfileSummaryTextArea(); storages.saveProfileSummaryData();}}
           ></textarea>
 
           <div class="success-profile-summary-message"></div>
@@ -576,11 +619,11 @@
           <div class="form-check">
             <input class="form-check-input" 
                 type="radio" 
-                name="protectedCategoryRadioOptions" 
                 id="protectedCategoryLeftRadio" 
+                name="protectedCategoryRadioOptions" 
                 value="Si"
                 bind:group={$formDataStore.isProtectedCategory}
-                on:click={() => validators.isProtectedCategoryRadiosSelected()}
+                on:click={() => { validators.isProtectedCategoryRadiosSelected(); storages.saveProtectedCategoryData(); }}
             >
             <label class="form-check-label" for="radio1">Sì</label>
           </div>
@@ -612,9 +655,10 @@
           id="formInputDigitalSkills"
           name="digitalSkills"
           rows="4"
+          maxlength="500"
           placeholder="Illustraci le tue competenze digitali..."
           bind:value={$formDataStore.digitalSkills}
-          on:input={() => validators.checkDigitalSkillsTextArea()}
+          on:input={() => { validators.checkDigitalSkillsTextArea(); storages.saveDigitalSkillsData(); }}
           ></textarea>
 
           <div class="success-digital-skills-message"></div>
