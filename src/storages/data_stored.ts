@@ -100,12 +100,14 @@ export function saveProfileSummaryData(): void {
 
 export function saveProtectedCategoryData(): void {
 
-    const userProtectedCategoryRadioInput: HTMLInputElement | null = document.querySelector("[name='protectedCategoryRadioOptions']");
+    const userProtectedCategoryRadioInputs:  NodeListOf<HTMLInputElement> | null = document.querySelectorAll("[name='protectedCategoryRadioOptions']");
 
-    if(userProtectedCategoryRadioInput) {
-        localStorage.setItem("protectedCategoryRadioOptions", userProtectedCategoryRadioInput.value);       
-    }
-
+    userProtectedCategoryRadioInputs.forEach((protectedCategoryRadio) => {
+        if(protectedCategoryRadio.checked) {
+            localStorage.setItem("protectedCategoryRadioOptions", protectedCategoryRadio.value); 
+        }
+    }); 
+              
 };
 
 export function saveDigitalSkillsData(): void {
@@ -117,3 +119,14 @@ export function saveDigitalSkillsData(): void {
     }
 
 };
+
+export function saveDrivingLicenceData(): void {
+
+    const userDrivingLicenceInput: HTMLInputElement | null = document.querySelector("[name='drivingLicenceCheckBoxOptions']");
+
+    if(userDrivingLicenceInput) {
+        localStorage.setItem("drivingLicenceCheckBoxOptions", userDrivingLicenceInput.value);       
+    }
+
+};
+

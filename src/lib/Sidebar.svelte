@@ -307,6 +307,7 @@
         const savedPhonePrefixValue = localStorage.getItem("phonePrefix");
         if (savedPhonePrefixValue) {
           $formDataStore.phonePrefix = savedPhonePrefixValue;
+          localStorage.clear();
         }
 
         const savedPhoneValue = localStorage.getItem("phone");
@@ -330,10 +331,9 @@
         }
 
         const saveDigitalSkillsValue = localStorage.getItem("digitalSkills");
-        if (saveDigitalSkillsValue ) {
-          $formDataStore.digitalSkills = saveDigitalSkillsValue ;
+        if (saveDigitalSkillsValue) {
+          $formDataStore.digitalSkills = saveDigitalSkillsValue;
         }
-
 
   });
   
@@ -375,7 +375,7 @@
             id="file-picture-input"
             name="filePicture"
             bind:files={$formDataStore.filePicture}
-            on:change={() => { validators.isProfilePictureUploaded(); getUrlImg(); }}
+            on:change={() => validators.isProfilePictureUploaded() }
             accept="image/*"
           />
 
@@ -635,8 +635,8 @@
                 id="protectedCategoryRightRadio"  
                 value="No"
                 bind:group={$formDataStore.isProtectedCategory}
-                on:click={() => validators.isProtectedCategoryRadiosSelected()}
-              >
+                on:click={() => { validators.isProtectedCategoryRadiosSelected(); storages.saveProtectedCategoryData(); }}
+            >
             <label class="form-check-label" for="radio2">No</label>
           </div>
 
