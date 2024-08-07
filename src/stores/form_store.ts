@@ -18,7 +18,7 @@ let userFormData: formTypes.FormData = {
     profileSummary: "",
     isProtectedCategory: "",
     digitalSkills: "",
-    languagesSkills: [{ lang: "", level: "" },],
+    languagesSkills: [{ lang: "", level: "" }],
     drivingLicences: [],
     hasOwnCar: "",   
     jobs: [{

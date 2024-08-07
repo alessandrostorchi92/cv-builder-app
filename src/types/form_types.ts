@@ -32,8 +32,6 @@
 
     };
 
-
-
     export type AcademicHistory = {
         qualification: string,
         fieldOfStudy: string,

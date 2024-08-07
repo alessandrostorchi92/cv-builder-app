@@ -3,7 +3,7 @@
   import { formDataStore, selectedFilePicture } from '../stores/form_store';
   import * as validators from '../validators/form_validation';
   import * as storages from '../storages/data_stored';
-  import { onMount } from 'svelte';
+  import { onMount, tick } from 'svelte';
   
   const phonePrefixes = [
 
@@ -307,7 +307,6 @@
         const savedPhonePrefixValue = localStorage.getItem("phonePrefix");
         if (savedPhonePrefixValue) {
           $formDataStore.phonePrefix = savedPhonePrefixValue;
-          localStorage.clear();
         }
 
         const savedPhoneValue = localStorage.getItem("phone");
@@ -315,24 +314,39 @@
           $formDataStore.phone = savedPhoneValue;
         }
 
-        const saveEmailValue = localStorage.getItem("email");
-        if (saveEmailValue) {
-          $formDataStore.email = saveEmailValue;
+        const savedEmailValue = localStorage.getItem("email");
+        if (savedEmailValue) {
+          $formDataStore.email = savedEmailValue;
         }
 
-        const saveProfileSummaryValue = localStorage.getItem("profileSummary");
-        if (saveProfileSummaryValue) {
-          $formDataStore.profileSummary = saveProfileSummaryValue;
+        const savedProfileSummaryValue = localStorage.getItem("profileSummary");
+        if (savedProfileSummaryValue) {
+          $formDataStore.profileSummary = savedProfileSummaryValue;
         }
 
-        const saveProtectedCategoryValue = localStorage.getItem("protectedCategoryRadioOptions");
-        if (saveProtectedCategoryValue) {
-          $formDataStore.isProtectedCategory = saveProtectedCategoryValue;
+        const savedProtectedCategoryValue = localStorage.getItem("protectedCategoryRadioOptions");
+        if (savedProtectedCategoryValue) {
+          $formDataStore.isProtectedCategory = savedProtectedCategoryValue;
         }
 
-        const saveDigitalSkillsValue = localStorage.getItem("digitalSkills");
-        if (saveDigitalSkillsValue) {
-          $formDataStore.digitalSkills = saveDigitalSkillsValue;
+        const savedDigitalSkillsValue = localStorage.getItem("digitalSkills");
+        if (savedDigitalSkillsValue) {
+          $formDataStore.digitalSkills = savedDigitalSkillsValue;
+        }
+
+        const savedCurrentLanguagesSkills = localStorage.getItem("languagesSkills");
+        if(savedCurrentLanguagesSkills) {
+          $formDataStore.languagesSkills = JSON.parse(savedCurrentLanguagesSkills);
+        } 
+
+        const savedDrivingLicenceValues = localStorage.getItem("drivingLicenceCheckBoxOptions");
+        if (savedDrivingLicenceValues) {
+          $formDataStore.drivingLicences = JSON.parse(savedDrivingLicenceValues);
+        }
+
+        const savedIsHasOwnCarValue = localStorage.getItem("isHasOwnCarRadioOptions");
+        if (savedIsHasOwnCarValue) {
+          $formDataStore.hasOwnCar = savedIsHasOwnCarValue;
         }
 
   });
@@ -386,7 +400,6 @@
           
         </div>
 
-
         <!-- Name -->
 
         <div class="form-group mb-3">
@@ -402,7 +415,7 @@
               name="name"
               placeholder="Inserisci il tuo nome"
               bind:value={$formDataStore.name}
-              on:input={() => { validators.checkNameInput(); storages.saveNameData(); }}
+              on:input={() => { validators.checkNameInput(); storages.storeUserData('name', 'name'); }}
           />
           
           <div class="success-user-data success-name-message"></div>
@@ -421,9 +434,10 @@
             class="form-control"
             id="textInputSurname"
             autocomplete="off"
+            name="surname"
             placeholder="Inserisci il tuo cognome"
             bind:value={$formDataStore.surname}
-            on:input={() => { validators.checkSurnameInput(); storages.saveSurnameData(); }}
+            on:input={() => { validators.checkSurnameInput(); storages.storeUserData('surname', 'surname'); }}
           />
 
           <div class="success-user-data success-surname-message"></div>
@@ -445,7 +459,7 @@
             name="profession"
             placeholder="Inserisci la tua professione"
             bind:value={$formDataStore.profession}
-            on:input={() => { validators.checkProfessionInput(); storages.saveProfessionData(); }}
+            on:input={() => { validators.checkProfessionInput(); storages.storeUserData('profession', 'profession'); }}
           />
 
           <div class="success-user-data success-profession-message"></div>
@@ -466,7 +480,7 @@
                  name="birthPlace"
                  placeholder="Inserisci il tuo luogo di nascita"
                  bind:value={$formDataStore.birthPlace}
-                 on:input={() => { validators.checkBirthPlaceInput(); storages.saveBirthPlaceData(); }}
+                 on:input={() => { validators.checkBirthPlaceInput(); storages.storeUserData('birthPlace', 'birthPlace'); }}
           />
           
           <div class="success-birthplace-message"></div>
@@ -486,7 +500,7 @@
                  autocomplete="off"
                  name="birthDate" 
                  bind:value={$formDataStore.birthDate}
-                 on:blur={() => { validators.checkBirthDateInput(); storages.saveBirthDateData(); }}
+                 on:blur={() => { validators.checkBirthDateInput(); storages.storeUserData('birthDate', 'birthDate'); }}
           />
 
           <div class="success-birthdate-message"></div>
@@ -506,7 +520,7 @@
             name="address"
             placeholder="Via Roma 123, 00100 Roma"
             bind:value={$formDataStore.address}
-            on:input={() => { validators.checkAddressInput(); storages.saveAddressData(); }}
+            on:input={() => { validators.checkAddressInput(); storages.storeUserData('address', 'address'); }}
           />
 
           <div class="success-address-message"></div>
@@ -530,7 +544,7 @@
               autocomplete="off"
               name="phonePrefix"
               bind:value={$formDataStore.phonePrefix}
-              on:blur={() => { validators.checkPhonePrefixSelect(); storages.savePhonePrefixData(); }}>
+              on:blur={() => { validators.checkPhonePrefixSelect(); storages.storeUserData('phonePrefix', 'phonePrefix');}}>
 
               <option value="" disabled class="prefix-option" id="defaultOption"><span>Prefisso</span></option>
               {#each phonePrefixes as phonePrefix}
@@ -543,11 +557,11 @@
               class="form-control"
               style="width: 50%;"
               id="formSelectPhone"
-              name="phone"
               autocomplete="off"
+              name="phone"
               placeholder="Cellulare"
               bind:value={$formDataStore.phone}
-              on:input={() => { validators.checkPhoneInput(); storages.savePhoneData();}}
+              on:input={() => { validators.checkPhoneInput(); storages.storeUserData('phone', 'phone'); }}
           />
 
           <div class="visual-feedback-group-container">
@@ -575,11 +589,11 @@
             type="email"
             class="form-control"
             id="formInputEmail"
-            name="email"
             autocomplete="off"
+            name="email"
             placeholder="mario.rossi@gmail.com"
             bind:value={$formDataStore.email}
-            on:input={() => { validators.checkEmailInput(); storages.saveEmailData(); }}
+            on:input={() => { validators.checkEmailInput(); storages.storeUserData('email', 'email'); }}
           />
 
           <div class="success-email-message"></div>
@@ -595,12 +609,12 @@
           <textarea
           class="form-control"
           id="formInputProfileSummary"
-          name="profileSummary"
           rows="4"
           maxlength="500"
+          name="profileSummary"
           placeholder="Descriviti in poche righe..."
           bind:value={$formDataStore.profileSummary}
-          on:input={() => { validators.checkProfileSummaryTextArea(); storages.saveProfileSummaryData();}}
+          on:input={() => { validators.checkProfileSummaryTextArea(); storages.storeUserData('profileSummary', 'profileSummary'); }}
           ></textarea>
 
           <div class="success-profile-summary-message"></div>
@@ -653,12 +667,12 @@
           <textarea
           class="form-control"
           id="formInputDigitalSkills"
-          name="digitalSkills"
           rows="4"
           maxlength="500"
+          name="digitalSkills"
           placeholder="Illustraci le tue competenze digitali..."
           bind:value={$formDataStore.digitalSkills}
-          on:input={() => { validators.checkDigitalSkillsTextArea(); storages.saveDigitalSkillsData(); }}
+          on:input={() => { validators.checkDigitalSkillsTextArea(); storages.storeUserData('digitalSkills', 'digitalSkills');  }}
           ></textarea>
 
           <div class="success-digital-skills-message"></div>
@@ -679,7 +693,7 @@
                  id="formSelectLanguages{languageIndex}"
                  name="languages"
                  bind:value={selectedLanguage.lang}
-                 on:blur={() => validators.checkLanguageSelect(languageIndex)}>
+                 on:blur={() => { validators.checkLanguageSelect(languageIndex); storages.savelanguagesSkillsData(); }}>
                  <option value="" disabled>Lingue</option>
                  {#each optionsLanguages as optionsLanguage (optionsLanguage.value)}
                      <option value={optionsLanguage.value}>{optionsLanguage.label}</option>
@@ -690,7 +704,7 @@
                  id="formSelectLanguageLevels{languageIndex}"
                  name="languageLevels"
                  bind:value={selectedLanguage.level}
-                 on:blur={() => validators.checkLanguageLevelSelect(languageIndex)}>
+                 on:blur={() => { validators.checkLanguageLevelSelect(languageIndex); storages.savelanguagesSkillsData(); }}>
                  <option value="" disabled>Livello</option>
                  {#each optionslanguageLevels as optionslanguageLevel (optionslanguageLevel.value)}
                      <option value={optionslanguageLevel.value}>{optionslanguageLevel.label}</option>
@@ -700,7 +714,7 @@
              {#if languageIndex > 0}
                  <div class="input-group-append px-2"
                       style="width: 20%;">
-                     <button type="button" class="btn-remove-style" on:click={() => removeLanguage(languageIndex)}><i class="fa-solid fa-trash"></i></button>
+                     <button type="button" class="btn-remove-style" on:click={() => { removeLanguage(languageIndex); storages.savelanguagesSkillsData(); }}><i class="fa-solid fa-trash"></i></button>
                  </div>
                  <div class="visual-feedback-group-container"
                       style="width: 80%;">
@@ -751,7 +765,7 @@
                 id={"formCheckBoxDrivingLicence" + drivingLicenceCheckBox.value}
                 value={drivingLicenceCheckBox.label}  
                 bind:group={$formDataStore.drivingLicences}
-                on:click={() => validators.checkDrivingLicenceCheckboxesInput()}
+                on:click={() => { validators.checkDrivingLicenceCheckboxesInput(); storages.saveDrivingLicenceData(); }}
               >
               <label class="form-check-label" for={"formCheckBoxDrivingLicence" + drivingLicenceCheckBox.value}>
                 {drivingLicenceCheckBox.label}
@@ -775,25 +789,25 @@
           <div class="form-check">
             <input class="form-check-input" 
                    type="radio" 
-                   name="drivingLicenceRadioOptions" 
-                   id="drivingLicenceLeftRadioYes" 
+                   name="isHasOwnCarRadioOptions" 
+                   id="drivingLicenceUpRadioYes" 
                    value="Si"
                    bind:group={$formDataStore.hasOwnCar} 
-                   on:click={() => validators.isHasOwnCarRadiosSelected()}
+                   on:click={() => { validators.isHasOwnCarRadiosSelected(); storages.saveIsHasOwnCarData(); }}
               >
-            <label class="form-check-label" for="inlineDrivingLicenceLeftRadioYes">Sì</label>
+            <label class="form-check-label" for="drivingLicenceUpRadioYes">Sì</label>
           </div>
   
           <div class="form-check">
             <input class="form-check-input" 
                    type="radio" 
-                   name="drivingLicenceRadioOptions" 
-                   id="drivingLicenceRightRadioNo"  
+                   name="isHasOwnCarRadioOptions" 
+                   id="drivingLicenceDownRadioNo"  
                    value="No"
                    bind:group={$formDataStore.hasOwnCar}
-                   on:click={() => validators.isHasOwnCarRadiosSelected()} 
+                   on:click={() => { validators.isHasOwnCarRadiosSelected(); storages.saveIsHasOwnCarData(); }} 
               >
-            <label class="form-check-label" for="inlineDrivingLicenceRightRadioNo">No</label>
+            <label class="form-check-label" for="drivingLicenceDownRadioNo">No</label>
           </div>
 
           <div class="success-has-own-car-message"></div>
