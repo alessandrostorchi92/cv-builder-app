@@ -28,7 +28,7 @@ export function savelanguagesSkillsData() {
 
         localStorage.setItem('languagesSkills', JSON.stringify(currentDataStore.languagesSkills));
 
-        return currentDataStore;
+        return {...currentDataStore};
 
     });
 
