@@ -268,86 +268,85 @@
     $formDataStore.educations = $formDataStore.educations;
   };
 
-  $: if($formDataStore) {
-    console.log($formDataStore);
-  }
 
   onMount(() => {
 
-        const savedNameValue = localStorage.getItem("name");
-        if (savedNameValue) {
-          $formDataStore.name = savedNameValue;
-        }
+    const savedNameValue = localStorage.getItem('name');
+    if (savedNameValue) {
+      $formDataStore.name = JSON.parse(savedNameValue);
+    }
 
-        const savedSurnameValue = localStorage.getItem("surname");
-        if (savedSurnameValue) {
-          $formDataStore.surname = savedSurnameValue;
-        }
+    const savedSurnameValue = localStorage.getItem("surname");
+    if (savedSurnameValue) {
+      $formDataStore.surname = JSON.parse(savedSurnameValue);
+    }
 
-        const savedProfessionValue = localStorage.getItem("profession");
-        if (savedProfessionValue) {
-          $formDataStore.profession = savedProfessionValue;
-        }
+    const savedProfessionValue = localStorage.getItem("profession");
+    if (savedProfessionValue) {
+      $formDataStore.profession = JSON.parse(savedProfessionValue);
+    }
 
-        const savedBirthPlaceValue = localStorage.getItem("birthPlace");
-        if (savedBirthPlaceValue) {
-          $formDataStore.birthPlace = savedBirthPlaceValue;
-        }
+    const savedBirthPlaceValue = localStorage.getItem("birthPlace");
+    if (savedBirthPlaceValue) {
+      $formDataStore.birthPlace = JSON.parse(savedBirthPlaceValue);
+    }
 
-        const savedBirthDateValue = localStorage.getItem("birthDate");
-        if (savedBirthDateValue) {
-          $formDataStore.birthDate = savedBirthDateValue;
-        }
+    const savedBirthDateValue = localStorage.getItem("birthDate");
+    if (savedBirthDateValue) {
+      $formDataStore.birthDate = JSON.parse(savedBirthDateValue);
+    }
 
-        const savedAddressValue = localStorage.getItem("address");
-        if (savedAddressValue) {
-          $formDataStore.address = savedAddressValue;
-        }
+    const savedAddressValue = localStorage.getItem("address");
+    if (savedAddressValue) {
+      $formDataStore.address = JSON.parse(savedAddressValue);
+    }
 
-        const savedPhonePrefixValue = localStorage.getItem("phonePrefix");
-        if (savedPhonePrefixValue) {
-          $formDataStore.phonePrefix = savedPhonePrefixValue;
-        }
+    const savedPhonePrefixValue = localStorage.getItem("phonePrefix");
+    if (savedPhonePrefixValue) {
+      $formDataStore.phonePrefix = JSON.parse(savedPhonePrefixValue);
+    }
 
-        const savedPhoneValue = localStorage.getItem("phone");
-        if (savedPhoneValue) {
-          $formDataStore.phone = savedPhoneValue;
-        }
+    const savedPhoneValue = localStorage.getItem("phone");
+    if (savedPhoneValue) {
+      $formDataStore.phone = JSON.parse(savedPhoneValue);
+    }
 
-        const savedEmailValue = localStorage.getItem("email");
-        if (savedEmailValue) {
-          $formDataStore.email = savedEmailValue;
-        }
+    const savedEmailValue = localStorage.getItem("email");
+    if (savedEmailValue) {
+      $formDataStore.email = JSON.parse(savedEmailValue);
+    }
 
-        const savedProfileSummaryValue = localStorage.getItem("profileSummary");
-        if (savedProfileSummaryValue) {
-          $formDataStore.profileSummary = savedProfileSummaryValue;
-        }
+    const savedProfileSummaryValue = localStorage.getItem("profileSummary");
+    if (savedProfileSummaryValue) {
+      $formDataStore.profileSummary = JSON.parse(savedProfileSummaryValue);
+    }
 
-        const savedProtectedCategoryValue = localStorage.getItem("protectedCategoryRadioOptions");
-        if (savedProtectedCategoryValue) {
-          $formDataStore.isProtectedCategory = savedProtectedCategoryValue;
-        }
+    const savedProtectedCategoryValue = localStorage.getItem("protectedCategory");
+    if (savedProtectedCategoryValue) {
+      $formDataStore.isProtectedCategory = JSON.parse(savedProtectedCategoryValue);
+    }
 
-        const savedDigitalSkillsValue = localStorage.getItem("digitalSkills");
-        if (savedDigitalSkillsValue) {
-          $formDataStore.digitalSkills = savedDigitalSkillsValue;
-        }
+    const savedDigitalSkillsValue = localStorage.getItem("digitalSkills");
+    if (savedDigitalSkillsValue) {
+      $formDataStore.digitalSkills = JSON.parse(savedDigitalSkillsValue);
+    }
 
-        const savedCurrentLanguagesSkills = localStorage.getItem("languagesSkills");
-        if(savedCurrentLanguagesSkills) {
-          $formDataStore.languagesSkills = JSON.parse(savedCurrentLanguagesSkills);
-        } 
+    const savedCurrentLanguagesSkills = localStorage.getItem("languagesSkills");
+    if(savedCurrentLanguagesSkills) {
+      $formDataStore.languagesSkills = JSON.parse(savedCurrentLanguagesSkills);
+    } 
+        
+    const savedDrivingLicenceValues = localStorage.getItem("drivingLicences");
+    if (savedDrivingLicenceValues) {
+      $formDataStore.drivingLicences = JSON.parse(savedDrivingLicenceValues);
+    }
 
-        const savedDrivingLicenceValues = localStorage.getItem("drivingLicenceCheckBoxOptions");
-        if (savedDrivingLicenceValues) {
-          $formDataStore.drivingLicences = JSON.parse(savedDrivingLicenceValues);
-        }
+    const savedIsHasOwnCarValue = localStorage.getItem("isHasOwnCarRadio");
+    if (savedIsHasOwnCarValue) {
+      $formDataStore.hasOwnCar = JSON.parse(savedIsHasOwnCarValue);
+    }
 
-        const savedIsHasOwnCarValue = localStorage.getItem("isHasOwnCarRadioOptions");
-        if (savedIsHasOwnCarValue) {
-          $formDataStore.hasOwnCar = savedIsHasOwnCarValue;
-        }
+    localStorage.clear();
 
   });
   
@@ -633,11 +632,11 @@
           <div class="form-check">
             <input class="form-check-input" 
                 type="radio" 
-                id="protectedCategoryLeftRadio" 
-                name="protectedCategoryRadioOptions" 
+                id="protectedCategoryRadioYes" 
+                name="protectedCategory" 
                 value="Si"
                 bind:group={$formDataStore.isProtectedCategory}
-                on:click={() => { validators.isProtectedCategoryRadiosSelected(); storages.saveProtectedCategoryData(); }}
+                on:change={() => { validators.isProtectedCategoryRadiosSelected(); storages.storeUserData('protectedCategory', 'isProtectedCategory'); }}
             >
             <label class="form-check-label" for="radio1">Sì</label>
           </div>
@@ -645,11 +644,11 @@
           <div class="form-check form-check-inline">
             <input class="form-check-input" 
                 type="radio" 
-                name="protectedCategoryRadioOptions" 
-                id="protectedCategoryRightRadio"  
+                id="protectedCategoryRightRadioNo"  
+                name="protectedCategory" 
                 value="No"
                 bind:group={$formDataStore.isProtectedCategory}
-                on:click={() => { validators.isProtectedCategoryRadiosSelected(); storages.saveProtectedCategoryData(); }}
+                on:change={() => { validators.isProtectedCategoryRadiosSelected(); storages.storeUserData('protectedCategory', 'isProtectedCategory'); }}
             >
             <label class="form-check-label" for="radio2">No</label>
           </div>
@@ -693,7 +692,7 @@
                  id="formSelectLanguages{languageIndex}"
                  name="languages"
                  bind:value={selectedLanguage.lang}
-                 on:blur={() => { validators.checkLanguageSelect(languageIndex); storages.savelanguagesSkillsData(); }}>
+                 on:blur={() => { validators.checkLanguageSelect(languageIndex); storages.storeUserData('languagesSkills', 'languagesSkills'); }}>
                  <option value="" disabled>Lingue</option>
                  {#each optionsLanguages as optionsLanguage (optionsLanguage.value)}
                      <option value={optionsLanguage.value}>{optionsLanguage.label}</option>
@@ -704,7 +703,7 @@
                  id="formSelectLanguageLevels{languageIndex}"
                  name="languageLevels"
                  bind:value={selectedLanguage.level}
-                 on:blur={() => { validators.checkLanguageLevelSelect(languageIndex); storages.savelanguagesSkillsData(); }}>
+                 on:blur={() => { validators.checkLanguageLevelSelect(languageIndex); storages.storeUserData('languagesSkills', 'languagesSkills'); }}>
                  <option value="" disabled>Livello</option>
                  {#each optionslanguageLevels as optionslanguageLevel (optionslanguageLevel.value)}
                      <option value={optionslanguageLevel.value}>{optionslanguageLevel.label}</option>
@@ -714,7 +713,7 @@
              {#if languageIndex > 0}
                  <div class="input-group-append px-2"
                       style="width: 20%;">
-                     <button type="button" class="btn-remove-style" on:click={() => { removeLanguage(languageIndex); storages.savelanguagesSkillsData(); }}><i class="fa-solid fa-trash"></i></button>
+                     <button type="button" class="btn-remove-style" on:click={() => { removeLanguage(languageIndex); storages.storeUserData('languagesSkills', 'languagesSkills'); }}><i class="fa-solid fa-trash"></i></button>
                  </div>
                  <div class="visual-feedback-group-container"
                       style="width: 80%;">
@@ -765,7 +764,7 @@
                 id={"formCheckBoxDrivingLicence" + drivingLicenceCheckBox.value}
                 value={drivingLicenceCheckBox.label}  
                 bind:group={$formDataStore.drivingLicences}
-                on:click={() => { validators.checkDrivingLicenceCheckboxesInput(); storages.saveDrivingLicenceData(); }}
+                on:change={() => { validators.checkDrivingLicenceCheckboxesInput(); storages.storeUserData('drivingLicences', 'drivingLicences'); }}
               >
               <label class="form-check-label" for={"formCheckBoxDrivingLicence" + drivingLicenceCheckBox.value}>
                 {drivingLicenceCheckBox.label}
@@ -789,11 +788,11 @@
           <div class="form-check">
             <input class="form-check-input" 
                    type="radio" 
-                   name="isHasOwnCarRadioOptions" 
+                   name="isHasOwnCarRadio" 
                    id="drivingLicenceUpRadioYes" 
                    value="Si"
                    bind:group={$formDataStore.hasOwnCar} 
-                   on:click={() => { validators.isHasOwnCarRadiosSelected(); storages.saveIsHasOwnCarData(); }}
+                   on:change={() => { validators.isHasOwnCarRadiosSelected(); storages. storeUserData('isHasOwnCarRadio', 'hasOwnCar'); }}
               >
             <label class="form-check-label" for="drivingLicenceUpRadioYes">Sì</label>
           </div>
@@ -801,11 +800,11 @@
           <div class="form-check">
             <input class="form-check-input" 
                    type="radio" 
-                   name="isHasOwnCarRadioOptions" 
+                   name="isHasOwnCarRadio" 
                    id="drivingLicenceDownRadioNo"  
                    value="No"
                    bind:group={$formDataStore.hasOwnCar}
-                   on:click={() => { validators.isHasOwnCarRadiosSelected(); storages.saveIsHasOwnCarData(); }} 
+                   on:change={() => { validators.isHasOwnCarRadiosSelected(); storages. storeUserData('isHasOwnCarRadio', 'hasOwnCar'); }} 
               >
             <label class="form-check-label" for="drivingLicenceDownRadioNo">No</label>
           </div>

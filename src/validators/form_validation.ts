@@ -765,23 +765,33 @@ export function isProtectedCategoryRadiosSelected(): void {
             successProtectedCategoryMessage.innerText = message;
             successProtectedCategoryMessage.classList.add("success-user-data", "fw-medium");
             successProtectedCategoryMessage.style.fontSize = "0.8rem";
-        }
-
-        if (protectedCategoryRadioInputs) {
-            protectedCategoryRadioInputs.forEach(protectedCategoryRadio => {
-                if (protectedCategoryRadio) {
-                    protectedCategoryRadio.classList.remove("is-invalid");
-                }
-            });
+            successProtectedCategoryMessage.style.display = "block";
         }
 
         if (errorProtectedCategoryMessage) {
-            errorProtectedCategoryMessage.remove();
+            errorProtectedCategoryMessage.style.display = "none";
         }
     };
 
-    if (isSelected) {
+    const setHasOwnCarErrorFeedback = (message: string) => {
+
+        if (errorProtectedCategoryMessage) {
+            errorProtectedCategoryMessage.innerText = message;
+            errorProtectedCategoryMessage.classList.add("error-user-data", "fw-medium");
+            errorProtectedCategoryMessage.style.fontSize = "0.8rem";
+            errorProtectedCategoryMessage.style.display = "block";
+        }
+
+        if (successProtectedCategoryMessage) {
+            successProtectedCategoryMessage.style.display = "none";
+        }
+
+    };
+
+    if (!isSelected) {
         setProtectedCategorySuccessFeedback("Ottimo lavoro, hai selezionato un'opzione");
+    } else {
+        setHasOwnCarErrorFeedback("Per favore, seleziona un'opzione");
     }
 }
 
@@ -915,6 +925,10 @@ export function checkDrivingLicenceCheckboxesInput(): void {
     let isSelected = false;
 
     drivingLicenceCheckBoxInputs.forEach(drivingLicenceCheckBox => {
+        drivingLicenceCheckBox.classList.remove("is-valid");
+    });
+
+    drivingLicenceCheckBoxInputs.forEach(drivingLicenceCheckBox => {
 
         if (drivingLicenceCheckBox.checked) {
             drivingLicenceCheckBox.classList.add("is-valid");
@@ -929,24 +943,46 @@ export function checkDrivingLicenceCheckboxesInput(): void {
             successDrivingLicenceMessage.innerText = message;
             successDrivingLicenceMessage.classList.add("success-user-data", "fw-medium");
             successDrivingLicenceMessage.style.fontSize = "0.8rem";
+            successDrivingLicenceMessage.style.display = "block";
         }
 
         if (drivingLicenceCheckBoxInputs) {
             drivingLicenceCheckBoxInputs.forEach(drivingLicenceCheckBox => {
-                if (drivingLicenceCheckBox) {
-                    drivingLicenceCheckBox.classList.remove("is-invalid");
-                }
+                drivingLicenceCheckBox.classList.remove("is-invalid");  
             });
         }
 
         if(errorDrivingLicenceMessage) {
-            errorDrivingLicenceMessage.remove();
+            errorDrivingLicenceMessage.style.display = "none";;
         }
     
     };
 
+    const setDrivingLicenceErrorFeedback = (message: string) => {
+
+        if (errorDrivingLicenceMessage) {
+            errorDrivingLicenceMessage.innerText = message;
+            errorDrivingLicenceMessage.classList.add("error-user-data", "fw-medium");
+            errorDrivingLicenceMessage.style.fontSize = "0.8rem";
+            errorDrivingLicenceMessage.style.display = "block";
+        }
+
+        if (drivingLicenceCheckBoxInputs) {
+            drivingLicenceCheckBoxInputs.forEach(drivingLicenceCheckBox => {
+                drivingLicenceCheckBox.classList.add("is-invalid");  
+            });
+        }
+
+        if (successDrivingLicenceMessage) {
+            successDrivingLicenceMessage.style.display = "none";
+        }
+
+    };
+
     if (isSelected) {
         setDrivingLicenceSuccessFeedback("Ottimo lavoro, hai selezionato un'opzione");
+    } else {
+        setDrivingLicenceErrorFeedback("Per favore, seleziona almeno un'opzione");
     }
     
 };
@@ -973,16 +1009,34 @@ export function isHasOwnCarRadiosSelected(): void {
             successHasOwnCarMessage.innerText = message;
             successHasOwnCarMessage.classList.add("success-user-data", "fw-medium");
             successHasOwnCarMessage.style.fontSize = "0.8rem";
+            successHasOwnCarMessage.style.display = "block";
         }
 
         if(errorHasOwnCarMessage) {
-            errorHasOwnCarMessage.remove();
+            errorHasOwnCarMessage.style.display = "none";
         }
     
     };
 
-    if (isSelected) {
+    const setHasOwnCarErrorFeedback = (message: string) => {
+
+        if (errorHasOwnCarMessage) {
+            errorHasOwnCarMessage.innerText = message;
+            errorHasOwnCarMessage.classList.add("error-user-data", "fw-medium");
+            errorHasOwnCarMessage.style.fontSize = "0.8rem";
+            errorHasOwnCarMessage.style.display = "block"; 
+        }
+
+        if (successHasOwnCarMessage) {
+            successHasOwnCarMessage.style.display = "none";
+        }
+
+    };
+
+    if (!isSelected) {
         setHasOwnCarSuccessFeedback("Ottimo lavoro, hai selezionato un'opzione");
+    } else {
+        setHasOwnCarErrorFeedback("Per favore, seleziona un'opzione");
     }
 
 };

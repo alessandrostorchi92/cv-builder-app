@@ -124,7 +124,6 @@ function isHasOwnCarRadiosSelected(): void {
 
 };
 
-
 function downloadCV(): void {
 
     isProfilePictureUploaded();
@@ -133,41 +132,6 @@ function downloadCV(): void {
     isHasOwnCarRadiosSelected();
   
 }
-
-
-// function downloadCV() {
-
-//     const cvContent = document.querySelector('.cv-preview-container') as HTMLElement | null;
-
-//     if (cvContent) {
-
-//         const cvPdf = new jsPDF('p', 'px', 'a4');
-
-//         const contentWidth: number = cvContent.offsetWidth;
-//         const contentHeight: number = cvContent.offsetHeight;
-//         const pageWidth: number = cvPdf.internal.pageSize.getWidth();
-//         const pageHeight: number = cvPdf.internal.pageSize.getHeight();
-       
-    
-//         cvPdf.html(cvContent, {
-//             callback: function (pdf) {
-
-//                 pdf.save('curriculum-vitae.pdf');
-//             },
-
-//             x: (pageWidth - contentWidth * 0.5) / 2,
-//             y: (pageHeight - contentHeight * 0.5) / 2,    
-            
-//             html2canvas: {
-//                 scale: 0.5,
-//             },
-            
-//         });
-
-//     } else {
-//         console.error('Curriculum non trovato');
-//     }
-// }
 
 function formattedBirtDate(date: string) : string {
     if (!date) return '';
