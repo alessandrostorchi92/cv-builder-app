@@ -19,7 +19,7 @@ export function isProfilePictureUploaded(): void {
         if (filePictureUploadedInput.files.length > 0) {
             setProfilePictureUploadedSuccessFeedback("Ottimo lavoro, hai caricato la tua immagine di profilo");
             if(errorProfilePictureUploadedMessage) {
-                errorProfilePictureUploadedMessage.remove();
+                errorProfilePictureUploadedMessage.style.display = "none";
             }
         } 
     }

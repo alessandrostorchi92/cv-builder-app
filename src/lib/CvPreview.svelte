@@ -144,6 +144,7 @@ function formattedWorkAccademicDate(date: string) : string {
     const [year, month] = date.split('-');
     return `${month}/${year}`;
 }
+
           
 </script>
 
@@ -160,11 +161,11 @@ function formattedWorkAccademicDate(date: string) : string {
                 
                 <!---- Immagine di profilo ---->
                 
-                {#if $formDataStore.filePicture}
+                {#if $formDataStore.filePicture?.length}
                 
                     <div class="file-picture-container"> 
                 
-                        <img class="file-picture" src="{ $selectedFilePicture }" alt="Immagine profilo">
+                        <img class="file-picture" src="{ $selectedFilePicture }" alt="Immagine del profilo">
                         
                     </div>
                             

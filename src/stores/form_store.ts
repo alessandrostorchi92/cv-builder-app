@@ -39,4 +39,28 @@ let userFormData: formTypes.FormData = {
 
 }
 
+// Salvo i dati nel localStorage
+export function storeUserData( storeData: formTypes.FormData) {
+
+    if(typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
+        
+        localStorage.setItem('formData', JSON.stringify(storeData));
+    }
+};
+
+// Recupero i dati dal localStorage
+if(typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
+    const savedStoreData = localStorage.getItem('formData');
+
+    if (savedStoreData) {
+        userFormData = JSON.parse(savedStoreData); 
+    }
+
+}
+
 export const formDataStore = writable(userFormData);
+
+formDataStore.subscribe((currentUserFormData) => {
+    storeUserData(currentUserFormData);
+        
+});
