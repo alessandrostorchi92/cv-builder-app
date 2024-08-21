@@ -14,9 +14,9 @@ export function isProfilePictureUploaded(): void {
 
     }
 
-    if(filePictureUploadedInput?.files) {
+    if(filePictureUploadedInput) {
             
-        if (filePictureUploadedInput.files.length > 0) {
+        if (filePictureUploadedInput) {
             setProfilePictureUploadedSuccessFeedback("Ottimo lavoro, hai caricato la tua immagine di profilo");
             if(errorProfilePictureUploadedMessage) {
                 errorProfilePictureUploadedMessage.style.display = "none";
@@ -491,6 +491,7 @@ export function checkPhoneInput(): void {
     const userPhoneInput: HTMLInputElement | null = document.querySelector("[name='phone']");
     const errorPhoneMessages: HTMLDivElement | null = document.querySelector(".error-phone-messages");
     const successPhoneMessage: HTMLDivElement | null = document.querySelector(".success-phone-message");
+    const namePattern = /^\d+$/;
 
     const setBirthPlaceErrorFeedback = (message:string) => {
 
@@ -540,6 +541,10 @@ export function checkPhoneInput(): void {
         } else if(userPhoneValue.length >= 15) {
 
             setBirthPlaceErrorFeedback("Mi dispiace, il numero di cellulare non può contenere più di 15 numeri");
+
+        } else if(!namePattern.test(userPhoneValue)) {
+
+            setBirthPlaceErrorFeedback("Mi dispiace, il numero di cellulare può contenere solo numeri");
 
         } else {
 

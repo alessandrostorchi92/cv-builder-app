@@ -1,7 +1,7 @@
 
     export type FormData = {
 
-        filePicture: FileList | null,
+        filePicture: string | null,
         name: string,
         surname: string,
         profession: string,
@@ -41,7 +41,7 @@
         endDateAcademicEducation: string,
     };
 
-    export let selectedFilePicture:string;
+
 
 
     

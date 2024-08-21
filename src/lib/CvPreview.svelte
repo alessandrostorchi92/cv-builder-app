@@ -1,6 +1,6 @@
 <script lang="ts">
 
-import { formDataStore, selectedFilePicture } from '../stores/form_store';
+import { formDataStore } from '../stores/form_store';
 
 // import { jsPDF } from "jspdf";
 
@@ -161,11 +161,11 @@ function formattedWorkAccademicDate(date: string) : string {
                 
                 <!---- Immagine di profilo ---->
                 
-                {#if $formDataStore.filePicture?.length}
+                {#if $formDataStore.filePicture}
                 
                     <div class="file-picture-container"> 
                 
-                        <img class="file-picture" src="{ $selectedFilePicture }" alt="Immagine del profilo">
+                        <img class="file-picture" src="{ $formDataStore.filePicture }" alt="Immagine del profilo">
                         
                     </div>
                             
