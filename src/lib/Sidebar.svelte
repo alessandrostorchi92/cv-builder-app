@@ -203,10 +203,24 @@
     const fileInput = event.target as HTMLInputElement;
     
     if (fileInput.files) { 
-    const file = fileInput.files[0];
-    $formDataStore.filePicture = URL.createObjectURL(file);
+      
+      const file = fileInput.files[0];
+      const reader = new FileReader();
 
-  }
+      reader.onloadend = () => {
+        formDataStore.update(store => {
+          return { ...store, filePicture: reader.result as string };
+        });
+      };
+
+      reader.onerror = () => {
+        reader.abort();
+        console.log("Lettura del file interrotta");
+      };
+
+      reader.readAsDataURL(file);
+      
+    };
    
   }
 
@@ -275,6 +289,8 @@
     if (savedStoreData) {
       formDataStore.set(JSON.parse(savedStoreData));
     }
+
+    //localStorage.clear();
 
   });
 

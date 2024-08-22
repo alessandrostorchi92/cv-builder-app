@@ -2,8 +2,6 @@
 
 import { formDataStore } from '../stores/form_store';
 
-// import { jsPDF } from "jspdf";
-
 let hasPrivacyPolicyApproval = false;
 
 function isProfilePictureUploaded(): void {
@@ -124,15 +122,35 @@ function isHasOwnCarRadiosSelected(): void {
 
 };
 
+function printPdf(): void {
+
+    if(typeof window !== "undefined") {
+
+        import('html2pdf.js').then(html2pdf => {
+        
+        const cvContent = document.querySelector('.cv-preview-container') as HTMLElement | null;
+
+        if (cvContent) {
+            html2pdf().from(cvContent).toPdf().get('pdf');
+        }
+    } ).catch((error) => {
+        console.error("html2pdf.js può essere utilizzato solo in un ambiente browser", error.message);
+    });
+
+    };
+
+}   
+
 function downloadCV(): void {
 
     isProfilePictureUploaded();
     isProtectedCategoryRadiosSelected();
     checkDrivingLicenceCheckboxesInput();
     isHasOwnCarRadiosSelected();
-  
-}
+    printPdf();
 
+}
+  
 function formattedBirtDate(date: string) : string {
     if (!date) return '';
     const [year, month, day] = date.split('-');
@@ -145,7 +163,8 @@ function formattedWorkAccademicDate(date: string) : string {
     return `${month}/${year}`;
 }
 
-          
+$: console.log($formDataStore.filePicture);
+  
 </script>
 
 <div id="curriculum-content" class="flex-column-utility flex-center-utility">
