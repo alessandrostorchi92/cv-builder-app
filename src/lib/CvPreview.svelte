@@ -143,10 +143,17 @@ function printPdf(): void {
 
 function downloadCV(): void {
 
-    isProfilePictureUploaded();
-    isProtectedCategoryRadiosSelected();
-    checkDrivingLicenceCheckboxesInput();
-    isHasOwnCarRadiosSelected();
+    const savedStoreData = localStorage.getItem("formData");
+
+    console.log(savedStoreData);
+    
+    if($formDataStore.filePicture === "" || $formDataStore.isProtectedCategory === "" || $formDataStore.drivingLicences.length === 0 || $formDataStore.hasOwnCar === "" ) {
+        isProfilePictureUploaded();
+        isProtectedCategoryRadiosSelected();
+        checkDrivingLicenceCheckboxesInput();
+        isHasOwnCarRadiosSelected();
+    }
+
     printPdf();
 
 }
@@ -162,8 +169,6 @@ function formattedWorkAccademicDate(date: string) : string {
     const [year, month] = date.split('-');
     return `${month}/${year}`;
 }
-
-$: console.log($formDataStore.filePicture);
   
 </script>
 
