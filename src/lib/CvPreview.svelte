@@ -126,13 +126,24 @@ function printPdf(): void {
 
     if(typeof window !== "undefined") {
 
-        import('html2pdf.js').then(html2pdf => {
-        
-        const cvContent = document.querySelector('.cv-preview-container') as HTMLElement | null;
+        import('html2pdf.js').then(module => {
+
+            const html2pdf = module.default;
+            const cvContent = document.querySelector('.cv-preview-container') as HTMLElement | null;
 
         if (cvContent) {
-            html2pdf().from(cvContent).toPdf().get('pdf');
+
+            const opt = {
+                    margin: [0, 0, 0, 0],
+                    filename: 'cv.pdf',
+                    image: { type: 'jpeg', quality: 0.75 },
+                    html2canvas: { scale: 1 },
+                    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+                };
+
+                html2pdf().set(opt).from(cvContent).save();
         }
+        
     } ).catch((error) => {
         console.error("html2pdf.js può essere utilizzato solo in un ambiente browser", error.message);
     });
@@ -142,10 +153,6 @@ function printPdf(): void {
 }   
 
 function downloadCV(): void {
-
-    const savedStoreData = localStorage.getItem("formData");
-
-    console.log(savedStoreData);
     
     if($formDataStore.filePicture === "" || $formDataStore.isProtectedCategory === "" || $formDataStore.drivingLicences.length === 0 || $formDataStore.hasOwnCar === "" ) {
         isProfilePictureUploaded();
