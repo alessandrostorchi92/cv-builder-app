@@ -134,12 +134,12 @@ function printPdf(): void {
         if (cvContent) {
 
             const opt = {
-                    margin: [0, 0, 0, 0],
+                    margin: [5, 0, 5, 0],
                     filename: 'cv.pdf',
-                    image: { type: 'jpeg', quality: 0.75 },
+                    image: { type: 'jpeg', quality: 0.8 },
                     html2canvas: { scale: 1 },
                     jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-                };
+            };
 
                 html2pdf().set(opt).from(cvContent).save();
         }
@@ -184,7 +184,7 @@ function formattedWorkAccademicDate(date: string) : string {
     
     <div class="cv-preview-container">
         
-        <h1 class="text-center py-4">Curriculum Vitae</h1>
+        <h1 class="text-center py-1">Curriculum Vitae</h1>
 
         <div class="cv-header-container">
 
@@ -223,7 +223,7 @@ function formattedWorkAccademicDate(date: string) : string {
 
             <div class="main-left-section">
 
-                <div class="profile-info-container text-wrap-utility add-vertical-space-utility">
+                <div class="profile-info-container text-wrap-utility">
 
                     <!---- Luogo di Nascita ---->
 
@@ -316,11 +316,11 @@ function formattedWorkAccademicDate(date: string) : string {
 
                     <!-- Profilo Personale -->
 
-                    <div class="title-center-utility add-vertical-space-utility">
+                    <div class="add-vertical-space-utility">
                         
                         {#if $formDataStore.profileSummary }
                         
-                            <h6>Profilo Personale</h6>
+                            <h6 class="title-center-utility">Profilo Personale</h6>
                                                 
                         {/if}
                                                 
@@ -330,12 +330,11 @@ function formattedWorkAccademicDate(date: string) : string {
     
                     <!-- Successi Professionali -->
 
-
-                    <div class="title-center-utility add-vertical-space-utility">
+                    <div class="add-vertical-space-utility">
 
                         {#if $formDataStore.digitalSkills }
     
-                            <h6>Competenze digitali</h6>
+                            <h6 class="title-center-utility">Competenze digitali</h6>
     
                         {/if}
     
@@ -343,10 +342,9 @@ function formattedWorkAccademicDate(date: string) : string {
 
                     </div>
 
-    
                     <!-- Lingue -->
 
-                    <div class="title-center-utility add-vertical-space-utility">
+                    <div class="title-center-utility">
 
                         {#if $formDataStore.languagesSkills.some(selectedLanguage => selectedLanguage.lang !== "")}
     
@@ -369,8 +367,10 @@ function formattedWorkAccademicDate(date: string) : string {
                         {/each}
 
                     </div>
+                    
+                    <!-- Patente -->
 
-                        <div class="title-center-utility add-vertical-space-utility">
+                    <div class="title-center-utility">
 
                             {#if $formDataStore.drivingLicences.length > 0}
 
@@ -380,9 +380,9 @@ function formattedWorkAccademicDate(date: string) : string {
 
                             <span>{ $formDataStore.drivingLicences.join(', ') }</span>
 
-                        </div>
+                    </div>
 
-                        <!---- Automunito ---->
+                    <!---- Automunito ---->
 
                     <div class="title-center-utility">
 
@@ -409,7 +409,7 @@ function formattedWorkAccademicDate(date: string) : string {
 
                         {#if $formDataStore.jobs.some(job => job.role !== "" || job.company !== "" || job.workExperienceResults !== "" || job.startDateWorkExperience !== "" || job.endDateWorkExperience !== "" )}
 
-                            <div class="text-center fw-bold py-1">ESPERIENZE LAVORATIVE</div>
+                            <div class="text-center fw-bold py-2">ESPERIENZE LAVORATIVE</div>
 
                         {/if}
 
@@ -450,7 +450,7 @@ function formattedWorkAccademicDate(date: string) : string {
                         education.qualification.length > 0 || education.educationGoals !== "" || education.startDateAcademicEducation !== "" || 
                         education.endDateAcademicEducation !== "" )}
 
-                            <div class="text-center fw-bold py-1">FORMAZIONE ACCADEMICA</div>
+                            <div class="text-center fw-bold py-2">FORMAZIONE ACCADEMICA</div>
 
                         {/if}
 
@@ -556,7 +556,7 @@ function formattedWorkAccademicDate(date: string) : string {
 }
 
 .add-vertical-space-utility {
-    padding: 0.6rem 0 ;
+    padding: 0.5rem 0 ;
 }
 
 .text-wrap-utility {
@@ -595,11 +595,10 @@ function formattedWorkAccademicDate(date: string) : string {
     flex-shrink: 0;
     flex-basis: 40%;
     overflow: hidden;
-    padding: 0 1rem; 
 }
 
 .profile-info-container {
-    font-size: 1rem;
+    padding: 2rem 0 ;
 }
 
 .profile-info-label {
@@ -616,7 +615,6 @@ function formattedWorkAccademicDate(date: string) : string {
 }
 
 .user-work-experience-info .date-info,  .user-education-history-info .date-info {
-
     font-size: 0.8rem;
     display: inline-block;
 }
@@ -627,11 +625,8 @@ function formattedWorkAccademicDate(date: string) : string {
 }
 
 .user-education-history-info .fieldOfStudy-detail {
-
     font-size: 1rem;
     font-weight:600;
-
-
 }
 
 .user-work-experience-info .company-info, .user-education-history-info .training-institution-info  {

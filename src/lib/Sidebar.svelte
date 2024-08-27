@@ -290,8 +290,6 @@
       formDataStore.set(JSON.parse(savedStoreData));
     }
 
-    localStorage.clear();
-
   });
 
 </script>
