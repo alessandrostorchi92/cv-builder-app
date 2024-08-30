@@ -134,11 +134,12 @@ function printPdf(): void {
         if (cvContent) {
 
             const opt = {
-                    margin: [5, 0, 5, 0],
+                    margin: [10, 0, 0, 0],
                     filename: 'cv.pdf',
                     image: { type: 'jpeg', quality: 0.8 },
                     html2canvas: { scale: 1 },
                     jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+                    pagebreak: { mode: ['css', 'legacy'] }
             };
 
                 html2pdf().set(opt).from(cvContent).save();
@@ -344,7 +345,7 @@ function formattedWorkAccademicDate(date: string) : string {
 
                     <!-- Lingue -->
 
-                    <div class="title-center-utility">
+                    <div class="  title-center-utility">
 
                         {#if $formDataStore.languagesSkills.some(selectedLanguage => selectedLanguage.lang !== "")}
     
@@ -367,6 +368,8 @@ function formattedWorkAccademicDate(date: string) : string {
                         {/each}
 
                     </div>
+
+                    <div class="page-break"></div>
                     
                     <!-- Patente -->
 
@@ -454,7 +457,11 @@ function formattedWorkAccademicDate(date: string) : string {
 
                         {/if}
 
-                            {#each $formDataStore.educations as education(education)}
+                            {#each $formDataStore.educations as education, educationIndex}
+
+                                {#if educationIndex === 1}
+                                    <div class="page-break"></div>
+                                {/if}
                             
                                 <span class="qualification-info">{ education.qualification }</span>
 
@@ -553,10 +560,6 @@ function formattedWorkAccademicDate(date: string) : string {
 .main-left-section p, .main-right-section p {
     word-wrap: break-word;
     max-width: 100%;
-}
-
-.add-vertical-space-utility {
-    padding: 0.5rem 0 ;
 }
 
 .text-wrap-utility {
@@ -669,6 +672,10 @@ function formattedWorkAccademicDate(date: string) : string {
     color: #999;
     background-color: #f0f0f0; 
     cursor: not-allowed; 
+}
+
+.page-break {
+    page-break-before: always;
 }
 
 </style>
