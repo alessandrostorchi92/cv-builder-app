@@ -151,8 +151,36 @@ function formattedWorkAccademicDate(date: string) : string {
 
     
     <div class="cv-preview-container">
+
+        <div class="toolbar">
+
+            <!---- Select Template Button ---->
+
+            <div>
+
+                <button class="select-template-btn">TEMPLATE</button>
+
+            </div>
+
+            <!---- Select Colour Button ---->
+
+            <div>
+
+                <button class="select-colour-btn">COLOUR</button>
+
+            </div>
+
+            <!---- Download Button ---->
+
+            <div>
+
+                <button class="download-btn" on:click={downloadCV} disabled={!hasPrivacyPolicyApproval}>DOWNLOAD CV</button>
+
+            </div>
+
+        </div>
         
-        <h1 class="text-center py-1">Curriculum Vitae</h1>
+        <h1 class="text-center py-4">Curriculum Vitae</h1>
 
         <div class="cv-header-container">
 
@@ -486,15 +514,6 @@ function formattedWorkAccademicDate(date: string) : string {
         <p class="privacy-policy-style px-2">"Autorizzo il trattamento dei dati personali contenuti nel mio curriculum vitae in base al D. Lgs. 196/2003 e al Regolamento UE 2016/679"</p>
            
     </div>
-
-    <!---- Download Button ---->
-
-    <div class="flex-center-utility py-2">
-
-        <button class="download-btn" on:click={downloadCV} disabled={!hasPrivacyPolicyApproval}>DOWNLOAD CV</button>
-
-    </div>
-
        
 </div>
 
@@ -524,6 +543,14 @@ function formattedWorkAccademicDate(date: string) : string {
 
 .cv-header-container, .cv-main-container {
     display: flex;
+}
+
+.toolbar {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    background-color:#EEEEEE;
+    padding: 1rem;
 }
 
 .main-left-section p, .main-right-section p {
@@ -624,29 +651,29 @@ function formattedWorkAccademicDate(date: string) : string {
     font-weight: 400;
 }
 
-
-.download-btn {
-  padding: 0.5rem;
+.select-template-btn, .select-colour-btn, .download-btn {
+  width: 12rem;
+  padding: 1rem;
   font-size: 1rem;
   text-decoration: none;
   font-weight: bold;
   color: #fff;
   background-color: #e74c3c;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   cursor: pointer;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-.download-btn:hover {
+.select-template-btn:hover,.select-colour-btn:hover, .download-btn:hover {
   background-color: #c0392b;
   transform: translateY(-2px);
 }
 
 .download-btn:disabled {
     color: #999;
-    background-color: #f0f0f0; 
+    background-color: #ffffff; 
     cursor: not-allowed; 
 } 
 
