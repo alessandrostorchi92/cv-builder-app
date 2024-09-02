@@ -122,37 +122,6 @@ function isHasOwnCarRadiosSelected(): void {
 
 };
 
-function printPdf(): void {
-
-    if(typeof window !== "undefined") {
-
-        import('html2pdf.js').then(module => {
-
-            const html2pdf = module.default;
-            const cvContent = document.querySelector('.cv-preview-container') as HTMLElement | null;
-
-        if (cvContent) {
-
-            const opt = {
-                    margin: [10, 0, 0, 0],
-                    filename: 'cv.pdf',
-                    image: { type: 'jpeg', quality: 0.8 },
-                    html2canvas: { scale: 1 },
-                    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-                    pagebreak: { mode: ['css', 'legacy'] }
-            };
-
-                html2pdf().set(opt).from(cvContent).save();
-        }
-        
-    } ).catch((error) => {
-        console.error("html2pdf.js può essere utilizzato solo in un ambiente browser", error.message);
-    });
-
-    };
-
-}   
-
 function downloadCV(): void {
     
     if($formDataStore.filePicture === "" || $formDataStore.isProtectedCategory === "" || $formDataStore.drivingLicences.length === 0 || $formDataStore.hasOwnCar === "" ) {
@@ -161,8 +130,6 @@ function downloadCV(): void {
         checkDrivingLicenceCheckboxesInput();
         isHasOwnCarRadiosSelected();
     }
-
-    printPdf();
 
 }
   
@@ -345,7 +312,7 @@ function formattedWorkAccademicDate(date: string) : string {
 
                     <!-- Lingue -->
 
-                    <div class="  title-center-utility">
+                    <div class="language-container title-center-utility">
 
                         {#if $formDataStore.languagesSkills.some(selectedLanguage => selectedLanguage.lang !== "")}
     
@@ -368,12 +335,12 @@ function formattedWorkAccademicDate(date: string) : string {
                         {/each}
 
                     </div>
-
-                    <div class="page-break"></div>
                     
                     <!-- Patente -->
 
-                    <div class="title-center-utility">
+                    <div  class="driving-licence-container title-center-utility">
+
+                        <div class="title-center-utility">
 
                             {#if $formDataStore.drivingLicences.length > 0}
 
@@ -383,21 +350,24 @@ function formattedWorkAccademicDate(date: string) : string {
 
                             <span>{ $formDataStore.drivingLicences.join(', ') }</span>
 
-                    </div>
+                        </div>
 
-                    <!---- Automunito ---->
+                        <!---- Automunito ---->
 
-                    <div class="title-center-utility">
+                        <div class="title-center-utility">
 
-                        {#if $formDataStore.hasOwnCar }
+                            {#if $formDataStore.hasOwnCar }
 
-                            <span><i class="fa-solid fa-car"></i></span>
-                            <span>Automunito:</span>
+                                <span><i class="fa-solid fa-car"></i></span>
+                                <span>Automunito:</span>
 
-                        {/if}
+                            {/if}
                         
-                        <span>{ $formDataStore.hasOwnCar }</span>
+                            <span>{ $formDataStore.hasOwnCar }</span>
     
+                        </div>
+
+
                     </div>
 
                 </div>
@@ -416,7 +386,7 @@ function formattedWorkAccademicDate(date: string) : string {
 
                         {/if}
 
-                        {#each $formDataStore.jobs as job(job)}
+                        {#each $formDataStore.jobs as job, jobIndex}
 
                             <span class="role-info">{ job.role }</span>
 
@@ -458,10 +428,6 @@ function formattedWorkAccademicDate(date: string) : string {
                         {/if}
 
                             {#each $formDataStore.educations as education, educationIndex}
-
-                                {#if educationIndex === 1}
-                                    <div class="page-break"></div>
-                                {/if}
                             
                                 <span class="qualification-info">{ education.qualification }</span>
 
@@ -507,14 +473,17 @@ function formattedWorkAccademicDate(date: string) : string {
     <!---- Privacy Policy ---->
 
     <div>
-        <div class="form-check form-switch privacy-label">
-            <input class="form-check-input" 
+        <div class="form-check form-switch privacy-label flex-center-utility">
+            <input class="form-check-input me-2" 
                    type="checkbox" 
                    role="switch" 
                    id="privacyPolicySwitch" 
-                   bind:checked={hasPrivacyPolicyApproval}>
-            <label class="form-check-label" for="flexSwitchCheckChecked">Accetta la privacy policy per scaricare il CV</label>
+                   bind:checked={hasPrivacyPolicyApproval}
+            >
+            <label class="form-check-label" for="flexSwitchCheckChecked">Accetto la privacy policy per scaricare il CV</label>
         </div>
+
+        <p class="privacy-policy-style px-2">"Autorizzo il trattamento dei dati personali contenuti nel mio curriculum vitae in base al D. Lgs. 196/2003 e al Regolamento UE 2016/679"</p>
            
     </div>
 
@@ -646,8 +615,15 @@ function formattedWorkAccademicDate(date: string) : string {
 .privacy-label {
     font-size: 0.8rem ;
     font-style: oblique;
-    font-weight: 500;
+    font-weight: 600;
 }
+
+.privacy-policy-style {
+    font-size: 0.8rem ;
+    font-style: oblique;
+    font-weight: 400;
+}
+
 
 .download-btn {
   padding: 0.5rem;
@@ -672,10 +648,6 @@ function formattedWorkAccademicDate(date: string) : string {
     color: #999;
     background-color: #f0f0f0; 
     cursor: not-allowed; 
-}
-
-.page-break {
-    page-break-before: always;
-}
+} 
 
 </style>
