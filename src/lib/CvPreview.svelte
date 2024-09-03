@@ -1,8 +1,7 @@
 <script lang="ts">
 
-import { formDataStore } from '../stores/form_store';
+import { formDataStore, hasPrivacyPolicyApproval } from '../stores/form_store';
 
-let hasPrivacyPolicyApproval = false;
 
 function isProfilePictureUploaded(): void {
     const filePictureUploadedInput: HTMLInputElement | null = document.querySelector('[name="filePicture"]');
@@ -12,7 +11,7 @@ function isProfilePictureUploaded(): void {
 
         if (errorProfilePictureUploadedMessage) {
             errorProfilePictureUploadedMessage.innerText = message;
-            errorProfilePictureUploadedMessage.classList.add("error-user-data", "fw-medium");
+            errorProfilePictureUploadedMessage.classList.add("error-user-data", "fw-bolder");
             errorProfilePictureUploadedMessage.style.fontSize = "0.8rem";
         }
 
@@ -48,7 +47,7 @@ function isProtectedCategoryRadiosSelected(): void {
 
         if (errorProtectedCategoryMessage) {
             errorProtectedCategoryMessage.innerText = message;
-            errorProtectedCategoryMessage.classList.add("error-user-data", "fw-medium");
+            errorProtectedCategoryMessage.classList.add("error-user-data", "fw-bolder");
             errorProtectedCategoryMessage.style.fontSize = "0.8rem";
         }
 
@@ -79,7 +78,7 @@ function checkDrivingLicenceCheckboxesInput(): void {
 
         if (errorDrivingLicenceMessage) {
             errorDrivingLicenceMessage.innerText = message;
-            errorDrivingLicenceMessage.classList.add("error-user-data", "fw-medium");
+            errorDrivingLicenceMessage.classList.add("error-user-data", "fw-bolder");
             errorDrivingLicenceMessage.style.fontSize = "0.8rem";
         }
 
@@ -110,7 +109,7 @@ function isHasOwnCarRadiosSelected(): void {
 
         if (errorHasOwnCarMessage) {
             errorHasOwnCarMessage.innerText = message;
-            errorHasOwnCarMessage.classList.add("error-user-data", "fw-medium");
+            errorHasOwnCarMessage.classList.add("error-user-data", "fw-bolder");
             errorHasOwnCarMessage.style.fontSize = "0.8rem";
         }
     
@@ -144,6 +143,8 @@ function formattedWorkAccademicDate(date: string) : string {
     const [year, month] = date.split('-');
     return `${month}/${year}`;
 }
+
+$: console.log($hasPrivacyPolicyApproval);
   
 </script>
 
@@ -174,13 +175,13 @@ function formattedWorkAccademicDate(date: string) : string {
 
             <div>
 
-                <button class="download-btn" on:click={downloadCV} disabled={!hasPrivacyPolicyApproval}>DOWNLOAD CV</button>
+                <button class="download-btn" on:click={downloadCV} disabled={!$hasPrivacyPolicyApproval}>DOWNLOAD CV</button>
 
             </div>
 
         </div>
         
-        <h1 class="text-center py-4">Curriculum Vitae</h1>
+        <h1 class="text-center py-5">Curriculum Vitae</h1>
 
         <div class="cv-header-container">
 
@@ -497,23 +498,6 @@ function formattedWorkAccademicDate(date: string) : string {
         </div>
    
     </div>
-
-    <!---- Privacy Policy ---->
-
-    <div>
-        <div class="form-check form-switch privacy-label flex-center-utility">
-            <input class="form-check-input me-2" 
-                   type="checkbox" 
-                   role="switch" 
-                   id="privacyPolicySwitch" 
-                   bind:checked={hasPrivacyPolicyApproval}
-            >
-            <label class="form-check-label" for="flexSwitchCheckChecked">Accetto la privacy policy per scaricare il CV</label>
-        </div>
-
-        <p class="privacy-policy-style px-2">"Autorizzo il trattamento dei dati personali contenuti nel mio curriculum vitae in base al D. Lgs. 196/2003 e al Regolamento UE 2016/679"</p>
-           
-    </div>
        
 </div>
 
@@ -551,6 +535,8 @@ function formattedWorkAccademicDate(date: string) : string {
     align-items: center;
     background-color:#EEEEEE;
     padding: 1rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .main-left-section p, .main-right-section p {
@@ -639,18 +625,6 @@ function formattedWorkAccademicDate(date: string) : string {
     padding: 0.3rem 0;
 }
 
-.privacy-label {
-    font-size: 0.8rem ;
-    font-style: oblique;
-    font-weight: 600;
-}
-
-.privacy-policy-style {
-    font-size: 0.8rem ;
-    font-style: oblique;
-    font-weight: 400;
-}
-
 .select-template-btn, .select-colour-btn, .download-btn {
   width: 12rem;
   padding: 1rem;
@@ -658,7 +632,7 @@ function formattedWorkAccademicDate(date: string) : string {
   text-decoration: none;
   font-weight: bold;
   color: #fff;
-  background-color: #e74c3c;
+  background-color: #FF1616;
   border: none;
   border-radius: 10px;
   cursor: pointer;
@@ -667,7 +641,6 @@ function formattedWorkAccademicDate(date: string) : string {
 }
 
 .select-template-btn:hover,.select-colour-btn:hover, .download-btn:hover {
-  background-color: #c0392b;
   transform: translateY(-2px);
 }
 

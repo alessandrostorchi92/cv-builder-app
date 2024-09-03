@@ -8,7 +8,7 @@ export function isProfilePictureUploaded(): void {
 
         if (successProfilePictureUploadedMessage) {
             successProfilePictureUploadedMessage.innerText = message;
-            successProfilePictureUploadedMessage.classList.add("success-user-data", "fw-medium");
+            successProfilePictureUploadedMessage.classList.add("success-user-data", "fw-bolder");
             successProfilePictureUploadedMessage.style.fontSize = "0.8rem";
         }
 
@@ -37,7 +37,7 @@ export function checkNameInput(): void {
 
         if(errorNameMessages) {
             errorNameMessages.innerText = message;
-            errorNameMessages.classList.add("error-user-data", "fw-medium");
+            errorNameMessages.classList.add("error-user-data", "fw-bolder");
             errorNameMessages.style.fontSize = "0.8rem";
         }
 
@@ -55,7 +55,7 @@ export function checkNameInput(): void {
 
         if(successNameMessage) {
             successNameMessage.innerText = message;
-            successNameMessage.classList.add("success-user-data", "fw-medium");
+            successNameMessage.classList.add("success-user-data", "fw-bolder");
             successNameMessage.style.fontSize = "0.8rem";
         }
 
@@ -107,7 +107,7 @@ export function checkSurnameInput(): void {
 
         if(errorSurnameMessages) {
             errorSurnameMessages.innerText = message;
-            errorSurnameMessages.classList.add("error-user-data", "fw-medium");
+            errorSurnameMessages.classList.add("error-user-data", "fw-bolder");
             errorSurnameMessages.style.fontSize = "0.8rem";
         }
 
@@ -125,7 +125,7 @@ export function checkSurnameInput(): void {
 
         if(successSurnameMessage) {
             successSurnameMessage.innerText = message;
-            successSurnameMessage.classList.add("success-user-data", "fw-medium");
+            successSurnameMessage.classList.add("success-user-data", "fw-bolder");
             successSurnameMessage.style.fontSize = "0.8rem"
         }
 
@@ -175,7 +175,7 @@ export function checkProfessionInput(): void {
 
         if(errorProfessionMessages) {
             errorProfessionMessages.innerText = message;
-            errorProfessionMessages.classList.add("error-user-data", "fw-medium");
+            errorProfessionMessages.classList.add("error-user-data", "fw-bolder");
             errorProfessionMessages.style.fontSize = "0.8rem";
         }
 
@@ -194,7 +194,7 @@ export function checkProfessionInput(): void {
 
         if(successProfessionMessage) {
             successProfessionMessage.innerText = message;
-            successProfessionMessage.classList.add("success-user-data", "fw-medium");
+            successProfessionMessage.classList.add("success-user-data", "fw-bolder");
             successProfessionMessage.style.fontSize = "0.8rem"
         }
 
@@ -241,7 +241,7 @@ export function checkBirthPlaceInput(): void {
 
         if(errorBirthPlaceMessages) {
             errorBirthPlaceMessages.innerText = message;
-            errorBirthPlaceMessages.classList.add("error-user-data", "fw-medium");
+            errorBirthPlaceMessages.classList.add("error-user-data", "fw-bolder");
             errorBirthPlaceMessages.style.fontSize = "0.8rem";
         }
 
@@ -259,7 +259,7 @@ export function checkBirthPlaceInput(): void {
 
         if(successBirthPlaceMessage) {
             successBirthPlaceMessage.innerText = message;
-            successBirthPlaceMessage.classList.add("success-user-data", "fw-medium");
+            successBirthPlaceMessage.classList.add("success-user-data", "fw-bolder");
             successBirthPlaceMessage.style.fontSize = "0.8rem";
         }
 
@@ -306,7 +306,7 @@ export function checkBirthDateInput(): void {
 
         if(errorBirthDateMessage) {
             errorBirthDateMessage.innerText = message;
-            errorBirthDateMessage.classList.add("error-user-data", "fw-medium");
+            errorBirthDateMessage.classList.add("error-user-data", "fw-bolder");
             errorBirthDateMessage.style.fontSize = "0.8rem";
         }
 
@@ -324,7 +324,7 @@ export function checkBirthDateInput(): void {
 
         if(successBirthDateMessage) {
             successBirthDateMessage.innerText = message;
-            successBirthDateMessage.classList.add("success-user-data", "fw-medium");
+            successBirthDateMessage.classList.add("success-user-data", "fw-bolder");
             successBirthDateMessage.style.fontSize = "0.8rem";
         }
 
@@ -370,7 +370,7 @@ export function checkAddressInput(): void {
 
         if(errorAddressMessages) {
             errorAddressMessages.innerText = message;
-            errorAddressMessages.classList.add("error-user-data", "fw-medium");
+            errorAddressMessages.classList.add("error-user-data", "fw-bolder");
             errorAddressMessages.style.fontSize = "0.8rem";
         }
 
@@ -388,7 +388,7 @@ export function checkAddressInput(): void {
 
         if(successAddressMessage) {
              successAddressMessage.innerText = message;
-             successAddressMessage.classList.add("success-user-data", "fw-medium");
+             successAddressMessage.classList.add("success-user-data", "fw-bolder");
              successAddressMessage.style.fontSize = "0.8rem";
             }
     
@@ -435,7 +435,7 @@ export function checkPhonePrefixSelect(): void {
 
         if(errorPhonePrefixMessage) {
             errorPhonePrefixMessage.innerText = message;
-            errorPhonePrefixMessage.classList.add("error-user-data", "fw-medium");
+            errorPhonePrefixMessage.classList.add("error-user-data", "fw-bolder");
             errorPhonePrefixMessage.style.fontSize = "0.8rem";
         }
 
@@ -453,7 +453,7 @@ export function checkPhonePrefixSelect(): void {
 
         if(successPhonePrefixMessage) {
             successPhonePrefixMessage.innerText = message;
-            successPhonePrefixMessage.classList.add("success-user-data", "fw-medium");
+            successPhonePrefixMessage.classList.add("success-user-data", "fw-bolder");
             successPhonePrefixMessage.style.fontSize = "0.8rem";
         }
 
@@ -497,7 +497,7 @@ export function checkPhoneInput(): void {
 
         if(errorPhoneMessages) {
             errorPhoneMessages.innerText = message;
-            errorPhoneMessages.classList.add("error-user-data", "fw-medium");
+            errorPhoneMessages.classList.add("error-user-data", "fw-bolder");
             errorPhoneMessages.style.fontSize = "0.8rem";
         }
 
@@ -515,7 +515,7 @@ export function checkPhoneInput(): void {
 
         if(successPhoneMessage) {
             successPhoneMessage.innerText = message;
-            successPhoneMessage.classList.add("success-user-data", "fw-medium");
+            successPhoneMessage.classList.add("success-user-data", "fw-bolder");
             successPhoneMessage.style.fontSize = "0.8rem";
         }
 
@@ -566,7 +566,7 @@ export function checkEmailInput(): void {
 
         if(errorEmailMessages) {
             errorEmailMessages.innerText = message;
-            errorEmailMessages.classList.add("error-user-data", "fw-medium");
+            errorEmailMessages.classList.add("error-user-data", "fw-bolder");
             errorEmailMessages.style.fontSize = "0.8rem";
         }
 
@@ -584,7 +584,7 @@ export function checkEmailInput(): void {
 
         if(successEmailMessage) {
             successEmailMessage.innerText = message;
-            successEmailMessage.classList.add("success-user-data", "fw-medium");
+            successEmailMessage.classList.add("success-user-data", "fw-bolder");
             successEmailMessage.style.fontSize = "0.8rem"
         }
 
@@ -634,7 +634,7 @@ export function checkProfileSummaryTextArea(): void {
 
         if(errorProfileSummaryMessages) {
             errorProfileSummaryMessages.innerText = message;
-            errorProfileSummaryMessages.classList.add("error-user-data", "fw-medium");
+            errorProfileSummaryMessages.classList.add("error-user-data", "fw-bolder");
             errorProfileSummaryMessages.style.fontSize = "0.8rem";
         }
 
@@ -652,7 +652,7 @@ export function checkProfileSummaryTextArea(): void {
 
         if(successProfileSummaryMessage) {
             successProfileSummaryMessage.innerText = message;
-            successProfileSummaryMessage.classList.add("success-user-data", "fw-medium");
+            successProfileSummaryMessage.classList.add("success-user-data", "fw-bolder");
             successProfileSummaryMessage.style.fontSize = "0.8rem"
         }
 
@@ -698,7 +698,7 @@ export function checkDigitalSkillsTextArea(): void {
 
         if(errorDigitalSkillsMessages) {
             errorDigitalSkillsMessages.innerText = message;
-            errorDigitalSkillsMessages.classList.add("error-user-data", "fw-medium");
+            errorDigitalSkillsMessages.classList.add("error-user-data", "fw-bolder");
             errorDigitalSkillsMessages.style.fontSize = "0.8rem";
         }
 
@@ -716,7 +716,7 @@ export function checkDigitalSkillsTextArea(): void {
 
         if(successDigitalSkillsMessage) {
             successDigitalSkillsMessage.innerText = message;
-            successDigitalSkillsMessage.classList.add("success-user-data", "fw-medium");
+            successDigitalSkillsMessage.classList.add("success-user-data", "fw-bolder");
             successDigitalSkillsMessage.style.fontSize = "0.8rem"
         }
 
@@ -768,7 +768,7 @@ export function isProtectedCategoryRadiosSelected(): void {
     const setProtectedCategorySuccessFeedback = (message: string) => {
         if (successProtectedCategoryMessage) {
             successProtectedCategoryMessage.innerText = message;
-            successProtectedCategoryMessage.classList.add("success-user-data", "fw-medium");
+            successProtectedCategoryMessage.classList.add("success-user-data", "fw-bolder");
             successProtectedCategoryMessage.style.fontSize = "0.8rem";
             successProtectedCategoryMessage.style.display = "block";
         }
@@ -782,7 +782,7 @@ export function isProtectedCategoryRadiosSelected(): void {
 
         if (errorProtectedCategoryMessage) {
             errorProtectedCategoryMessage.innerText = message;
-            errorProtectedCategoryMessage.classList.add("error-user-data", "fw-medium");
+            errorProtectedCategoryMessage.classList.add("error-user-data", "fw-bolder");
             errorProtectedCategoryMessage.style.fontSize = "0.8rem";
             errorProtectedCategoryMessage.style.display = "block";
         }
@@ -810,7 +810,7 @@ export function checkLanguageSelect(index: number): void {
 
         if (errorLanguageMessage) {
             errorLanguageMessage.innerText = message;
-            errorLanguageMessage.classList.add("error-user-data", "fw-medium");
+            errorLanguageMessage.classList.add("error-user-data", "fw-bolder");
             errorLanguageMessage.style.fontSize = "0.8rem";
         }
 
@@ -828,7 +828,7 @@ export function checkLanguageSelect(index: number): void {
 
         if (successLanguageMessage) {
             successLanguageMessage.innerText = message;
-            successLanguageMessage.classList.add("success-user-data", "fw-medium");
+            successLanguageMessage.classList.add("success-user-data", "fw-bolder");
             successLanguageMessage.style.fontSize = "0.8rem";
         }
 
@@ -871,7 +871,7 @@ export function checkLanguageLevelSelect(index: number): void {
 
         if (errorLanguageLevelMessage) {
             errorLanguageLevelMessage.innerText = message;
-            errorLanguageLevelMessage.classList.add("error-user-data", "fw-medium");
+            errorLanguageLevelMessage.classList.add("error-user-data", "fw-bolder");
             errorLanguageLevelMessage.style.fontSize = "0.8rem";
         }
 
@@ -889,7 +889,7 @@ export function checkLanguageLevelSelect(index: number): void {
 
         if (successLanguageLevelMessage) {
             successLanguageLevelMessage.innerText = message;
-            successLanguageLevelMessage.classList.add("success-user-data", "fw-medium");
+            successLanguageLevelMessage.classList.add("success-user-data", "fw-bolder");
             successLanguageLevelMessage.style.fontSize = "0.8rem";
         }
 
@@ -946,7 +946,7 @@ export function checkDrivingLicenceCheckboxesInput(): void {
 
         if (successDrivingLicenceMessage) {
             successDrivingLicenceMessage.innerText = message;
-            successDrivingLicenceMessage.classList.add("success-user-data", "fw-medium");
+            successDrivingLicenceMessage.classList.add("success-user-data", "fw-bolder");
             successDrivingLicenceMessage.style.fontSize = "0.8rem";
             successDrivingLicenceMessage.style.display = "block";
         }
@@ -967,7 +967,7 @@ export function checkDrivingLicenceCheckboxesInput(): void {
 
         if (errorDrivingLicenceMessage) {
             errorDrivingLicenceMessage.innerText = message;
-            errorDrivingLicenceMessage.classList.add("error-user-data", "fw-medium");
+            errorDrivingLicenceMessage.classList.add("error-user-data", "fw-bolder");
             errorDrivingLicenceMessage.style.fontSize = "0.8rem";
             errorDrivingLicenceMessage.style.display = "block";
         }
@@ -1012,7 +1012,7 @@ export function isHasOwnCarRadiosSelected(): void {
 
         if (successHasOwnCarMessage) {
             successHasOwnCarMessage.innerText = message;
-            successHasOwnCarMessage.classList.add("success-user-data", "fw-medium");
+            successHasOwnCarMessage.classList.add("success-user-data", "fw-bolder");
             successHasOwnCarMessage.style.fontSize = "0.8rem";
             successHasOwnCarMessage.style.display = "block";
         }
@@ -1027,7 +1027,7 @@ export function isHasOwnCarRadiosSelected(): void {
 
         if (errorHasOwnCarMessage) {
             errorHasOwnCarMessage.innerText = message;
-            errorHasOwnCarMessage.classList.add("error-user-data", "fw-medium");
+            errorHasOwnCarMessage.classList.add("error-user-data", "fw-bolder");
             errorHasOwnCarMessage.style.fontSize = "0.8rem";
             errorHasOwnCarMessage.style.display = "block"; 
         }
@@ -1057,7 +1057,7 @@ export function checkJobRoleTextInput(index: number): void {
 
         if(errorJobRoleMessages) {
             errorJobRoleMessages.innerText = message;
-            errorJobRoleMessages.classList.add("error-user-data", "fw-medium");
+            errorJobRoleMessages.classList.add("error-user-data", "fw-bolder");
             errorJobRoleMessages.style.fontSize = "0.8rem";
         }
 
@@ -1075,7 +1075,7 @@ export function checkJobRoleTextInput(index: number): void {
 
         if(successJobRoleMessage) {
             successJobRoleMessage.innerText = message;
-            successJobRoleMessage.classList.add("success-user-data", "fw-medium");
+            successJobRoleMessage.classList.add("success-user-data", "fw-bolder");
             successJobRoleMessage.style.fontSize = "0.8rem";
         }
 
@@ -1122,7 +1122,7 @@ export function checkCompanyTextInput(index: number): void {
 
         if(errorCompanyMessages) {
             errorCompanyMessages.innerText = message;
-            errorCompanyMessages.classList.add("error-user-data", "fw-medium");
+            errorCompanyMessages.classList.add("error-user-data", "fw-bolder");
             errorCompanyMessages.style.fontSize = "0.8rem";
         }
 
@@ -1140,7 +1140,7 @@ export function checkCompanyTextInput(index: number): void {
 
         if(successCompanyMessage) {
             successCompanyMessage.innerText = message;
-            successCompanyMessage.classList.add("success-user-data", "fw-medium");
+            successCompanyMessage.classList.add("success-user-data", "fw-bolder");
             successCompanyMessage.style.fontSize = "0.8rem";
         }
 
@@ -1207,7 +1207,7 @@ export function checkWorkExperienceResults(index: number): void {
 
         if(errorWorkExperienceResultsMessages) {
             errorWorkExperienceResultsMessages.innerText = message;
-            errorWorkExperienceResultsMessages.classList.add("error-user-data", "fw-medium");
+            errorWorkExperienceResultsMessages.classList.add("error-user-data", "fw-bolder");
             errorWorkExperienceResultsMessages.style.fontSize = "0.8rem";
         }
 
@@ -1225,7 +1225,7 @@ export function checkWorkExperienceResults(index: number): void {
 
         if(successWorkExperienceResultsMessage) {
             successWorkExperienceResultsMessage.innerText = message;
-            successWorkExperienceResultsMessage.classList.add("success-user-data", "fw-medium");
+            successWorkExperienceResultsMessage.classList.add("success-user-data", "fw-bolder");
             successWorkExperienceResultsMessage.style.fontSize = "0.8rem"
         }
 
@@ -1271,7 +1271,7 @@ export function checkStartAndEndWorkExperienceDateInput(index: number): void {
 
         if(errorStartDateWorkExperienceMessages) {
             errorStartDateWorkExperienceMessages.innerText = message;
-            errorStartDateWorkExperienceMessages.classList.add("error-user-data", "fw-medium");
+            errorStartDateWorkExperienceMessages.classList.add("error-user-data", "fw-bolder");
             errorStartDateWorkExperienceMessages.style.fontSize = "0.8rem";
         }
 
@@ -1288,7 +1288,7 @@ export function checkStartAndEndWorkExperienceDateInput(index: number): void {
 
         if(successStartDateWorkExperienceMessage) {
             successStartDateWorkExperienceMessage.innerText = message;
-            successStartDateWorkExperienceMessage.classList.add("success-user-data", "fw-medium");
+            successStartDateWorkExperienceMessage.classList.add("success-user-data", "fw-bolder");
             successStartDateWorkExperienceMessage.style.fontSize = "0.8rem"
         }
 
@@ -1311,7 +1311,7 @@ export function checkStartAndEndWorkExperienceDateInput(index: number): void {
 
         if(errorEndDateWorkExperienceMessages) {
             errorEndDateWorkExperienceMessages.innerText = message;
-            errorEndDateWorkExperienceMessages.classList.add("error-user-data", "fw-medium");
+            errorEndDateWorkExperienceMessages.classList.add("error-user-data", "fw-bolder");
             errorEndDateWorkExperienceMessages.style.fontSize = "0.8rem";
         }
 
@@ -1328,7 +1328,7 @@ export function checkStartAndEndWorkExperienceDateInput(index: number): void {
 
         if(successEndDateWorkExperienceMessage) {
             successEndDateWorkExperienceMessage.innerText = message;
-            successEndDateWorkExperienceMessage.classList.add("success-user-data", "fw-medium");
+            successEndDateWorkExperienceMessage.classList.add("success-user-data", "fw-bolder");
             successEndDateWorkExperienceMessage.style.fontSize = "0.8rem"
         }
 
@@ -1386,7 +1386,7 @@ export function checkQualificationsSelect(index:number): void {
 
         if (errorQualificationMessage) {
             errorQualificationMessage.innerText = message;
-            errorQualificationMessage.classList.add("error-user-data", "fw-medium");
+            errorQualificationMessage.classList.add("error-user-data", "fw-bolder");
             errorQualificationMessage.style.fontSize = "0.8rem";
         }
 
@@ -1404,7 +1404,7 @@ export function checkQualificationsSelect(index:number): void {
 
         if (successQualificationMessage) {
             successQualificationMessage.innerText = message;
-            successQualificationMessage.classList.add("success-user-data", "fw-medium");
+            successQualificationMessage.classList.add("success-user-data", "fw-bolder");
             successQualificationMessage.style.fontSize = "0.8rem";
         }
 
@@ -1448,7 +1448,7 @@ export function checkFieldOfStudyTextInput(index: number): void {
 
         if(errorFieldOfStudyMessages) {
             errorFieldOfStudyMessages.innerText = message;
-            errorFieldOfStudyMessages.classList.add("error-user-data", "fw-medium");
+            errorFieldOfStudyMessages.classList.add("error-user-data", "fw-bolder");
             errorFieldOfStudyMessages.style.fontSize = "0.8rem";
         }
 
@@ -1466,7 +1466,7 @@ export function checkFieldOfStudyTextInput(index: number): void {
 
         if(successFieldOfStudyMessage) {
             successFieldOfStudyMessage.innerText = message;
-            successFieldOfStudyMessage.classList.add("success-user-data", "fw-medium");
+            successFieldOfStudyMessage.classList.add("success-user-data", "fw-bolder");
             successFieldOfStudyMessage.style.fontSize = "0.8rem";
         }
 
@@ -1514,7 +1514,7 @@ export function checkEducationTypeTextInput(index: number): void {
 
         if(errorEducationTypeMessages) {
             errorEducationTypeMessages.innerText = message;
-            errorEducationTypeMessages.classList.add("error-user-data", "fw-medium");
+            errorEducationTypeMessages.classList.add("error-user-data", "fw-bolder");
             errorEducationTypeMessages.style.fontSize = "0.8rem";
         }
 
@@ -1532,7 +1532,7 @@ export function checkEducationTypeTextInput(index: number): void {
 
         if(successEducationTypeMessage) {
             successEducationTypeMessage.innerText = message;
-            successEducationTypeMessage.classList.add("success-user-data", "fw-medium");
+            successEducationTypeMessage.classList.add("success-user-data", "fw-bolder");
             successEducationTypeMessage.style.fontSize = "0.8rem";
         }
 
@@ -1579,7 +1579,7 @@ export function checkEducationGoals(index:number): void {
 
         if(errorEducationGoalsMessages) {
             errorEducationGoalsMessages.innerText = message;
-            errorEducationGoalsMessages.classList.add("error-user-data", "fw-medium");
+            errorEducationGoalsMessages.classList.add("error-user-data", "fw-bolder");
             errorEducationGoalsMessages.style.fontSize = "0.8rem";
         }
 
@@ -1597,7 +1597,7 @@ export function checkEducationGoals(index:number): void {
 
         if(successEducationGoalsMessage) {
             successEducationGoalsMessage.innerText = message;
-            successEducationGoalsMessage.classList.add("success-user-data", "fw-medium");
+            successEducationGoalsMessage.classList.add("success-user-data", "fw-bolder");
             successEducationGoalsMessage.style.fontSize = "0.8rem"
         }
 
@@ -1643,7 +1643,7 @@ export function checkStartAndEndAcademicEducationDateInput(index: number): void 
 
         if(errorStartDateAcademicEducationMessages) {
             errorStartDateAcademicEducationMessages.innerText = message;
-            errorStartDateAcademicEducationMessages.classList.add("error-user-data", "fw-medium");
+            errorStartDateAcademicEducationMessages.classList.add("error-user-data", "fw-bolder");
             errorStartDateAcademicEducationMessages.style.fontSize = "0.8rem";
         }
 
@@ -1660,7 +1660,7 @@ export function checkStartAndEndAcademicEducationDateInput(index: number): void 
 
         if(successStartDateAcademicEducationMessage) {
             successStartDateAcademicEducationMessage.innerText = message;
-            successStartDateAcademicEducationMessage.classList.add("success-user-data", "fw-medium");
+            successStartDateAcademicEducationMessage.classList.add("success-user-data", "fw-bolder");
             successStartDateAcademicEducationMessage.style.fontSize = "0.8rem"
         }
 
@@ -1683,7 +1683,7 @@ export function checkStartAndEndAcademicEducationDateInput(index: number): void 
 
         if(errorEndDateAcademicEducationMessages) {
             errorEndDateAcademicEducationMessages.innerText = message;
-            errorEndDateAcademicEducationMessages.classList.add("error-user-data", "fw-medium");
+            errorEndDateAcademicEducationMessages.classList.add("error-user-data", "fw-bolder");
             errorEndDateAcademicEducationMessages.style.fontSize = "0.8rem";
         }
 
@@ -1700,7 +1700,7 @@ export function checkStartAndEndAcademicEducationDateInput(index: number): void 
 
         if(successEndDateAcademicEducationMessage) {
             successEndDateAcademicEducationMessage.innerText = message;
-            successEndDateAcademicEducationMessage.classList.add("success-user-data", "fw-medium");
+            successEndDateAcademicEducationMessage.classList.add("success-user-data", "fw-bolder");
             successEndDateAcademicEducationMessage.style.fontSize = "0.8rem"
         }
 

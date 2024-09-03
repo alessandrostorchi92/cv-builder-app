@@ -1,4 +1,6 @@
 
+    import type { Writable } from "svelte/store"; 
+      
     export type FormData = {
 
         filePicture: string | null,
@@ -41,6 +43,7 @@
         endDateAcademicEducation: string,
     };
 
+    export type hasPrivacyPolicyApproval = Writable<boolean>;
 
 
 

@@ -63,3 +63,6 @@ if (typeof window !== "undefined" && typeof localStorage !== "undefined") {
 formDataStore.subscribe((currentUserFormData) => {
     storeUserData(currentUserFormData);
 });
+
+export let hasPrivacyPolicyApproval: formTypes.hasPrivacyPolicyApproval = writable(false);
+
