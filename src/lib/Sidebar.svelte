@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { formDataStore, hasPrivacyPolicyApproval } from "../stores/form_store";
+  import { formDataStore, isSignConvalid } from "../stores/form_store";
   import * as validators from "../validators/form_validation";
   import { onMount } from "svelte";
 
@@ -197,6 +197,7 @@
   ];
 
   let disableAddLanguageButton: boolean = false;
+  let hasPrivacyPolicyApproval: boolean = false;
 
   function handleFileChange(event: Event) {
 
@@ -321,7 +322,6 @@
   function handlePointerDown(event: PointerEvent): void {
 
     isDrawing = true;
-    canvas.style.cursor = 'url("/pen.png"), pointer';
 
     const { positionX, positionY } = getPointerPosition(event);
 
@@ -353,6 +353,11 @@
   
   function convalidSignatureDrawing(): void {
     console.log("Firma convalidata");
+  }
+
+  function checkSignConvalid(): void {
+    
+    isSignConvalid.set(true);
   }
 
   onMount(() => {
@@ -1191,7 +1196,7 @@
                type="checkbox" 
                role="switch" 
                id="privacyPolicySwitch" 
-               bind:checked={$hasPrivacyPolicyApproval}
+               bind:checked={hasPrivacyPolicyApproval}
         >
         <label class="form-check-label" for="flexSwitchCheckChecked">Accetto la privacy policy per scaricare il CV</label>
     </div>
@@ -1226,7 +1231,7 @@
   
     <div class="flex-center-utility gap-4 py-3">
       <button class="btn-remove-style btn-signature" on:click={clearSignatureDrawing}>Cancella</button>
-      <button class="btn-add-style btn-signature" on:click={convalidSignatureDrawing}>Convalida</button>
+      <button class="btn-add-style btn-signature" on:click={checkSignConvalid} disabled={!hasPrivacyPolicyApproval} on:click={convalidSignatureDrawing}>Convalida</button>
     </div>
 
   </div>
@@ -1420,6 +1425,7 @@
   .btn-signature {
     width: 6rem;
     padding: 0.8rem;
+    font-weight: 600;
   }
 
 </style>

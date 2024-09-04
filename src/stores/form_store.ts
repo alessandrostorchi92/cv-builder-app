@@ -64,5 +64,5 @@ formDataStore.subscribe((currentUserFormData) => {
     storeUserData(currentUserFormData);
 });
 
-export let hasPrivacyPolicyApproval: formTypes.hasPrivacyPolicyApproval = writable(false);
+ export let isSignConvalid: formTypes.isSignConvalid = writable(false);
 
