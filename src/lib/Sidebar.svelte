@@ -282,6 +282,79 @@
     $formDataStore.educations = $formDataStore.educations;
   }
 
+  let canvas: HTMLCanvasElement;
+  let isDrawing: boolean = false;
+  let ctx: CanvasRenderingContext2D | null = null;
+
+  function getCanvasRenderingContext2D(): void {
+
+        ctx = canvas.getContext('2d');
+
+        if (ctx) {
+          ctx.lineWidth = 2; 
+          ctx.lineCap = 'round';
+          ctx.strokeStyle = '#000';
+        } else {
+          console.error("Impossibile ottenere il contesto di disegno 2D dal canvas.");
+        }
+
+  }
+
+  function updateCanvasJs(): void {
+
+  canvas.width = canvas.offsetWidth;
+  canvas.height = canvas.offsetHeight;
+
+  }
+
+  function getPointerPosition(event: PointerEvent): { positionX: number; positionY: number } {
+
+  const rect = canvas.getBoundingClientRect();
+
+  const positionX = event.clientX - rect.left;
+  const positionY = event.clientY - rect.top;
+
+  return { positionX, positionY };
+
+  }
+
+  function handlePointerDown(event: PointerEvent): void {
+
+    isDrawing = true;
+    canvas.style.cursor = 'url("/pen.png"), pointer';
+
+    const { positionX, positionY } = getPointerPosition(event);
+
+    if(ctx) {
+      ctx.beginPath();
+      ctx.moveTo(positionX, positionY);
+    }
+
+  }
+
+  function handlePointerMove(event: PointerEvent): void {
+    if(!isDrawing || !ctx) return;
+
+    const { positionX, positionY } = getPointerPosition(event);
+    ctx?.lineTo(positionX, positionY);
+    ctx?.stroke();
+
+  }
+
+  function handlePointUp(event: PointerEvent): void {
+    isDrawing = false;
+  }
+
+  function clearSignatureDrawing(): void {
+    if (ctx) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+  }
+  
+  function convalidSignatureDrawing(): void {
+    console.log("Firma convalidata");
+  }
+
   onMount(() => {
     
     const savedStoreData = localStorage.getItem("formData");
@@ -292,12 +365,23 @@
 
     // localStorage.clear();
 
+    if(canvas) {
+      
+      updateCanvasJs();
+      getCanvasRenderingContext2D();
+
+    }  else {
+
+    console.warn("Il canvas non è definito");
+
+    }
+
   });
   
 </script>
 
 <div id="sidebar" class="flex-column-utility">
-  <div class="text-center py-5">
+  <div class="text-center py-2">
     <h1 class="title-app-style">CREA IL TUO CURRICULUM VITAE</h1>
     <h3 class="description-title-app-style py-1 px-3">
       Fai il tuo primo passo verso il tuo lavoro ideale: crea il tuo curriculum e
@@ -308,7 +392,7 @@
 
   <!-- Informazioni di contatto -->
 
-  <div class="flex-center-utility p-4">
+  <div class="flex-center-utility py-4">
     <h2 class="title-section-style">INFORMAZIONI DI CONTATTO</h2>
   </div>
 
@@ -919,7 +1003,7 @@
 
         <!-- Dettagli Formazione -->
 
-          <div class="flex-center-utility py-4">
+          <div class="flex-center-utility py-5">
             <h2 class="title-section-style">DETTAGLI FORMAZIONE</h2>
           </div>
 
@@ -1116,6 +1200,37 @@
        
   </div>
 
+  <!---- User Signature ---->
+
+  <div>
+
+    <div class="signature-container">
+
+      <div class="label-signature">
+        <label for="userSignature">Firma</label>
+        <span class="isRequired">*</span>
+      </div>
+
+    </div>
+  
+    <div class="flex-center-utility">
+      <canvas id="userSignature" 
+              class="signature-pad-style" 
+              bind:this={canvas}  
+              on:pointerdown={handlePointerDown} 
+              on:pointermove={handlePointerMove}
+              on:pointerup = {handlePointUp}
+              >
+      </canvas>
+    </div>
+  
+    <div class="flex-center-utility gap-4 py-3">
+      <button class="btn-remove-style btn-signature" on:click={clearSignatureDrawing}>Cancella</button>
+      <button class="btn-add-style btn-signature" on:click={convalidSignatureDrawing}>Convalida</button>
+    </div>
+
+  </div>
+  
 </div>
 
 <style>
@@ -1282,6 +1397,29 @@
       font-size: 0.8rem ;
       font-style: oblique;
       font-weight: 400;
+  }
+
+  .signature-container{
+    position: relative;
+  }
+
+  .label-signature{
+    position: absolute;
+    top: -30px;
+    left: 140px
+  }
+
+  .signature-pad-style {
+    width: 500px; 
+    height: 200px;
+    background-color: white;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+  }
+
+  .btn-signature {
+    width: 6rem;
+    padding: 0.8rem;
   }
 
 </style>
