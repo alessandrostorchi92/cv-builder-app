@@ -1,3 +1,5 @@
+import { isPrivacyPolicyApproved, isAllowed } from "../stores/form_store";
+
 export function isProfilePictureUploaded(): void {
 
     const filePictureUploadedInput: HTMLInputElement | null = document.querySelector('[name="filePicture"]');
@@ -1197,7 +1199,7 @@ export function checkCompanyTextInput(index: number): void {
 
 };
 
-export function checkWorkExperienceResults(index: number): void {
+export function checkWorkExperienceResultsTextArea(index: number): void {
 
     const workExperienceResultsTextArea: HTMLTextAreaElement | null = document.querySelector(`#textAreaInputWorkExperienceResults${index}`);
     const errorWorkExperienceResultsMessages: HTMLDivElement | null = document.querySelector(`#error-work-experience-results-messages${index}`);
@@ -1569,7 +1571,7 @@ export function checkEducationTypeTextInput(index: number): void {
 
 };
 
-export function checkEducationGoals(index:number): void {
+export function checkEducationGoalsTextArea(index:number): void {
 
     const educationGoalsTextArea: HTMLTextAreaElement | null = document.querySelector(`#formInputEducationGoals${index}`);
     const errorEducationGoalsMessages: HTMLDivElement | null = document.querySelector(`#error-education-goals-messages${index}`);
@@ -1747,6 +1749,140 @@ export function checkStartAndEndAcademicEducationDateInput(index: number): void 
     }
 
 };
+
+export function checkPolicyPrivacySwitchInput(): void {
+
+    const userPrivacyPolicyInput: HTMLInputElement | null = document.querySelector("[name='privacyPolicy']");
+    const errorPrivacyPolicyMessage: HTMLDivElement | null = document.querySelector(".error-policy-privacy-message");
+    const successPrivacyPolicyMessage: HTMLDivElement | null = document.querySelector(".success-policy-privacy-message");
+
+    const setPrivacyPolicyErrorFeedbak = (message:string) => {
+
+        if(errorPrivacyPolicyMessage) {
+            errorPrivacyPolicyMessage.innerText = message;
+            errorPrivacyPolicyMessage.classList.add("error-user-data", "fw-bolder");
+            errorPrivacyPolicyMessage.style.fontSize = "0.8rem";
+        }
+
+        if(userPrivacyPolicyInput) {
+            userPrivacyPolicyInput.classList.add("is-invalid");
+        }
+
+        if(successPrivacyPolicyMessage) {
+            successPrivacyPolicyMessage.innerText = "";
+        }
+
+    };
+
+    const setPrivacyPolicySuccessFeedback = (message: string) => {
+
+        if(successPrivacyPolicyMessage) {
+            successPrivacyPolicyMessage.innerText = message;
+            successPrivacyPolicyMessage.classList.add("success-user-data", "fw-bolder");
+            successPrivacyPolicyMessage.style.fontSize = "0.8rem"
+        }
+
+        if(userPrivacyPolicyInput) {
+            userPrivacyPolicyInput.classList.remove("is-invalid");
+            userPrivacyPolicyInput.classList.add("is-valid");
+        }
+
+        if(errorPrivacyPolicyMessage) {
+            errorPrivacyPolicyMessage.innerHTML = "";
+        }
+
+    };
+
+    isPrivacyPolicyApproved.subscribe((hasAcceptedPrivacyPolicy) => {
+
+        if(hasAcceptedPrivacyPolicy) {
+            setPrivacyPolicySuccessFeedback("Ottimo lavoro, hai accettato i termini della privacy policy");
+        } else {
+            setPrivacyPolicyErrorFeedbak("Per favore, accetta i termini della privacy policy");
+        }
+
+    });
+
+}
+
+export function checkClickAuthBtn(): void {
+
+    const successAuthSignMessage: HTMLDivElement | null = document.querySelector(".success-auth-sign-message");
+
+    const setAuthSignSuccessFeedback = (message: string) => {
+
+        if(successAuthSignMessage) {
+            successAuthSignMessage.innerText = message;
+            successAuthSignMessage.classList.add("success-user-data", "fw-bolder");
+            successAuthSignMessage.style.fontSize = "0.8rem"
+        }
+
+    };
+
+    isAllowed.subscribe((hasAllowed) => {
+
+        if(hasAllowed) {
+            setAuthSignSuccessFeedback("Ottimo lavoro, l'autorizzazione è andata a buon fine");
+        }
+
+    });
+}
+
+export function checkClickCancBtn(): void {
+
+    const cancSignBtn: HTMLInputElement | null = document.querySelector("[name='cancBtn']");
+    const errorCancSignMessage: HTMLDivElement | null = document.querySelector(".error-canc-sign-message");
+    const successAuthSignMessage: HTMLDivElement | null = document.querySelector(".success-auth-sign-message");
+
+    const setCancSignErrorFeedbak = (message:string) => {
+
+        if(errorCancSignMessage) {
+            errorCancSignMessage.innerText = message;
+            errorCancSignMessage.classList.add("error-user-data", "fw-bolder");
+            errorCancSignMessage.style.fontSize = "0.8rem";
+        }
+
+        if(cancSignBtn) {
+            cancSignBtn.classList.add("is-invalid");
+        }
+
+        if(successAuthSignMessage) {
+            successAuthSignMessage.innerText = "";
+
+        }
+
+    };
+
+    const setCancSignSuccessFeedback = (message: string) => {
+
+        if(successAuthSignMessage) {
+            successAuthSignMessage.innerText = message;
+            successAuthSignMessage.classList.add("success-user-data", "fw-bolder");
+            successAuthSignMessage.style.fontSize = "0.8rem"
+        }
+
+        if(cancSignBtn) {
+            cancSignBtn.classList.remove("is-invalid");
+            cancSignBtn.classList.add("is-valid");
+        }
+
+        if(errorCancSignMessage) {
+            errorCancSignMessage.innerHTML = "";
+        }
+
+    };
+
+    isAllowed.subscribe((hasAllowed) => {
+
+        if(hasAllowed) {
+            setCancSignSuccessFeedback("Ottimo lavoro, l'autorizzazione è andata a buon fine");
+        } else {
+            setCancSignErrorFeedbak("Mi dispiace, non hai autorizzato la tua firma digitale");
+        }
+
+    });
+}
+
 
 
 

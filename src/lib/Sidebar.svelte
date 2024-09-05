@@ -352,12 +352,15 @@
     if (ctx) {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       isSigned = false;
+      isAllowed.set(false);
+      validators.checkClickCancBtn();
     }
   }
 
   function handleSignatureAuthorization() {
     isSigned = true; 
-    isAllowed.set(true); 
+    isAllowed.set(true);
+    validators.checkClickAuthBtn();
   }
   
   onMount(() => {
@@ -386,7 +389,7 @@
 </script>
 
 <div id="sidebar" class="flex-column-utility">
-  <div class="text-center py-2">
+  <div class="text-center py-5">
     <h1 class="title-app-style">CREA IL TUO CURRICULUM VITAE</h1>
     <h3 class="description-title-app-style py-1 px-3">
       Fai il tuo primo passo verso il tuo lavoro ideale: crea il tuo curriculum e
@@ -940,7 +943,7 @@
                   rows="4"
                   placeholder="Parlaci dei risultati professionali che hai conseguito..."
                   bind:value={job.workExperienceResults}
-                  on:input={() => validators.checkWorkExperienceResults(jobIndex)}
+                  on:input={() => validators.checkWorkExperienceResultsTextArea(jobIndex)}
                 ></textarea>
 
                 <div id="success-work-experience-results-message{jobIndex}"></div>
@@ -1103,7 +1106,7 @@
                 rows="4"
                 placeholder="Parlaci degli obiettivi accademici che hai raggiunto..."
                 bind:value={education.educationGoals}
-                on:input={() => validators.checkEducationGoals(educationIndex)}
+                on:input={() => validators.checkEducationGoalsTextArea(educationIndex)}
               ></textarea>
   
               <div id="success-education-goals-message{educationIndex}"></div>
@@ -1193,16 +1196,23 @@
   <div class="py-5">
     <div class="form-check form-switch privacy-label flex-center-utility">
         <input class="form-check-input me-2" 
-               type="checkbox" 
-               role="switch" 
-               id="privacyPolicySwitch"
-               bind:checked={$isPrivacyPolicyApproved} 
+          type="checkbox" 
+          role="switch" 
+          id="privacyPolicySwitch"
+          name="privacyPolicy"
+          bind:checked={$isPrivacyPolicyApproved}
+          on:change={() => validators.checkPolicyPrivacySwitchInput()}
         >
-        <label class="form-check-label" for="flexSwitchCheckChecked">Accetto la privacy policy per scaricare il CV</label>
+        <label for="flexSwitchCheckChecked">Accetto la privacy policy per scaricare il CV</label>
     </div>
 
     <p class="privacy-policy-style">"Autorizzo il trattamento dei dati personali contenuti nel mio curriculum vitae in base al D. Lgs. 196/2003 e al Regolamento UE 2016/679"</p>
-       
+    
+    <div class="text-center px-5">
+      <div class="success-user-data success-policy-privacy-message"></div>
+      <div class="error-user-data error-policy-privacy-message"></div>
+    </div>
+
   </div>
 
   <!---- User Signature ---->
@@ -1230,8 +1240,13 @@
     </div>
   
     <div class="flex-center-utility gap-4 py-3">
-      <button class="btn-remove-style btn-signature" on:click={clearSignatureDrawing}>Cancella</button>
-      <button class="btn-add-style btn-signature" disabled={!isSigned || !$isPrivacyPolicyApproved} on:click={handleSignatureAuthorization}>Autorizza</button>
+      <button class="btn-remove-style btn-signature" name="cancBtn" on:click={clearSignatureDrawing}>Cancella</button>
+      <button class="btn-add-style btn-signature" name="authBtn" disabled={!isSigned || !$isPrivacyPolicyApproved} on:click={handleSignatureAuthorization}>Autorizza</button>
+    </div>
+
+    <div class="text-center px-5">
+      <div class="success-user-data success-auth-sign-message mb-3"></div>
+      <div class="error-user-data error-canc-sign-message mb-3"></div>
     </div>
 
   </div>
@@ -1399,10 +1414,16 @@
   }
 
   .privacy-policy-style {
-      font-size: 0.8rem ;
+      font-size: 0.9rem ;
       font-style: oblique;
       font-weight: 400;
+      padding: 0 1rem;
+      text-align: center;
   }
+
+  /* .success-policy-privacy-message, .error-policy-privacy-message {
+    width: 50%;
+  } */
 
   .signature-container{
     position: relative;
