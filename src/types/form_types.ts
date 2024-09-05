@@ -43,8 +43,12 @@
         endDateAcademicEducation: string,
     };
 
-    export type isSignConvalid = Writable<boolean>;
+    
+    export type isAllowed = Writable<boolean>;
+    export type isPrivacyPolicyApproved = Writable<boolean>;
+   
 
+    
 
 
 

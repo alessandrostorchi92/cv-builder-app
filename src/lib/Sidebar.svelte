@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { formDataStore, isSignConvalid } from "../stores/form_store";
+  import { formDataStore, isAllowed, isPrivacyPolicyApproved } from "../stores/form_store";
   import * as validators from "../validators/form_validation";
   import { onMount } from "svelte";
 
@@ -196,9 +196,6 @@
     { value: "Dottorato di Ricerca" },
   ];
 
-  let disableAddLanguageButton: boolean = false;
-  let hasPrivacyPolicyApproval: boolean = false;
-
   function handleFileChange(event: Event) {
 
     const fileInput = event.target as HTMLInputElement;
@@ -224,6 +221,8 @@
     };
    
   }
+
+  let disableAddLanguageButton: boolean = false;
 
   function addLanguage(): void {
     if ($formDataStore.languagesSkills.length < 3) {
@@ -285,6 +284,7 @@
 
   let canvas: HTMLCanvasElement;
   let isDrawing: boolean = false;
+  let isSigned: boolean = false;
   let ctx: CanvasRenderingContext2D | null = null;
 
   function getCanvasRenderingContext2D(): void {
@@ -339,27 +339,27 @@
     ctx?.lineTo(positionX, positionY);
     ctx?.stroke();
 
+    isSigned = true;
+
   }
 
-  function handlePointUp(event: PointerEvent): void {
+  function handlePointerUp(event: PointerEvent): void {
     isDrawing = false;
+
   }
 
   function clearSignatureDrawing(): void {
     if (ctx) {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+      isSigned = false;
     }
   }
+
+  function handleSignatureAuthorization() {
+    isSigned = true; 
+    isAllowed.set(true); 
+  }
   
-  function convalidSignatureDrawing(): void {
-    console.log("Firma convalidata");
-  }
-
-  function checkSignConvalid(): void {
-    
-    isSignConvalid.set(true);
-  }
-
   onMount(() => {
     
     const savedStoreData = localStorage.getItem("formData");
@@ -1195,8 +1195,8 @@
         <input class="form-check-input me-2" 
                type="checkbox" 
                role="switch" 
-               id="privacyPolicySwitch" 
-               bind:checked={hasPrivacyPolicyApproval}
+               id="privacyPolicySwitch"
+               bind:checked={$isPrivacyPolicyApproved} 
         >
         <label class="form-check-label" for="flexSwitchCheckChecked">Accetto la privacy policy per scaricare il CV</label>
     </div>
@@ -1224,14 +1224,14 @@
               bind:this={canvas}  
               on:pointerdown={handlePointerDown} 
               on:pointermove={handlePointerMove}
-              on:pointerup = {handlePointUp}
+              on:pointerup = {handlePointerUp}
               >
       </canvas>
     </div>
   
     <div class="flex-center-utility gap-4 py-3">
       <button class="btn-remove-style btn-signature" on:click={clearSignatureDrawing}>Cancella</button>
-      <button class="btn-add-style btn-signature" on:click={checkSignConvalid} disabled={!hasPrivacyPolicyApproval} on:click={convalidSignatureDrawing}>Convalida</button>
+      <button class="btn-add-style btn-signature" disabled={!isSigned || !$isPrivacyPolicyApproved} on:click={handleSignatureAuthorization}>Autorizza</button>
     </div>
 
   </div>
@@ -1423,7 +1423,7 @@
   }
 
   .btn-signature {
-    width: 6rem;
+    width: 7rem;
     padding: 0.8rem;
     font-weight: 600;
   }

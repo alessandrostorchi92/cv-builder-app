@@ -64,5 +64,8 @@ formDataStore.subscribe((currentUserFormData) => {
     storeUserData(currentUserFormData);
 });
 
- export let isSignConvalid: formTypes.isSignConvalid = writable(false);
+  export let isAllowed: formTypes.isAllowed = writable(false);
+  export let isPrivacyPolicyApproved: formTypes.isAllowed = writable(false);
+
+
 

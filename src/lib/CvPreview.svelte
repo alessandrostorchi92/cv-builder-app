@@ -1,6 +1,6 @@
 <script lang="ts">
 
-import { formDataStore, isSignConvalid } from '../stores/form_store';
+import { formDataStore, isAllowed, isPrivacyPolicyApproved } from '../stores/form_store';
 
 
 function isProfilePictureUploaded(): void {
@@ -172,9 +172,7 @@ function formattedWorkAccademicDate(date: string) : string {
             <!---- Download Button ---->
 
             <div>
-
-                <button class="download-btn" disabled={!$isSignConvalid} on:click={downloadCV}>DOWNLOAD CV</button>
-
+                <button class="download-btn" on:click={downloadCV} disabled={!$isAllowed || !$isPrivacyPolicyApproved}>DOWNLOAD CV</button>
             </div>
 
         </div>
