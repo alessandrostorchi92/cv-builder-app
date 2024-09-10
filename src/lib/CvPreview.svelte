@@ -2,7 +2,6 @@
 
 import { formDataStore, isAllowed, isPrivacyPolicyApproved } from '../stores/form_store';
 
-
 function isProfilePictureUploaded(): void {
     const filePictureUploadedInput: HTMLInputElement | null = document.querySelector('[name="filePicture"]');
     const errorProfilePictureUploadedMessage: HTMLDivElement | null = document.querySelector(".error-file-picture-message");
@@ -121,7 +120,7 @@ function isHasOwnCarRadiosSelected(): void {
 
 };
 
-function downloadCV(): void {
+function checkCvPreview(): void {
     
     if($formDataStore.filePicture === "" || $formDataStore.isProtectedCategory === "" || $formDataStore.drivingLicences.length === 0 || $formDataStore.hasOwnCar === "" ) {
         isProfilePictureUploaded();
@@ -146,38 +145,36 @@ function formattedWorkAccademicDate(date: string) : string {
   
 </script>
 
-<div id="curriculum-content" class="flex-column-utility flex-center-utility">
 
+<div id="curriculum-content" class="flex-center-utility">
     
-    <div class="cv-preview-container">
-
-        <div class="toolbar">
-
-            <!---- Select Template Button ---->
-
-            <div>
-
-                <button class="select-template-btn">TEMPLATE</button>
-
-            </div>
-
-            <!---- Select Colour Button ---->
-
-            <div>
-
-                <button class="select-colour-btn">COLOUR</button>
-
-            </div>
-
-            <!---- Download Button ---->
-
-            <div>
-                <button class="download-btn" on:click={downloadCV} disabled={!$isAllowed || !$isPrivacyPolicyApproved}>DOWNLOAD CV</button>
-            </div>
-
+    <div class="toolbar">
+    
+        <!---- Select Template Button ---->
+    
+        <div>
+    
+            <button class="select-template-btn">SCEGLI TEMPLATE</button>
+    
         </div>
-        
-        <h1 class="text-center py-5">Curriculum Vitae</h1>
+    
+        <!---- Select Colour Button ---->
+    
+        <div>
+    
+            <button class="select-colour-btn">PERSONALIZZA CV</button>
+    
+        </div>
+    
+        <!---- Download Button ---->
+    
+        <div>
+            <button class="download-btn" on:click={checkCvPreview} disabled={!$isAllowed || !$isPrivacyPolicyApproved}>DOWNLOAD CV</button>
+        </div>
+    
+    </div>
+
+    <div class="cv-preview-container">
 
         <div class="cv-header-container">
 
@@ -203,8 +200,8 @@ function formattedWorkAccademicDate(date: string) : string {
     
                 <div class="text-wrap-utility">
         
-                    <h2 class="text-uppercase">{ $formDataStore.name } { $formDataStore.surname }</h2>
-                    <h4 class="text-center fst-italic">{ $formDataStore.profession }</h4>
+                    <div class="user-full-name text-uppercase">{ $formDataStore.name } { $formDataStore.surname }</div>
+                    <div class="user-profession text-center fst-italic">{ $formDataStore.profession }</div>
         
                 </div>
 
@@ -216,92 +213,107 @@ function formattedWorkAccademicDate(date: string) : string {
 
             <div class="main-left-section">
 
-                <div class="profile-info-container text-wrap-utility">
+                <div class="text-wrap-utility">
 
-                    <!---- Luogo di Nascita ---->
+                     <!---- Dati personali ---->
 
-                    <div>
+                    {#if $formDataStore.birthPlace || $formDataStore.birthDate || $formDataStore.address || $formDataStore.phonePrefix || $formDataStore.phone || $formDataStore.email || $formDataStore.isProtectedCategory}
+                        
+                        <div class="title-user-details-utility">INFORMAZIONI PERSONALI</div>
+                                                
+                    {/if}
 
-                        {#if $formDataStore.birthPlace }
-    
-                            <span class="profile-info-label">Luogo di nascita:</span>
-                            
-                        {/if}
-    
-                        <span>{ $formDataStore.birthPlace }</span>
+                    
+                    <div class="profile-info-container">
+                        
+                        <!---- Luogo di Nascita ---->
 
-                    </div>
+                        <div>
 
-                    <!---- Data di Nascita ---->
-
-                    <div>
-
-                        {#if $formDataStore.birthDate }
-    
-                            <span class="profile-info-label">Data di nascita:</span>
-                                
-                        {/if}
-
-                        <span>{ formattedBirtDate($formDataStore.birthDate) }</span>
-
-                    </div>
-
-                    <!---- Location ---->
-
-                    <div>
-
-                        {#if $formDataStore.address }
-
-                            <span class="profile-info-label">Residenza/Domicilio:</span>
- 
-                        {/if}
-
-                        <span>{ $formDataStore.address }</span>
-
-                    </div>
-
-                     <!---- Phone ---->
-    
-                     <div>
-
-                        {#if $formDataStore.phonePrefix  || $formDataStore.phone }
-
-                            <span class="profile-info-label">Cellulare:</span>
-
-                        {/if}
-
-                        <span>{ $formDataStore.phonePrefix }</span>
-                        <span>{ $formDataStore.phone }</span>
+                            {#if $formDataStore.birthPlace }
         
+                                <span class="profile-info-label">Luogo di nascita:</span>
+                                
+                            {/if}
+        
+                            <span class="profile-info-value">{ $formDataStore.birthPlace }</span>
+    
+                        </div>
+    
+                        <!---- Data di Nascita ---->
+    
+                        <div>
+    
+                            {#if $formDataStore.birthDate }
+        
+                                <span class="profile-info-label">Data di nascita:</span>
+                                    
+                            {/if}
+    
+                            <span class="profile-info-value">{ formattedBirtDate($formDataStore.birthDate) }</span>
+    
+                        </div>
+    
+                        <!---- Location ---->
+    
+                        <div>
+    
+                            {#if $formDataStore.address }
+    
+                                <span class="profile-info-label">Residenza/Domicilio:</span>
+     
+                            {/if}
+    
+                            <span class="profile-info-value">{ $formDataStore.address }</span>
+    
+                        </div>
+    
+                         <!---- Phone ---->
+        
+                         <div>
+    
+                            {#if $formDataStore.phonePrefix  || $formDataStore.phone }
+    
+                                <span class="profile-info-label">Cellulare:</span>
+    
+                            {/if}
+    
+                            <span class="profile-info-value">{ $formDataStore.phonePrefix }</span>
+                            <span class="profile-info-value">{ $formDataStore.phone }</span>
+            
+                        </div>
+    
+                        <!---- Email ---->
+    
+                        <div>
+    
+                            {#if $formDataStore.email }
+    
+                                <span class="profile-info-label">E-mail:</span>
+    
+                            {/if}
+    
+                            <span class="profile-info-value">{ $formDataStore.email }</span>
+        
+                         </div>
+    
+                         <!---- Categorie protette ---->
+    
+                         <div>
+    
+                            {#if $formDataStore.isProtectedCategory }
+    
+                                <span class="profile-info-label">Categorie protette:</span>
+    
+                            {/if}
+    
+                            <span class="profile-info-value">{ $formDataStore.isProtectedCategory }</span>
+        
+                         </div>
+    
+
+
                     </div>
-
-                    <!---- Email ---->
-
-                    <div>
-
-                        {#if $formDataStore.email }
-
-                            <span class="profile-info-label">E-mail:</span>
-
-                        {/if}
-
-                        <span>{ $formDataStore.email }</span>
-    
-                     </div>
-
-                     <!---- Categorie protette ---->
-
-                     <div>
-
-                        {#if $formDataStore.isProtectedCategory }
-
-                            <span class="profile-info-label">Categorie protette:</span>
-
-                        {/if}
-
-                        <span>{ $formDataStore.isProtectedCategory }</span>
-    
-                     </div>
 
                 </div>
             
@@ -309,25 +321,25 @@ function formattedWorkAccademicDate(date: string) : string {
 
                     <!-- Profilo Personale -->
 
-                    <div class="add-vertical-space-utility">
+                    <div>
                         
                         {#if $formDataStore.profileSummary }
                         
-                            <h6 class="title-center-utility">Profilo Personale</h6>
+                            <div class="title-user-details-utility">PROFILO PERSONALE</div>
                                                 
                         {/if}
                                                 
-                        <p>{ $formDataStore.profileSummary }</p>
+                        <p class="">{ $formDataStore.profileSummary }</p>
 
                     </div>
     
                     <!-- Successi Professionali -->
 
-                    <div class="add-vertical-space-utility">
+                    <div>
 
                         {#if $formDataStore.digitalSkills }
     
-                            <h6 class="title-center-utility">Competenze digitali</h6>
+                            <div class="title-user-details-utility">COMPETENZE DIGITALI</div>
     
                         {/if}
     
@@ -337,65 +349,66 @@ function formattedWorkAccademicDate(date: string) : string {
 
                     <!-- Lingue -->
 
-                    <div class="language-container title-center-utility">
+                    <div>
 
                         {#if $formDataStore.languagesSkills.some(selectedLanguage => selectedLanguage.lang !== "")}
     
-                            <h6>Competenze Linguistiche</h6>
+                            <div class="title-user-details-utility">COMPETENZE LINGUISTICHE</div>
     
                         {/if}
 
-                        {#each $formDataStore.languagesSkills as selectedLanguage(selectedLanguage)}
-    
-                            <div class="title-center-utility">
-    
-                                <span>{selectedLanguage.lang}</span>
-    
+                        <div class="languages-container">
+
+                            {#each $formDataStore.languagesSkills as selectedLanguage(selectedLanguage)}
+
+                                <div class="language-skills">{selectedLanguage.lang}</div>
+                            
                                 {#if selectedLanguage.lang}
-                                <span>{selectedLanguage.level}</span>
+                                    <div class="language-skills">{selectedLanguage.level}</div>
                                 {/if}
-    
-                            </div>
-    
-                        {/each}
+                            
+                            {/each}
+
+                        </div>
 
                     </div>
                     
                     <!-- Patente -->
 
-                    <div  class="driving-licence-container title-center-utility">
+                    {#if $formDataStore.drivingLicences.length > 0 || $formDataStore.hasOwnCar  }
 
-                        <div class="title-center-utility">
+                        <div class="title-user-details-utility text-center">PATENTE</div>
 
-                            {#if $formDataStore.drivingLicences.length > 0}
+                    {/if}
 
-                                <h6 class="mt-4">Patente</h6>
+                    <div class="text-center driving-licence-skills-container">
 
-                            {/if}
+                        {#if $formDataStore.drivingLicences.length > 0 }
 
-                            <span>{ $formDataStore.drivingLicences.join(', ') }</span>
+                            <span><i class="fa-solid fa-address-card"></i></span>
+                            
+                        {/if}
 
-                        </div>
+                        <span>{ $formDataStore.drivingLicences }</span>
 
                         <!---- Automunito ---->
-
-                        <div class="title-center-utility">
-
+    
+                        <div>
+    
                             {#if $formDataStore.hasOwnCar }
-
+    
                                 <span><i class="fa-solid fa-car"></i></span>
                                 <span>Automunito:</span>
-
-                            {/if}
-                        
-                            <span>{ $formDataStore.hasOwnCar }</span>
     
+                            {/if}
+                            
+                             <span>{ $formDataStore.hasOwnCar }</span>
+        
+                            </div>
+
                         </div>
 
-
                     </div>
-
-                </div>
 
             </div>
 
@@ -407,7 +420,7 @@ function formattedWorkAccademicDate(date: string) : string {
 
                         {#if $formDataStore.jobs.some(job => job.role !== "" || job.company !== "" || job.workExperienceResults !== "" || job.startDateWorkExperience !== "" || job.endDateWorkExperience !== "" )}
 
-                            <div class="text-center fw-bold py-2">ESPERIENZE LAVORATIVE</div>
+                            <div class="work-experience-title-section py-2">ESPERIENZE LAVORATIVE</div>
 
                         {/if}
 
@@ -417,17 +430,17 @@ function formattedWorkAccademicDate(date: string) : string {
 
                             {#if job.role}
 
-                                <span>presso</span>
+                                <span class="at-span">presso</span>
 
                             {/if}
 
-                            <span class="company-info">{ job.company }</span>
+                            <span class="company-detail">{ job.company }</span>
 
-                            <div class="date-info">
+                            <div class="date-container">
 
                                 {#if job.startDateWorkExperience !== "" ||  job.endDateWorkExperience !== ""}
 
-                                    <span>({ formattedWorkAccademicDate(job.startDateWorkExperience) } / { formattedWorkAccademicDate(job.endDateWorkExperience) })</span>
+                                    <span class="date-info">({ formattedWorkAccademicDate(job.startDateWorkExperience) } - { formattedWorkAccademicDate(job.endDateWorkExperience) })</span>
 
                                 {/if}
 
@@ -448,7 +461,7 @@ function formattedWorkAccademicDate(date: string) : string {
                         education.qualification.length > 0 || education.educationGoals !== "" || education.startDateAcademicEducation !== "" || 
                         education.endDateAcademicEducation !== "" )}
 
-                            <div class="text-center fw-bold py-2">FORMAZIONE ACCADEMICA</div>
+                            <div class="education-history-title-section py-2">FORMAZIONE ACCADEMICA</div>
 
                         {/if}
 
@@ -458,7 +471,7 @@ function formattedWorkAccademicDate(date: string) : string {
 
                                 {#if education.fieldOfStudy}
                                 
-                                    <span>:</span>
+                                    <span class="at-span">:</span>
                                 
                                 {/if}
                             
@@ -466,18 +479,18 @@ function formattedWorkAccademicDate(date: string) : string {
 
                                 {#if education.educationType}
                                 
-                                    <span>presso</span>
+                                    <span class="at-span">presso</span>
                                 
                                 {/if}
                             
-                                <span class="training-institution-info">{ education.educationType }</span>
+                                <span class="training-institution-detail">{ education.educationType }</span>
 
 
-                                <div class="date-info">
+                                <div class="date-container">
 
                                     {#if education.startDateAcademicEducation || education.endDateAcademicEducation }
 
-                                        <span>({ formattedWorkAccademicDate(education.startDateAcademicEducation) }  / { formattedWorkAccademicDate(education.endDateAcademicEducation) })</span>
+                                        <span class="date-info">({ formattedWorkAccademicDate(education.startDateAcademicEducation) }  - { formattedWorkAccademicDate(education.endDateAcademicEducation) })</span>
 
                                     {/if}
                 
@@ -499,16 +512,73 @@ function formattedWorkAccademicDate(date: string) : string {
 
 <style>
 
-#curriculum-content {
-    flex-grow: 1;
-    overflow: -moz-scrollbars-none; 
-    overflow: -moz-scrollbars-none; 
+:root {
+    --user-height-profile-picture: 200px;
+    --user-width-profile-picture: 200px;
+    --user-full-name-font-size: 2.5rem;
+    --user-full-name-font-weight: 800;
+    --user-profession-font-size: 1.8rem;
+    --user-profession-font-weight: 700;
+    --profile-info-label-font-size: 1.2rem;
+    --profile-info-label-font-weight: 500;
+    --profile-info-value-font-size: 1rem;
+    --profile-info-value-font-weight: 450;
+    --title-section-font-size: 1.5rem;
+    --title-section-font-weight: 600;
+    --description-font-size: 1rem;
+    --description-font-weight: 400;
+    --language-driving-licence-skills-font-size: 0.6rem;
+    --language-driving-licence-skills-font-weight: 400;
+    --job-qualification-font-size: 1.1rem;
+    --job-qualification-font-weight: 600;
+    --company-institution-detail-font-size: 0.9rem; 
+    --company-institution-detail-font-weight: 500; 
+    --company-fieldOfStudy-detail-font-size: 1rem; 
+    --company-fieldOfStudy-detail-font-weight: 600;
+    --company-date-info-font-size:0.7rem;
+    --company-date-info-font-weight:500;
 }
-
-.flex-column-utility {
+#curriculum-content {
     display: flex;
     flex-direction: column;
-    height: 100%;
+    height: 100vh; 
+    flex-basis: 60%;
+    background: linear-gradient(180deg, rgba(96,100,112,1) 17%, rgba(50,54,67,1) 65%);
+}
+.toolbar {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-shrink: 0;
+    flex-basis: 20%;
+    width: 100%;
+}
+.cv-preview-container {
+    display: flex;
+    flex-direction: column;
+    flex-basis: 80%;
+    overflow-y: auto;
+    width: 80%;
+    height: calc(100vh - 20%);
+    background-color: #f5feff;
+    padding: 2rem 1rem;
+}
+
+.cv-preview-container::-webkit-scrollbar {
+    width: 0.5rem;
+}
+
+.cv-preview-container::-webkit-scrollbar-track {
+    border-radius: 100vw;
+}
+
+.cv-preview-container::-webkit-scrollbar-thumb {
+    background: hsl(196, 72%, 86%);
+    border-radius: 100vw;
+}
+
+.cv-preview-container::-webkit-scrollbar-track-piece {
+  background: hsl(187, 100%, 98%);
 }
 
 .flex-center-utility {
@@ -517,22 +587,33 @@ function formattedWorkAccademicDate(date: string) : string {
     align-items: center;
 }
 
-.title-center-utility {
+.title-user-details-utility, .work-experience-title-section, .education-history-title-section {
     text-align: center;
+    font-weight: var(--title-section-font-weight);
+    font-size: var(--title-section-font-size);
 }
 
 .cv-header-container, .cv-main-container {
     display: flex;
 }
 
-.toolbar {
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    background-color:#EEEEEE;
-    padding: 1rem;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+.user-full-name {
+    font-size: var(--user-full-name-font-size);
+    font-weight: var(--user-full-name-font-weight);
+
+}
+
+.cv-header-container {
+    padding: 1rem 0;
+}
+
+.cv-main-container {
+    padding: 2rem 0;
+}
+
+.user-profession {
+    font-size: var(--user-profession-font-size);
+    font-weight: var(--user-profession-font-weight);
 }
 
 .main-left-section p, .main-right-section p {
@@ -540,25 +621,19 @@ function formattedWorkAccademicDate(date: string) : string {
     max-width: 100%;
 }
 
+.main-left-section p {
+    margin-top: 1rem;
+}
+
 .text-wrap-utility {
     overflow-wrap: break-word;
     overflow: hidden;
 }
 
-::-webkit-scrollbar {
-  display: none;
-  }
-
-.cv-preview-container {
-    padding: 0.5rem;
-    overflow-y: auto;
-    width: 800px;
-}
-
 .file-picture-container {
     position: relative;
-    width: 180px;
-    height: 180px;
+    width: var(--user-width-profile-picture);
+    height: var(--user-height-profile-picture);
     border-radius: 50%;
     border: 5px solid #ccc;
     overflow: hidden;
@@ -578,47 +653,67 @@ function formattedWorkAccademicDate(date: string) : string {
     overflow: hidden;
 }
 
-.profile-info-container {
-    padding: 2rem 0 ;
+.profile-info-container, .user-details-container {
+    padding: 1rem 0;
 }
-
 .profile-info-label {
-    font-weight: 600;
+    font-size: var(--profile-info-label-font-size);
+    font-weight: var(--profile-info-label-font-weight);
+}
+.profile-info-value {
+  font-size: var(--profile-info-value-font-size);
+  font-weight: var(--profile-info-value-font-weight);
+}
+.languages-container {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
 }
 
-.user-details-container {
-    font-size: 0.8rem;
+.languages-container, .driving-licence-skills-container{
+    padding: 1rem 0;
+}
+
+.language-skills, .driving-licence-skills-container {
+    font-size: var(--language-skills-font-size);
+    font-weight: var(--language-skills-font-weight);
+
 }
 .main-right-section, .header-right-section {
-    flex-grow: 1;
+    flex-basis: 60%;
     overflow: hidden;
     padding: 0 1rem;  
 }
 
-.user-work-experience-info .date-info,  .user-education-history-info .date-info {
-    font-size: 0.8rem;
+.date-container {
+    font-size: var(--company-date-info-font-size);
+    font-weight: var(--company-date-info-font-weight);
     display: inline-block;
 }
 
-.user-work-experience-info .role-info, .qualification-info {
-    font-size: 1rem;
-    font-weight:700;
+.role-info, .qualification-info {
+
+    font-size: var(--job-qualification-font-size);
+    font-weight:var(--job-qualification-font-weight);
 }
 
-.user-education-history-info .fieldOfStudy-detail {
-    font-size: 1rem;
-    font-weight:600;
+.at-span {
+    font-size: 0.8rem;
 }
 
-.user-work-experience-info .company-info, .user-education-history-info .training-institution-info  {
-    font-size: 0.9rem;
-    font-weight:400;
-    font-style: oblique;
+.company-detail, .training-institution-detail {
+    font-size: var(--company-institution-detail-font-size);
+    font-weight:var(--company-institution-detail-font-weight);
 }
 
-.user-work-experience-info .results-info, .user-education-history-info .goals-info{
-    font-size: small;
-    padding: 0.3rem 0;
+.fieldOfStudy-detail {
+    font-size: var(--company-fieldOfStudy-detail-font-size);
+    font-weight: var(--company-fieldOfStudy-detail-font-weight);
+}
+
+.user-details-container, .results-info, .goals-info {
+    font-size: var(--description-font-size);
+    font-weight: var(--description-font-weight);
 }
 
 .select-template-btn, .select-colour-btn, .download-btn {
@@ -628,21 +723,21 @@ function formattedWorkAccademicDate(date: string) : string {
   text-decoration: none;
   font-weight: bold;
   color: #fff;
-  background-color: #FF1616;
+  background-color: #ef7e56;
   border: none;
   border-radius: 10px;
   cursor: pointer;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .select-template-btn:hover,.select-colour-btn:hover, .download-btn:hover {
   transform: translateY(-2px);
+  background-color: #ff5e3a;
 }
 
 .download-btn:disabled {
-    color: #999;
-    background-color: #ffffff; 
+    color: #BDBDBD;
+    background-color: white; 
     cursor: not-allowed; 
 } 
 

@@ -371,8 +371,6 @@
       formDataStore.set(JSON.parse(savedStoreData));
     }
 
-    // localStorage.clear();
-
     if(canvas) {
       
       updateCanvasJs();
@@ -388,10 +386,13 @@
   
 </script>
 
-<div id="sidebar" class="flex-column-utility">
-  <div class="text-center py-5">
+<div id="sidebar">
+
+  <div class="text-center">
+
     <h1 class="title-app-style">CREA IL TUO CURRICULUM VITAE</h1>
-    <h3 class="description-title-app-style py-1 px-3">
+
+    <h3 class="description-title-app-style py-2">
       Fai il tuo primo passo verso il tuo lavoro ideale: crea il tuo curriculum e
       fai decollare la tua carriera
     </h3>
@@ -1245,8 +1246,8 @@
     </div>
 
     <div class="text-center px-5">
-      <div class="success-user-data success-auth-sign-message mb-3"></div>
-      <div class="error-user-data error-canc-sign-message mb-3"></div>
+      <div class="success-user-data success-auth-sign-message"></div>
+      <div class="error-user-data error-canc-sign-message"></div>
     </div>
 
   </div>
@@ -1255,31 +1256,56 @@
 
 <style>
   #sidebar {
-    flex-shrink: 0;
-    overflow-y: auto;
-    flex-basis: 40%;
-    background-color: #EEEEEE;
-    font-family: 'Montserrat', sans-serif;
-    border-radius: 20px;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-    overflow: -moz-scrollbars-none;
-    overflow: -moz-scrollbars-none;
-  }
-
-  .flex-column-utility {
     display: flex;
     flex-direction: column;
     height: 100%;
+    overflow-y: auto;
+    flex-basis: 40%;
+    flex-shrink: 0;
+    padding: 4rem;
+    background-color: #f5feff;
+    font-family: 'Montserrat', sans-serif;
+    border-radius: 20px;
+  }
+
+  #sidebar::-webkit-scrollbar {
+    width: 0.5rem;
+  }
+
+  textarea::-webkit-scrollbar {
+    width: 0.2rem;
+  }
+
+  textarea::-webkit-scrollbar-track {
+    border-radius: 100vw;
+  }
+
+  textarea::-webkit-scrollbar-thumb {
+    background: hsl(196, 72%, 86%);
+    border-radius: 100vw;
+  }
+
+  textarea::-webkit-scrollbar-track-piece {
+    background: hsl(187, 100%, 98%);
+  }
+
+  #sidebar::-webkit-scrollbar-track {
+    border-radius: 100vw;
+  }
+
+  #sidebar::-webkit-scrollbar-thumb {
+    background: hsl(196, 72%, 86%);
+    border-radius: 100vw;
+  }
+
+  #sidebar::-webkit-scrollbar-track-piece {
+  background: hsl(187, 100%, 98%);
   }
 
   .flex-center-utility {
     display: flex;
     justify-content: center;
     align-items: center;
-  }
-
-  ::-webkit-scrollbar {
-    display: none;
   }
 
   .title-app-style{
@@ -1421,10 +1447,6 @@
       text-align: center;
   }
 
-  /* .success-policy-privacy-message, .error-policy-privacy-message {
-    width: 50%;
-  } */
-
   .signature-container{
     position: relative;
   }
@@ -1432,7 +1454,7 @@
   .label-signature{
     position: absolute;
     top: -30px;
-    left: 140px
+    left: 70px
   }
 
   .signature-pad-style {
