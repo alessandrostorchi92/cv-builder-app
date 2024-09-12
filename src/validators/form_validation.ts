@@ -603,7 +603,7 @@ export function checkPhoneInput(): void {
 
         if(userPhoneValue === "") {
 
-            setBirthPlaceErrorFeedback("Mi dispaice, il numero di cellulare è obbligatorio");
+            setBirthPlaceErrorFeedback("Mi dispiace, il numero di cellulare è obbligatorio");
 
         } else if(userPhoneValue.length >= 15) {
 
@@ -980,7 +980,7 @@ export function checkLanguageSelect(index: number): void {
 
         } else {
 
-            setLanguageSuccessFeedback("Ottimoi lavoro, hai selezionato una lingua");
+            setLanguageSuccessFeedback("Ottimo lavoro, hai selezionato una lingua");
 
         }
 

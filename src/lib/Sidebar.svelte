@@ -774,13 +774,13 @@
               on:input={() => validators.checkPhoneInput()}
             />
   
-            <div class="visual-feedback-group-container">
-              <div class="left-visual-feedback-position">
+            <div class="visual-feedback-group-container" style="width: 100%;">
+              <div class="left-visual-feedback-position" style="width: 50%;">
                 <div class="success-user-data success-phoneprefix-message"></div>
                 <div class="error-user-data error-phoneprefix-message"></div>
               </div>
   
-              <div class="right-visual-feedback-position">
+              <div class="right-visual-feedback-position" style="width: 50%;">
                 <div class="success-user-data success-phone-message"></div>
                 <div class="error-user-data error-phone-messages"></div>
               </div>
@@ -881,7 +881,7 @@
               <input
                 type="text"
                 class="form-control"
-                style="width: 40%;"
+                style="width: {digitalSkillIndex > 0 ? '40%' : '50%'};"
                 id="formInputDigitalSkills{digitalSkillIndex}"
                 autocomplete="off"
                 name="digitalSkill{digitalSkillIndex}"
@@ -891,9 +891,8 @@
               >
 
               <select
-
                 class="form-select"
-                style="width: 40%;"
+                style="width: {digitalSkillIndex > 0 ? '40%' : '50%'};"
                 id="skillLevelSelect{digitalSkillIndex}"
                 name="skillLevel{digitalSkillIndex}"
                 bind:value={digitalSkill.level}
@@ -910,7 +909,7 @@
 
               {#if digitalSkillIndex > 0}
   
-                <div class="input-group-append px-1" style="width: 10%;">
+                <div class="input-group-append px-1" style="width: 20%;">
 
                   <button
                       type="button"
@@ -922,39 +921,16 @@
                     
                 </div>
 
-                <div class="visual-feedback-group-container" style="width: 90%;">
-                  <div class="left-visual-feedback-position" style="width: 40%;">
-                    <div
-                      class="success-user-data"
-                      id="success-digital-skill-message{digitalSkillIndex}"
-                    ></div>
-                    <div
-                      class="error-user-data"
-                      id="error-digital-skill-message{digitalSkillIndex}"
-                    ></div>
-                  </div>
-                  <div class="right-visual-feedback-position" style="width: 40%;">
-                    <div
-                      class="success-user-data"
-                      id="success-level-skill-message{digitalSkillIndex}"
-                    ></div>
-                    <div
-                      class="error-user-data"
-                      id="error-level-skill-message{digitalSkillIndex}"
-                    ></div>
-                  </div>
-                </div>
-  
               {/if}
 
               <div class="visual-feedback-group-container" style="width: 100%;">
 
-                <div class="left-visual-feedback-position" style="width: 50%;">
+                <div class="left-visual-feedback-position" style="width: {digitalSkillIndex > 0 ? '40%' : '50%'};">
                   <div class="success-user-data" id="success-digital-skill-message{digitalSkillIndex}"></div>
                   <div class="error-user-data" id="error-digital-skill-message{digitalSkillIndex}"></div>
                 </div>
 
-                <div class="right-visual-feedback-position" style="width: 50%;">
+                <div class="right-visual-feedback-position" style="width: {digitalSkillIndex > 0 ? '40%' : '50%'};">
                   <div class="success-user-data" id="success-level-skill-message{digitalSkillIndex}"></div>
                   <div class="error-user-data" id="error-level-skill-message{digitalSkillIndex}"></div>
                 </div>
@@ -988,8 +964,8 @@
             <div class="input-group mb-3">
 
               <select
-                class="form-select" 
-                style="width: 40%"
+                class="form-select"
+                style="width: {languageIndex > 0 ? '40%' : '50%'};"
                 id="formSelectLanguages{languageIndex}"
                 name="languages"
                 bind:value={selectedLanguage.lang}
@@ -1001,8 +977,8 @@
               </select>
         
               <select
-                class="form-select" 
-                style="width: 40%"
+                class="form-select"
+                style="width: {languageIndex > 0 ? '40%' : '50%'};"
                 id="formSelectLanguageLevels{languageIndex}"
                 name="languageLevels"
                 bind:value={selectedLanguage.level}
@@ -1014,13 +990,24 @@
               </select>
         
               {#if languageIndex > 0}
-                <div class="input-group-append px-1" style="width: 10%;">
+                <div class="input-group-append px-1" style="width: 20%;">
                   <button
                     type="button"
                     class="btn-remove-style"
                     on:click={() => removeLanguage(languageIndex)}>
                     <i class="fa-solid fa-trash"></i>
                   </button>
+                </div>
+
+                <div class="visual-feedback-group-container" style="width: 100%;">
+                  <div class="left-visual-feedback-position" style="width: {languageIndex > 0 ? '40%' : '50%'};">
+                    <div class="success-user-data" id="success-language-message{languageIndex}"></div>
+                    <div class="error-user-data" id="error-language-message{languageIndex}"></div>
+                  </div>
+                  <div class="right-visual-feedback-position" style="width: {languageIndex > 0 ? '40%' : '50%'};">
+                    <div class="success-user-data" id="success-language-level-message{languageIndex}"></div>
+                    <div class="error-user-data" id="error-language-level-message{languageIndex}"></div>
+                  </div>
                 </div>
               {/if}
         
@@ -1264,8 +1251,8 @@
               <div class="input-group">
                 <select
                   class="form-select"
+                  style="width: {educationIndex > 0 ? '40%' : '50%'};"
                   id="selectQualification{educationIndex}"
-                  style="width: 50%;"
                   aria-label="QualificationSelect"
                   name="qualification"
                   bind:value={education.qualification}
@@ -1284,8 +1271,8 @@
                 <input
                   type="text"
                   class="form-control"
+                  style="width: {educationIndex > 0 ? '40%' : '50%'};"
                   id="textInputFieldOfStudy{educationIndex}"
-                  style="width: 50%;"
                   name="fieldOfStudy"
                   autocomplete="off"
                   placeholder="Inserisci il campo di studio"
@@ -1294,8 +1281,8 @@
                     validators.checkFieldOfStudyTextInput(educationIndex)}
                 />
     
-                <div class="visual-feedback-group-container">
-                  <div class="left-visual-feedback-position">
+                <div class="visual-feedback-group-container" style="width: 100%;">
+                  <div class="left-visual-feedback-position" style="width: {educationIndex > 0 ? '40%' : '50%'};">
                     <div
                       class="success-user-data"
                       id="success-qualification-message{educationIndex}"
@@ -1305,7 +1292,7 @@
                       id="error-qualification-message{educationIndex}"
                     ></div>
                   </div>
-                  <div class="right-visual-feedback-position">
+                  <div class="right-visual-feedback-position" style="width: {educationIndex > 0 ? '40%' : '50%'};">
                     <div
                       class="success-user-data"
                       id="success-field-study-message{educationIndex}"
@@ -1316,6 +1303,7 @@
                     ></div>
                   </div>
                 </div>
+
               </div>
     
               <div class="py-3">
@@ -1679,12 +1667,6 @@
 
   .visual-feedback-group-container {
     display: flex;
-    width: 100%;
-  }
-
-  .left-visual-feedback-position,
-  .right-visual-feedback-position {
-    flex-basis: 50%;
   }
 
   .privacy-label {
