@@ -7,15 +7,16 @@
         name: string,
         surname: string,
         profession: string,
-        birthDate: string,
+        nationality: string,
         birthPlace: string
+        birthDate: string,
         address: string,
         phonePrefix: string,
         phone: string,
         email: string,
         profileSummary: string,
         isProtectedCategory:string,
-        digitalSkills: string,
+        digitalSkills: { skill: string; level: string }[],
         languagesSkills: { lang: string; level: string }[];
         drivingLicences: string[],
         hasOwnCar: string,       
@@ -23,7 +24,7 @@
         educations: AcademicHistory[],  
     }
 
-  
+
     export type WorkHistory = {
 
         role: string,

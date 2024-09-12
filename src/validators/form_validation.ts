@@ -233,6 +233,71 @@ export function checkProfessionInput(): void {
 
 };
 
+export function checkNationalityInput(): void { 
+
+    const userNationalityInput: HTMLInputElement | null = document.querySelector("[name='nationality']");
+    const errorNationalityMessages: HTMLDivElement | null = document.querySelector(".error-nationality-messages");
+    const successNationalityMessage: HTMLDivElement | null = document.querySelector(".success-nationality-message");
+
+    const setNationalityErrorFeedback = (message:string) => {
+
+        if(errorNationalityMessages) {
+            errorNationalityMessages.innerText = message;
+            errorNationalityMessages.classList.add("error-user-data", "fw-bolder");
+            errorNationalityMessages.style.fontSize = "0.8rem";
+        }
+
+        if(userNationalityInput) {
+            userNationalityInput.classList.add("is-invalid");
+        }
+
+        if(successNationalityMessage) {
+            successNationalityMessage.innerText = "";
+        }
+
+    };
+
+    const setNationalitySuccessFeedback = (message:string) => {
+
+        if(successNationalityMessage) {
+            successNationalityMessage.innerText = message;
+            successNationalityMessage.classList.add("success-user-data", "fw-bolder");
+            successNationalityMessage.style.fontSize = "0.8rem";
+        }
+
+        if(userNationalityInput) {
+            userNationalityInput.classList.remove("is-invalid");
+            userNationalityInput.classList.add("is-valid");
+        }
+
+        if(errorNationalityMessages) {
+            errorNationalityMessages.innerText = "";
+        }
+
+    };
+
+    if(userNationalityInput) {
+
+        const userBirthPlaceValue = userNationalityInput.value.trim();
+
+        if(userBirthPlaceValue === "") {
+
+            setNationalityErrorFeedback("Mi dispiace, la nazionalità è obbligatoria");
+
+        } else if(userBirthPlaceValue.length > 30) {
+
+            setNationalityErrorFeedback("Mi dispiace, la nazionalità non può contenere più di 30 caratteri");
+
+        } else {
+
+            setNationalitySuccessFeedback("Ottimo lavoro, la nazionalità è corretta");
+
+        }
+
+    }
+
+};
+
 export function checkBirthPlaceInput(): void { 
 
     const userBirthPlaceInput: HTMLInputElement | null = document.querySelector("[name='birthPlace']");
@@ -690,69 +755,6 @@ export function checkProfileSummaryTextArea(): void {
 
 };
 
-export function checkDigitalSkillsTextArea(): void {
-
-    const digitalSkillsTextArea: HTMLTextAreaElement | null = document.querySelector("[name='digitalSkills']");
-    const errorDigitalSkillsMessages: HTMLDivElement | null = document.querySelector(".error-digital-skills-messages");
-    const successDigitalSkillsMessage: HTMLDivElement | null = document.querySelector(".success-digital-skills-message");
-
-    const setDigitalSkillsErrorFeedBack = (message: string) => {
-
-        if(errorDigitalSkillsMessages) {
-            errorDigitalSkillsMessages.innerText = message;
-            errorDigitalSkillsMessages.classList.add("error-user-data", "fw-bolder");
-            errorDigitalSkillsMessages.style.fontSize = "0.8rem";
-        }
-
-        if(digitalSkillsTextArea) {
-            digitalSkillsTextArea.classList.add("is-invalid");
-        }
-
-        if(successDigitalSkillsMessage) {
-            successDigitalSkillsMessage.innerText = "";
-        }
-
-    };
-
-    const setDigitalSkillsSuccessFeedback = (message: string) => {
-
-        if(successDigitalSkillsMessage) {
-            successDigitalSkillsMessage.innerText = message;
-            successDigitalSkillsMessage.classList.add("success-user-data", "fw-bolder");
-            successDigitalSkillsMessage.style.fontSize = "0.8rem"
-        }
-
-        if(digitalSkillsTextArea) {
-            digitalSkillsTextArea.classList.remove("is-invalid");
-            digitalSkillsTextArea.classList.add("is-valid");
-        }
-
-        if(errorDigitalSkillsMessages) {
-            errorDigitalSkillsMessages.innerText = "";
-        }
-    };
-
-    if(digitalSkillsTextArea) {
-
-        const digitalSkillsValue = digitalSkillsTextArea.value.trim();
-
-        if( digitalSkillsValue === "") {
-
-            setDigitalSkillsErrorFeedBack("Mi dispiace, il campo competenze digitali è obbligatorio");
-
-        } else if(digitalSkillsValue.length >= 500) {
-
-            setDigitalSkillsErrorFeedBack("Mi dispiace, il campo competenze digitali non può contenere più di 500 caratteri");
-
-        } else {
-
-            setDigitalSkillsSuccessFeedback("Ottimo lavoro, ll campo competenze digitali è corretto");
-
-        }
-    
-    }
-};
-
 export function isProtectedCategoryRadiosSelected(): void {
 
     const protectedCategoryRadioInputs: NodeListOf<HTMLInputElement> = document.querySelectorAll('input[name="protectedCategoryRadioOptions"]');
@@ -800,6 +802,129 @@ export function isProtectedCategoryRadiosSelected(): void {
     } else {
         setHasOwnCarErrorFeedback("Per favore, seleziona un'opzione");
     }
+}
+
+export function checkDigitalSkillsTextInput(index: number): void {
+
+    const digitalSkillsTextInput: HTMLSelectElement | null = document.querySelector(`[name="digitalSkill${index}"]`);
+    const errorDigitalSkillMessage: HTMLDivElement | null = document.querySelector(`#error-digital-skill-message${index}`);
+    const successDigitalSkillMessage: HTMLDivElement | null = document.querySelector(`#success-digital-skill-message${index}`);
+
+    const setDigitalSkillErrorFeedBack = (message:string) => {
+
+        if(errorDigitalSkillMessage) {
+            errorDigitalSkillMessage.innerText = message;
+            errorDigitalSkillMessage.classList.add("error-user-data", "fw-bolder");
+            errorDigitalSkillMessage.style.fontSize = "0.8rem";
+        }
+
+        if(digitalSkillsTextInput) {
+            digitalSkillsTextInput.classList.add("is-invalid");
+        }
+
+        if(successDigitalSkillMessage) {
+            successDigitalSkillMessage.innerText = "";
+        }
+
+    };
+
+    const setDigitalSkillSuccessFeedback = (message:string) => {
+
+        if(successDigitalSkillMessage) {
+            successDigitalSkillMessage.innerText = message;
+            successDigitalSkillMessage.classList.add("success-user-data", "fw-bolder");
+            successDigitalSkillMessage.style.fontSize = "0.8rem";
+        }
+
+        if(digitalSkillsTextInput) {
+            digitalSkillsTextInput.classList.remove("is-invalid");
+            digitalSkillsTextInput.classList.add("is-valid");
+        }
+
+        if(errorDigitalSkillMessage) {
+            errorDigitalSkillMessage.innerText = "";
+        }
+
+    };
+
+    if( digitalSkillsTextInput) {
+
+        const digitalSkillValue =  digitalSkillsTextInput.value.trim();
+
+        if(digitalSkillValue === "") {
+
+            setDigitalSkillErrorFeedBack("La competenza digitale è obbligatoria");
+
+        } else {
+
+            setDigitalSkillSuccessFeedback("Ottimo lavoro, la competenza digitale è corretta");
+
+        }
+    
+    }
+
+}
+
+export function checkLevelSkillSelect(index: number): void {
+
+    const levelSkillSelect: HTMLSelectElement | null = document.querySelector(`[name="skillLevel${index}"]`);
+    const errorLevelSkillMessage: HTMLDivElement | null = document.querySelector(`#error-level-skill-message${index}`);
+    const successLevelSkillMessage: HTMLDivElement | null = document.querySelector(`#success-level-skill-message${index}`);
+
+    const setLevelSkillErrorFeedBack = (message:string) => {
+
+        if(errorLevelSkillMessage) {
+            errorLevelSkillMessage.innerText = message;
+            errorLevelSkillMessage.classList.add("error-user-data", "fw-bolder");
+            errorLevelSkillMessage.style.fontSize = "0.8rem";
+        }
+
+        if(levelSkillSelect) {
+            levelSkillSelect.classList.add("is-invalid");
+            levelSkillSelect.classList.remove("is-valid");
+        }
+
+        if(levelSkillSelect) {
+            levelSkillSelect.innerText = "";
+        }
+
+    };
+
+    const setLevelSkillSuccessFeedback = (message:string) => {
+
+        if(successLevelSkillMessage) {
+            successLevelSkillMessage.innerText = message;
+            successLevelSkillMessage.classList.add("success-user-data", "fw-bolder");
+            successLevelSkillMessage.style.fontSize = "0.8rem";
+        }
+
+        if(levelSkillSelect) {
+            levelSkillSelect.classList.remove("is-invalid");
+            levelSkillSelect.classList.add("is-valid");
+        }
+
+        if(errorLevelSkillMessage) {
+            errorLevelSkillMessage.innerText = "";
+        }
+
+    };
+
+    if(levelSkillSelect) {
+
+        const levelSkillValue =  levelSkillSelect.value.trim();
+
+        if(levelSkillValue  === "") {
+
+            setLevelSkillErrorFeedBack("Mi dispiace, il livello della competenza digitale è obbligatorio");
+
+        } else {
+
+            setLevelSkillSuccessFeedback("Ottimo lavoro, il livello della competenza digitale è corretto");
+
+        }
+    
+    }
+
 }
 
 export function checkLanguageSelect(index: number): void {
@@ -851,11 +976,11 @@ export function checkLanguageSelect(index: number): void {
 
         if (languageOption === "") {
 
-            setLanguageErrorFeedback("Seleziona almeno una lingua");
+            setLanguageErrorFeedback("Mi dispiace, seleziona almeno una lingua");
 
         } else {
 
-            setLanguageSuccessFeedback("Hai selezionato una lingua");
+            setLanguageSuccessFeedback("Ottimoi lavoro, hai selezionato una lingua");
 
         }
 
@@ -912,11 +1037,11 @@ export function checkLanguageLevelSelect(index: number): void {
 
         if (languageLevelOption === "") {
 
-            setLanguageLevelErrorFeedback("Seleziona almeno un livello di lingua");
+            setLanguageLevelErrorFeedback("Mi dispiace, seleziona almeno un livello di lingua");
 
         } else {
 
-            setLanguageLevelSuccessFeedback("Hai selezionato un livello di lingua");
+            setLanguageLevelSuccessFeedback("Ottimo lavoro, hai selezionato un livello di lingua");
 
         }
 
@@ -1442,16 +1567,16 @@ export function checkQualificationsSelect(index:number): void {
 export function checkFieldOfStudyTextInput(index: number): void {
 
     const fieldOfStudyTextInput: HTMLInputElement | null = document.querySelector(`#textInputFieldOfStudy${index}`);
-    const errorFieldOfStudyMessages: HTMLDivElement | null = document.querySelector(`#error-field-study-message${index}`);
+    const errorFieldOfStudyMessage: HTMLDivElement | null = document.querySelector(`#error-field-study-message${index}`);
     const successFieldOfStudyMessage: HTMLDivElement | null = document.querySelector(`#success-field-study-message${index}`);
 
 
     const setFieldOfStudyErrorFeedBack = (message:string) => {
 
-        if(errorFieldOfStudyMessages) {
-            errorFieldOfStudyMessages.innerText = message;
-            errorFieldOfStudyMessages.classList.add("error-user-data", "fw-bolder");
-            errorFieldOfStudyMessages.style.fontSize = "0.8rem";
+        if(errorFieldOfStudyMessage) {
+            errorFieldOfStudyMessage.innerText = message;
+            errorFieldOfStudyMessage.classList.add("error-user-data", "fw-bolder");
+            errorFieldOfStudyMessage.style.fontSize = "0.8rem";
         }
 
         if(fieldOfStudyTextInput) {
@@ -1477,8 +1602,8 @@ export function checkFieldOfStudyTextInput(index: number): void {
             fieldOfStudyTextInput.classList.add("is-valid");
         }
 
-        if(errorFieldOfStudyMessages) {
-            errorFieldOfStudyMessages.innerText = "";
+        if(errorFieldOfStudyMessage) {
+            errorFieldOfStudyMessage.innerText = "";
         }
 
     };
@@ -1490,10 +1615,6 @@ export function checkFieldOfStudyTextInput(index: number): void {
         if(fieldOfStudyValue === "") {
 
             setFieldOfStudyErrorFeedBack("Il campo di studio è obbligatorio");
-
-        } else if(fieldOfStudyValue.length > 40) {
-
-            setFieldOfStudyErrorFeedBack("Mi dispiace, il campo di studio non può contenere più di 40 caratteri");
 
         } else {
 

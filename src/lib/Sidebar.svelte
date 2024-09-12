@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { formDataStore, isAllowed, isPrivacyPolicyApproved } from "../stores/form_store";
+  import { formDataStore, isAllowed, isPrivacyPolicyApproved, clearLocalStorage } from "../stores/form_store";
   import * as validators from "../validators/form_validation";
   import { onMount } from "svelte";
 
@@ -196,6 +196,12 @@
     { value: "Dottorato di Ricerca" },
   ];
 
+  const optionsSkillLevels = [
+    { level: "Principiante" },
+    { level: "Intermedio" },
+    { level: "Esperto" },
+  ];
+
   function handleFileChange(event: Event) {
 
     const fileInput = event.target as HTMLInputElement;
@@ -224,6 +230,20 @@
 
   let disableAddLanguageButton: boolean = false;
 
+  function addDigitalSkills(): void{
+   if($formDataStore.digitalSkills.length >  0) {
+     $formDataStore.digitalSkills.push({ skill: "", level: "" })
+     $formDataStore.digitalSkills = $formDataStore.digitalSkills;
+   }
+  }
+
+  function removeDigitalSkill(index: number): void {
+
+    $formDataStore.digitalSkills = $formDataStore.digitalSkills.filter((digitalSkill, i) => i !== index);
+    $formDataStore.digitalSkills = $formDataStore.digitalSkills; 
+
+  }
+  
   function addLanguage(): void {
     if ($formDataStore.languagesSkills.length < 3) {
       $formDataStore.languagesSkills.push({ lang: "", level: "" });
@@ -362,6 +382,135 @@
     isAllowed.set(true);
     validators.checkClickAuthBtn();
   }
+
+  function isProfilePictureUploaded(): void {
+    const filePictureUploadedInput: HTMLInputElement | null = document.querySelector('[name="filePicture"]');
+    const errorProfilePictureUploadedMessage: HTMLDivElement | null = document.querySelector(".error-file-picture-message");
+
+    const setProfilePictureUploadedErrorFeedBack = (message: string) => {
+
+        if (errorProfilePictureUploadedMessage) {
+            errorProfilePictureUploadedMessage.innerText = message;
+            errorProfilePictureUploadedMessage.classList.add("error-user-data", "fw-bolder");
+            errorProfilePictureUploadedMessage.style.fontSize = "0.8rem";
+        }
+
+    };
+
+    if (filePictureUploadedInput) {
+        
+        if (!filePictureUploadedInput.files || filePictureUploadedInput.files.length === 0) {
+            setProfilePictureUploadedErrorFeedBack("Mi dispiace, devi caricare la tua immagine di profillo");
+        }
+
+    }
+    
+  };
+
+  function isProtectedCategoryRadiosSelected(): void {
+
+    const protectedCategoryRadiosInput: NodeListOf<HTMLInputElement> = document.querySelectorAll('input[name="protectedCategoryRadioOptions"]');
+    const errorProtectedCategoryMessage: HTMLDivElement | null = document.querySelector(".error-protected-category-message");
+    let isSelected = false;
+
+    protectedCategoryRadiosInput.forEach(protectedCategoryRadio => {
+
+        if (protectedCategoryRadio.checked) {
+            isSelected = true;
+        } else {
+            protectedCategoryRadio.classList.add("is-invalid");
+        }
+
+    });
+
+    const setProtectedCategoryErrorFeedBack = (message: string) => {
+
+        if (errorProtectedCategoryMessage) {
+            errorProtectedCategoryMessage.innerText = message;
+            errorProtectedCategoryMessage.classList.add("error-user-data", "fw-bolder");
+            errorProtectedCategoryMessage.style.fontSize = "0.8rem";
+        }
+
+    };
+
+    if (!isSelected) {
+        setProtectedCategoryErrorFeedBack("Mi dispiace, devi selezionare almeno un'opzione");
+    }
+  };
+
+  function checkDrivingLicenceCheckboxesInput(): void {
+    
+    const drivingLicenceCheckboxInputs: NodeListOf<HTMLInputElement> = document.querySelectorAll('input[name="drivingLicenceCheckBoxOptions"]');
+    const errorDrivingLicenceMessage: HTMLDivElement | null = document.querySelector(".error-driving-licence-message");
+    let isSelected = false;
+
+    drivingLicenceCheckboxInputs.forEach(drivingLicenceCheckbox => {
+
+        if (drivingLicenceCheckbox.checked) {
+            isSelected = true;
+        } else {
+            drivingLicenceCheckbox.classList.add("is-invalid");
+        }
+
+    });
+
+    const setDrivingLicenceErrorFeedBack = (message: string) => {
+
+        if (errorDrivingLicenceMessage) {
+            errorDrivingLicenceMessage.innerText = message;
+            errorDrivingLicenceMessage.classList.add("error-user-data", "fw-bolder");
+            errorDrivingLicenceMessage.style.fontSize = "0.8rem";
+        }
+
+    };
+
+    if (!isSelected) {
+        setDrivingLicenceErrorFeedBack("Mi dispiace, devi selezionare almeno un'opzione");
+    }
+  };
+
+  function isHasOwnCarRadiosSelected(): void {
+
+    const isHasOwnCarRadioInputs: NodeListOf<HTMLInputElement> = document.querySelectorAll('input[name="drivingLicenceRadioOptions"]');
+    const errorHasOwnCarMessage: HTMLDivElement | null = document.querySelector(".error-has-own-car-message");
+
+    let isSelected = false;
+
+    isHasOwnCarRadioInputs.forEach(isHasOwnCarRadioInput => {
+
+        if (isHasOwnCarRadioInput.checked) {
+            isHasOwnCarRadioInput.classList.add("is-valid");
+            isSelected = true;
+        }
+
+    });
+
+    const setHasOwnCarErrorFeedback = (message: string) => {
+
+        if (errorHasOwnCarMessage) {
+            errorHasOwnCarMessage.innerText = message;
+            errorHasOwnCarMessage.classList.add("error-user-data", "fw-bolder");
+            errorHasOwnCarMessage.style.fontSize = "0.8rem";
+        }
+    
+    };
+
+    if (!isSelected) {
+        setHasOwnCarErrorFeedback ("Mi dispiace, devi selezionare almeno un'opzione");
+    }
+
+  };
+
+  function checkCvPreview(): void {
+    
+    if($formDataStore.filePicture === "" || $formDataStore.isProtectedCategory === "" || $formDataStore.drivingLicences.length === 0 || $formDataStore.hasOwnCar === "" ) {
+        isProfilePictureUploaded();
+        isProtectedCategoryRadiosSelected();
+        checkDrivingLicenceCheckboxesInput();
+        isHasOwnCarRadiosSelected();
+    }
+
+  }
   
   onMount(() => {
     
@@ -370,6 +519,10 @@
     if (savedStoreData) {
       formDataStore.set(JSON.parse(savedStoreData));
     }
+
+    // window.addEventListener('unload', () => {
+    //   clearLocalStorage();
+    // });
 
     if(canvas) {
       
@@ -383,7 +536,7 @@
     }
 
   });
-  
+
 </script>
 
 <div id="sidebar">
@@ -499,6 +652,27 @@
 
           <div class="success-user-data success-profession-message"></div>
           <div class="error-user-data error-profession-messages"></div>
+        </div>
+
+         <!-- Nazionalità -->
+
+         <div class="py-3">
+          <label for="textInputNationality">Nazione</label>
+          <span class="isRequired">*</span>
+
+          <input
+            type="text"
+            class="form-control"
+            id="textInputNationality"
+            autocomplete="off"
+            name="nationality"
+            placeholder="Inserisci la tua nazionalità"
+            bind:value={$formDataStore.nationality}
+            on:input={() => validators.checkNationalityInput()}
+          />
+
+          <div class="success-nationality-message"></div>
+          <div class="error-nationality-messages"></div>
         </div>
 
         <!---- Luogo di Nascita ---->
@@ -641,9 +815,9 @@
           <label for="formInputProfileSummary">Profilo personale</label>
           <span class="isRequired">*</span>
           <textarea
-            class="form-control"
+            class="form-control h-auto"
             id="formInputProfileSummary"
-            rows="4"
+            rows="6"
             maxlength="500"
             name="profileSummary"
             placeholder="Descriviti in poche righe..."
@@ -696,21 +870,110 @@
         <!-- Competenze digitali -->
 
         <div class="py-3">
-          <label for="formInputCareerGoals">Competenze Digitali</label>
-          <span class="isRequired">*</span>
-          <textarea
-            class="form-control"
-            id="formInputDigitalSkills"
-            rows="4"
-            maxlength="500"
-            name="digitalSkills"
-            placeholder="Illustraci le tue competenze digitali..."
-            bind:value={$formDataStore.digitalSkills}
-            on:input={() => validators.checkDigitalSkillsTextArea()}
-          ></textarea>
 
-          <div class="success-digital-skills-message"></div>
-          <div class="error-digital-skills-messages"></div>
+          <label for="formInputDigitalSkills">Competenze Digitali</label>
+          <span class="isRequired">*</span>
+
+          {#each $formDataStore.digitalSkills as digitalSkill, digitalSkillIndex}
+
+            <div class="input-group mb-3">
+
+              <input
+                type="text"
+                class="form-control"
+                style="width: 40%;"
+                id="formInputDigitalSkills{digitalSkillIndex}"
+                autocomplete="off"
+                name="digitalSkill{digitalSkillIndex}"
+                placeholder="Inserisci le tue competenze digitali"
+                bind:value={digitalSkill.skill}
+                on:blur={() => validators.checkDigitalSkillsTextInput(digitalSkillIndex)}
+              >
+
+              <select
+
+                class="form-select"
+                style="width: 40%;"
+                id="skillLevelSelect{digitalSkillIndex}"
+                name="skillLevel{digitalSkillIndex}"
+                bind:value={digitalSkill.level}
+                on:blur={() => validators.checkLevelSkillSelect(digitalSkillIndex)}
+                >
+                
+                <option value="" disabled>Livello</option>
+      
+                {#each optionsSkillLevels as optionSkillLevel (optionSkillLevel)}
+                  <option >{optionSkillLevel.level}</option>
+                {/each}
+
+              </select>
+
+              {#if digitalSkillIndex > 0}
+  
+                <div class="input-group-append px-1" style="width: 10%;">
+
+                  <button
+                      type="button"
+                      class="btn-remove-style"
+                      
+                      on:click={() => {removeDigitalSkill(digitalSkillIndex)}}>
+                      <i class="fa-solid fa-trash"></i>
+                    </button>
+                    
+                </div>
+
+                <div class="visual-feedback-group-container" style="width: 90%;">
+                  <div class="left-visual-feedback-position" style="width: 40%;">
+                    <div
+                      class="success-user-data"
+                      id="success-digital-skill-message{digitalSkillIndex}"
+                    ></div>
+                    <div
+                      class="error-user-data"
+                      id="error-digital-skill-message{digitalSkillIndex}"
+                    ></div>
+                  </div>
+                  <div class="right-visual-feedback-position" style="width: 40%;">
+                    <div
+                      class="success-user-data"
+                      id="success-level-skill-message{digitalSkillIndex}"
+                    ></div>
+                    <div
+                      class="error-user-data"
+                      id="error-level-skill-message{digitalSkillIndex}"
+                    ></div>
+                  </div>
+                </div>
+  
+              {/if}
+
+              <div class="visual-feedback-group-container" style="width: 100%;">
+
+                <div class="left-visual-feedback-position" style="width: 50%;">
+                  <div class="success-user-data" id="success-digital-skill-message{digitalSkillIndex}"></div>
+                  <div class="error-user-data" id="error-digital-skill-message{digitalSkillIndex}"></div>
+                </div>
+
+                <div class="right-visual-feedback-position" style="width: 50%;">
+                  <div class="success-user-data" id="success-level-skill-message{digitalSkillIndex}"></div>
+                  <div class="error-user-data" id="error-level-skill-message{digitalSkillIndex}"></div>
+                </div>
+
+              </div>
+
+            </div>
+
+          {/each}
+
+        </div>
+
+        <div class="flex-center-utility">
+          <button
+            type="button"
+            class="btn-add-style"
+            on:click={() => addDigitalSkills()}
+            ><span>Aggiungi competenza</span><i class="fa-solid fa-plus ms-2"></i>
+          </button>
         </div>
 
         <!-- Lingue -->
@@ -719,110 +982,85 @@
 
           <label for="formLabelLanguages">Lingue</label>
           <span class="isRequired">*</span>
-
+        
           {#each $formDataStore.languagesSkills as selectedLanguage, languageIndex}
+
             <div class="input-group mb-3">
+
               <select
-                class="form-select" style="width: 40%"
+                class="form-select" 
+                style="width: 40%"
                 id="formSelectLanguages{languageIndex}"
                 name="languages"
                 bind:value={selectedLanguage.lang}
-                on:blur={() => validators.checkLanguageSelect(languageIndex)}
-              >
+                on:blur={() => validators.checkLanguageSelect(languageIndex)}>
                 <option value="" disabled>Lingue</option>
                 {#each optionsLanguages as optionsLanguage (optionsLanguage.value)}
-                  <option value={optionsLanguage.value}
-                    >{optionsLanguage.label}</option
-                  >
+                  <option value={optionsLanguage.value}>{optionsLanguage.label}</option>
                 {/each}
               </select>
+        
               <select
-                class="form-select" style="width: 40%"
+                class="form-select" 
+                style="width: 40%"
                 id="formSelectLanguageLevels{languageIndex}"
                 name="languageLevels"
                 bind:value={selectedLanguage.level}
-                on:blur={() => validators.checkLanguageLevelSelect(languageIndex)}
-              >
+                on:blur={() => validators.checkLanguageLevelSelect(languageIndex)}>
                 <option value="" disabled>Livello</option>
                 {#each optionslanguageLevels as optionslanguageLevel (optionslanguageLevel.value)}
-                  <option value={optionslanguageLevel.value}
-                    >{optionslanguageLevel.label}</option
-                  >
+                  <option value={optionslanguageLevel.value}>{optionslanguageLevel.label}</option>
                 {/each}
               </select>
-
+        
               {#if languageIndex > 0}
-                <div class="input-group-append px-2" style="width: 10%;">
+                <div class="input-group-append px-1" style="width: 10%;">
                   <button
                     type="button"
                     class="btn-remove-style"
-                    on:click={() => {
-                      removeLanguage(languageIndex);
-                    }}><i class="fa-solid fa-trash"></i></button
-                  >
-                </div>
-                <div class="visual-feedback-group-container" style="width: 90%;">
-                  <div class="left-visual-feedback-position" style="width: 40%;">
-                    <div
-                      class="success-user-data"
-                      id="success-language-message{languageIndex}"
-                    ></div>
-                    <div
-                      class="error-user-data"
-                      id="error-language-message{languageIndex}"
-                    ></div>
-                  </div>
-                  <div class="right-visual-feedback-position" style="width: 40%;">
-                    <div
-                      class="success-user-data"
-                      id="success-language-level-message{languageIndex}"
-                    ></div>
-                    <div
-                      class="error-user-data"
-                      id="error-language-level-message{languageIndex}"
-                    ></div>
-                  </div>
+                    on:click={() => removeLanguage(languageIndex)}>
+                    <i class="fa-solid fa-trash"></i>
+                  </button>
                 </div>
               {/if}
-
+        
               <div class="visual-feedback-group-container" style="width: 100%;">
                 <div class="left-visual-feedback-position" style="width: 50%;">
                   <div class="success-user-data" id="success-language-message{languageIndex}"></div>
-                  <div class="error-user-data" id="error-language-message{languageIndex}"></div></div>
+                  <div class="error-user-data" id="error-language-message{languageIndex}"></div>
+                </div>
                 <div class="right-visual-feedback-position" style="width: 50%;">
-                  <div
-                    class="success-user-data"
-                    id="success-language-level-message{languageIndex}"
-                  ></div>
-                  <div
-                    class="error-user-data"
-                    id="error-language-level-message{languageIndex}"
-                  ></div>
+                  <div class="success-user-data" id="success-language-level-message{languageIndex}"></div>
+                  <div class="error-user-data" id="error-language-level-message{languageIndex}"></div>
                 </div>
               </div>
 
-          </div>
-        {/each}
+            </div>
 
+          {/each}
+        
           <div class="flex-center-utility">
             <button
               type="button"
               class="btn-add-style"
               on:click={() => addLanguage()}
-              disabled={disableAddLanguageButton}
-              ><i class="fa-solid fa-plus"></i></button
-            >
+              disabled={disableAddLanguageButton}>
+              <span>Aggiungi Lingua</span>
+              <i class="fa-solid fa-plus ms-2"></i>
+            </button>
           </div>
 
         </div>
-
+        
         <!-- Patente -->
 
         <div class="py-3">
-          <label for="formLabelDrivingLicence">Patente</label>
-          <span class="isRequired">*</span>
-
+          
           <div>
+
+            <label for="formLabelDrivingLicence">Patente</label>
+            <span class="isRequired">*</span>
+
             {#each drivingLicenceCheckBoxs as drivingLicenceCheckBox}
               <div class="form-check">
                 <input
@@ -938,10 +1176,10 @@
                 <label for="textAreaInputWorkExperienceResults{jobIndex}">Risultati professionali ottenuti</label>
                 <span class="isRequired">*</span>
                 <textarea
-                  class="form-control"
+                  class="form-control h-auto"
                   id="textAreaInputWorkExperienceResults{jobIndex}"
                   name="workExperienceResults"
-                  rows="4"
+                  rows="6"
                   placeholder="Parlaci dei risultati professionali che hai conseguito..."
                   bind:value={job.workExperienceResults}
                   on:input={() => validators.checkWorkExperienceResultsTextArea(jobIndex)}
@@ -1006,7 +1244,7 @@
             type="button"
             class="btn-add-style"
             on:click={() => addWorkExperience()}
-            ><i class="fa-solid fa-plus"></i></button
+            ><span>Aggiungi Lavoro</span><i class="fa-solid fa-plus ms-2"></i></button
           >
         </div>
 
@@ -1016,175 +1254,175 @@
             <h2 class="title-section-style">DETTAGLI FORMAZIONE</h2>
           </div>
 
-        {#each $formDataStore.educations as education, educationIndex}
+          {#each $formDataStore.educations as education, educationIndex}
 
-          <div class="py-3">
+            <div class="py-3">
 
-            <label for="selectQualification{educationIndex}">Titolo di studio</label>
-            <span class="isRequired">*</span>
+              <label for="selectQualification{educationIndex}">Titolo di studio</label>
+              <span class="isRequired">*</span>
 
-            <div class="input-group py-3">
-              <select
-                class="form-select"
-                id="selectQualification{educationIndex}"
-                style="width: 50%;"
-                aria-label="QualificationSelect"
-                name="qualification"
-                bind:value={education.qualification}
-                on:blur={() =>
-                  validators.checkQualificationsSelect(educationIndex)}
-              >
-                <option value="" disabled>Titolo di Studio</option>
-  
-                {#each educationLevels as educationLevel (educationLevel.value)}
-                  <option value={educationLevel.value}
-                    >{educationLevel.value}</option
+              <div class="input-group">
+                <select
+                  class="form-select"
+                  id="selectQualification{educationIndex}"
+                  style="width: 50%;"
+                  aria-label="QualificationSelect"
+                  name="qualification"
+                  bind:value={education.qualification}
+                  on:blur={() =>
+                    validators.checkQualificationsSelect(educationIndex)}
+                >
+                  <option value="" disabled>Titolo di Studio</option>
+    
+                  {#each educationLevels as educationLevel (educationLevel.value)}
+                    <option value={educationLevel.value}
+                      >{educationLevel.value}</option
+                    >
+                  {/each}
+                </select>
+    
+                <input
+                  type="text"
+                  class="form-control"
+                  id="textInputFieldOfStudy{educationIndex}"
+                  style="width: 50%;"
+                  name="fieldOfStudy"
+                  autocomplete="off"
+                  placeholder="Inserisci il campo di studio"
+                  bind:value={education.fieldOfStudy}
+                  on:input={() =>
+                    validators.checkFieldOfStudyTextInput(educationIndex)}
+                />
+    
+                <div class="visual-feedback-group-container">
+                  <div class="left-visual-feedback-position">
+                    <div
+                      class="success-user-data"
+                      id="success-qualification-message{educationIndex}"
+                    ></div>
+                    <div
+                      class="error-user-data"
+                      id="error-qualification-message{educationIndex}"
+                    ></div>
+                  </div>
+                  <div class="right-visual-feedback-position">
+                    <div
+                      class="success-user-data"
+                      id="success-field-study-message{educationIndex}"
+                    ></div>
+                    <div
+                      class="error-user-data"
+                      id="error-field-study-message{educationIndex}"
+                    ></div>
+                  </div>
+                </div>
+              </div>
+    
+              <div class="py-3">
+                <label for="textInputEducationType{educationIndex}">Università/Ente di formazione/Scuola</label>
+                <span class="isRequired">*</span>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="textInputEducationType{educationIndex}"
+                  name="educationType"
+                  autocomplete="off"
+                  placeholder="Inserisci la tipologia di formazione"
+                  bind:value={education.educationType}
+                  on:input={() => validators.checkEducationTypeTextInput(educationIndex)}
+                />
+    
+                <div id="success-education-type-message{educationIndex}"></div>
+                <div id="error-education-type-messages{educationIndex}"></div>
+              </div>
+    
+              <div class="py-3">
+                <label for="formInputEducationGoals{educationIndex}">Risultati accademici raggiunti</label>
+                <span class="isRequired">*</span>
+                <textarea
+                  class="form-control h-auto"
+                  id="formInputEducationGoals{educationIndex}"
+                  rows="6"
+                  placeholder="Parlaci degli obiettivi accademici che hai raggiunto..."
+                  bind:value={education.educationGoals}
+                  on:input={() => validators.checkEducationGoalsTextArea(educationIndex)}
+                ></textarea>
+    
+                <div id="success-education-goals-message{educationIndex}"></div>
+                <div id="error-education-goals-messages{educationIndex}"></div>
+              </div>
+    
+              <div class="py-3 flex-center-utility justify-content-around">
+                <div>
+                  <label for="startDateInputAcademicEducation{educationIndex}" class="custom-date-input">Data di inizio</label>
+                  <span class="isRequired">*</span>
+
+                  <input
+                    type="month"
+                    class="form-control"
+                    id="startDateInputAcademicEducation{educationIndex}"
+                    name="startDateAcademicEducation"
+                    max={education.endDateAcademicEducation}
+                    bind:value={education.startDateAcademicEducation}
+                    on:blur={() =>
+                      validators.checkStartAndEndAcademicEducationDateInput(
+                        educationIndex
+                      )}
+                  />
+    
+                  <div id="success-startDateAcademicEducation-message{educationIndex}"></div>
+                  <div id="error-startDateAcademicEducation-messages{educationIndex}"></div>
+
+                </div>
+    
+                <div>
+                  <label
+                    for="endDateInputAcademicEducation{educationIndex}"
+                    class="custom-date-input">Data di fine</label
                   >
-                {/each}
-              </select>
-  
-              <input
-                type="text"
-                class="form-control"
-                id="textInputFieldOfStudy{educationIndex}"
-                style="width: 50%;"
-                name="fieldOfStudy"
-                autocomplete="off"
-                placeholder="Inserisci il campo di studio"
-                bind:value={education.fieldOfStudy}
-                on:input={() =>
-                  validators.checkFieldOfStudyTextInput(educationIndex)}
-              />
-  
-              <div class="visual-feedback-group-container">
-                <div class="left-visual-feedback-position">
-                  <div
-                    class="success-user-data"
-                    id="success-qualification-message{educationIndex}"
-                  ></div>
-                  <div
-                    class="error-user-data"
-                    id="error-qualification-message{educationIndex}"
-                  ></div>
+                  <span class="isRequired">*</span>
+                  <input
+                    type="month"
+                    class="form-control"
+                    id="endDateInputAcademicEducation{educationIndex}"
+                    name="endDateAcademicEducation"
+                    min={education.startDateAcademicEducation}
+                    bind:value={education.endDateAcademicEducation}
+                    on:blur={() =>
+                      validators.checkStartAndEndAcademicEducationDateInput(
+                        educationIndex
+                      )}
+                  />
+    
+                  <div id="success-endDateAcademicEducation-message{educationIndex}"></div>
+                  <div id="error-endDateAcademicEducation-messages{educationIndex}"></div>
                 </div>
-                <div class="right-visual-feedback-position">
-                  <div
-                    class="success-user-data"
-                    id="success-field-study-message{educationIndex}"
-                  ></div>
-                  <div
-                    class="error-user-data"
-                    id="error-field-study-message{educationIndex}"
-                  ></div>
+
+              </div>
+    
+              {#if educationIndex > 0}
+                <div class="flex-center-utility mb-3">
+                  <button
+                    type="button"
+                    class="btn-remove-style"
+                    on:click={() => removeAcademicEducation(educationIndex)}
+                    ><i class="fa-solid fa-trash"></i></button
+                  >
                 </div>
-              </div>
-            </div>
-  
-            <div class="py-3">
-              <label for="textInputEducationType{educationIndex}">Università/Ente di formazione/Scuola</label>
-              <span class="isRequired">*</span>
-              <input
-                type="text"
-                class="form-control"
-                id="textInputEducationType{educationIndex}"
-                name="educationType"
-                autocomplete="off"
-                placeholder="Inserisci la tipologia di formazione"
-                bind:value={education.educationType}
-                on:input={() => validators.checkEducationTypeTextInput(educationIndex)}
-              />
-  
-              <div id="success-education-type-message{educationIndex}"></div>
-              <div id="error-education-type-messages{educationIndex}"></div>
-            </div>
-  
-            <div class="py-3">
-              <label for="formInputEducationGoals{educationIndex}">Risultati accademici raggiunti</label>
-              <span class="isRequired">*</span>
-              <textarea
-                class="form-control"
-                id="formInputEducationGoals{educationIndex}"
-                rows="4"
-                placeholder="Parlaci degli obiettivi accademici che hai raggiunto..."
-                bind:value={education.educationGoals}
-                on:input={() => validators.checkEducationGoalsTextArea(educationIndex)}
-              ></textarea>
-  
-              <div id="success-education-goals-message{educationIndex}"></div>
-              <div id="error-education-goals-messages{educationIndex}"></div>
-            </div>
-  
-            <div class="py-3 flex-center-utility justify-content-around">
-              <div>
-                <label for="startDateInputAcademicEducation{educationIndex}" class="custom-date-input">Data di inizio</label>
-                <span class="isRequired">*</span>
-
-                <input
-                  type="month"
-                  class="form-control"
-                  id="startDateInputAcademicEducation{educationIndex}"
-                  name="startDateAcademicEducation"
-                  max={education.endDateAcademicEducation}
-                  bind:value={education.startDateAcademicEducation}
-                  on:blur={() =>
-                    validators.checkStartAndEndAcademicEducationDateInput(
-                      educationIndex
-                    )}
-                />
-  
-                <div id="success-startDateAcademicEducation-message{educationIndex}"></div>
-                <div id="error-startDateAcademicEducation-messages{educationIndex}"></div>
-
-              </div>
-  
-              <div>
-                <label
-                  for="endDateInputAcademicEducation{educationIndex}"
-                  class="custom-date-input">Data di fine</label
-                >
-                <span class="isRequired">*</span>
-                <input
-                  type="month"
-                  class="form-control"
-                  id="endDateInputAcademicEducation{educationIndex}"
-                  name="endDateAcademicEducation"
-                  min={education.startDateAcademicEducation}
-                  bind:value={education.endDateAcademicEducation}
-                  on:blur={() =>
-                    validators.checkStartAndEndAcademicEducationDateInput(
-                      educationIndex
-                    )}
-                />
-  
-                <div id="success-endDateAcademicEducation-message{educationIndex}"></div>
-                <div id="error-endDateAcademicEducation-messages{educationIndex}"></div>
-              </div>
+              {/if}
 
             </div>
-  
-            {#if educationIndex > 0}
-              <div class="flex-center-utility mb-3">
-                <button
-                  type="button"
-                  class="btn-remove-style"
-                  on:click={() => removeAcademicEducation(educationIndex)}
-                  ><i class="fa-solid fa-trash"></i></button
-                >
-              </div>
-            {/if}
 
-          </div>
+          {/each}
 
           <div class="flex-center-utility">
             <button
               type="button"
               class="btn-add-style"
               on:click={() => addAcademicEducation()}
-              ><i class="fa-solid fa-plus"></i></button
+              ><span>Aggiungi Formazione</span><i class="fa-solid fa-plus ms-2"></i></button
             >
           </div>
-
-        {/each}
 
       </div>
 
@@ -1251,16 +1489,22 @@
     </div>
 
   </div>
+
+   <!---- Download Button ---->
+    
+   <div class="mt-5">
+    <button class="download-btn" on:click={checkCvPreview} disabled={!$isAllowed || !$isPrivacyPolicyApproved}>SCARICA CV <i class="fa-solid fa-download"></i></button>
+  </div>
   
 </div>
 
 <style>
   #sidebar {
-    display: flex;
     flex-direction: column;
     height: 100%;
     overflow-y: auto;
-    flex-basis: 40%;
+    flex-basis: 35%;
+    max-width: 100%;
     flex-shrink: 0;
     padding: 4rem;
     background-color: #f5feff;
@@ -1287,6 +1531,10 @@
 
   textarea::-webkit-scrollbar-track-piece {
     background: hsl(187, 100%, 98%);
+  }
+
+  textarea {
+    resize: none;
   }
 
   #sidebar::-webkit-scrollbar-track {
@@ -1342,6 +1590,10 @@
     cursor: pointer;
   }
 
+  .form-control, .form-select {
+    height: 2.5rem; 
+  }
+
   input[type="file"] {
     display: none;
   }
@@ -1367,10 +1619,12 @@
   }
 
   .btn-add-style {
-    width: 80px;
+    width: 200px;
     margin-top: 0.2rem;
     border: none;
-    font-size: 1rem;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    font-weight: 600;
     border-radius: 8px;
     padding: 0.5rem;
     background-color: #007bff;
@@ -1470,5 +1724,32 @@
     padding: 0.8rem;
     font-weight: 600;
   }
+
+  .download-btn {
+    width: 12rem;
+    display: block;
+    margin: 0 auto;
+    padding: 1rem;
+    font-size: 1rem;
+    text-decoration: none;
+    font-weight: bold;
+    color: #fff;
+    background-color: #ff5e3a;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+
+  .download-btn:hover {
+    transform: translateY(-2px);
+    background-color: #e74c3c;
+  }
+
+  .download-btn:disabled {
+    color: #BDBDBD;
+    background-color: white; 
+    cursor: not-allowed; 
+} 
 
 </style>

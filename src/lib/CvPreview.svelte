@@ -1,135 +1,6 @@
 <script lang="ts">
 
 import { formDataStore, isAllowed, isPrivacyPolicyApproved } from '../stores/form_store';
-
-function isProfilePictureUploaded(): void {
-    const filePictureUploadedInput: HTMLInputElement | null = document.querySelector('[name="filePicture"]');
-    const errorProfilePictureUploadedMessage: HTMLDivElement | null = document.querySelector(".error-file-picture-message");
-
-    const setProfilePictureUploadedErrorFeedBack = (message: string) => {
-
-        if (errorProfilePictureUploadedMessage) {
-            errorProfilePictureUploadedMessage.innerText = message;
-            errorProfilePictureUploadedMessage.classList.add("error-user-data", "fw-bolder");
-            errorProfilePictureUploadedMessage.style.fontSize = "0.8rem";
-        }
-
-    };
-
-    if (filePictureUploadedInput) {
-        
-        if (!filePictureUploadedInput.files || filePictureUploadedInput.files.length === 0) {
-            setProfilePictureUploadedErrorFeedBack("Mi dispiace, devi caricare la tua immagine di profillo");
-        }
-
-    }
-    
-};
-
-function isProtectedCategoryRadiosSelected(): void {
-
-    const protectedCategoryRadiosInput: NodeListOf<HTMLInputElement> = document.querySelectorAll('input[name="protectedCategoryRadioOptions"]');
-    const errorProtectedCategoryMessage: HTMLDivElement | null = document.querySelector(".error-protected-category-message");
-    let isSelected = false;
-
-    protectedCategoryRadiosInput.forEach(protectedCategoryRadio => {
-
-        if (protectedCategoryRadio.checked) {
-            isSelected = true;
-        } else {
-            protectedCategoryRadio.classList.add("is-invalid");
-        }
-
-    });
-
-    const setProtectedCategoryErrorFeedBack = (message: string) => {
-
-        if (errorProtectedCategoryMessage) {
-            errorProtectedCategoryMessage.innerText = message;
-            errorProtectedCategoryMessage.classList.add("error-user-data", "fw-bolder");
-            errorProtectedCategoryMessage.style.fontSize = "0.8rem";
-        }
-
-    };
-
-    if (!isSelected) {
-        setProtectedCategoryErrorFeedBack("Mi dispiace, devi selezionare almeno un'opzione");
-    }
-};
-
-function checkDrivingLicenceCheckboxesInput(): void {
-    
-    const drivingLicenceCheckboxInputs: NodeListOf<HTMLInputElement> = document.querySelectorAll('input[name="drivingLicenceCheckBoxOptions"]');
-    const errorDrivingLicenceMessage: HTMLDivElement | null = document.querySelector(".error-driving-licence-message");
-    let isSelected = false;
-
-    drivingLicenceCheckboxInputs.forEach(drivingLicenceCheckbox => {
-
-        if (drivingLicenceCheckbox.checked) {
-            isSelected = true;
-        } else {
-            drivingLicenceCheckbox.classList.add("is-invalid");
-        }
-
-    });
-
-    const setDrivingLicenceErrorFeedBack = (message: string) => {
-
-        if (errorDrivingLicenceMessage) {
-            errorDrivingLicenceMessage.innerText = message;
-            errorDrivingLicenceMessage.classList.add("error-user-data", "fw-bolder");
-            errorDrivingLicenceMessage.style.fontSize = "0.8rem";
-        }
-
-    };
-
-    if (!isSelected) {
-        setDrivingLicenceErrorFeedBack("Mi dispiace, devi selezionare almeno un'opzione");
-    }
-};
-
-function isHasOwnCarRadiosSelected(): void {
-
-    const isHasOwnCarRadioInputs: NodeListOf<HTMLInputElement> = document.querySelectorAll('input[name="drivingLicenceRadioOptions"]');
-    const errorHasOwnCarMessage: HTMLDivElement | null = document.querySelector(".error-has-own-car-message");
-
-    let isSelected = false;
-
-    isHasOwnCarRadioInputs.forEach(isHasOwnCarRadioInput => {
-
-        if (isHasOwnCarRadioInput.checked) {
-            isHasOwnCarRadioInput.classList.add("is-valid");
-            isSelected = true;
-        }
-
-    });
-
-    const setHasOwnCarErrorFeedback = (message: string) => {
-
-        if (errorHasOwnCarMessage) {
-            errorHasOwnCarMessage.innerText = message;
-            errorHasOwnCarMessage.classList.add("error-user-data", "fw-bolder");
-            errorHasOwnCarMessage.style.fontSize = "0.8rem";
-        }
-    
-    };
-
-    if (!isSelected) {
-        setHasOwnCarErrorFeedback ("Mi dispiace, devi selezionare almeno un'opzione");
-    }
-
-};
-
-function checkCvPreview(): void {
-    
-    if($formDataStore.filePicture === "" || $formDataStore.isProtectedCategory === "" || $formDataStore.drivingLicences.length === 0 || $formDataStore.hasOwnCar === "" ) {
-        isProfilePictureUploaded();
-        isProtectedCategoryRadiosSelected();
-        checkDrivingLicenceCheckboxesInput();
-        isHasOwnCarRadiosSelected();
-    }
-
-}
   
 function formattedBirtDate(date: string) : string {
     if (!date) return '';
@@ -158,20 +29,6 @@ function formattedWorkAccademicDate(date: string) : string {
     
         </div>
     
-        <!---- Select Colour Button ---->
-    
-        <div>
-    
-            <button class="select-colour-btn">PERSONALIZZA CV</button>
-    
-        </div>
-    
-        <!---- Download Button ---->
-    
-        <div>
-            <button class="download-btn" on:click={checkCvPreview} disabled={!$isAllowed || !$isPrivacyPolicyApproved}>DOWNLOAD CV</button>
-        </div>
-    
     </div>
 
     <div class="cv-preview-container">
@@ -198,7 +55,7 @@ function formattedWorkAccademicDate(date: string) : string {
 
                 <!---- Nome e Professione ---->
     
-                <div class="text-wrap-utility">
+                <div>
         
                     <div class="user-full-name text-uppercase">{ $formDataStore.name } { $formDataStore.surname }</div>
                     <div class="user-profession text-center fst-italic">{ $formDataStore.profession }</div>
@@ -213,11 +70,11 @@ function formattedWorkAccademicDate(date: string) : string {
 
             <div class="main-left-section">
 
-                <div class="text-wrap-utility">
+                <div>
 
                      <!---- Dati personali ---->
 
-                    {#if $formDataStore.birthPlace || $formDataStore.birthDate || $formDataStore.address || $formDataStore.phonePrefix || $formDataStore.phone || $formDataStore.email || $formDataStore.isProtectedCategory}
+                    {#if $formDataStore.nationality || $formDataStore.birthPlace || $formDataStore.birthDate || $formDataStore.address || $formDataStore.phonePrefix || $formDataStore.phone || $formDataStore.email || $formDataStore.isProtectedCategory}
                         
                         <div class="title-user-details-utility">INFORMAZIONI PERSONALI</div>
                                                 
@@ -225,6 +82,20 @@ function formattedWorkAccademicDate(date: string) : string {
 
                     
                     <div class="profile-info-container">
+
+                        <!---- Nazione ---->
+
+                        <div>
+
+                            {#if $formDataStore.nationality }
+        
+                                <span class="profile-info-label">Nazione:</span>
+                                
+                            {/if}
+        
+                            <span class="profile-info-value">{ $formDataStore.nationality }</span>
+    
+                        </div>
                         
                         <!---- Luogo di Nascita ---->
 
@@ -333,17 +204,33 @@ function formattedWorkAccademicDate(date: string) : string {
 
                     </div>
     
-                    <!-- Successi Professionali -->
+                    <!-- Competenze digitali -->
 
                     <div>
 
-                        {#if $formDataStore.digitalSkills }
+                        {#if $formDataStore.digitalSkills.some(digitalSkill => digitalSkill.skill !== "")}
     
                             <div class="title-user-details-utility">COMPETENZE DIGITALI</div>
-    
+
                         {/if}
-    
-                        <p>{ $formDataStore.digitalSkills }</p>
+
+                        <div class="digital-skills-container">
+
+                            {#each $formDataStore.digitalSkills as digitalSkill(digitalSkill)}
+
+                                <div class="digital-skills">{digitalSkill.skill}</div>
+
+                                {#if digitalSkill.skill}
+                                    <div>:</div>
+                                {/if}
+                            
+                                {#if digitalSkill.skill}
+                                    <div class="digital-skill-levels">{digitalSkill.level}</div>
+                                {/if}
+                            
+                            {/each}
+
+                        </div>
 
                     </div>
 
@@ -362,9 +249,13 @@ function formattedWorkAccademicDate(date: string) : string {
                             {#each $formDataStore.languagesSkills as selectedLanguage(selectedLanguage)}
 
                                 <div class="language-skills">{selectedLanguage.lang}</div>
+
+                                {#if selectedLanguage.lang}
+                                    <div>:</div>
+                                {/if}
                             
                                 {#if selectedLanguage.lang}
-                                    <div class="language-skills">{selectedLanguage.level}</div>
+                                    <div class="class= language-levels">{selectedLanguage.level}</div>
                                 {/if}
                             
                             {/each}
@@ -385,7 +276,7 @@ function formattedWorkAccademicDate(date: string) : string {
 
                         {#if $formDataStore.drivingLicences.length > 0 }
 
-                            <span><i class="fa-solid fa-address-card"></i></span>
+                            <span class="driving-licence-types"><i class="fa-solid fa-address-card"></i></span>
                             
                         {/if}
 
@@ -416,46 +307,50 @@ function formattedWorkAccademicDate(date: string) : string {
 
                 <!-- Esperienza lavorativa -->
 
-                    <div class="user-work-experience-info">
+                    <div>
 
                         {#if $formDataStore.jobs.some(job => job.role !== "" || job.company !== "" || job.workExperienceResults !== "" || job.startDateWorkExperience !== "" || job.endDateWorkExperience !== "" )}
 
-                            <div class="work-experience-title-section py-2">ESPERIENZE LAVORATIVE</div>
+                            <div class="work-experience-title-section">ESPERIENZE LAVORATIVE</div>
 
                         {/if}
 
-                        {#each $formDataStore.jobs as job, jobIndex}
+                        <div class="user-work-experience-info">
 
-                            <span class="role-info">{ job.role }</span>
-
-                            {#if job.role}
-
-                                <span class="at-span">presso</span>
-
-                            {/if}
-
-                            <span class="company-detail">{ job.company }</span>
-
-                            <div class="date-container">
-
-                                {#if job.startDateWorkExperience !== "" ||  job.endDateWorkExperience !== ""}
-
-                                    <span class="date-info">({ formattedWorkAccademicDate(job.startDateWorkExperience) } - { formattedWorkAccademicDate(job.endDateWorkExperience) })</span>
-
+                            {#each $formDataStore.jobs as job, jobIndex}
+    
+                                <span class="role-info">{ job.role }</span>
+    
+                                {#if job.role}
+    
+                                    <span class="at-span">presso</span>
+    
                                 {/if}
+    
+                                <span class="company-detail">{ job.company }</span>
+    
+                                <div class="date-container">
+    
+                                    {#if job.startDateWorkExperience !== "" ||  job.endDateWorkExperience !== ""}
+    
+                                        <span class="date-info">({ formattedWorkAccademicDate(job.startDateWorkExperience) } - { formattedWorkAccademicDate(job.endDateWorkExperience) })</span>
+    
+                                    {/if}
+    
+                                </div>
+    
+                                <p class="results-info">{ job.workExperienceResults }</p>
+    
+                            {/each}
 
-                            </div>
+                        </div>
 
-                            <p class="results-info">{ job.workExperienceResults }</p>
-
-                        {/each}
                         
                     </div>
 
                 <!-- Formazione Accademica -->
 
-                    <div class="user-education-history-info">
-
+                    <div>
 
                         {#if $formDataStore.educations.some(education => education.educationType !== "" || education.fieldOfStudy !== "" || 
                         education.qualification.length > 0 || education.educationGoals !== "" || education.startDateAcademicEducation !== "" || 
@@ -465,10 +360,12 @@ function formattedWorkAccademicDate(date: string) : string {
 
                         {/if}
 
+                        <div class="user-education-history-info">
+
                             {#each $formDataStore.educations as education, educationIndex}
                             
                                 <span class="qualification-info">{ education.qualification }</span>
-
+    
                                 {#if education.fieldOfStudy}
                                 
                                     <span class="at-span">:</span>
@@ -476,7 +373,7 @@ function formattedWorkAccademicDate(date: string) : string {
                                 {/if}
                             
                                 <span class="fieldOfStudy-detail">{ education.fieldOfStudy }</span>
-
+    
                                 {#if education.educationType}
                                 
                                     <span class="at-span">presso</span>
@@ -484,29 +381,36 @@ function formattedWorkAccademicDate(date: string) : string {
                                 {/if}
                             
                                 <span class="training-institution-detail">{ education.educationType }</span>
-
-
+    
+    
                                 <div class="date-container">
-
+    
                                     {#if education.startDateAcademicEducation || education.endDateAcademicEducation }
-
+    
                                         <span class="date-info">({ formattedWorkAccademicDate(education.startDateAcademicEducation) }  - { formattedWorkAccademicDate(education.endDateAcademicEducation) })</span>
-
+    
                                     {/if}
                 
                                 </div>
-
+    
                                 <p class="goals-info">{ education.educationGoals }</p>
-
+    
                             {/each}
-                            
+
+                        </div>
+     
                     </div>
 
             </div>
     
         </div>
-   
+        
+        {#if $isAllowed && $isPrivacyPolicyApproved }
+        <div class="privacy-policy-authorization">Autorizzo il trattamento dei dati personali contenuti nel mio curriculum vitae in base al D. Lgs. 196/2003 e al Regolamento UE 2016/679</div>
+        {/if}
+
     </div>
+
        
 </div>
 
@@ -527,8 +431,10 @@ function formattedWorkAccademicDate(date: string) : string {
     --title-section-font-weight: 600;
     --description-font-size: 1rem;
     --description-font-weight: 400;
-    --language-driving-licence-skills-font-size: 0.6rem;
-    --language-driving-licence-skills-font-weight: 400;
+    --language-driving-licence-digital-skills-font-size: 0.8rem;
+    --language-driving-licence-digital-skills-font-weight: 500;
+    --language-levels-driving-licence-types-digital-skill-levels-font-size: 0.8rem;
+    --language-levels-driving-licence-types-digital-skill-levels-font-weight: 450;
     --job-qualification-font-size: 1.1rem;
     --job-qualification-font-weight: 600;
     --company-institution-detail-font-size: 0.9rem; 
@@ -539,10 +445,10 @@ function formattedWorkAccademicDate(date: string) : string {
     --company-date-info-font-weight:500;
 }
 #curriculum-content {
-    display: flex;
     flex-direction: column;
     height: 100vh; 
-    flex-basis: 60%;
+    flex-basis: 65%;
+    max-width: 100%;
     background: linear-gradient(180deg, rgba(96,100,112,1) 17%, rgba(50,54,67,1) 65%);
 }
 .toolbar {
@@ -552,14 +458,15 @@ function formattedWorkAccademicDate(date: string) : string {
     flex-shrink: 0;
     flex-basis: 20%;
     width: 100%;
+    max-width: 100%;
 }
 .cv-preview-container {
     display: flex;
     flex-direction: column;
     flex-basis: 80%;
-    overflow-y: auto;
     width: 80%;
-    height: calc(100vh - 20%);
+    max-width: 100%;
+    overflow-y: auto;
     background-color: #f5feff;
     padding: 2rem 1rem;
 }
@@ -593,22 +500,28 @@ function formattedWorkAccademicDate(date: string) : string {
     font-size: var(--title-section-font-size);
 }
 
+.user-work-experience-info {
+    padding-top: 0.8rem;
+}
+
 .cv-header-container, .cv-main-container {
     display: flex;
+    padding: 1rem 0;
 }
 
 .user-full-name {
     font-size: var(--user-full-name-font-size);
     font-weight: var(--user-full-name-font-weight);
-
 }
 
 .cv-header-container {
-    padding: 1rem 0;
+    flex-shrink: 0;
+    flex-basis: 20%;
 }
 
 .cv-main-container {
-    padding: 2rem 0;
+    display: flex;
+    flex-basis: 80%;
 }
 
 .user-profession {
@@ -616,18 +529,23 @@ function formattedWorkAccademicDate(date: string) : string {
     font-weight: var(--user-profession-font-weight);
 }
 
-.main-left-section p, .main-right-section p {
-    word-wrap: break-word;
+.main-left-section {
+    flex-basis: 40%;
+    flex-shrink: 0;
     max-width: 100%;
+    overflow: hidden;
+    overflow-wrap: break-word;
 }
 
 .main-left-section p {
     margin-top: 1rem;
 }
 
-.text-wrap-utility {
-    overflow-wrap: break-word;
+.main-right-section {
+    flex-basis: 60%;
+    max-width: 100%;
     overflow: hidden;
+    overflow-wrap: break-word; 
 }
 
 .file-picture-container {
@@ -656,28 +574,35 @@ function formattedWorkAccademicDate(date: string) : string {
 .profile-info-container, .user-details-container {
     padding: 1rem 0;
 }
+
 .profile-info-label {
     font-size: var(--profile-info-label-font-size);
     font-weight: var(--profile-info-label-font-weight);
 }
+
 .profile-info-value {
   font-size: var(--profile-info-value-font-size);
   font-weight: var(--profile-info-value-font-weight);
 }
-.languages-container {
+.digital-skills-container, .languages-container {
     display: flex;
     justify-content: center;
+    align-items: center;
     gap: 0.5rem;
 }
 
-.languages-container, .driving-licence-skills-container{
+.digital-skills-container, .languages-container, .driving-licence-skills-container{
     padding: 1rem 0;
 }
 
-.language-skills, .driving-licence-skills-container {
-    font-size: var(--language-skills-font-size);
-    font-weight: var(--language-skills-font-weight);
+.digital-skills, .language-skills, .driving-licence-skills-container {
+    font-size: var(--language-driving-licence-digital-skills-font-size);
+    font-weight: var(--language-driving-licence-digital-skills-font-weight);
+}
 
+.digital-skill-levels, .language-levels, .driving-licence-types {
+    font-size: var(--language-levels-driving-licence-types-digital-skill-levels-font-size);
+    font-weight: var(--language-levels-driving-licence-types-digital-skill-levels-font-weight);
 }
 .main-right-section, .header-right-section {
     flex-basis: 60%;
@@ -716,7 +641,13 @@ function formattedWorkAccademicDate(date: string) : string {
     font-weight: var(--description-font-weight);
 }
 
-.select-template-btn, .select-colour-btn, .download-btn {
+.privacy-policy-authorization {
+    text-align: center;
+    font-size: 0.7rem;
+    font-weight: 500;
+}
+
+.select-template-btn {
   width: 12rem;
   padding: 1rem;
   font-size: 1rem;
@@ -730,15 +661,9 @@ function formattedWorkAccademicDate(date: string) : string {
   transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-.select-template-btn:hover,.select-colour-btn:hover, .download-btn:hover {
+.select-template-btn:hover  {
   transform: translateY(-2px);
   background-color: #ff5e3a;
 }
-
-.download-btn:disabled {
-    color: #BDBDBD;
-    background-color: white; 
-    cursor: not-allowed; 
-} 
 
 </style>

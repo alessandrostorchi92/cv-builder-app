@@ -6,15 +6,16 @@ let userFormData: formTypes.FormData = {
   name: "",
   surname: "",
   profession: "",
-  birthDate: "",
+  nationality: "",
   birthPlace: "",
+  birthDate: "",
   address: "",
   phonePrefix: "",
   phone: "",
   email: "",
   profileSummary: "",
   isProtectedCategory: "",
-  digitalSkills: "",
+  digitalSkills: [{ skill: "", level: "" }],
   languagesSkills: [{ lang: "", level: "" }],
   drivingLicences: [],
   hasOwnCar: "",
@@ -64,8 +65,14 @@ formDataStore.subscribe((currentUserFormData) => {
     storeUserData(currentUserFormData);
 });
 
-  export let isAllowed: formTypes.isAllowed = writable(false);
-  export let isPrivacyPolicyApproved: formTypes.isAllowed = writable(false);
+export function clearLocalStorage() {
+  if (typeof window !== "undefined" && typeof localStorage !== "undefined") {
+    localStorage.clear();
+  }
+}
+
+export let isAllowed: formTypes.isAllowed = writable(false);
+export let isPrivacyPolicyApproved: formTypes.isAllowed = writable(false);
 
 
 
