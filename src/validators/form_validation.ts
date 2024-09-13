@@ -884,9 +884,9 @@ export function checkLevelSkillSelect(index: number): void {
             levelSkillSelect.classList.remove("is-valid");
         }
 
-        if(levelSkillSelect) {
-            levelSkillSelect.innerText = "";
-        }
+        // if(levelSkillSelect) {
+        //     levelSkillSelect.innerText = "";
+        // }
 
     };
 

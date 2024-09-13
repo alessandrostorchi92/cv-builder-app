@@ -520,9 +520,9 @@
       formDataStore.set(JSON.parse(savedStoreData));
     }
 
-    // window.addEventListener('unload', () => {
-    //   clearLocalStorage();
-    // });
+    window.addEventListener('unload', () => {
+      clearLocalStorage();
+    });
 
     if(canvas) {
       
