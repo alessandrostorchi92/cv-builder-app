@@ -1,7 +1,10 @@
 <script lang="ts">
 
 import { formDataStore, isAllowed, isPrivacyPolicyApproved } from '../stores/form_store';
-  
+import PopupTemplate from "$lib/PopupTemplate.svelte";
+
+let showPopup: boolean = false;
+
 function formattedBirtDate(date: string) : string {
     if (!date) return '';
     const [year, month, day] = date.split('-');
@@ -15,408 +18,420 @@ function formattedWorkAccademicDate(date: string) : string {
 }
 
 function showCvTemplates() {
-    
+     showPopup = true;
+}
+
+function hidePopup() {
+    showPopup = false;
 }
   
 </script>
 
+<div id="curriculum-content">
 
-<div id="curriculum-content" class="flex-center-utility">
-  
-    <div class="cv-preview-container">
+    {#if showPopup}
+    <PopupTemplate on:hideCvTemplates={hidePopup}></PopupTemplate>
+    {/if}
 
-        <div class="cv-header-container">
-
-            <div class="header-left-section flex-center-utility">
-                
-                <!---- Immagine di profilo ---->
-                
-                {#if $formDataStore.filePicture}
-                
-                    <div class="file-picture-container"> 
-                
-                        <img class="file-picture" src="{ $formDataStore.filePicture }" alt="Immagine del profilo">
-                        
-                    </div>
-                            
-                {/if}
-
-            </div>
-
-            <div class="header-right-section flex-center-utility">
-
-                <!---- Nome e Professione ---->
+    <div class="flex-center-utility flex-direction-column-utility">
     
-                <div>
-        
-                    <div class="user-full-name text-uppercase">{ $formDataStore.name } { $formDataStore.surname }</div>
-                    <div class="user-profession text-center fst-italic">{ $formDataStore.profession }</div>
-        
-                </div>
-
-            </div>
-            
-        </div>
-
-        <div class="cv-main-container">
-
-            <div class="main-left-section">
-
-                <div>
-
-                     <!---- Dati personali ---->
-
-                    {#if $formDataStore.nationality || $formDataStore.birthPlace || $formDataStore.birthDate || $formDataStore.address || $formDataStore.phonePrefix || $formDataStore.phone || $formDataStore.email || $formDataStore.isProtectedCategory}
-                        
-                        <div class="title-user-details-utility">INFORMAZIONI PERSONALI</div>
-                                                
-                    {/if}
-
+        <div class="cv-preview-container">
+    
+            <div class="cv-header-container">
+    
+                <div class="header-left-section flex-center-utility">
                     
-                    <div class="profile-info-container">
-
-                        <!---- Nazione ---->
-
-                        <div>
-
-                            {#if $formDataStore.nationality }
-        
-                                <span class="profile-info-label">Nazione:</span>
-                                
-                            {/if}
-        
-                            <span class="profile-info-value">{ $formDataStore.nationality }</span>
-    
+                    <!---- Immagine di profilo ---->
+                    
+                    {#if $formDataStore.filePicture}
+                    
+                        <div class="file-picture-container"> 
+                    
+                            <img class="file-picture" src="{ $formDataStore.filePicture }" alt="Immagine del profilo">
+                            
                         </div>
+                                
+                    {/if}
+    
+                </div>
+    
+                <div class="header-right-section flex-center-utility">
+    
+                    <!---- Nome e Professione ---->
+        
+                    <div>
+            
+                        <div class="user-full-name text-uppercase">{ $formDataStore.name } { $formDataStore.surname }</div>
+                        <div class="user-profession text-center fst-italic">{ $formDataStore.profession }</div>
+            
+                    </div>
+    
+                </div>
+                
+            </div>
+    
+            <div class="cv-main-container">
+    
+                <div class="main-left-section">
+    
+                    <div>
+    
+                         <!---- Dati personali ---->
+    
+                        {#if $formDataStore.nationality || $formDataStore.birthPlace || $formDataStore.birthDate || $formDataStore.address || $formDataStore.phonePrefix || $formDataStore.phone || $formDataStore.email || $formDataStore.isProtectedCategory}
+                            
+                            <div class="title-user-details-utility">INFORMAZIONI PERSONALI</div>
+                                                    
+                        {/if}
+    
                         
-                        <!---- Luogo di Nascita ---->
-
-                        <div>
-
-                            {#if $formDataStore.birthPlace }
-        
-                                <span class="profile-info-label">Luogo di nascita:</span>
-                                
-                            {/if}
-        
-                            <span class="profile-info-value">{ $formDataStore.birthPlace }</span>
+                        <div class="profile-info-container">
     
-                        </div>
+                            <!---- Nazione ---->
     
-                        <!---- Data di Nascita ---->
+                            <div>
     
-                        <div>
-    
-                            {#if $formDataStore.birthDate }
-        
-                                <span class="profile-info-label">Data di nascita:</span>
+                                {#if $formDataStore.nationality }
+            
+                                    <span class="profile-info-label">Nazione:</span>
                                     
-                            {/if}
-    
-                            <span class="profile-info-value">{ formattedBirtDate($formDataStore.birthDate) }</span>
-    
-                        </div>
-    
-                        <!---- Location ---->
-    
-                        <div>
-    
-                            {#if $formDataStore.address }
-    
-                                <span class="profile-info-label">Residenza/Domicilio:</span>
-     
-                            {/if}
-    
-                            <span class="profile-info-value">{ $formDataStore.address }</span>
-    
-                        </div>
-    
-                         <!---- Phone ---->
-        
-                         <div>
-    
-                            {#if $formDataStore.phonePrefix  || $formDataStore.phone }
-    
-                                <span class="profile-info-label">Cellulare:</span>
-    
-                            {/if}
-    
-                            <span class="profile-info-value">{ $formDataStore.phonePrefix }</span>
-                            <span class="profile-info-value">{ $formDataStore.phone }</span>
+                                {/if}
             
-                        </div>
-    
-                        <!---- Email ---->
-    
-                        <div>
-    
-                            {#if $formDataStore.email }
-    
-                                <span class="profile-info-label">E-mail:</span>
-    
-                            {/if}
-    
-                            <span class="profile-info-value">{ $formDataStore.email }</span>
-        
-                         </div>
-    
-                         <!---- Categorie protette ---->
-    
-                         <div>
-    
-                            {#if $formDataStore.isProtectedCategory }
-    
-                                <span class="profile-info-label">Categorie protette:</span>
-    
-                            {/if}
-    
-                            <span class="profile-info-value">{ $formDataStore.isProtectedCategory }</span>
-        
-                         </div>
-    
-
-
-                    </div>
-
-                </div>
-            
-                <div class="user-details-container">
-
-                    <!-- Profilo Personale -->
-
-                    <div>
-                        
-                        {#if $formDataStore.profileSummary }
-                        
-                            <div class="title-user-details-utility">PROFILO PERSONALE</div>
-                                                
-                        {/if}
-                                                
-                        <p class="">{ $formDataStore.profileSummary }</p>
-
-                    </div>
-    
-                    <!-- Competenze digitali -->
-
-                    <div>
-
-                        {#if $formDataStore.digitalSkills.some(digitalSkill => digitalSkill.skill !== "")}
-    
-                            <div class="title-user-details-utility">COMPETENZE DIGITALI</div>
-
-                        {/if}
-
-                         <div class="digital-skills-container">
-
-                            {#each $formDataStore.digitalSkills as digitalSkill(digitalSkill)}
-
-                                <div class="digital-skills">{digitalSkill.skill}</div>
-
-                                {#if digitalSkill.skill}
-                                    <div>:</div>
-                                {/if}
-                            
-                                {#if digitalSkill.skill}
-                                    <div class="digital-skill-levels">{digitalSkill.level}</div>
-                                {/if}
-                            
-                            {/each}
-
-                        </div>
-
-                    </div>
-
-                    <!-- Lingue -->
-
-                    <div>
-
-                        {#if $formDataStore.languagesSkills.some(selectedLanguage => selectedLanguage.lang !== "")}
-    
-                            <div class="title-user-details-utility">COMPETENZE LINGUISTICHE</div>
-    
-                        {/if}
-
-                        <div class="languages-container">
-
-                            {#each $formDataStore.languagesSkills as selectedLanguage(selectedLanguage)}
-
-                                <div class="language-skills">{selectedLanguage.lang}</div>
-
-                                {#if selectedLanguage.lang}
-                                    <div>:</div>
-                                {/if}
-                            
-                                {#if selectedLanguage.lang}
-                                    <div class="class= language-levels">{selectedLanguage.level}</div>
-                                {/if}
-                            
-                            {/each}
-
-                        </div>
-
-                    </div>
-                    
-                    <!-- Patente -->
-
-                    {#if $formDataStore.drivingLicences.length > 0 || $formDataStore.hasOwnCar  }
-
-                        <div class="title-user-details-utility text-center">PATENTE</div>
-
-                    {/if}
-
-                    <div class="text-center driving-licence-skills-container">
-
-                        {#if $formDataStore.drivingLicences.length > 0 }
-
-                            <span class="driving-licence-types"><i class="fa-solid fa-address-card"></i></span>
-                            
-                        {/if}
-
-                        <span>{ $formDataStore.drivingLicences }</span>
-
-                        <!---- Automunito ---->
-    
-                        <div>
-    
-                            {#if $formDataStore.hasOwnCar }
-    
-                                <span><i class="fa-solid fa-car"></i></span>
-                                <span>Automunito:</span>
-    
-                            {/if}
-                            
-                             <span>{ $formDataStore.hasOwnCar }</span>
+                                <span class="profile-info-value">{ $formDataStore.nationality }</span>
         
                             </div>
-
-                        </div>
-
-                    </div>
-
-            </div>
-
-            <div class="main-right-section">
-
-                <!-- Esperienza lavorativa -->
-
-                    <div>
-
-                        {#if $formDataStore.jobs.some(job => job.role !== "" || job.company !== "" || job.workExperienceResults !== "" || job.startDateWorkExperience !== "" || job.endDateWorkExperience !== "" )}
-
-                            <div class="work-experience-title-section">ESPERIENZE LAVORATIVE</div>
-
-                        {/if}
-
-                        <div class="user-work-experience-info">
-
-                            {#each $formDataStore.jobs as job, jobIndex}
-    
-                                <span class="role-info">{ job.role }</span>
-    
-                                {#if job.role}
-    
-                                    <span class="at-span">presso</span>
-    
-                                {/if}
-    
-                                <span class="company-detail">{ job.company }</span>
-    
-                                <div class="date-container">
-    
-                                    {#if job.startDateWorkExperience !== "" ||  job.endDateWorkExperience !== ""}
-    
-                                        <span class="date-info">({ formattedWorkAccademicDate(job.startDateWorkExperience) } - { formattedWorkAccademicDate(job.endDateWorkExperience) })</span>
-    
-                                    {/if}
-    
-                                </div>
-    
-                                <p class="results-info">{ job.workExperienceResults }</p>
-    
-                            {/each}
-
-                        </div>
-
-                        
-                    </div>
-
-                <!-- Formazione Accademica -->
-
-                    <div>
-
-                        {#if $formDataStore.educations.some(education => education.educationType !== "" || education.fieldOfStudy !== "" || 
-                        education.qualification.length > 0 || education.educationGoals !== "" || education.startDateAcademicEducation !== "" || 
-                        education.endDateAcademicEducation !== "" )}
-
-                            <div class="education-history-title-section py-2">FORMAZIONE ACCADEMICA</div>
-
-                        {/if}
-
-                        <div class="user-education-history-info">
-
-                            {#each $formDataStore.educations as education, educationIndex}
                             
-                                <span class="qualification-info">{ education.qualification }</span>
+                            <!---- Luogo di Nascita ---->
     
-                                {#if education.fieldOfStudy}
-                                
-                                    <span class="at-span">:</span>
-                                
+                            <div>
+    
+                                {#if $formDataStore.birthPlace }
+            
+                                    <span class="profile-info-label">Luogo di nascita:</span>
+                                    
                                 {/if}
-                            
-                                <span class="fieldOfStudy-detail">{ education.fieldOfStudy }</span>
-    
-                                {#if education.educationType}
-                                
-                                    <span class="at-span">presso</span>
-                                
-                                {/if}
-                            
-                                <span class="training-institution-detail">{ education.educationType }</span>
-    
-    
-                                <div class="date-container">
-    
-                                    {#if education.startDateAcademicEducation || education.endDateAcademicEducation }
-    
-                                        <span class="date-info">({ formattedWorkAccademicDate(education.startDateAcademicEducation) }  - { formattedWorkAccademicDate(education.endDateAcademicEducation) })</span>
-    
-                                    {/if}
-                
-                                </div>
-    
-                                <p class="goals-info">{ education.educationGoals }</p>
-    
-                            {/each}
-
-                        </div>
-     
-                    </div>
-
-            </div>
-    
-        </div>
+            
+                                <span class="profile-info-value">{ $formDataStore.birthPlace }</span>
         
-        {#if $isAllowed && $isPrivacyPolicyApproved }
-        <div class="privacy-policy-authorization">Autorizzo il trattamento dei dati personali contenuti nel mio curriculum vitae in base al D. Lgs. 196/2003 e al Regolamento UE 2016/679</div>
-        {/if}
-
-    </div>
-
-    <div class="toolbar">
+                            </div>
+        
+                            <!---- Data di Nascita ---->
+        
+                            <div>
+        
+                                {#if $formDataStore.birthDate }
+            
+                                    <span class="profile-info-label">Data di nascita:</span>
+                                        
+                                {/if}
+        
+                                <span class="profile-info-value">{ formattedBirtDate($formDataStore.birthDate) }</span>
+        
+                            </div>
+        
+                            <!---- Location ---->
+        
+                            <div>
+        
+                                {#if $formDataStore.address }
+        
+                                    <span class="profile-info-label">Residenza/Domicilio:</span>
+         
+                                {/if}
+        
+                                <span class="profile-info-value">{ $formDataStore.address }</span>
+        
+                            </div>
+        
+                             <!---- Phone ---->
+            
+                             <div>
+        
+                                {#if $formDataStore.phonePrefix  || $formDataStore.phone }
+        
+                                    <span class="profile-info-label">Cellulare:</span>
+        
+                                {/if}
+        
+                                <span class="profile-info-value">{ $formDataStore.phonePrefix }</span>
+                                <span class="profile-info-value">{ $formDataStore.phone }</span>
+                
+                            </div>
+        
+                            <!---- Email ---->
+        
+                            <div>
+        
+                                {#if $formDataStore.email }
+        
+                                    <span class="profile-info-label">E-mail:</span>
+        
+                                {/if}
+        
+                                <span class="profile-info-value">{ $formDataStore.email }</span>
+            
+                             </div>
+        
+                             <!---- Categorie protette ---->
+        
+                             <div>
+        
+                                {#if $formDataStore.isProtectedCategory }
+        
+                                    <span class="profile-info-label">Categorie protette:</span>
+        
+                                {/if}
+        
+                                <span class="profile-info-value">{ $formDataStore.isProtectedCategory }</span>
+            
+                             </div>
+        
     
-        <!---- Select Template Button ---->
     
-        <div>
+                        </div>
     
-            <button class="select-template-btn" on:click={showCvTemplates}>SCEGLI TEMPLATE</button>
+                    </div>
+                
+                    <div class="user-details-container">
     
+                        <!-- Profilo Personale -->
+    
+                        <div>
+                            
+                            {#if $formDataStore.profileSummary }
+                            
+                                <div class="title-user-details-utility">PROFILO PERSONALE</div>
+                                                    
+                            {/if}
+                                                    
+                            <p class="">{ $formDataStore.profileSummary }</p>
+    
+                        </div>
+        
+                        <!-- Competenze digitali -->
+    
+                        <div>
+    
+                            {#if $formDataStore.digitalSkills.some(digitalSkill => digitalSkill.skill !== "")}
+        
+                                <div class="title-user-details-utility">COMPETENZE DIGITALI</div>
+    
+                            {/if}
+    
+                             <div class="digital-skills-container">
+    
+                                {#each $formDataStore.digitalSkills as digitalSkill(digitalSkill)}
+    
+                                    <div class="digital-skills">{digitalSkill.skill}</div>
+    
+                                    {#if digitalSkill.skill}
+                                        <div>:</div>
+                                    {/if}
+                                
+                                    {#if digitalSkill.skill}
+                                        <div class="digital-skill-levels">{digitalSkill.level}</div>
+                                    {/if}
+                                
+                                {/each}
+    
+                            </div>
+    
+                        </div>
+    
+                        <!-- Lingue -->
+    
+                        <div>
+    
+                            {#if $formDataStore.languagesSkills.some(selectedLanguage => selectedLanguage.lang !== "")}
+        
+                                <div class="title-user-details-utility">COMPETENZE LINGUISTICHE</div>
+        
+                            {/if}
+    
+                            <div class="languages-container">
+    
+                                {#each $formDataStore.languagesSkills as selectedLanguage(selectedLanguage)}
+    
+                                    <div class="language-skills">{selectedLanguage.lang}</div>
+    
+                                    {#if selectedLanguage.lang}
+                                        <div>:</div>
+                                    {/if}
+                                
+                                    {#if selectedLanguage.lang}
+                                        <div class="class= language-levels">{selectedLanguage.level}</div>
+                                    {/if}
+                                
+                                {/each}
+    
+                            </div>
+    
+                        </div>
+                        
+                        <!-- Patente -->
+    
+                        {#if $formDataStore.drivingLicences.length > 0 || $formDataStore.hasOwnCar  }
+    
+                            <div class="title-user-details-utility text-center">PATENTE</div>
+    
+                        {/if}
+    
+                        <div class="text-center driving-licence-skills-container">
+    
+                            {#if $formDataStore.drivingLicences.length > 0 }
+    
+                                <span class="driving-licence-types"><i class="fa-solid fa-address-card"></i></span>
+                                
+                            {/if}
+    
+                            <span>{ $formDataStore.drivingLicences }</span>
+    
+                            <!---- Automunito ---->
+        
+                            <div>
+        
+                                {#if $formDataStore.hasOwnCar }
+        
+                                    <span><i class="fa-solid fa-car"></i></span>
+                                    <span>Automunito:</span>
+        
+                                {/if}
+                                
+                                 <span>{ $formDataStore.hasOwnCar }</span>
+            
+                                </div>
+    
+                            </div>
+    
+                        </div>
+    
+                </div>
+    
+                <div class="main-right-section">
+    
+                    <!-- Esperienza lavorativa -->
+    
+                        <div>
+    
+                            {#if $formDataStore.jobs.some(job => job.role !== "" || job.company !== "" || job.workExperienceResults !== "" || job.startDateWorkExperience !== "" || job.endDateWorkExperience !== "" )}
+    
+                                <div class="work-experience-title-section">ESPERIENZE LAVORATIVE</div>
+    
+                            {/if}
+    
+                            <div class="user-work-experience-info">
+    
+                                {#each $formDataStore.jobs as job, jobIndex}
+        
+                                    <span class="role-info">{ job.role }</span>
+        
+                                    {#if job.role}
+        
+                                        <span class="at-span">presso</span>
+        
+                                    {/if}
+        
+                                    <span class="company-detail">{ job.company }</span>
+        
+                                    <div class="date-container">
+        
+                                        {#if job.startDateWorkExperience !== "" ||  job.endDateWorkExperience !== ""}
+        
+                                            <span class="date-info">({ formattedWorkAccademicDate(job.startDateWorkExperience) } - { formattedWorkAccademicDate(job.endDateWorkExperience) })</span>
+        
+                                        {/if}
+        
+                                    </div>
+        
+                                    <p class="results-info">{ job.workExperienceResults }</p>
+        
+                                {/each}
+    
+                            </div>
+    
+                            
+                        </div>
+    
+                    <!-- Formazione Accademica -->
+    
+                        <div>
+    
+                            {#if $formDataStore.educations.some(education => education.educationType !== "" || education.fieldOfStudy !== "" || 
+                            education.qualification.length > 0 || education.educationGoals !== "" || education.startDateAcademicEducation !== "" || 
+                            education.endDateAcademicEducation !== "" )}
+    
+                                <div class="education-history-title-section py-2">FORMAZIONE ACCADEMICA</div>
+    
+                            {/if}
+    
+                            <div class="user-education-history-info">
+    
+                                {#each $formDataStore.educations as education, educationIndex}
+                                
+                                    <span class="qualification-info">{ education.qualification }</span>
+        
+                                    {#if education.fieldOfStudy}
+                                    
+                                        <span class="at-span">:</span>
+                                    
+                                    {/if}
+                                
+                                    <span class="fieldOfStudy-detail">{ education.fieldOfStudy }</span>
+        
+                                    {#if education.educationType}
+                                    
+                                        <span class="at-span">presso</span>
+                                    
+                                    {/if}
+                                
+                                    <span class="training-institution-detail">{ education.educationType }</span>
+        
+        
+                                    <div class="date-container">
+        
+                                        {#if education.startDateAcademicEducation || education.endDateAcademicEducation }
+        
+                                            <span class="date-info">({ formattedWorkAccademicDate(education.startDateAcademicEducation) }  - { formattedWorkAccademicDate(education.endDateAcademicEducation) })</span>
+        
+                                        {/if}
+                    
+                                    </div>
+        
+                                    <p class="goals-info">{ education.educationGoals }</p>
+        
+                                {/each}
+    
+                            </div>
+         
+                        </div>
+    
+                </div>
+        
+            </div>
+            
+            {#if $isAllowed && $isPrivacyPolicyApproved }
+            <div class="privacy-policy-authorization">Autorizzo il trattamento dei dati personali contenuti nel mio curriculum vitae in base al D. Lgs. 196/2003 e al Regolamento UE 2016/679</div>
+            {/if}
+    
+        </div>
+    
+        <div class="toolbar">
+        
+            <!---- Select Template Button ---->
+        
+            <div>
+        
+                <button class="select-template-btn" on:click={showCvTemplates}>SCEGLI TEMPLATE</button>
+        
+            </div>
+        
         </div>
     
     </div>
 
-       
 </div>
+
+
 
 <style>
 :root {
@@ -448,12 +463,25 @@ function showCvTemplates() {
     --company-date-info-font-weight:500;
 }
 #curriculum-content {
-    flex-direction: column;
+    display: flex;
     height: 100vh; 
     flex-basis: 65%;
     max-width: 100%;
     background: linear-gradient(180deg, rgba(96,100,112,1) 17%, rgba(50,54,67,1) 65%);
 }
+
+.cv-preview-container {
+    display: flex;
+    flex-direction: column;
+    flex-basis: 78%;
+    width: 90%;
+    max-width: 100%;
+    height: calc(100vh - 20%);
+    overflow-y: auto;
+    background-color: #f5feff;
+    padding: 2rem 1rem;
+}
+
 .toolbar {
     display: flex;
     justify-content: center;
@@ -462,17 +490,6 @@ function showCvTemplates() {
     flex-basis: 10%;
     width: 100%;
     max-width: 100%;
-}
-.cv-preview-container {
-    display: flex;
-    flex-direction: column;
-    flex-basis: 80%;
-    width: 80%;
-    height: calc(100vh - 20%);
-    max-width: 100%;
-    overflow-y: auto;
-    background-color: #f5feff;
-    padding: 2rem 1rem;
 }
 
 .cv-preview-container::-webkit-scrollbar {
@@ -492,6 +509,9 @@ function showCvTemplates() {
   background: hsl(187, 100%, 98%);
 }
 
+.flex-direction-column-utility {
+    flex-direction: column;
+}
 .flex-center-utility {
     display: flex;
     justify-content: center; 
@@ -659,7 +679,7 @@ function showCvTemplates() {
   text-decoration: none;
   font-weight: bold;
   color: #fff;
-  background-color: #ef7e56;
+  background-color: #f64f12;
   border: none;
   border-radius: 10px;
   cursor: pointer;
@@ -668,7 +688,7 @@ function showCvTemplates() {
 
 .select-template-btn:hover  {
   transform: translateY(-5px);
-  background-color: #ff5e3a;
+  background-color: #fe2f00;
 }
 
 </style>
