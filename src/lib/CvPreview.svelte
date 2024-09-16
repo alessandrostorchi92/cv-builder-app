@@ -13,24 +13,16 @@ function formattedWorkAccademicDate(date: string) : string {
     const [year, month] = date.split('-');
     return `${month}/${year}`;
 }
+
+function showCvTemplates() {
+    
+}
   
 </script>
 
 
 <div id="curriculum-content" class="flex-center-utility">
-    
-    <div class="toolbar">
-    
-        <!---- Select Template Button ---->
-    
-        <div>
-    
-            <button class="select-template-btn">SCEGLI TEMPLATE</button>
-    
-        </div>
-    
-    </div>
-
+  
     <div class="cv-preview-container">
 
         <div class="cv-header-container">
@@ -214,7 +206,7 @@ function formattedWorkAccademicDate(date: string) : string {
 
                         {/if}
 
-                        <div class="digital-skills-container">
+                         <div class="digital-skills-container">
 
                             {#each $formDataStore.digitalSkills as digitalSkill(digitalSkill)}
 
@@ -411,11 +403,22 @@ function formattedWorkAccademicDate(date: string) : string {
 
     </div>
 
+    <div class="toolbar">
+    
+        <!---- Select Template Button ---->
+    
+        <div>
+    
+            <button class="select-template-btn" on:click={showCvTemplates}>SCEGLI TEMPLATE</button>
+    
+        </div>
+    
+    </div>
+
        
 </div>
 
 <style>
-
 :root {
     --user-height-profile-picture: 200px;
     --user-width-profile-picture: 200px;
@@ -453,10 +456,10 @@ function formattedWorkAccademicDate(date: string) : string {
 }
 .toolbar {
     display: flex;
-    justify-content: space-evenly;
-    align-items: center;
+    justify-content: center;
+    align-items: flex-end;
     flex-shrink: 0;
-    flex-basis: 20%;
+    flex-basis: 10%;
     width: 100%;
     max-width: 100%;
 }
@@ -465,6 +468,7 @@ function formattedWorkAccademicDate(date: string) : string {
     flex-direction: column;
     flex-basis: 80%;
     width: 80%;
+    height: calc(100vh - 20%);
     max-width: 100%;
     overflow-y: auto;
     background-color: #f5feff;
@@ -490,7 +494,7 @@ function formattedWorkAccademicDate(date: string) : string {
 
 .flex-center-utility {
     display: flex;
-    justify-content: center;
+    justify-content: center; 
     align-items: center;
 }
 
@@ -584,6 +588,7 @@ function formattedWorkAccademicDate(date: string) : string {
   font-size: var(--profile-info-value-font-size);
   font-weight: var(--profile-info-value-font-weight);
 }
+
 .digital-skills-container, .languages-container {
     display: flex;
     justify-content: center;
@@ -662,7 +667,7 @@ function formattedWorkAccademicDate(date: string) : string {
 }
 
 .select-template-btn:hover  {
-  transform: translateY(-2px);
+  transform: translateY(-5px);
   background-color: #ff5e3a;
 }
 
