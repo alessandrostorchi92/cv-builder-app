@@ -431,8 +431,6 @@ function hidePopup() {
 
 </div>
 
-
-
 <style>
 :root {
     --user-height-profile-picture: 200px;
