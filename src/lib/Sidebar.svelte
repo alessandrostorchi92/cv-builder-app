@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { formDataStore, isAllowed, isPrivacyPolicyApproved, clearLocalStorage } from "../stores/form_store";
+  import { formDataStore, isAllowed, isPrivacyPolicyApproved } from "../stores/form_store";
   import * as validators from "../validators/form_validation";
   import { onMount } from "svelte";
 
@@ -1716,7 +1716,7 @@
     text-decoration: none;
     font-weight: bold;
     color: #fff;
-    background-color: #ff5e3a;
+    background-color: #007bff;
     border: none;
     border-radius: 10px;
     cursor: pointer;
@@ -1725,7 +1725,7 @@
 
   .download-btn:hover {
     transform: translateY(-2px);
-    background-color: #e74c3c;
+    background-color: #0056b3;
   }
 
   .download-btn:disabled {

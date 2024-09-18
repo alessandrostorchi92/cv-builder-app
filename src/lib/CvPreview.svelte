@@ -3,8 +3,6 @@
 import { formDataStore, isAllowed, isPrivacyPolicyApproved } from '../stores/form_store';
 import PopupTemplate from "$lib/PopupTemplate.svelte";
 
-let showPopup: boolean = false;
-
 function formattedBirtDate(date: string) : string {
     if (!date) return '';
     const [year, month, day] = date.split('-');
@@ -17,11 +15,13 @@ function formattedWorkAccademicDate(date: string) : string {
     return `${month}/${year}`;
 }
 
+let showPopup: boolean = false;
+
 function showCvTemplates() {
-     showPopup = true;
+    showPopup = true;
 }
 
-function hidePopup() {
+function hideCvTemplates() {
     showPopup = false;
 }
   
@@ -30,10 +30,10 @@ function hidePopup() {
 <div id="curriculum-content">
 
     {#if showPopup}
-    <PopupTemplate on:hideCvTemplates={hidePopup}></PopupTemplate>
+    <PopupTemplate on:hideCvTemplates={hideCvTemplates}></PopupTemplate>
     {/if}
 
-    <div class="flex-center-utility flex-direction-column-utility">
+    <div class="d-flex align-items-center flex-direction-column-utility">
     
         <div class="cv-preview-container">
     
@@ -415,7 +415,7 @@ function hidePopup() {
     
         </div>
     
-        <div class="toolbar">
+        <div class="toolbar flex-center-utility">
         
             <!---- Select Template Button ---->
         
@@ -471,21 +471,19 @@ function hidePopup() {
 .cv-preview-container {
     display: flex;
     flex-direction: column;
-    flex-basis: 78%;
+    flex-basis: 85%;
     width: 90%;
     max-width: 100%;
     height: calc(100vh - 20%);
     overflow-y: auto;
     background-color: #f5feff;
     padding: 2rem 1rem;
+    margin-top: 2rem;
 }
 
 .toolbar {
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
     flex-shrink: 0;
-    flex-basis: 10%;
+    flex-basis: 15%;
     width: 100%;
     max-width: 100%;
 }
@@ -677,7 +675,7 @@ function hidePopup() {
   text-decoration: none;
   font-weight: bold;
   color: #fff;
-  background-color: #f64f12;
+  background-color: #007bff;
   border: none;
   border-radius: 10px;
   cursor: pointer;
@@ -686,7 +684,7 @@ function hidePopup() {
 
 .select-template-btn:hover  {
   transform: translateY(-5px);
-  background-color: #fe2f00;
+  background-color: #0056b3;
 }
 
 </style>

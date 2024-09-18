@@ -18,11 +18,12 @@
             <button class="close-btn" on:click={hideCvTemplates}><i class="fa-solid fa-xmark"></i></button>
         </div>
 
-        <div class="cv-template-examples-gallery">
+        <div class="cv-template-gallery">
            
             {#each cvTemplateExamples as cvTemplateExample}
                 <div class="cv-template-item">
                     <img src="{cvTemplateExample}" alt="Esempio Template Curriculum Vitae">
+                    <button class="use-template-btn">USA TEMPLATE</button>
                 </div>
             {/each}
             
@@ -65,40 +66,72 @@
         color: white;
         font-size: 1.5rem;
     }
-    .cv-template-examples-gallery {
+    .cv-template-gallery {
         display: flex;
         flex-direction: column;
         align-items: center;
         padding: 2rem 1rem;
-        gap: 2rem;
+        gap: 4rem;
         width: 100%;
     }
 
     .cv-template-item {
-        
         width: 100%;
         aspect-ratio: 2/3;
+        position: relative;
     }
 
     .cv-template-item img {
         width: 100%;
         height: 100%;
         object-fit: cover;
-        transition: scale 350ms ease, opacity 350ms linear;
+        transition: transform 700ms, opacity 350ms;
     } 
 
-    .cv-template-examples-gallery:has(img:hover) {
+    .cv-template-item:has(img:hover) {
         cursor:pointer;
     }
 
-    .cv-template-examples-gallery:has(img:hover) img:not(:hover) {
-        scale: 0.8;
+    .cv-template-gallery:has(.cv-template-item:hover) .cv-template-item:not(:hover) {
+        transform: scale(0.7);
         opacity: 0.6;
     }
-        
 
-   
-   
+    .use-template-btn {
+        display: none;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 150px;
+        margin-top: 0.2rem;
+        border: none;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        font-weight: 600;
+        border-radius: 8px;
+        padding: 0.5rem;
+        background-color: #007bff;
+        color: white;
+        cursor: pointer;
+        box-shadow:
+            0.7px 0.5px 2.3px rgba(0, 0, 0, 0.05),
+            1.7px 1.3px 5.8px rgba(0, 0, 0, 0.071),
+            3.5px 2.7px 11.9px rgba(0, 0, 0, 0.089),
+            7.3px 5.5px 24.5px rgba(0, 0, 0, 0.11),
+            20px 15px 67px rgba(0, 0, 0, 0.16)
+            ;
+        transition:background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .use-template-btn:hover {
+        background-color: #0056b3;
+    }
+
+    .cv-template-item:hover .use-template-btn {
+        display: block;
+    }
+
     .popup-content::-webkit-scrollbar {
         width: 0.3rem;
     }
