@@ -73,6 +73,7 @@ export function clearLocalStorage() {
 
 export let isAllowed: formTypes.isAllowed = writable(false);
 export let isPrivacyPolicyApproved: formTypes.isAllowed = writable(false);
+export let showPopup: formTypes.showPopup = writable(false);
 
 
 

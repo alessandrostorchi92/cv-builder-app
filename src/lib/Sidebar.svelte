@@ -947,8 +947,9 @@
           <button
             type="button"
             class="btn-add-style"
+            aria-label="Aggiungi competenza"
             on:click={() => addDigitalSkills()}
-            ><span>Aggiungi competenza</span><i class="fa-solid fa-plus ms-2"></i>
+            ><span>Aggiungi Competenza</span><i class="fa-solid fa-plus ms-2"></i>
           </button>
         </div>
 
@@ -1030,6 +1031,7 @@
             <button
               type="button"
               class="btn-add-style"
+              aria-label="Aggiungi lingua"
               on:click={() => addLanguage()}
               disabled={disableAddLanguageButton}>
               <span>Aggiungi Lingua</span>
@@ -1230,6 +1232,7 @@
           <button
             type="button"
             class="btn-add-style"
+            aria-label="Aggiungi lavoro"
             on:click={() => addWorkExperience()}
             ><span>Aggiungi Lavoro</span><i class="fa-solid fa-plus ms-2"></i></button
           >
@@ -1407,6 +1410,7 @@
             <button
               type="button"
               class="btn-add-style"
+              aria-label="Aggiungi Formazione"
               on:click={() => addAcademicEducation()}
               ><span>Aggiungi Formazione</span><i class="fa-solid fa-plus ms-2"></i></button
             >
@@ -1467,8 +1471,8 @@
     </div>
   
     <div class="flex-center-utility gap-4 py-3">
-      <button class="btn-remove-style btn-signature" name="cancBtn" on:click={clearSignatureDrawing}>Cancella</button>
-      <button class="btn-add-style btn-signature" name="authBtn" disabled={!isSigned || !$isPrivacyPolicyApproved} on:click={handleSignatureAuthorization}>Autorizza</button>
+      <button class="btn-remove-style btn-signature" name="cancBtn" aria-label="Cancella Firma" on:click={clearSignatureDrawing}>Cancella</button>
+      <button class="btn-add-style btn-signature" name="authBtn" aria-label="Autorizza Firma" disabled={!isSigned || !$isPrivacyPolicyApproved} on:click={handleSignatureAuthorization}>Autorizza</button>
     </div>
 
     <div class="text-center px-5">
@@ -1481,7 +1485,7 @@
    <!---- Download Button ---->
     
    <div class="mt-5">
-    <button class="download-btn" on:click={checkCvPreview} disabled={!$isAllowed || !$isPrivacyPolicyApproved}>SCARICA CV <i class="fa-solid fa-download"></i></button>
+    <button class="download-btn" aria-label="Scarica Curriculum Vitae" on:click={checkCvPreview} disabled={!$isAllowed || !$isPrivacyPolicyApproved}>SCARICA CV <i class="fa-solid fa-download"></i></button>
   </div>
   
 </div>

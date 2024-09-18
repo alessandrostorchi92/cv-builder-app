@@ -47,6 +47,8 @@
     
     export type isAllowed = Writable<boolean>;
     export type isPrivacyPolicyApproved = Writable<boolean>;
+    export type showPopup = Writable<boolean>;
+    
    
 
     

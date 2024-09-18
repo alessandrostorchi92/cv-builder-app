@@ -1,36 +1,44 @@
 <script lang="ts">
 
-    import { createEventDispatcher } from 'svelte';
+    import { createEventDispatcher, onMount } from 'svelte';
+    import { fade } from 'svelte/transition';
+
     const dispatch = createEventDispatcher();
 
     function hideCvTemplates() {
-        dispatch('hideCvTemplates')
+        dispatch('hideCvTemplates');
     }
 
     const cvTemplateExamples = ["cv-example1.png", "cv-example2.png", "cv-example3.png"];
 
+    let showCvTemplates = false;
+
+    onMount(()=>{
+        setTimeout(()=>{
+            showCvTemplates=true;
+        }, 500)
+    })
+
 </script>
 
-<div class="popup-overlay">
-    <div class="popup-content">
+    <div class="popup-overlay">
+        <div class="popup-content">
 
-        <div class="close-btn-container">
-            <button class="close-btn" on:click={hideCvTemplates}><i class="fa-solid fa-xmark"></i></button>
+            <div class="close-btn-container">
+                <button class="close-btn" aria-label="Chiudi Popup" on:click={hideCvTemplates}><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <div class="cv-template-gallery">
+                {#each cvTemplateExamples as cvTemplateExample, templateIndex}
+                    <div class="cv-template-item" in:fade={{ delay: templateIndex * 200, duration: 500 }} hidden={!showCvTemplates}>
+                        <img src="{cvTemplateExample}" alt="Esempio Template Curriculum Vitae">
+                        <button class="use-template-btn" aria-label="Usa Template">USA TEMPLATE</button>
+                    </div>
+                {/each}
+            </div>
+
         </div>
-
-        <div class="cv-template-gallery">
-           
-            {#each cvTemplateExamples as cvTemplateExample}
-                <div class="cv-template-item">
-                    <img src="{cvTemplateExample}" alt="Esempio Template Curriculum Vitae">
-                    <button class="use-template-btn">USA TEMPLATE</button>
-                </div>
-            {/each}
-            
-        </div>
-
     </div>
-</div>
 
 <style>
     .popup-overlay {
@@ -71,7 +79,7 @@
         flex-direction: column;
         align-items: center;
         padding: 2rem 1rem;
-        gap: 4rem;
+        gap: 3rem;
         width: 100%;
     }
 

@@ -421,7 +421,7 @@ function hideCvTemplates() {
         
             <div>
         
-                <button class="select-template-btn" on:click={showCvTemplates}>SCEGLI TEMPLATE</button>
+                <button class="select-template-btn" on:click={showCvTemplates} aria-label="Scegli Template">SCEGLI TEMPLATE</button>
         
             </div>
         
