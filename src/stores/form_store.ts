@@ -45,25 +45,64 @@ export const formDataStore = writable(userFormData);
 // Salvo i dati nel localStorage
 
 export function storeUserData(storeData: formTypes.FormData) {
-  if (typeof window !== "undefined" && typeof localStorage !== "undefined") {
-    localStorage.setItem("formData", JSON.stringify(storeData));
+
+  try {
+    if (typeof window !== "undefined" && typeof localStorage !== "undefined") {
+      localStorage.setItem("formData", JSON.stringify(storeData));
+    }
+  } catch (error) {
+    console.error("Il salvataggio dei dati nel localStorage non è andato a buon fine", error);
   }
+
 }
 
 // Recupero i dati dal localStorage
 
-if (typeof window !== "undefined" && typeof localStorage !== "undefined") {
-  const savedStoreData = localStorage.getItem("formData");
+export function getStoreUserData() {
 
-  if (savedStoreData) {
-    userFormData = JSON.parse(savedStoreData);
-    formDataStore.set(userFormData);
+  try {
+
+    if (typeof window !== "undefined" && typeof localStorage !== "undefined") {
+
+      const savedStoreData = localStorage.getItem("formData");
+
+      if (savedStoreData) {
+        userFormData = JSON.parse(savedStoreData);
+        formDataStore.set(userFormData);
+      }
+
+    }
+
+  } catch(error) {
+    console.error("Il recupero dei dati dal localStorage non è andato a buon fine", error);
   }
+
 }
 
-formDataStore.subscribe((currentUserFormData) => {
-    storeUserData(currentUserFormData);
-});
+// Aggiornamento dei dati salvati ne localStorage
+
+export function updateStoreUserData() {
+
+  try {
+
+    if (typeof window !== "undefined" && typeof localStorage !== "undefined") { 
+
+      const unsubscribe = formDataStore.subscribe((currentUserFormData) => {
+          storeUserData(currentUserFormData); 
+         
+      });
+
+      return unsubscribe;
+      
+    }
+
+  } catch(error) {
+    console.error("L'aggiornamento dei dati del localStorage non è andato a buon fine", error);
+  }
+
+}
+
+// Eliminazione dei dati del localStorage
 
 export function clearLocalStorage() {
   if (typeof window !== "undefined" && typeof localStorage !== "undefined") {
@@ -73,7 +112,3 @@ export function clearLocalStorage() {
 
 export let isAllowed: formTypes.isAllowed = writable(false);
 export let isPrivacyPolicyApproved: formTypes.isAllowed = writable(false);
-export let showPopup: formTypes.showPopup = writable(false);
-
-
-

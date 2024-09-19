@@ -1,6 +1,7 @@
 <script lang="ts">
-
-    import { createEventDispatcher, onMount } from 'svelte';
+    
+    import { onMount } from 'svelte';
+    import { createEventDispatcher } from 'svelte';
     import { fade } from 'svelte/transition';
 
     const dispatch = createEventDispatcher();
@@ -16,7 +17,7 @@
     onMount(()=>{
         setTimeout(()=>{
             showCvTemplates=true;
-        }, 500)
+        }, 400)
     })
 
 </script>

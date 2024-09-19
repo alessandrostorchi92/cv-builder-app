@@ -1254,7 +1254,7 @@
               <div class="input-group">
                 <select
                   class="form-select"
-                  style="width: {educationIndex > 0 ? '40%' : '50%'};"
+                  style="width: 50%;"
                   id="selectQualification{educationIndex}"
                   aria-label="QualificationSelect"
                   name="qualification"
@@ -1274,7 +1274,7 @@
                 <input
                   type="text"
                   class="form-control"
-                  style="width: {educationIndex > 0 ? '40%' : '50%'};"
+                  style="width: 50%;"
                   id="textInputFieldOfStudy{educationIndex}"
                   name="fieldOfStudy"
                   autocomplete="off"
@@ -1285,7 +1285,7 @@
                 />
     
                 <div class="visual-feedback-group-container" style="width: 100%;">
-                  <div class="left-visual-feedback-position" style="width: {educationIndex > 0 ? '40%' : '50%'};">
+                  <div class="left-visual-feedback-position" style="width: 50%};">
                     <div
                       class="success-user-data"
                       id="success-qualification-message{educationIndex}"
@@ -1295,7 +1295,7 @@
                       id="error-qualification-message{educationIndex}"
                     ></div>
                   </div>
-                  <div class="right-visual-feedback-position" style="width: {educationIndex > 0 ? '40%' : '50%'};">
+                  <div class="right-visual-feedback-position" style="width: 50%};">
                     <div
                       class="success-user-data"
                       id="success-field-study-message{educationIndex}"
