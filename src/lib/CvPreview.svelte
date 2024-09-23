@@ -1,8 +1,13 @@
 <script lang="ts">
 
-    import { onMount, onDestroy } from 'svelte';
+    import PopupTemplates from "$lib/popupTemplates.svelte";
+
+    import CvTemplate1 from "$lib/CvTemplate1.svelte";
+    import CvTemplate2 from "$lib/CvTemplate2.svelte";
+    import CvTemplate3 from "$lib/CvTemplate3.svelte";
+
     import {formDataStore, getStoreUserData, updateStoreUserData, isAllowed, isPrivacyPolicyApproved} from '../stores/form_store';
-    import PopupTemplate from "$lib/PopupTemplate.svelte";
+    import { onMount, onDestroy } from 'svelte';
 
     function formattedBirtDate(date: string) : string {
         if (!date) return '';
@@ -16,15 +21,21 @@
         return `${month}/${year}`;
     }
 
-    let showPopup: boolean = false;
+    let showPopup: boolean = false; 
     let unsubscribe: (() => void) | undefined;
+    let selectedCvTemplate: string = "";
 
-    function showCvTemplates() {
+    function showCvTemplates(): void {
         showPopup = true;
     }
 
-    function hideCvTemplates() {
+    function hideCvTemplates(): void {
         showPopup = false;
+    }
+
+    function displaySelectedCvTemplates(event: CustomEvent): void {
+        selectedCvTemplate = event.detail.templateName;
+        // console.log('Template selezionato:', selectedCvTemplate);
     }
 
     onMount(()=>{
@@ -44,13 +55,25 @@
 <div id="curriculum-content">
 
     {#if showPopup}
-        <PopupTemplate on:hideCvTemplates={hideCvTemplates}></PopupTemplate>
+        <PopupTemplates on:hideCvTemplates={hideCvTemplates} on:setClickedCvTemplate={displaySelectedCvTemplates}></PopupTemplates>
     {/if}
 
-    <div class="d-flex align-items-center flex-direction-column-utility w-100">
+    <div class="d-flex align-items-center flex-direction-column-utility flex-grow-1 w-100">
     
         <div class="cv-preview-container">
-           
+
+            {#if selectedCvTemplate === "cv-template1.png"}
+                <CvTemplate1></CvTemplate1>
+            {/if}
+
+            {#if selectedCvTemplate === "cv-template2.png"}
+                <CvTemplate2></CvTemplate2>
+            {/if}
+
+            {#if selectedCvTemplate === "cv-template3.png"}
+                <CvTemplate3></CvTemplate3>
+            {/if}
+
             <div class="cv-header-container">
         
                     <div class="header-left-section flex-center-utility">
@@ -485,7 +508,8 @@
 .cv-preview-container {
     display: flex;
     flex-direction: column;
-    flex-basis: 85%;
+    align-items:center;
+    flex-basis: 80%;
     width: 90%;
     max-width: 100%;
     height: calc(100vh - 20%);
@@ -532,6 +556,8 @@
 .cv-header-container, .cv-main-container {
     display: flex;
     padding: 1rem 0;
+    width: 100%;
+    max-width: 100%;
 }
 
 .cv-header-container {
@@ -540,8 +566,8 @@
 }
 
 .cv-main-container {
-    display: flex;
     flex-basis: 80%;
+    flex-grow: 0;
 }
 
 .main-left-section {
@@ -559,6 +585,7 @@
 .main-right-section {
     flex-basis: 60%;
     max-width: 100%;
+    flex-grow: 0;
     overflow: hidden;
     overflow-wrap: break-word; 
 }
@@ -566,13 +593,15 @@
 .header-right-section {
     flex-basis: 60%;
     max-width: 100%;
+    flex-grow: 0;
     overflow: hidden;
     padding: 0 1rem;  
 }
 
 .header-left-section {
-    flex-shrink: 0;
     flex-basis: 40%;
+    max-width: 100%;
+    flex-shrink: 0;
     overflow: hidden;
     padding: 0 1rem;  
 }

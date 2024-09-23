@@ -1,19 +1,27 @@
 <script lang="ts">
-    
-    import { onMount } from 'svelte';
-    import { createEventDispatcher } from 'svelte';
-    import { fade } from 'svelte/transition';
 
+    import { onMount } from 'svelte';
+    import { fade } from 'svelte/transition';
+    
+    import { createEventDispatcher } from 'svelte';
     const dispatch = createEventDispatcher();
+
+    const cvTemplates = [
+        { name: "cv-template1.png" },
+        { name: "cv-template2.png" },
+        { name: "cv-template3.png" }
+    ];
+
+    let showCvTemplates = false;
 
     function hideCvTemplates() {
         dispatch('hideCvTemplates');
     }
 
-    const cvTemplateExamples = ["cv-example1.png", "cv-example2.png", "cv-example3.png"];
-
-    let showCvTemplates = false;
-
+    function setClickedCvTemplate(templateName: string) {
+        dispatch('setClickedCvTemplate', { templateName });    
+    }
+    
     onMount(()=>{
         setTimeout(()=>{
             showCvTemplates=true;
@@ -22,38 +30,43 @@
 
 </script>
 
-    <div class="popup-overlay">
-        <div class="popup-content">
+<div class="popup-overlay">
+    <div class="popup-content">
 
-            <div class="close-btn-container">
-                <button class="close-btn" aria-label="Chiudi Popup" on:click={hideCvTemplates}><i class="fa-solid fa-xmark"></i></button>
-            </div>
-
-            <div class="cv-template-gallery">
-                {#each cvTemplateExamples as cvTemplateExample, templateIndex}
-                    <div class="cv-template-item" in:fade={{ delay: templateIndex * 200, duration: 500 }} hidden={!showCvTemplates}>
-                        <img src="{cvTemplateExample}" alt="Esempio Template Curriculum Vitae">
-                        <button class="use-template-btn" aria-label="Usa Template">USA TEMPLATE</button>
-                    </div>
-                {/each}
-            </div>
-
+        <div class="close-btn-container">
+            <button class="close-btn" aria-label="Chiudi Popup" on:click={hideCvTemplates}><i class="fa-solid fa-xmark"></i></button>
         </div>
+
+        <div class="cv-template-gallery">
+
+            {#each cvTemplates as cvTemplate, cvTemplateIndex}
+                <div class="cv-template-item" in:fade={{ delay: cvTemplateIndex * 200, duration: 500 }} hidden={!showCvTemplates}>
+                    <img src="{cvTemplate.name}" alt="Esempio Template Curriculum Vitae">
+                    <button class="use-template-btn" aria-label="Usa Template" on:click={() => setClickedCvTemplate(cvTemplate.name)}>USA TEMPLATE</button>
+                </div>
+            {/each}
+              
+        </div>
+
     </div>
+</div>
 
 <style>
+
     .popup-overlay {
         display: flex;
         justify-content: flex-end;
-        flex-basis: 22%;
+        flex-basis: 20%;
         flex-shrink: 0;
         height: 100%;
         background-color: rgba(0, 0, 0, 0.3); 
         padding: 1rem;
     }
+
     .popup-content {
         overflow-y: auto;
     }
+
     .close-btn-container {
         display: flex;
         justify-content: end;
@@ -71,10 +84,12 @@
         justify-content: center;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     }
+
     i {
         color: white;
         font-size: 1.5rem;
     }
+
     .cv-template-gallery {
         display: flex;
         flex-direction: column;
@@ -85,7 +100,6 @@
     }
 
     .cv-template-item {
-        width: 100%;
         aspect-ratio: 2/3;
         position: relative;
     }
@@ -97,7 +111,7 @@
         transition: transform 700ms, opacity 350ms;
     } 
 
-    .cv-template-item:has(img:hover) {
+    .cv-template-item:hover {
         cursor:pointer;
     }
 
@@ -144,13 +158,16 @@
     .popup-content::-webkit-scrollbar {
         width: 0.3rem;
     }
+
     .popup-content::-webkit-scrollbar-track {
         border-radius: 100vw;
     }
+
     .popup-content::-webkit-scrollbar-thumb {
         background: hsl(196, 72%, 86%);
         border-radius: 100vw;
     }
+    
     .popup-content::-webkit-scrollbar-track-piece {
         background: hsl(187, 100%, 98%);
     }

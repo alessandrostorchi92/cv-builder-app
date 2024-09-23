@@ -1,7 +1,7 @@
 <script lang="ts">
 
-import CvPreview from "$lib/CvPreview.svelte";
-import Sidebar from "$lib/Sidebar.svelte";
+import CvPreview from "$lib/cvPreview.svelte";
+import Sidebar from "$lib/sidebar.svelte";
 import "../app.css";
 
 </script>
