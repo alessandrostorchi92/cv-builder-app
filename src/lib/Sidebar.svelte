@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { formDataStore, isAllowed, isPrivacyPolicyApproved } from "../stores/form_store";
+  import { formDataStore, isAllowed, isPrivacyPolicyApproved, clearLocalStorage } from "../stores/form_store";
   import * as validators from "../validators/form_validation";
   import { onMount } from "svelte";
 
@@ -304,6 +304,7 @@
 
   let canvas: HTMLCanvasElement;
   let isDrawing: boolean = false;
+  let points: string[] = [];
   let isSigned: boolean = false;
   let ctx: CanvasRenderingContext2D | null = null;
 
@@ -350,6 +351,8 @@
       ctx.moveTo(positionX, positionY);
     }
 
+    points.push(`M${positionX},${positionY}`);
+
   }
 
   function handlePointerMove(event: PointerEvent): void {
@@ -359,12 +362,25 @@
     ctx?.lineTo(positionX, positionY);
     ctx?.stroke();
 
+    points.push(`L${positionX},${positionY}`);
+
     isSigned = true;
 
   }
 
   function handlePointerUp(event: PointerEvent): void {
     isDrawing = false;
+
+    const pathData = points.join(" ");
+
+    const svg = `
+    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="${canvas.width}" height="${canvas.height}">
+      <path d="${pathData}" stroke="black" fill="none" stroke-width="2"/>
+    </svg>`;
+
+    $formDataStore.userSignature = svg;
+
+    points = [];
 
   }
 
@@ -381,6 +397,7 @@
     isSigned = true; 
     isAllowed.set(true);
     validators.checkClickAuthBtn();
+  
   }
 
   function isProfilePictureUploaded(): void {
@@ -520,9 +537,9 @@
       formDataStore.set(JSON.parse(savedStoreData));
     }
 
-    // window.addEventListener('unload', () => {
-    //   clearLocalStorage();
-    // });
+    window.addEventListener('unload', () => {
+      clearLocalStorage();
+    });
 
     if(canvas) {
       
@@ -1491,6 +1508,7 @@
 </div>
 
 <style>
+  
   #sidebar {
     flex-direction: column;
     height: 100%;

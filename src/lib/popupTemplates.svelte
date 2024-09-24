@@ -12,14 +12,15 @@
         { name: "cv-template3.png" }
     ];
 
-    let showCvTemplates = false;
+    let showCvTemplates: boolean = false;
 
     function hideCvTemplates() {
         dispatch('hideCvTemplates');
     }
 
     function setClickedCvTemplate(templateName: string) {
-        dispatch('setClickedCvTemplate', { templateName });    
+        dispatch('setClickedCvTemplate', { templateName });
+        hideCvTemplates();   
     }
     
     onMount(()=>{

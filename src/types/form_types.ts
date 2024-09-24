@@ -21,7 +21,8 @@
         drivingLicences: string[],
         hasOwnCar: string,       
         jobs: WorkHistory[],
-        educations: AcademicHistory[],  
+        educations: AcademicHistory[],
+        userSignature: string;  
     }
 
 

@@ -38,6 +38,9 @@ let userFormData: formTypes.FormData = {
       endDateAcademicEducation: "",
     },
   ],
+
+  userSignature: "",
+  
 };
 
 export const formDataStore = writable(userFormData);
