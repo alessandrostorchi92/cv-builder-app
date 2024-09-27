@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { formDataStore, isAllowed, isPrivacyPolicyApproved, clearLocalStorage } from "../stores/form_store";
+  import { formDataStore, isAllowed, isPrivacyPolicyApproved } from "../stores/form_store";
   import * as validators from "../validators/form_validation";
   import { onMount } from "svelte";
 
@@ -371,22 +371,29 @@
   function handlePointerUp(event: PointerEvent): void {
     isDrawing = false;
 
+    if (points.length === 0) return;
+
     const pathData = points.join(" ");
 
-    const svg = `
-    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="${canvas.width}" height="${canvas.height}">
-      <path d="${pathData}" stroke="black" fill="none" stroke-width="2"/>
-    </svg>`;
+    const scaleFactor = 0.2;
 
-    $formDataStore.userSignature = svg;
+    const originalWidth = canvas.width;
+    const originalHeight = canvas.height;
 
-    points = [];
+    const newWidth = originalWidth * scaleFactor;
+    const newHeight = originalHeight * scaleFactor;
+
+    let svgSignature = `<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="${newWidth}" height="${newHeight}" viewBox="0 0 ${originalWidth} ${originalHeight}">
+    <path d="${pathData}" stroke="black" fill="none" stroke-width="4"/></svg>`;
+
+    $formDataStore.userSignature = svgSignature;
 
   }
 
   function clearSignatureDrawing(): void {
     if (ctx) {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+      points = []; 
       isSigned = false;
       isAllowed.set(false);
       validators.checkClickCancBtn();
@@ -537,9 +544,9 @@
       formDataStore.set(JSON.parse(savedStoreData));
     }
 
-    window.addEventListener('unload', () => {
-      clearLocalStorage();
-    });
+    // window.addEventListener('unload', () => {
+    //   clearLocalStorage();
+    // });
 
     if(canvas) {
       
@@ -1479,7 +1486,7 @@
     <div class="flex-center-utility">
       <canvas id="userSignature" 
               class="signature-pad-style" 
-              bind:this={canvas}  
+              bind:this={canvas} 
               on:pointerdown={handlePointerDown} 
               on:pointermove={handlePointerMove}
               on:pointerup = {handlePointerUp}
@@ -1503,7 +1510,13 @@
     
    <div class="mt-5">
     <button class="download-btn" aria-label="Scarica Curriculum Vitae" on:click={checkCvPreview} disabled={!$isAllowed || !$isPrivacyPolicyApproved}>SCARICA CV <i class="fa-solid fa-download"></i></button>
+    <!-- {#if $formDataStore.userSignature}
+      <div class="resized-svg-signature">
+        {@html $formDataStore.userSignature}
+      </div>
+    {/if} -->
   </div>
+
   
 </div>
 
@@ -1754,6 +1767,10 @@
     color: #BDBDBD;
     background-color: white; 
     cursor: not-allowed; 
-} 
+  }
+/* 
+  .resized-svg-signature {
+    transform: scale(0.4);
+  } */
 
 </style>

@@ -115,3 +115,20 @@ export function clearLocalStorage() {
 
 export let isAllowed: formTypes.isAllowed = writable(false);
 export let isPrivacyPolicyApproved: formTypes.isAllowed = writable(false);
+
+
+// Formattazione data di nascita
+
+export function formattedBirtDate(date: string): string {
+  if (!date) return "";
+  const [year, month, day] = date.split("-");
+  return `${day}/${month}/${year}`;
+}
+
+// Formattazione data delle esperienze lavorative e accademiche
+
+export function formattedWorkAccademicDate(date: string): string {
+  if (!date) return "";
+  const [year, month] = date.split("-");
+  return `${month}/${year}`;
+}
