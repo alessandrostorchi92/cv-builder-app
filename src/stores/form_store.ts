@@ -23,6 +23,7 @@ let userFormData: formTypes.FormData = {
     {
       role: "",
       company: "",
+      location: "",
       workExperienceResults: "",
       startDateWorkExperience: "",
       endDateWorkExperience: "",
@@ -40,6 +41,7 @@ let userFormData: formTypes.FormData = {
   ],
 
   userSignature: "",
+  selectedColor: ""
   
 };
 
@@ -132,3 +134,68 @@ export function formattedWorkAccademicDate(date: string): string {
   const [year, month] = date.split("-");
   return `${month}/${year}`;
 }
+
+// Funzione per ottenere il logo
+function getTenant() {
+
+    try {
+
+      const currentDomain: string = window.location.hostname;
+      console.log("Dominio corrente:", currentDomain);
+  
+      const tenantMapping: Record<string, string> = {
+        'during': 'during',
+        'localhost': 'jobcamere',
+        'lavoroexpress': 'lavoroexpress',
+        'archimedespa': 'archimedespa'
+      };
+  
+      const tenant = tenantMapping[currentDomain];
+      console.log("Tenant trovato:", tenant);
+  
+      if (!tenant) {
+        throw new Error("Tenant non trovato"); 
+      }
+  
+      return tenant;
+
+    } catch (error) {
+      console.error("Errore nel recupero del tenant:", error);
+    }
+    
+}
+
+export const currentTenant = getTenant();
+
+// Funzione per ottenere la didascalia del footer
+function getCopyrightPolicy() {
+
+  try {
+
+    const currentDomain: string = window.location.hostname;
+    // console.log("Dominio corrente:", currentDomain);
+
+    const copyrightMapping: Record<string, string> = {
+      'during': 'Copyright © 2024 – Tutti i diritti riservati',
+      'localhost': 'Tutti i diritti riservati Copyright © 2023 Job Camere S.r.l. a socio unico - P.IVA 04117630287 - Autorizzazione Definitiva del Min. del Lav. Prot. n. 13/I/0013604 del 15/10/2009 sez. 1 Società con Unico Socio sottoposta a direzione e coordinamento di During S.p.A - Capitale Sociale Euro 600.000,00 i.v.',
+      'lavoroexpress': 'Copyright © 2024 – Tutti i diritti riservati',
+      'archimedespa': 'Tutti i diritti riservati Copyright © 2023 Archimede SpA - CF e P.IVA 02104290354 - REA: RE – 251769 - Sede Legale: Via Galliano, 10 – 42124 Reggio Emilia (RE) - Soc. soggetta alla direzione e coordinamento di During S.p.A.'
+    };
+
+    const copyright = copyrightMapping[currentDomain];
+    // console.log("Copyright trovato:", copyright);
+
+    if (!copyright) {
+      // throw new Error("Copyright Policy non trovata"); 
+    }
+
+    return copyright;
+
+  } catch (error) {
+    // console.error("Errore nel recupero della Copyright Policy:", error);
+  }
+  
+
+}
+
+export const currentCopyrightPolicy = getCopyrightPolicy();

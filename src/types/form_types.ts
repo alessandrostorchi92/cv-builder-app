@@ -22,14 +22,16 @@
         hasOwnCar: string,       
         jobs: WorkHistory[],
         educations: AcademicHistory[],
-        userSignature: string;  
+        userSignature: string;
+        selectedColor: string;
+          
     }
-
 
     export type WorkHistory = {
 
         role: string,
         company: string,
+        location: string,
         workExperienceResults: string,
         startDateWorkExperience: string,
         endDateWorkExperience: string,

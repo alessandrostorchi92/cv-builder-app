@@ -1276,26 +1276,6 @@ export function checkCompanyTextInput(index: number): void {
             errorCompanyMessages.innerText = "";
         }
 
-        if(companyTextInput) {
-
-            const companyValue = companyTextInput.value.trim();
-    
-            if(companyValue === "") {
-    
-                setCompanyErrorFeedBack("Il campo azienda è obbligatorio");
-    
-            } else if(companyValue.length > 30) {
-    
-                setCompanyErrorFeedBack("Mi dispiace, il campo azienda non può contenere più di 30 caratteri");
-    
-            } else {
-    
-                setCompanySuccessFeedback("Ottimo lavoro, il campo azienda è corretto");
-    
-            }
-        
-        }
-
     };
 
     if(companyTextInput) {
@@ -1304,20 +1284,73 @@ export function checkCompanyTextInput(index: number): void {
 
         if(companyValue === "") {
 
-            setCompanyErrorFeedBack("Mi dispiace, il campo azienda è obbligatorio");
+            setCompanyErrorFeedBack("Mi dispiace, il nome dell'azienda è obbligatorio");
 
-        } else if(companyValue.length > 40) {
+        } else if(companyValue.length > 30) {
 
-            setCompanyErrorFeedBack("Mi dispiace, il campo azienda non può contenere più di 30 caratteri");
+            setCompanyErrorFeedBack("Mi dispiace, il nome dell'azienda non può contenere più di 30 caratteri");
 
         } else {
 
-            setCompanySuccessFeedback("Ottimo lavoro, il campo azienda è corretto");
+            setCompanySuccessFeedback("Ottimo lavoro, il nome dell'azienda è corretto");
 
         }
     
     }
 
+};
+
+export function checkLocationTextInput(index: number): void {
+
+    const locationTextInput: HTMLInputElement | null = document.querySelector(`#textInputLocation${index}`);
+    const errorLocationMessages: HTMLDivElement | null = document.querySelector(`#error-location-messages${index}`);
+    const successLocationMessage: HTMLDivElement | null = document.querySelector(`#success-location-message${index}`);
+
+    const setLocationErrorFeedBack = (message: string) => {
+        if (errorLocationMessages) {
+            errorLocationMessages.innerText = message;
+            errorLocationMessages.classList.add("error-user-data", "fw-bolder");
+            errorLocationMessages.style.fontSize = "0.8rem";
+        }
+
+        if (locationTextInput) {
+            locationTextInput.classList.add("is-invalid");
+        }
+
+        if (successLocationMessage) {
+            successLocationMessage.innerText = "";
+        }
+    };
+
+    const setLocationSuccessFeedback = (message: string) => {
+        if (successLocationMessage) {
+            successLocationMessage.innerText = message;
+            successLocationMessage.classList.add("success-user-data", "fw-bolder");
+            successLocationMessage.style.fontSize = "0.8rem";
+        }
+
+        if (locationTextInput) {
+            locationTextInput.classList.remove("is-invalid");
+            locationTextInput.classList.add("is-valid");
+        }
+
+        if (errorLocationMessages) {
+            errorLocationMessages.innerText = "";
+        }
+    };
+
+    if (locationTextInput) {
+        const locationValue = locationTextInput.value.trim();
+
+        if (locationValue === "") {
+            setLocationErrorFeedBack("Il luogo di lavoro è obbligatorio");
+        } else if (locationValue.length > 30) {
+            setLocationErrorFeedBack("Mi dispiace, il luogo di lavoro non può contenere più di 30 caratteri");
+        } else {
+            setLocationSuccessFeedback("Ottimo lavoro, il luogo di lavoro è corretto");
+        }
+    }
+    
 };
 
 export function checkWorkExperienceResultsTextArea(index: number): void {

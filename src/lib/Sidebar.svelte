@@ -1186,6 +1186,24 @@
               </div>
 
               <div class="py-3">
+                <label for="textInputLocation{jobIndex}">Luogo di lavoro</label>
+                <span class="isRequired">*</span>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="textInputLocation{jobIndex}"
+                  name="location"
+                  autocomplete="off"
+                  placeholder="Inserisci il tuo luogo di lavoro"
+                  bind:value={job.location}
+                  on:input={() => validators.checkLocationTextInput(jobIndex)}
+                />
+
+                <div id="success-location-message{jobIndex}"></div>
+                <div id="error-location-messages{jobIndex}"></div>
+              </div>
+
+              <div class="py-3">
                 <label for="textAreaInputWorkExperienceResults{jobIndex}">Risultati professionali ottenuti</label>
                 <span class="isRequired">*</span>
                 <textarea
@@ -1250,6 +1268,7 @@
               {/if}
 
             </div>
+
         {/each}
 
         <div class="flex-center-utility">

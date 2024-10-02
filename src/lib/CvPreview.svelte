@@ -1,6 +1,6 @@
 <script lang="ts">
 
-  import {getStoreUserData, updateStoreUserData, clearLocalStorage} from "../stores/form_store";
+  import {getStoreUserData, updateStoreUserData, formDataStore} from "../stores/form_store";
   
   import PopupTemplates from "$lib/popupTemplates.svelte";
 
@@ -15,7 +15,7 @@
   let isOverlay: boolean;
   let isModifyBtnDisabled: boolean = true;
   let selectedCvTemplate: string = "";
-
+  
   function showCvTemplates(): void {
     showPopup = true;
     isModifyBtnDisabled = true;
@@ -35,14 +35,13 @@
     showPopup = true;
   }
 
-
   function displaySelectedCvTemplates(event: CustomEvent): void {
     selectedCvTemplate = event.detail.templateName;
     localStorage.setItem('selectedCvTemplate', selectedCvTemplate);
     enableModifyButton();
   }
 
-    onMount(() => {
+  onMount(() => {
 
       const storedTemplate = localStorage.getItem('selectedCvTemplate');
 
@@ -59,8 +58,8 @@
 
         // clearLocalStorage();
 
-    });
-
+  });
+    
 </script>
 
 <div id="curriculum-content">
@@ -96,10 +95,15 @@
 
     </div>
 
-    <div class="toolbar flex-center-utility">
+    <div class="toolbar">
 
-      <div>
+      <div class="modify-template-container">
         <button class="modify-template-btn" on:click={showCvTemplates} aria-label="Modifica Template" disabled={isModifyBtnDisabled}>MODIFICA TEMPLATE</button>
+      </div>
+
+      <div class="color-picker-wrapper">
+        <label for="color-picker-input" class="custom-color-input"><i class="fas fa-palette custom-icon"></i></label>
+        <input type="color" id="color-picker-input" bind:value={$formDataStore.selectedColor}>
       </div>
 
     </div>
@@ -114,7 +118,8 @@
     display: flex;
     height: 100vh;
     flex-basis: 65%;
-    flex-grow: 0; background: linear-gradient(180deg,rgba(96, 100, 112, 1) 17%,rgba(50, 54, 67, 1) 65%);
+    flex-grow: 0; 
+    background: linear-gradient(180deg,rgba(96, 100, 112, 1) 17%,rgba(50, 54, 67, 1) 65%);
     position: relative;
   }
 
@@ -132,19 +137,25 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    flex-basis: 80%;
-    width: 70%;
+    flex-basis: 85%;
+    width: 90%;
     max-width: 100%;
     height: calc(100vh - 20%);
     overflow-y: auto;
+    overflow-x: hidden;
     background-color: #f5feff;
     padding: 2rem 1rem;
     margin-top: 2rem;
   }
 
   .toolbar {
+    display:flex;
     flex-shrink: 0;
     flex-basis: 15%;
+    width: 100%; 
+    align-items: center;
+    justify-content: center;
+    position: relative;
   }
 
   .cv-preview-container::-webkit-scrollbar {
@@ -173,7 +184,7 @@
     justify-content: center;
     align-items: center;
   }
-
+  
   .modify-template-btn,
   .select-template-button {
     width: 16rem;
@@ -209,6 +220,29 @@
     color: #666666; 
     cursor: not-allowed; 
     opacity: 0.6;
+  }
+
+  input[type="color"] {
+    visibility: hidden;
+  }
+
+  .color-picker-wrapper {
+      position: absolute;
+      top: 25px;
+      right: 90px;
+  }
+
+  .custom-icon {
+    color: white;
+    font-size: 2rem;
+    cursor: pointer;
+    width: 60px; 
+    height: 60px; 
+    background-color: #fc73da; 
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
 </style>
