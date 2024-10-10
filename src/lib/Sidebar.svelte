@@ -567,10 +567,6 @@
       formDataStore.set(JSON.parse(savedStoreData));
     }
 
-    // window.addEventListener('unload', () => {
-    //   clearLocalStorage();
-    // });
-
     if(canvas) {
       
       updateCanvasJs();
@@ -650,7 +646,7 @@
             id="textInputName"
             autocomplete="off"
             name="name"
-            placeholder="Inserisci il tuo nome"
+            placeholder="Nome"
             bind:value={$formDataStore.name}
             on:input={() => validators.checkNameInput()}
           />
@@ -671,7 +667,7 @@
             id="textInputSurname"
             autocomplete="off"
             name="surname"
-            placeholder="Inserisci il tuo cognome"
+            placeholder="Cognome"
             bind:value={$formDataStore.surname}
             on:input={() => validators.checkSurnameInput()}
           />
@@ -692,7 +688,7 @@
             id="textInputProfession"
             autocomplete="off"
             name="profession"
-            placeholder="Inserisci la tua professione"
+            placeholder="Professione"
             bind:value={$formDataStore.profession}
             on:input={() => validators.checkProfessionInput()}
           />
@@ -704,7 +700,7 @@
          <!-- Nazionalità -->
 
          <div class="py-3">
-          <label for="textInputNationality">Nazione</label>
+          <label for="textInputNationality">Stato di nascita</label>
           <span class="isRequired">*</span>
 
           <input
@@ -713,7 +709,7 @@
             id="textInputNationality"
             autocomplete="off"
             name="nationality"
-            placeholder="Inserisci la tua nazionalità"
+            placeholder="Nazione"
             bind:value={$formDataStore.nationality}
             on:input={() => validators.checkNationalityInput()}
           />
@@ -734,7 +730,7 @@
             id="textInputBirthDate"
             autocomplete="off"
             name="birthPlace"
-            placeholder="Inserisci il tuo luogo di nascita"
+            placeholder="Città"
             bind:value={$formDataStore.birthPlace}
             on:input={() => validators.checkBirthPlaceInput()}
           />
@@ -932,7 +928,7 @@
                 id="formInputDigitalSkills{digitalSkillIndex}"
                 autocomplete="off"
                 name="digitalSkill{digitalSkillIndex}"
-                placeholder="Inserisci le tue competenze digitali"
+                placeholder="Competenza digitale"
                 bind:value={digitalSkill.skill}
                 on:blur={() => validators.checkDigitalSkillsTextInput(digitalSkillIndex)}
               >
@@ -1018,7 +1014,7 @@
                 name="languages"
                 bind:value={selectedLanguage.lang}
                 on:blur={() => validators.checkLanguageSelect(languageIndex)}>
-                <option value="" disabled>Lingue</option>
+                <option value="" disabled>Lingua</option>
                 {#each optionsLanguages as optionsLanguage (optionsLanguage.value)}
                   <option value={optionsLanguage.value}>{optionsLanguage.label}</option>
                 {/each}
@@ -1182,7 +1178,7 @@
                 id="textInputJobRole{jobIndex}"
                 name="jobRole"
                 autocomplete="off"
-                placeholder="Inserisci la posizione lavorativa che hai ricoperto"
+                placeholder="Posizione lavorativa"
                 bind:value={job.role}
                 on:input={() => validators.checkJobRoleTextInput(jobIndex)}
               />
@@ -1199,7 +1195,7 @@
                   id="textInputCompany{jobIndex}"
                   name="company"
                   autocomplete="off"
-                  placeholder="Inserisci il nome dell'azienda"
+                  placeholder="Azienda"
                   bind:value={job.company}
                   on:input={() => validators.checkCompanyTextInput(jobIndex)}
                 />
@@ -1217,7 +1213,7 @@
                   id="textInputLocation{jobIndex}"
                   name="location"
                   autocomplete="off"
-                  placeholder="Inserisci il tuo luogo di lavoro"
+                  placeholder="Luogo di lavoro"
                   bind:value={job.location}
                   on:input={() => validators.checkLocationTextInput(jobIndex)}
                 />
@@ -1344,7 +1340,7 @@
                   id="textInputFieldOfStudy{educationIndex}"
                   name="fieldOfStudy"
                   autocomplete="off"
-                  placeholder="Inserisci il campo di studio"
+                  placeholder="Campo di studio"
                   bind:value={education.fieldOfStudy}
                   on:input={() =>
                     validators.checkFieldOfStudyTextInput(educationIndex)}
@@ -1376,7 +1372,7 @@
               </div>
     
               <div class="py-3">
-                <label for="textInputEducationType{educationIndex}">Università/Ente di formazione/Scuola</label>
+                <label for="textInputEducationType{educationIndex}">Ente di formazione</label>
                 <span class="isRequired">*</span>
                 <input
                   type="text"
@@ -1384,7 +1380,7 @@
                   id="textInputEducationType{educationIndex}"
                   name="educationType"
                   autocomplete="off"
-                  placeholder="Inserisci la tipologia di formazione"
+                  placeholder="Ente di formazione"
                   bind:value={education.educationType}
                   on:input={() => validators.checkEducationTypeTextInput(educationIndex)}
                 />
@@ -1548,13 +1544,12 @@
 
   </div>
 
-   <!---- Download Button ---->
+  <!---- Download Button ---->
     
-   <div class="mt-5">
+  <div class="mt-5">
     <button class="download-btn" aria-label="Scarica Curriculum Vitae" on:click={checkCvPreview} disabled={!$isAllowed || !$isPrivacyPolicyApproved}>SCARICA CV <i class="fa-solid fa-download"></i></button>
   </div>
 
-  
 </div>
 
 <style>

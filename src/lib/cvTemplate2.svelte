@@ -1,7 +1,7 @@
 <script lang="ts">
 
-    import {formDataStore, formattedWorkAccademicDate, isAllowed, isPrivacyPolicyApproved, currentTenant, currentCopyrightPolicy} from "../stores/CvUser_data";
-    
+    import {formDataStore, isAllowed, isPrivacyPolicyApproved, currentTenant, currentCopyrightPolicy} from "../stores/CvUser_data";
+
 </script>
 
 <div style="margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif;margin: 0 auto;">

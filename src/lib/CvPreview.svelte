@@ -93,7 +93,7 @@
 
     </div>
 
-    <div class="toolbar">
+    <div class="toolbar flex-center-utility">
 
       <div class="modify-template-container">
         <button class="modify-template-btn" on:click={showCvTemplates} aria-label="Modifica Template" disabled={isModifyBtnDisabled}>MODIFICA TEMPLATE</button>
@@ -160,9 +160,6 @@
   }
 
   .toolbar {
-    display: flex;
-    align-items: center;
-    justify-content: center;
     flex-shrink: 0;
     flex-basis: 15%;
     width: 100%;
@@ -208,9 +205,7 @@
     border: none;
     border-radius: 10px;
     cursor: pointer;
-    transition:
-      background-color 0.3s ease,
-      transform 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.3s ease;
   }
 
   .modify-template-btn:disabled {

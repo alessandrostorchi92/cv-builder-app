@@ -50,7 +50,7 @@ export const formDataStore = writable(userFormData);
 
 // Salvo i dati nel localStorage
 
-export function storeUserData(storeData: formTypes.FormData) {
+export function storeUserData(storeData: formTypes.FormData): void {
 
   try {
     if (typeof window !== "undefined" && typeof localStorage !== "undefined") {
@@ -65,7 +65,7 @@ export function storeUserData(storeData: formTypes.FormData) {
 
 // Aggiornamento dei dati salvati nel localStorage
 
-export function updateStoreUserData() {
+export function updateStoreUserData(): void {
 
   try {
 
@@ -87,7 +87,7 @@ export function updateStoreUserData() {
 
 // Recupero i dati dal localStorage
 
-export function getStoreUserData() {
+export function getStoreUserData(): void {
 
   try {
 
@@ -110,10 +110,9 @@ export function getStoreUserData() {
 
 }
 
-
 // Eliminazione dei dati del localStorage
 
-export function clearLocalStorage() {
+export function clearLocalStorage(): void {
   if (typeof window !== "undefined" && typeof localStorage !== "undefined") {
     localStorage.clear();
   }
@@ -132,14 +131,15 @@ export function formattedBirthDate(date: string): string {
 
 // Formattazione data delle esperienze lavorative e accademiche
 
-export function formattedWorkAccademicDate(date: string): string {
+export function formattedWorkAcademicDate(date: string): string {
   if (!date) return "";
-  const [year, month] = date.split("-");
-  return `${month}/${year}`;
+  const [year] = date.split("-"); 
+  return `${year}`;
 }
 
 // Funzione per ottenere il logo
-function getTenant() {
+
+function getTenant(): string | null {
 
     try {
 
@@ -164,6 +164,7 @@ function getTenant() {
 
     } catch (error) {
       console.error("Errore nel recupero del tenant:", error);
+      return null;
     }
     
 }
@@ -171,7 +172,8 @@ function getTenant() {
 export const currentTenant = getTenant();
 
 // Funzione per ottenere la didascalia del footer
-function getCopyrightPolicy() {
+
+function getCopyrightPolicy(): string | null {
 
   try {
 
@@ -189,13 +191,14 @@ function getCopyrightPolicy() {
     // console.log("Copyright trovato:", copyright);
 
     if (!copyright) {
-      // throw new Error("Copyright Policy non trovata"); 
+      throw new Error("Copyright Policy non trovata"); 
     }
 
     return copyright;
 
   } catch (error) {
-    // console.error("Errore nel recupero della Copyright Policy:", error);
+    console.error("Errore nel recupero della Copyright Policy:", error);
+    return null;
   }
   
 

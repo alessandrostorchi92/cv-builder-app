@@ -1,7 +1,7 @@
 
 <script lang="ts">
 
-    import {formDataStore, formattedWorkAccademicDate, isAllowed, isPrivacyPolicyApproved, currentTenant, currentCopyrightPolicy} from "../stores/CvUser_data"; 
+    import {formDataStore, isAllowed, isPrivacyPolicyApproved, currentTenant, currentCopyrightPolicy} from "../stores/CvUser_data"; 
     import { cvInitialData }  from "../stores/cvDefault_data";
 
 </script>
@@ -92,104 +92,78 @@
 
     <div class="profile-summary-container">
         <div class="profile-summary-title" style="color: {$formDataStore.selectedColor || "black"};">BREVE PRESENTAZIONE</div>
-        <p class="personal-profile-summary">{$formDataStore.profileSummary}</p>
+        <p class="personal-profile-summary">{$cvInitialData.profileSummary}</p>
     </div>
 
-    <div class="position-relative">
-
-        <div class="watermark-container">
-            <div class="watermark-logo" style="background-image: url(https://{currentTenant}.blob.core.windows.net/cdn/cv/transparent-logo.png);"></div>
-        </div>
-
-        <!-- Work Experience Section-->
+    <!-- Work Experience Section-->
     
-        <div class="work-experience-container">
-    
-            <div class="work-experience-title" style="color:{$formDataStore.selectedColor};">ESPERIENZE</div>
+    <div class="work-experience-container">
+
+        <div class="watermark-logo" style="background-image: url(https://{currentTenant}.blob.core.windows.net/cdn/cv/transparent-logo.png);"></div>
+        
+        <div class="work-experience-title" style="color:{$formDataStore.selectedColor || "black"};">ESPERIENZE</div>
             
-            {#each $formDataStore.jobs as job (job)}
-    
-                <div class="work-experience-item">
-                    
-                    <div class="job-details-container">
-    
-                        {#if job.role && job.company && job.location}
-                            <div class="dot-item" style="background-color: {$formDataStore.selectedColor};"></div>
-                            <div class="job-details">{job.role} - {job.company} - in {job.location}</div>
-                        {/if}
-    
-                    </div>
-    
-                    {#if job.startDateWorkExperience && job.endDateWorkExperience }
-                        <div class="job-dates">{formattedWorkAccademicDate(job.startDateWorkExperience)} / {job.endDateWorkExperience === "" ? "Presente" : formattedWorkAccademicDate(job.endDateWorkExperience)}</div>
-                    {/if}
-    
+            {#each $cvInitialData.jobs as job}
+
+            <div class="work-experience-item">
+                            
+                <div class="job-details-container">
+            
+                    <div class="dot-item" style="background-color: {$formDataStore.selectedColor || "black"};"></div>
+                    <div class="job-details">{job.role} - {job.company} - in {job.location}</div>
+                                
                 </div>
-    
-                {#if job.workExperienceResults}
-                    <p class="job-results">{job.workExperienceResults}</p>
-                {/if}
-    
-            {/each}
             
-        </div>
-    
-         <!-- Academic Background Section -->
-    
-        <div class="academic-background-container">
-    
-            {#if $formDataStore.educations.some((education) => education.educationType !== "" || education.fieldOfStudy !== "" || education.qualification.length > 0 || education.educationGoals !== "" || education.startDateAcademicEducation !== "" || education.endDateAcademicEducation !== "")}
-                <div class="academic-background-title" style="color:{$formDataStore.selectedColor};">FORMAZIONE</div>
-            {/if}
-    
+                <div class="job-dates">{job.startDateWorkExperience}/{job.endDateWorkExperience === "" ? "Presente" : job.endDateWorkExperience}</div>
+                            
+            </div>
             
-            {#each $formDataStore.educations as education (education)}
+            <p class="job-results">{job.workExperienceResults}</p>
+                
+        {/each}
+        
+    </div>
+    
+    <!-- Academic Background Section -->
+    
+    <div class="academic-background-container">
+    
+            <div class="academic-background-title" style="color:{$formDataStore.selectedColor || "black"};">FORMAZIONE</div>
+        
+            {#each $cvInitialData.educations as education (education)}
     
                 <div class="academic-background-item">
                         
                     <div class="education-details-container">
     
-                        {#if education.qualification && education.educationType && education.fieldOfStudy}
-                            <div class="dot-item" style="background-color: {$formDataStore.selectedColor};"></div>
-                            <div class="education-details">{education.qualification} - {education.educationType} - {education.fieldOfStudy}</div>
-                        {/if}
-    
+                        <div class="dot-item" style="background-color: {$formDataStore.selectedColor || "black"};"></div>
+                        <div class="education-details">{education.qualification} - {education.educationType} - {education.fieldOfStudy}</div>
+                        
                     </div>
     
-                    {#if education.endDateAcademicEducation}
-                        <div class="education-dates">{formattedWorkAccademicDate(education.endDateAcademicEducation) === "" ? "Presente" : formattedWorkAccademicDate(education.endDateAcademicEducation)}</div>
-                    {/if}
-    
+                    <div class="education-dates">{education.endDateAcademicEducation}</div>
+                    
                 </div>
     
-                {#if education.educationGoals}
-                    <p class="education-goals">{education.educationGoals}</p>
-                {/if}
-    
+                <p class="education-goals">{education.educationGoals}</p>
+                
             {/each}
     
-        </div>
-
     </div>
-
 
     <!-- Language Section -->
 
     <div class="language-container">
 
-        {#if $formDataStore.languagesSkills.some((selectedLanguage) => selectedLanguage.lang !== "")}
-            <div class="language-title" style="color:{$formDataStore.selectedColor};">LINGUE</div>
-        {/if}
-
-        {#each $formDataStore.languagesSkills as selectedLanguage (selectedLanguage)}
+        <div class="language-title" style="color:{$formDataStore.selectedColor || "black"};">LINGUE</div>
+        
+        {#each $cvInitialData.languagesSkills as selectedLanguage (selectedLanguage)}
 
             <div class="language-details-container">
 
-                {#if selectedLanguage.lang}
-                    <div class="dot-item" style="background-color: {$formDataStore.selectedColor};"></div>
-                    <div class="language-details">{selectedLanguage.lang} - {selectedLanguage.level} </div>
-                {/if}
-
+                <div class="dot-item" style="background-color: {$formDataStore.selectedColor || "black"};"></div>
+                <div class="language-details">{selectedLanguage.lang} - {selectedLanguage.level} </div>
+                
             </div>
 
         {/each}
@@ -200,19 +174,15 @@
 
     <div class="hard-skills-container">
 
-        {#if $formDataStore.digitalSkills.some((digitalSkill) => digitalSkill.skill !== "")}
-            <div class="hard-skills-title" style="color:{$formDataStore.selectedColor};">SKILLS E COMPETENZE DIGITALI</div>
-        {/if}
-
-        {#each $formDataStore.digitalSkills as digitalSkill (digitalSkill)}
+        <div class="hard-skills-title" style="color:{$formDataStore.selectedColor || "black"};">SKILLS E COMPETENZE DIGITALI</div>
+       
+        {#each $cvInitialData.digitalSkills as digitalSkill (digitalSkill)}
 
             <div class="hard-skills-details-container">
 
-                {#if digitalSkill.skill}
-                    <div class="dot-item" style="background-color: {$formDataStore.selectedColor};"></div>
-                    <div class="hard-skills-details">{digitalSkill.skill} - {digitalSkill.level}</div>
-                {/if}
-
+                <div class="dot-item" style="background-color: {$formDataStore.selectedColor || "black"};"></div>
+                <div class="hard-skills-details">{digitalSkill.skill} - {digitalSkill.level}</div>
+                
             </div>
 
         {/each}
@@ -231,7 +201,7 @@
 
                 <div class="policy-privacy-container">
 
-                    <p style="font-size: 14px; color: #666; margin: 0;">Autorizzo il trattamento dei dati personali nel rispetto della vigente normativa sulla protezione dei dati personali ed in particolare il Regolamento Europeo per la protezione dei dati personali 2016/679, il d.lgs. 30/06/2003 n. 196 e successive modifiche e integrazioni.</p>
+                    <p>Autorizzo il trattamento dei dati personali nel rispetto della vigente normativa sulla protezione dei dati personali ed in particolare il Regolamento Europeo per la protezione dei dati personali 2016/679, il d.lgs. 30/06/2003 n. 196 e successive modifiche e integrazioni.</p>
 
                 </div>
 
@@ -248,16 +218,12 @@
         
         <!-- Company info Section -->
 
-        {#if $isAllowed && $isPrivacyPolicyApproved}
-
-            <div class="copyright-container">
+        <div class="copyright-container">
     
-                <div class="company-logo" style="background-image:url(https://{currentTenant}.blob.core.windows.net/cdn/cv/extended-logo.png);"></div>
-                <p class="copyright-text">{currentCopyrightPolicy}</p>
+            <div class="company-logo" style="background-image:url(https://{currentTenant}.blob.core.windows.net/cdn/cv/extended-logo.png);"></div>
+            <p class="copyright-text">{currentCopyrightPolicy}</p>
                 
-            </div>
-                        
-        {/if}
+        </div>                   
  
     </div>
 
@@ -280,7 +246,6 @@
         padding: 1rem;
     }
     
-
     .user-profile-picture {
         height: 100%;
         width: 100%;
@@ -349,6 +314,10 @@
         flex-basis: auto;
     }
 
+    .work-experience-container {
+        position: relative;
+    }
+
     .profile-summary-container, .work-experience-container, .academic-background-container, .language-container, .hard-skills-container {
         padding: 0.5rem;
     }
@@ -359,26 +328,14 @@
         padding: 0.5rem 0;
     }
 
-    .personal-profile-summary {
-        font-size: 1rem; 
-        color: gray;
-    }
-
-    .watermark-container {
-        position: absolute;
-        width: 600px; 
-        height: 600px;
-        aspect-ratio: 1/1; 
-        left: 65%;
-        bottom: 30%; 
-        z-index: 0;
-    }
-
     .watermark-logo {
-        height: 100%;
-        width: 100%;
-        background-repeat: no-repeat;
-        background-size: contain;
+        position: absolute;
+        width: 400px; 
+        height: 400px;
+        top: -60px;
+        right: -230px;
+        aspect-ratio: 1/1;
+        background-size: cover;
     }
 
     .dot-item {
@@ -396,8 +353,11 @@
         justify-content: space-between;
         flex-basis: 100%;
         font-size: 1rem;
-        padding-right: 2rem;
         padding-top: 0.3rem;
+    }
+
+    .job-dates {
+        font-size: 0.8rem;
     }
 
     .job-details-container, .education-details-container {
@@ -462,6 +422,12 @@
         color: #666;
         flex-grow: 1;
     }
+
+    .policy-privacy-container p {
+        font-size: 0.6rem; 
+        color: #666;
+    }
+
 
 
 </style>
