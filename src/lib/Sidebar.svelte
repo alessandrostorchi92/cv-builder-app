@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { formDataStore, isAllowed, isPrivacyPolicyApproved } from "../stores/form_store";
+  import { formDataStore, isAllowed, isPrivacyPolicyApproved } from "../stores/CvUser_data";
   import * as validators from "../validators/form_validation";
   import { onMount } from "svelte";
 
@@ -268,6 +268,7 @@
       $formDataStore.jobs.push({
         role: "",
         company: "",
+        location: "",
         workExperienceResults: "",
         startDateWorkExperience: "",
         endDateWorkExperience: "",
@@ -387,6 +388,28 @@
     <path d="${pathData}" stroke="black" fill="none" stroke-width="4"/></svg>`;
 
     $formDataStore.userSignature = svgSignature;
+
+    convertSvgToBase64(svgSignature);
+
+  }
+
+  function convertSvgToBase64(svg: string): void {
+
+    const svgBlob = new Blob([svg], { type: 'image/svg+xml' });
+    const reader = new FileReader();
+    
+    reader.onloadend = () => {
+        formDataStore.update(store => {
+          return { ...store, userSignature: reader.result as string };
+        });
+    };
+
+    reader.onerror = () => {
+        reader.abort();
+        console.log("Errore durante la lettura del file SVG");
+    };
+      
+    reader.readAsDataURL(svgBlob);
 
   }
 
@@ -560,7 +583,7 @@
     }
 
   });
-
+  
 </script>
 
 <div id="sidebar">
@@ -1186,7 +1209,7 @@
               </div>
 
               <div class="py-3">
-                <label for="textInputLocation{jobIndex}">Luogo di lavoro</label>
+                <label for="textInputCompany{jobIndex}">Luogo di lavoro</label>
                 <span class="isRequired">*</span>
                 <input
                   type="text"
@@ -1268,7 +1291,7 @@
               {/if}
 
             </div>
-
+            
         {/each}
 
         <div class="flex-center-utility">
@@ -1529,11 +1552,6 @@
     
    <div class="mt-5">
     <button class="download-btn" aria-label="Scarica Curriculum Vitae" on:click={checkCvPreview} disabled={!$isAllowed || !$isPrivacyPolicyApproved}>SCARICA CV <i class="fa-solid fa-download"></i></button>
-    <!-- {#if $formDataStore.userSignature}
-      <div class="resized-svg-signature">
-        {@html $formDataStore.userSignature}
-      </div>
-    {/if} -->
   </div>
 
   
@@ -1787,9 +1805,5 @@
     background-color: white; 
     cursor: not-allowed; 
   }
-/* 
-  .resized-svg-signature {
-    transform: scale(0.4);
-  } */
 
 </style>

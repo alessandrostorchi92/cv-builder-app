@@ -1,4 +1,4 @@
-import { isPrivacyPolicyApproved, isAllowed } from "../stores/form_store";
+import { isPrivacyPolicyApproved, isAllowed } from "../stores/CvUser_data";
 
 export function isProfilePictureUploaded(): void {
 
@@ -677,9 +677,9 @@ export function checkEmailInput(): void {
 
             setEmailErrorFeedBack("Mi dispiace, l'email inserita non rispetta l'esempio fornito");
 
-        } else if(userEmailValue.length >= 30) {
+        } else if(userEmailValue.length >= 50) {
 
-            setEmailErrorFeedBack("Mi dispiace, l'email inserita non deve contenere più di 30 caratteri");
+            setEmailErrorFeedBack("Mi dispiace, l'email inserita non deve contenere più di 50 caratteri");
 
         } else {
 

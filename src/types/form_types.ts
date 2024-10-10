@@ -24,7 +24,7 @@
         educations: AcademicHistory[],
         userSignature: string;
         selectedColor: string;
-          
+        selectedCvTemplate: string;   
     }
 
     export type WorkHistory = {

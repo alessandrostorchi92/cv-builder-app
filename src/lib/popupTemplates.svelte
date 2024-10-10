@@ -19,14 +19,14 @@
     }
 
     function setClickedCvTemplate(templateName: string) {
-        dispatch('setClickedCvTemplate', { templateName });
+        dispatch('setClickedCvTemplate', { template : templateName });
         hideCvTemplates();   
     }
     
     onMount(()=>{
         setTimeout(()=>{
             showCvTemplates=true;
-        }, 400)
+        }, 400);
     })
 
 </script>

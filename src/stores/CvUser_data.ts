@@ -41,7 +41,8 @@ let userFormData: formTypes.FormData = {
   ],
 
   userSignature: "",
-  selectedColor: ""
+  selectedColor: "",
+  selectedCvTemplate: "",
   
 };
 
@@ -54,10 +55,33 @@ export function storeUserData(storeData: formTypes.FormData) {
   try {
     if (typeof window !== "undefined" && typeof localStorage !== "undefined") {
       localStorage.setItem("formData", JSON.stringify(storeData));
+      
     }
   } catch (error) {
     console.error("Il salvataggio dei dati nel localStorage non è andato a buon fine", error);
   }
+
+}
+
+// Aggiornamento dei dati salvati nel localStorage
+
+export function updateStoreUserData() {
+
+  try {
+
+    if (typeof window !== "undefined" && typeof localStorage !== "undefined") { 
+
+      formDataStore.subscribe((currentUserFormData) => {
+          storeUserData(currentUserFormData);
+            
+          return currentUserFormData;
+      });
+
+    }
+
+  } catch(error) {
+    console.error("L'aggiornamento dei dati del localStorage non è andato a buon fine", error);
+  } 
 
 }
 
@@ -70,11 +94,13 @@ export function getStoreUserData() {
     if (typeof window !== "undefined" && typeof localStorage !== "undefined") {
 
       const savedStoreData = localStorage.getItem("formData");
-
+      
       if (savedStoreData) {
         userFormData = JSON.parse(savedStoreData);
         formDataStore.set(userFormData);
+        console.log(savedStoreData);
       }
+
 
     }
 
@@ -84,28 +110,6 @@ export function getStoreUserData() {
 
 }
 
-// Aggiornamento dei dati salvati ne localStorage
-
-export function updateStoreUserData() {
-
-  try {
-
-    if (typeof window !== "undefined" && typeof localStorage !== "undefined") { 
-
-      const unsubscribe = formDataStore.subscribe((currentUserFormData) => {
-          storeUserData(currentUserFormData); 
-         
-      });
-
-      return unsubscribe;
-      
-    }
-
-  } catch(error) {
-    console.error("L'aggiornamento dei dati del localStorage non è andato a buon fine", error);
-  }
-
-}
 
 // Eliminazione dei dati del localStorage
 
@@ -118,10 +122,9 @@ export function clearLocalStorage() {
 export let isAllowed: formTypes.isAllowed = writable(false);
 export let isPrivacyPolicyApproved: formTypes.isAllowed = writable(false);
 
-
 // Formattazione data di nascita
 
-export function formattedBirtDate(date: string): string {
+export function formattedBirthDate(date: string): string {
   if (!date) return "";
   const [year, month, day] = date.split("-");
   return `${day}/${month}/${year}`;
@@ -141,17 +144,17 @@ function getTenant() {
     try {
 
       const currentDomain: string = window.location.hostname;
-      console.log("Dominio corrente:", currentDomain);
+      // console.log("Dominio corrente:", currentDomain);
   
       const tenantMapping: Record<string, string> = {
         'during': 'during',
         'localhost': 'jobcamere',
         'lavoroexpress': 'lavoroexpress',
-        'archimedespa': 'archimedespa'
+        'archimedespa': 'archimede'
       };
   
       const tenant = tenantMapping[currentDomain];
-      console.log("Tenant trovato:", tenant);
+      // console.log("Tenant trovato:", tenant);
   
       if (!tenant) {
         throw new Error("Tenant non trovato"); 

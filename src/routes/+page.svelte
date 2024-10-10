@@ -7,8 +7,6 @@ import "../app.css";
 </script>
 
 
-<main>
-
     <div id="main-container">
 
         <Sidebar></Sidebar>
@@ -17,13 +15,11 @@ import "../app.css";
         
     </div>
 
-</main>
-
 
 <style>
-
     #main-container {
         display: flex;
+        flex-direction: row;
         height: 100vh;
         overflow: hidden;
     }

@@ -1,21 +1,18 @@
 <script lang="ts">
 
-  import {getStoreUserData, updateStoreUserData, formDataStore} from "../stores/form_store";
-  
+  import {formDataStore, getStoreUserData, updateStoreUserData, clearLocalStorage} from "../stores/CvUser_data";
   import PopupTemplates from "$lib/popupTemplates.svelte";
-
 
   import Template1 from "$lib/cvTemplate1.svelte";
   import Template2 from "$lib/cvTemplate2.svelte";
   import Template3 from "$lib/cvTemplate3.svelte";
 
-  import { onMount } from "svelte";
+  import { onMount, afterUpdate } from "svelte";
 
   let showPopup: boolean = false;
   let isOverlay: boolean;
   let isModifyBtnDisabled: boolean = true;
-  let selectedCvTemplate: string = "";
-  
+
   function showCvTemplates(): void {
     showPopup = true;
     isModifyBtnDisabled = true;
@@ -26,70 +23,71 @@
     isModifyBtnDisabled = false;
   }
 
-  function enableModifyButton() {
-    isModifyBtnDisabled = false;
-  }
-
-  function selectTemplate() {
+  function selectTemplate(): void {
     isOverlay = false;
     showPopup = true;
   }
 
   function displaySelectedCvTemplates(event: CustomEvent): void {
-    selectedCvTemplate = event.detail.templateName;
-    localStorage.setItem('selectedCvTemplate', selectedCvTemplate);
-    enableModifyButton();
+    
+    $formDataStore.selectedCvTemplate = event.detail.template;
+
+    localStorage.setItem('selectedCvTemplate', $formDataStore.selectedCvTemplate);
+
+    isModifyBtnDisabled = false;
+
   }
 
   onMount(() => {
 
-      const storedTemplate = localStorage.getItem('selectedCvTemplate');
+    getStoreUserData();
 
-      if (storedTemplate) {
-        selectedCvTemplate = storedTemplate;
-        isOverlay = false;
-        enableModifyButton();
-      } else {
-        isOverlay = true;
-      }
-        
-        getStoreUserData();
-        updateStoreUserData();
+    if ($formDataStore.selectedCvTemplate) {
+      isOverlay = false;
+      isModifyBtnDisabled = false;
+    } else {
+      isOverlay = true;
+    }
 
-        // clearLocalStorage();
+    updateStoreUserData();
 
   });
-    
+
+
+  afterUpdate(() => {
+
+    clearLocalStorage();
+
+  });
+
+
 </script>
 
 <div id="curriculum-content">
 
   {#if isOverlay}
     <div class="overlay-container flex-center-utility">
-      <button class="select-template-button" on:click={selectTemplate}>SELEZIONA TEMPLATE</button>
+      <button class="select-template-button" on:click={selectTemplate}>SCEGLI TEMPLATE</button>
     </div>
   {/if}
 
   {#if showPopup}
-    <PopupTemplates
-      on:hideCvTemplates={hideCvTemplates}
-      on:setClickedCvTemplate={displaySelectedCvTemplates}
-    ></PopupTemplates>
+    <PopupTemplates on:hideCvTemplates={hideCvTemplates} on:setClickedCvTemplate={displaySelectedCvTemplates}></PopupTemplates>
   {/if}
 
   <div class="d-flex align-items-center flex-direction-column-utility flex-grow-1">
 
     <div class="cv-preview-container">
 
-      {#if selectedCvTemplate === "cv-template1.png"}
+      {#if $formDataStore.selectedCvTemplate === "cv-template1.png"}
         <Template1></Template1>
       {/if}
 
-      {#if selectedCvTemplate === "cv-template2.png"}
+      {#if $formDataStore.selectedCvTemplate === "cv-template2.png"}
         <Template2></Template2>
       {/if}
 
-      {#if selectedCvTemplate === "cv-template3.png"}
+      {#if $formDataStore.selectedCvTemplate=== "cv-template3.png"}
         <Template3></Template3>
       {/if}
 
@@ -102,8 +100,15 @@
       </div>
 
       <div class="color-picker-wrapper">
+
         <label for="color-picker-input" class="custom-color-input"><i class="fas fa-palette custom-icon"></i></label>
-        <input type="color" id="color-picker-input" bind:value={$formDataStore.selectedColor}>
+
+        <input
+          type="color"
+          id="color-picker-input"
+          bind:value={$formDataStore.selectedColor}
+        />
+
       </div>
 
     </div>
@@ -113,13 +118,17 @@
 </div>
 
 <style>
-  
+
   #curriculum-content {
     display: flex;
     height: 100vh;
     flex-basis: 65%;
-    flex-grow: 0; 
-    background: linear-gradient(180deg,rgba(96, 100, 112, 1) 17%,rgba(50, 54, 67, 1) 65%);
+    flex-grow: 0;
+    background: linear-gradient(
+      180deg,
+      rgba(96, 100, 112, 1) 17%,
+      rgba(50, 54, 67, 1) 65%
+    );
     position: relative;
   }
 
@@ -129,7 +138,11 @@
     width: 100%;
     height: 100%;
     background: rgb(17, 45, 78);
-    background: linear-gradient(180deg,rgba(17, 45, 78, 1) 8%,rgba(117, 117, 117, 1) 80%);
+    background: linear-gradient(
+      180deg,
+      rgba(17, 45, 78, 1) 8%,
+      rgba(117, 117, 117, 1) 80%
+    );
     z-index: 2;
   }
 
@@ -137,24 +150,22 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    flex-basis: 85%;
     width: 90%;
-    max-width: 100%;
-    height: calc(100vh - 20%);
+    flex-basis: calc(100vh - 15%);
     overflow-y: auto;
     overflow-x: hidden;
     background-color: #f5feff;
-    padding: 2rem 1rem;
+    padding: 2rem 0;
     margin-top: 2rem;
   }
 
   .toolbar {
-    display:flex;
-    flex-shrink: 0;
-    flex-basis: 15%;
-    width: 100%; 
+    display: flex;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0;
+    flex-basis: 15%;
+    width: 100%;
     position: relative;
   }
 
@@ -184,7 +195,7 @@
     justify-content: center;
     align-items: center;
   }
-  
+
   .modify-template-btn,
   .select-template-button {
     width: 16rem;
@@ -203,9 +214,9 @@
   }
 
   .modify-template-btn:disabled {
-    background-color: #cccccc; 
-    color: #666666; 
-    cursor: not-allowed; 
+    background-color: #cccccc;
+    color: #666666;
+    cursor: not-allowed;
     opacity: 0.6;
   }
 
@@ -216,9 +227,9 @@
   }
 
   .modify-template-btn:hover:disabled {
-    background-color: #cccccc; 
-    color: #666666; 
-    cursor: not-allowed; 
+    background-color: #cccccc;
+    color: #666666;
+    cursor: not-allowed;
     opacity: 0.6;
   }
 
@@ -227,22 +238,21 @@
   }
 
   .color-picker-wrapper {
-      position: absolute;
-      top: 25px;
-      right: 90px;
+    position: absolute;
+    top: 25px;
+    right: 90px;
   }
 
   .custom-icon {
     color: white;
     font-size: 2rem;
     cursor: pointer;
-    width: 60px; 
-    height: 60px; 
-    background-color: #fc73da; 
+    width: 60px;
+    height: 60px;
+    background-color: #fc73da;
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
   }
-
 </style>

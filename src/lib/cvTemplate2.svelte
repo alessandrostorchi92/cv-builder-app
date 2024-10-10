@@ -1,6 +1,6 @@
 <script lang="ts">
 
-    import {formDataStore, formattedBirtDate, formattedWorkAccademicDate, isAllowed, isPrivacyPolicyApproved, currentTenant, currentCopyrightPolicy} from "../stores/form_store";
+    import {formDataStore, formattedWorkAccademicDate, isAllowed, isPrivacyPolicyApproved, currentTenant, currentCopyrightPolicy} from "../stores/CvUser_data";
     
 </script>
 
