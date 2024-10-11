@@ -143,24 +143,24 @@ function getTenant(): string | null {
 
     try {
 
-      const currentDomain: string = window.location.hostname;
-      // console.log("Dominio corrente:", currentDomain);
-  
-      const tenantMapping: Record<string, string> = {
-        'during': 'during',
-        'localhost': 'jobcamere',
-        'lavoroexpress': 'lavoroexpress',
-        'archimedespa': 'archimede'
-      };
-  
-      const tenant = tenantMapping[currentDomain];
-      // console.log("Tenant trovato:", tenant);
-  
-      if (!tenant) {
-        throw new Error("Tenant non trovato"); 
+      const currentDomain: string = "https://archimedespa.it/";
+
+      console.log("Dominio corrente:", currentDomain);
+
+      if (currentDomain.includes('during')) {
+        return 'during';
+      }
+      if (currentDomain.includes('jobcamere')) {
+        return 'jobcamere';
+      }
+      if (currentDomain.includes('lavoroexpress')) {
+        return 'lavoroexpress';
+      }
+      if (currentDomain.includes('archimede')) {
+        return 'archimede';
       }
   
-      return tenant;
+      throw new Error("Tenant non trovato");
 
     } catch (error) {
       console.error("Errore nel recupero del tenant:", error);

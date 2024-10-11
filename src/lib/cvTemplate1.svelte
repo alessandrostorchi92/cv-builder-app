@@ -17,8 +17,10 @@
             <img class="user-profile-picture" src="{$formDataStore.filePicture}" alt="Immagine Profilo">
 
         {:else}
-
-            <div class="tenant-picture" style="background-image: url(https://{currentTenant}.blob.core.windows.net/cdn/cv/circle.svg);"></div>
+            <div class="tenant-picture-container" style=" background-color: {$formDataStore.selectedColor || "white"}; padding: 20px;">
+                <div class="tenant-picture" style="background-image: url(https://{currentTenant}.blob.core.windows.net/cdn/cv/circle.svg);"></div>
+            </div>
+            
 
         {/if}
 
@@ -233,17 +235,17 @@
 
     .header-section, .main-section {
         display: flex;
-        flex-direction: row;
-        justify-content: center;
         width: 90%;
+        font-family: Ubuntu;
+        font-weight: 300;
     }
 
-    .profile-picture-container {
+    .profile-picture-container, .tenant-picture-container {
         flex-shrink: 0;
         flex-basis: 20%;
         height: 200px;
+        width: 200px;
         aspect-ratio: 1/1;
-        padding: 1rem;
     }
     
     .user-profile-picture {
@@ -258,6 +260,7 @@
         width: 100%;
         background-size: contain;
         background-position: center;
+        background-repeat: no-repeat;
     }
 
     .profile-info-container {
@@ -431,5 +434,3 @@
 
 
 </style>
-
-
