@@ -1,7 +1,7 @@
 <script lang="ts">
 
-   import {formDataStore} from "../stores/CvUser_data";
-   import { cvInitialData }  from "../stores/cvDefault_data";
+   import {formDataStore, isPrivacyPolicyApproved, isAllowed, currentTenant, currentCopyrightPolicy} from "../stores/CvUser_data";
+   import {cvInitialData}  from "../stores/cvDefault_data";
 
 </script>
 
@@ -10,7 +10,6 @@
     <div class="left-section">
 
         <!-- Picture image-->
-
         <div class="profile-picture-container">
 
             {#if $formDataStore.filePicture}
@@ -26,9 +25,7 @@
         </div>
 
         <!-- User Full Name -->
-
         <div class="user-full-name" style="color: {$formDataStore.selectedColor || "black"}">{$cvInitialData.name} {$cvInitialData.surname}</div>
-
         <div class="user-profession">{$cvInitialData.profession}</div>
 
         <!-- Dati di contatto -->
@@ -93,26 +90,30 @@
 
         </div>
 
-        <!-- Policy Privacy Section-->
-        <div class="policy-privacy-container">
+        <!-- Policy Privacy & UserSignature Section-->
+        {#if isPrivacyPolicyApproved && $isAllowed}
+
+            <!-- Policy Privacy -->
+            <div class="policy-privacy-container">
 
             <p>Autorizzo il trattamento dei dati personali nel rispetto della vigente normativa sulla protezione dei dati personali ed in particolare il Regolamento Europeo per la protezione dei dati personali 2016/679, il d.lgs. 30/06/2003 n. 196 e successive modifiche e integrazioni.</p>
 
-        </div>
+            </div>
 
-        <!-- Signature Section-->
-        <div class="user-signature-container">
+            <!-- User Signature -->
+            <div class="user-signature-container">
 
             <img src="{$formDataStore.userSignature}" alt="Firma digitale" style="width:60%;">
 
-        </div>
+            </div>
         
+        {/if}
+
     </div>
 
     <div class="right-section">
 
         <!-- User Status Section-->
-
        <div class="user-status-info">
 
             <div class="info-item">
@@ -132,18 +133,16 @@
        </div>
 
         <!-- Profile Summary Section-->
-
         <div class="profile-summary-container">
             <p class="personal-profile-summary">{$cvInitialData.profileSummary}</p>
         </div>
 
         <!-- Work Experience Section-->
-
         <div class="work-experience-container">
             
             <div class="work-experience-title" style="color: {$formDataStore.selectedColor || "black"}; border-bottom: 1px solid {$formDataStore.selectedColor || "black"};">ESPERIENZE LAVORATIVE</div>
                 
-                {#each $cvInitialData.jobs as job}
+            {#each $cvInitialData.jobs as job}
     
                 <div class="work-experience-item">
                                 
@@ -153,7 +152,7 @@
 
                     <div class="job-specs-container">
 
-                        <b class="job-dates">{job.startDateWorkExperience}/{job.endDateWorkExperience === "" ? "Presente" : job.endDateWorkExperience}</b>
+                        <b class="job-dates">{job.startDateWorkExperience}/{job.endDateWorkExperience}</b>
                         <p class="job-results">{job.workExperienceResults}</p>
     
                     </div>
@@ -163,8 +162,44 @@
             {/each}
             
         </div>
-        
 
+         <!-- Academic Background Section -->
+        <div class="academic-background-container">
+        
+            <div class="academic-background-title" style="color: {$formDataStore.selectedColor || "black"}; border-bottom: 1px solid {$formDataStore.selectedColor || "black"};">FORMAZIONE E QUALIFICHE</div>
+        
+            {#each $cvInitialData.educations as education (education)}
+
+                <div class="academic-background-item">
+                        
+                    <div class="education-details-container">
+
+                        <div class="education-details">{education.endDateAcademicEducation} - {education.qualification} - {education.educationType}</div>
+                        
+                    </div>
+
+                    <div class="education-specs-container">
+
+                        <span>{education.fieldOfStudy} - </span>
+                        <p class="education-goals ms-1">{education.educationGoals}</p>
+
+                    </div>
+                    
+                </div>
+ 
+            {/each}
+
+        </div>
+
+        <!-- Footer Section -->
+        
+        <div class="footer-container">
+            
+            <div class="company-logo" style="background-image:url(https://{currentTenant}.blob.core.windows.net/cdn/cv/extended-logo.png);"></div>
+            <p class="copyright-text">{currentCopyrightPolicy}</p>
+                        
+        </div>                   
+           
     </div>
 
 </div>
@@ -251,7 +286,7 @@
         padding-top: 1rem;
     }
 
-    .languages-title, .hard-skills-title, .work-experience-title {
+    .languages-title, .hard-skills-title, .work-experience-title, .academic-background-title {
         font-size: 1.2rem; 
         font-weight:bold;
     }
@@ -277,27 +312,56 @@
         flex-direction: row;
         align-items: center;
         gap: 1rem;
-        padding: 1rem 1rem;
+        padding: 0.5rem 1rem;
     }
 
-    .profile-summary-container, .work-experience-container {
-        padding: 0 1rem;
+    .profile-summary-container, .work-experience-container, .academic-background-container {
+        padding: 0.5rem 1rem;
         font-size: 0.8rem;
     }
 
-    .job-details {
-        padding-top: 0.5rem;
+    .job-details, .education-details-container {
+        padding-top: 0.6rem;
         color:#6d6d6d;
-        font-size:1rem; 
+        font-size: 0.9rem; 
         font-weight:bold;
     }
 
-    .job-specs-container {
+    p {
+        margin: 0;
+    }
+
+    .job-specs-container, .education-specs-container {
         padding-top: 0.2rem;
     }
 
-    .job-specs-container p {
-        display: inline; 
+    .job-specs-container p, .education-specs-container p {
+        display: inline;
+    }
+
+    .footer-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        padding: 1rem;
+    }
+
+    .company-logo {
+        flex-shrink: 0;
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+        aspect-ratio: 2 / 1;
+        width: 50px; 
+        height: 25px; 
+        text-align: center; 
+    }
+
+    .copyright-text {
+        font-size: 8px; 
+        color: black;
+        flex-grow: 1;
     }
 
 </style>

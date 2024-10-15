@@ -12,7 +12,7 @@ export const cvInitialData = derived(formDataStore, ($formDataStore) => {
       role: (!job.role || job.role.trim() === "") ? "Ruolo" : job.role,
       company: (!job.company || job.company.trim() === "") ? "Azienda" : job.company,
       location: (!job.location || job.location.trim() === "") ? "Località" : job.location,
-      workExperienceResults: (!job.workExperienceResults || job.workExperienceResults.trim() === "") ? "Lorem ipsum dolor sit amet, consectetur adipiscing elit..." : job.workExperienceResults,
+      workExperienceResults: (!job.workExperienceResults || job.workExperienceResults.trim() === "") ? "In antiquitate, Romani magnas res gestas et sapientiam in diversis disciplinis coluerunt. Philosophia, ars, et litterae floruerunt inter cives, qui sapientiae et veritati studebant. Multi poëtæ, ut Virgilius et Ovidius, fabulas et historias narraverunt, quas ad posteritatem pervenire voluerunt. Sicut in vita cotidiana, ita in bellis et in pace, Romani unitatem et fortitudinem semper quaerebant. Res publica, sub duce et consilio, multis rebus periculis se opposuit, atque fines imperii a Britannia usque ad Aegyptum extendit. Haec omnia exempla docet nos de virtutibus et sapientia, quae in animis hominum semper manent." : job.workExperienceResults,
       startDateWorkExperience: (!job.startDateWorkExperience) ? "Data Inizio" : formattedWorkAcademicDate(job.startDateWorkExperience),
       endDateWorkExperience: (job.isEmployed) ? "Presente" : (!job.isEmployed && job.endDateWorkExperience) ? formattedWorkAcademicDate(job.endDateWorkExperience) : "Data Fine",
 
@@ -27,7 +27,7 @@ export const cvInitialData = derived(formDataStore, ($formDataStore) => {
     qualification: (!education.qualification) ? "Titolo di studio" : education.qualification,
     fieldOfStudy: (!education.fieldOfStudy || education.fieldOfStudy.trim() === "") ? "Campo di studio" : education.fieldOfStudy,
     educationType: (!education.educationType || education.educationType.trim() === "") ? "Ente di formazione" : education.educationType,
-    educationGoals: (!education.educationGoals || education.educationGoals.trim() === "") ? "Lorem ipsum dolor sit amet, consectetur adipiscing elit..." : education.educationGoals,
+    educationGoals: (!education.educationGoals || education.educationGoals.trim() === "") ? "In antiquitate, Romani magnas res gestas et sapientiam in diversis disciplinis coluerunt. Philosophia, ars, et litterae floruerunt inter cives, qui sapientiae et veritati studebant. Multi poëtæ, ut Virgilius et Ovidius, fabulas et historias narraverunt, quas ad posteritatem pervenire voluerunt. Sicut in vita cotidiana, ita in bellis et in pace, Romani unitatem et fortitudinem semper quaerebant. Res publica, sub duce et consilio, multis rebus periculis se opposuit, atque fines imperii a Britannia usque ad Aegyptum extendit. Haec omnia exempla docet nos de virtutibus et sapientia, quae in animis hominum semper manent." : education.educationGoals,
     startDateAcademicEducation: (!education.startDateAcademicEducation) ? "Data Inizio" : formattedWorkAcademicDate(education.startDateAcademicEducation),
     endDateAcademicEducation: (!education.endDateAcademicEducation) ? "Data Fine" : formattedWorkAcademicDate(education.endDateAcademicEducation)
 
@@ -66,7 +66,7 @@ export const cvInitialData = derived(formDataStore, ($formDataStore) => {
     phonePrefix: !$formDataStore.phonePrefix ? "Prefisso" : $formDataStore.phonePrefix,
     phoneNumber: (!$formDataStore.phone || $formDataStore.phone.trim() === "") ? "Cellulare" : $formDataStore.phone,
     email: (!$formDataStore.email || $formDataStore.email.trim() === "") ? "Email" : $formDataStore.email,
-    profileSummary: (!$formDataStore.profileSummary || $formDataStore.profileSummary.trim() === "") ? "Lorem ipsum dolor sit amet, consectetur adipiscing elit..." : $formDataStore.profileSummary,
+    profileSummary: (!$formDataStore.profileSummary || $formDataStore.profileSummary.trim() === "") ? "In antiquitate, Romani magnas res gestas et sapientiam in diversis disciplinis coluerunt. Philosophia, ars, et litterae floruerunt inter cives, qui sapientiae et veritati studebant. Multi poëtæ, ut Virgilius et Ovidius, fabulas et historias narraverunt, quas ad posteritatem pervenire voluerunt. Sicut in vita cotidiana, ita in bellis et in pace, Romani unitatem et fortitudinem semper quaerebant. Res publica, sub duce et consilio, multis rebus periculis se opposuit, atque fines imperii a Britannia usque ad Aegyptum extendit. Haec omnia exempla docet nos de virtutibus et sapientia, quae in animis hominum semper manent." : $formDataStore.profileSummary,
     jobs: handleInitialDataJob,
     educations: handleInitialDataEducation,
     languagesSkills: handleInitialDataLanguage,

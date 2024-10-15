@@ -1412,28 +1412,7 @@
                 <div id="error-education-goals-messages{educationIndex}"></div>
               </div>
     
-              <div class="py-3 flex-center-utility justify-content-around">
-                <div>
-                  <label for="startDateInputAcademicEducation{educationIndex}" class="custom-date-input">Data di inizio</label>
-                  <span class="isRequired">*</span>
-
-                  <input
-                    type="month"
-                    class="form-control"
-                    id="startDateInputAcademicEducation{educationIndex}"
-                    name="startDateAcademicEducation"
-                    max={education.endDateAcademicEducation}
-                    bind:value={education.startDateAcademicEducation}
-                    on:blur={() =>
-                      validators.checkStartAndEndAcademicEducationDateInput(
-                        educationIndex
-                      )}
-                  />
-    
-                  <div id="success-startDateAcademicEducation-message{educationIndex}"></div>
-                  <div id="error-startDateAcademicEducation-messages{educationIndex}"></div>
-
-                </div>
+              <div class="py-3 flex-center-utility">
     
                 <div>
                   <label

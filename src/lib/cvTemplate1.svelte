@@ -49,11 +49,13 @@
                     <i class="fa-solid fa-cake-candles" style="color: {$formDataStore.selectedColor || "black"}"></i>
                     <span>{$cvInitialData.birthDate}, {$cvInitialData.birthPlace}</span>
                 </div>
-    
-                <div class="info-item">
-                    <i class="fa-solid fa-car-side" style="color: {$formDataStore.selectedColor || "black"}"></i>
-                    <span>Automunito:{$cvInitialData.hasOwnCar}</span><span>-</span><span>{$cvInitialData.drivingLicences}</span>
-                </div>
+                
+                {#if $formDataStore.hasOwnCar}
+                    <div class="info-item">
+                        <i class="fa-solid fa-car-side" style="color: {$formDataStore.selectedColor || "black"}"></i>
+                        <span>Automunito:</span><span class="ms-1">{$cvInitialData.drivingLicences}</span>
+                    </div>
+                {/if}
     
                 <div class="info-item">
                     <i class="fa-regular fa-heart" style="color: {$formDataStore.selectedColor || "black"}"></i>
@@ -90,14 +92,12 @@
 <div class="main-section">
 
     <!-- Profile Summary Section-->
-
     <div class="profile-summary-container">
         <div class="profile-summary-title" style="color: {$formDataStore.selectedColor || "black"};">BREVE PRESENTAZIONE</div>
         <p class="personal-profile-summary">{$cvInitialData.profileSummary}</p>
     </div>
 
     <!-- Work Experience Section-->
-    
     <div class="work-experience-container">
 
         <div class="watermark-logo" style="background-image: url(https://{currentTenant}.blob.core.windows.net/cdn/cv/transparent-logo.png);"></div>
@@ -126,7 +126,6 @@
     </div>
     
     <!-- Academic Background Section -->
-
     <div class="academic-background-container">
     
             <div class="academic-background-title" style="color:{$formDataStore.selectedColor || "black"};">FORMAZIONE</div>
@@ -170,7 +169,6 @@
     
     </div>
     
-
     <!-- Hard Skills Section-->
     <div class="hard-skills-container">
 
@@ -190,7 +188,6 @@
     </div>
 
     <!-- Footer Section -->
-
     <div style="margin-top: 40px;padding: 20px; border-top: 1px solid #e6e6e6;">
 
         <!-- Policy Privacy & Signature Section -->
