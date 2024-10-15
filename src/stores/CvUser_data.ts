@@ -27,6 +27,7 @@ let userFormData: formTypes.FormData = {
       workExperienceResults: "",
       startDateWorkExperience: "",
       endDateWorkExperience: "",
+      isEmployed: false,
     },
   ],
   educations: [

@@ -35,6 +35,7 @@
         workExperienceResults: string,
         startDateWorkExperience: string,
         endDateWorkExperience: string,
+        isEmployed: boolean,
 
     };
 

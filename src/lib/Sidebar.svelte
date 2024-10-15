@@ -1083,43 +1083,6 @@
           </div>
 
         </div>
-        
-        <!-- Patente -->
-
-        <div class="py-3">
-          
-          <div>
-
-            <label for="formLabelDrivingLicence">Patente</label>
-            <span class="isRequired">*</span>
-
-            {#each drivingLicenceCheckBoxs as drivingLicenceCheckBox}
-              <div class="form-check">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  name="drivingLicenceCheckBoxOptions"
-                  id={"formCheckBoxDrivingLicence" + drivingLicenceCheckBox.value}
-                  value={drivingLicenceCheckBox.label}
-                  bind:group={$formDataStore.drivingLicences}
-                  on:change={() =>
-                    validators.checkDrivingLicenceCheckboxesInput()}
-                />
-                <label
-                  class="form-check-label"
-                  for={"formCheckBoxDrivingLicence" +
-                    drivingLicenceCheckBox.value}
-                >
-                  {drivingLicenceCheckBox.label}
-                </label>
-              </div>
-            {/each}
-  
-            <div class="success-driving-licence-message"></div>
-            <div class="error-driving-licence-message"></div>
-          </div>
-
-        </div>
 
         <!-- Automunito -->
 
@@ -1157,6 +1120,43 @@
           <div class="success-has-own-car-message"></div>
           <div class="error-has-own-car-message"></div>
           
+        </div>
+        
+        <!-- Patente -->
+
+        <div class="py-3">
+          
+          <div>
+
+            <label for="formLabelDrivingLicence">Patente</label>
+            <span class="isRequired">*</span>
+
+            {#each drivingLicenceCheckBoxs as drivingLicenceCheckBox}
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  name="drivingLicenceCheckBoxOptions"
+                  id={"formCheckBoxDrivingLicence" + drivingLicenceCheckBox.value}
+                  value={drivingLicenceCheckBox.label}
+                  bind:group={$formDataStore.drivingLicences}
+                  on:change={() =>
+                    validators.checkDrivingLicenceCheckboxesInput()}
+                />
+                <label
+                  class="form-check-label"
+                  for={"formCheckBoxDrivingLicence" +
+                    drivingLicenceCheckBox.value}
+                >
+                  {drivingLicenceCheckBox.label}
+                </label>
+              </div>
+            {/each}
+  
+            <div class="success-driving-licence-message"></div>
+            <div class="error-driving-licence-message"></div>
+          </div>
+
         </div>
 
         <!-- Dettagli Carriera -->
@@ -1239,7 +1239,7 @@
                 <div id="error-work-experience-results-messages{jobIndex}"></div>
               </div>
 
-              <div class="py-3 flex-center-utility justify-content-around">
+              <div class="py-3 flex-center-utility justify-content-around gap-1">
                 <div>
                   <label for="startDateInputWorkExperience{jobIndex}" class="custom-date-input">Data di inizio</label>
                   <span class="isRequired">*</span>
@@ -1269,12 +1269,19 @@
                     min={job.startDateWorkExperience}
                     bind:value={job.endDateWorkExperience}
                     on:blur={() => validators.checkStartAndEndWorkExperienceDateInput(jobIndex)}
+                    disabled={job.isEmployed}
                   />
 
                   <div id="success-endDateWorkExperience-message{jobIndex}"></div>
                   <div id="error-endDateWorkExperience-messages{jobIndex}"></div>
                 </div>
               </div>
+
+              <div class="d-flex justify-content-center py-1">
+                <input class="form-check-input me-1 custom-checkbox" type="checkbox" id="checkboxNoLabel" aria-label="Indica se stai attualmente ricoprendo questo ruolo" bind:checked={job.isEmployed} on:change={() => {if (job.isEmployed) {job.endDateWorkExperience = "";}}}>
+                <label for="checkboxNoLabel">Attualmente sto ricoprendo questo ruolo</label>
+              </div>
+            
 
               {#if jobIndex > 0}
                 <div class="flex-center-utility mb-3">
@@ -1662,9 +1669,14 @@
     cursor: pointer;
   }
 
+  .custom-checkbox {
+    appearance: none; 
+    border: 1px solid black;
+  }
+
   label {
-    font-size: 16px;
-    font-weight: 700;
+    font-size: 1rem;
+    font-weight: 600;
     color: black;
   }
 
@@ -1674,7 +1686,7 @@
   }
 
   .btn-add-style {
-    width: 200px;
+    width: 220px;
     margin-top: 0.2rem;
     border: none;
     font-size: 0.8rem;
@@ -1703,6 +1715,7 @@
   }
 
   .btn-remove-style {
+    margin-top: 0.5rem;
     background-color: #e74c3c;
     font-size: 1rem;
     color: white;
@@ -1712,9 +1725,7 @@
     border: none;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition:
-      background-color 0.3s ease,
-      color 0.3s ease;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
 
   .btn-remove-style:hover {

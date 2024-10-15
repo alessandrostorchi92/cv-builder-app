@@ -17,11 +17,11 @@
             <img class="user-profile-picture" src="{$formDataStore.filePicture}" alt="Immagine Profilo">
 
         {:else}
+        
             <div class="tenant-picture-container" style=" background-color: {$formDataStore.selectedColor || "white"}; padding: 20px;">
                 <div class="tenant-picture" style="background-image: url(https://{currentTenant}.blob.core.windows.net/cdn/cv/circle.svg);"></div>
             </div>
             
-
         {/if}
 
     </div>
@@ -35,7 +35,6 @@
         <div class="user-profession">{$cvInitialData.profession}</div>
 
         <div class="user-personal-info">
-
 
             <div class="left-section">
     
@@ -105,29 +104,29 @@
         
         <div class="work-experience-title" style="color:{$formDataStore.selectedColor || "black"};">ESPERIENZE</div>
             
-            {#each $cvInitialData.jobs as job}
+        {#each $cvInitialData.jobs as job}
 
-            <div class="work-experience-item">
-                            
-                <div class="job-details-container">
-            
-                    <div class="dot-item" style="background-color: {$formDataStore.selectedColor || "black"};"></div>
-                    <div class="job-details">{job.role} - {job.company} - in {job.location}</div>
+                <div class="work-experience-item">
+                                
+                    <div class="job-details-container">
+                
+                        <div class="dot-item" style="background-color: {$formDataStore.selectedColor || "black"};"></div>
+                        <div class="job-details">{job.role} - {job.company} - in {job.location}</div>
+                                    
+                    </div>
+                
+                    <div class="job-dates">{job.startDateWorkExperience}/{job.endDateWorkExperience}</div>
                                 
                 </div>
-            
-                <div class="job-dates">{job.startDateWorkExperience}/{job.endDateWorkExperience === "" ? "Presente" : job.endDateWorkExperience}</div>
-                            
-            </div>
-            
-            <p class="job-results">{job.workExperienceResults}</p>
+                
+                <p class="job-results">{job.workExperienceResults}</p>
                 
         {/each}
         
     </div>
     
     <!-- Academic Background Section -->
-    
+
     <div class="academic-background-container">
     
             <div class="academic-background-title" style="color:{$formDataStore.selectedColor || "black"};">FORMAZIONE</div>
@@ -154,26 +153,25 @@
     </div>
 
     <!-- Language Section -->
-
     <div class="language-container">
 
-        <div class="language-title" style="color:{$formDataStore.selectedColor || "black"};">LINGUE</div>
+        <div class="language-title" style="color: {$formDataStore.selectedColor || 'black'};">LINGUE</div>
         
         {#each $cvInitialData.languagesSkills as selectedLanguage (selectedLanguage)}
-
+    
             <div class="language-details-container">
-
-                <div class="dot-item" style="background-color: {$formDataStore.selectedColor || "black"};"></div>
-                <div class="language-details">{selectedLanguage.lang} - {selectedLanguage.level} </div>
+    
+                <div class="dot-item" style="background-color: {$formDataStore.selectedColor || 'black'};"></div>
+                <div class="language-details">{selectedLanguage.lang} - {selectedLanguage.level}</div>
                 
             </div>
-
+    
         {/each}
-
+    
     </div>
+    
 
     <!-- Hard Skills Section-->
-
     <div class="hard-skills-container">
 
         <div class="hard-skills-title" style="color:{$formDataStore.selectedColor || "black"};">SKILLS E COMPETENZE DIGITALI</div>
@@ -359,7 +357,7 @@
         padding-top: 0.3rem;
     }
 
-    .job-dates {
+    .job-dates, .education-dates {
         font-size: 0.8rem;
     }
 
@@ -430,7 +428,5 @@
         font-size: 0.6rem; 
         color: #666;
     }
-
-
 
 </style>
