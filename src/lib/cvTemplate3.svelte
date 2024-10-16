@@ -139,6 +139,8 @@
 
         <!-- Work Experience Section-->
         <div class="work-experience-container">
+
+            <div class="watermark-logo" style="background-image: url(https://{currentTenant}.blob.core.windows.net/cdn/cv/transparent-logo.png);"></div>
             
             <div class="work-experience-title" style="color: {$formDataStore.selectedColor || "black"}; border-bottom: 1px solid {$formDataStore.selectedColor || "black"};">ESPERIENZE LAVORATIVE</div>
                 
@@ -192,12 +194,9 @@
         </div>
 
         <!-- Footer Section -->
-        
         <div class="footer-container">
-            
             <div class="company-logo" style="background-image:url(https://{currentTenant}.blob.core.windows.net/cdn/cv/extended-logo.png);"></div>
-            <p class="copyright-text">{currentCopyrightPolicy}</p>
-                        
+            <p class="copyright-text">{currentCopyrightPolicy}</p>               
         </div>                   
            
     </div>
@@ -216,6 +215,7 @@
     .left-section {
         flex-basis: 35%;
         flex-shrink: 0;
+        height: auto;
         border: 1px solid red;
         background-color:#efefef;
         padding: 1.5rem 0.5rem;
@@ -224,6 +224,7 @@
     .right-section {
         flex-basis: 65%;
         flex-grow: 0;
+        height: auto;
         border: 1px solid blue;
     }
 
@@ -320,6 +321,20 @@
         font-size: 0.8rem;
     }
 
+    .work-experience-container {
+        position: relative;
+    }
+
+    .watermark-logo {
+        position: absolute;
+        width: 500px; 
+        height: 500px;
+        top: 75px;
+        right: -250px;
+        aspect-ratio: 1/1;
+        background-size: contain;
+    }
+
     .job-details, .education-details-container {
         padding-top: 0.6rem;
         color:#6d6d6d;
@@ -349,18 +364,18 @@
 
     .company-logo {
         flex-shrink: 0;
+        text-align: center; 
         background-size: contain;
         background-position: center;
         background-repeat: no-repeat;
         aspect-ratio: 2 / 1;
         width: 50px; 
         height: 25px; 
-        text-align: center; 
     }
 
     .copyright-text {
         font-size: 8px; 
-        color: black;
+        color: #666;
         flex-grow: 1;
     }
 

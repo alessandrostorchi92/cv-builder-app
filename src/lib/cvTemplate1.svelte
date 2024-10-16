@@ -330,8 +330,8 @@
         position: absolute;
         width: 400px; 
         height: 400px;
-        top: -60px;
-        right: -230px;
+        top: 60px;
+        right: 230px;
         aspect-ratio: 1/1;
         background-size: cover;
     }
