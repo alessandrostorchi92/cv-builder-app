@@ -1,202 +1,334 @@
 <script lang="ts">
 
-    import {formDataStore, isAllowed, isPrivacyPolicyApproved, currentTenant, currentCopyrightPolicy} from "../stores/CvUser_data";
+    import {formDataStore, isPrivacyPolicyApproved, isAllowed, currentTenant, currentCopyrightPolicy} from "../stores/CvUser_data";
+    import { cvInitialData }  from "../stores/cvDefault_data";
 
 </script>
 
-<div style="margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif;margin: 0 auto;">
+<div id="cv-template2-container" style="border: 1px solid {$formDataStore.selectedColor || "black"};">
 
-    <!-- Main Table to Structure the CV -->
+    <!-- Header Section -->
+    <div class="text-center">
+        
+        <!-- User Full Name -->
+        <div class="user-full-name"><span style="color: {$formDataStore.selectedColor || "gray"};">{$cvInitialData.name}</span><span class="ms-1" style="color: #888888;">{$cvInitialData.surname}</span></div>
 
-    <table width="100%" cellpadding="0" cellspacing="0" style="overflow:hidden; width: 100%; margin: 0 auto; box-sizing: border-box; padding: 20px;">
+        <!-- User Profession -->
+        <div class="user-profession">{$cvInitialData.profession}</div>
 
-        <tbody style="display:block;overflow: hidden;position: relative;border: 1px solid {$formDataStore.selectedColor}; border-radius: 12px; height: auto">
+        <div class="profile-info-container">
 
-            <div style="position: absolute; left: 61.2%; z-index: -1; margin-right: 50px; margin-top: 280px; width: 240px; overflow: hidden;">
-                <div style="
-                    width: 500px; 
-                    height: 500px; 
-                    background-image: url(https://{currentTenant}.blob.core.windows.net/cdn/cv/transparent-logo.png);
-                    background-repeat: no-repeat;
-                    background-size: contain;">
-                </div>
+            <!-- User BirthCake -->                 
+            <div class="info-item">
+                <span style="color: {$formDataStore.selectedColor || "gray"}">●</span>
+                <span class="specs-item">{$cvInitialData.birthDate}, {$cvInitialData.birthPlace}</span>
             </div>
 
-            <!-- Header Section -->
-            <tr>
-                <td colspan="3" style="padding: 10px; text-align: center;">
-                    <div style="font-size: 32px; font-weight: bold; letter-spacing:0.6cap;"><span style="color: {$formDataStore.selectedColor};">{$formDataStore.name}</span><span style="color: #888888;">{$formDataStore.surname}</span></div>
-                    <div style="font-size: 24px; color: gray; margin-top: 5px; letter-spacing:0.2cap;">{$formDataStore.profession}</div>
-                </td>
-            </tr>
+            <!-- User House -->
+            <div class="info-item">
+                <span style="color: {$formDataStore.selectedColor || "gray"}">●</span>
+                <span class="specs-item">{$cvInitialData.address}</span>
+            </div>
 
-            <!-- Contact Information Section -->
-            <tr>
-                <td colspan="4" style="padding-bottom: 12px; text-align: center;">
-                    <table cellpadding="5" cellspacing="0" style="width: 100%; font-size: 12px; color: gray;">
-                        <tr style="display: flex;align-items: center;justify-content: center;">
-                            <td style="text-align: center;font-size: 12px;">
-                                <span style="color: {$formDataStore.selectedColor};">●</span> {$formDataStore.birthDate}, {$formDataStore.birthPlace}
-                            </td>
-                            <td style="text-align: center;font-size: 12px;">
-                                <span style="color: {$formDataStore.selectedColor};">●</span> {$formDataStore.address}
-                            </td>
-                            <td style="text-align: center;font-size: 12px;">
-                                <span style="color: {$formDataStore.selectedColor};">●</span> {$formDataStore.phone}
-                            </td>
-                            <td style="text-align: center;font-size: 12px;">
-                                <span style="color: {$formDataStore.selectedColor};">●</span> {$formDataStore.email}
-                            </td>
-                        </tr>
-                    </table>
-                </td>
-            </tr>
+            <!-- User Phone -->
+            <div class="info-item">
+                <span style="color: {$formDataStore.selectedColor || "gray"}">●</span>
+                <span class="specs-item">{$cvInitialData.phonePrefix} {$cvInitialData.phoneNumber}</span>
+            </div>
 
-            <tr>
-                <td colspan="3" style="padding-bottom: 4px; text-align: center;padding: 10px 0; border-top: 1px solid {$formDataStore.selectedColor};">
-                    <table cellpadding="6" cellspacing="0" style="width: 100%; font-size: 12px; color: gray;">
-                        <tr style="display: flex;align-items: center;justify-content: center;">
-                            <td style="text-align: center;font-size: 14px;">
-                                <span style="color: {$formDataStore.selectedColor};">●</span> Nazionalità:{$formDataStore.nationality}
-                            </td>
-                            <td style="text-align: center;font-size: 14px;">
-                                <span style="color: {$formDataStore.selectedColor};">●</span> Categoria protetta: {$formDataStore.isProtectedCategory}
-                            </td>
-                            {#if $formDataStore.drivingLicences.length > 0}
-                                <td style="text-align: center;font-size: 14px;">
-                                    <span style="color: {$formDataStore.selectedColor};">●</span> Automunito - {$formDataStore.drivingLicences}
-                                </td>
-                            {/if}
-                        </tr>
-                    </table>
-                </td>
-            </tr>
+            <!-- User Email -->
+            <div class="info-item">
+                <span style="color: {$formDataStore.selectedColor || "gray"}">●</span>
+                <span class="specs-item">{$cvInitialData.email}</span>
+            </div>
 
-            <!-- Breve Presentazione Section -->
-            <tr>
-                <td colspan="3" style="padding: 12px; border-top: 1px solid {$formDataStore.selectedColor}">
-                    <div style="font-size: 24px; color: {$formDataStore.selectedColor}; margin-bottom:12px; text-align: center; letter-spacing:0.2cap;">BREVE PRESENTAZIONE</div>
-                    <p style="font-size: 14px; color: gray; margin: 10px 0 0 0;">
-                        {$formDataStore.profileSummary}
-                    </p>
-                </td>
-            </tr>
+        </div>
 
-            <!-- Esperienze di Lavoro Section -->
-            <tr>
-                <td colspan="3" style="padding: 12px; border-top: 1px solid {$formDataStore.selectedColor}">
-                    {#if $formDataStore.jobs.some((job) => job.role !== "" || job.company !== "" || job.workExperienceResults !== "" || job.startDateWorkExperience !== "" || job.endDateWorkExperience !== "")}
-                        <div style="font-size: 24px; color: {$formDataStore.selectedColor}; margin-bottom:12px; text-align: center; letter-spacing:0.2cap;">ESPERIENZE DI LAVORO</div>
-                    {/if}
+        <div class="user-info-container" style="border-top: 1px solid {$formDataStore.selectedColor || "black"};">
 
-                    <table cellpadding="5" cellspacing="0" style="width: 100%; font-size: 12px; color: gray;">
-                        {#each $formDataStore.jobs as job (job)}
-                            <tr>
-                                <td width="100%">
-                                    <div style="margin-bottom: 4px;display: flex;justify-content: space-between;"><span style="font-weight: 600;">{job.role} - in {job.company}</span><span style="font-size: 14px;">{job.startDateWorkExperience}/{job.endDateWorkExperience}</span></div>
-                                    <span style="color: {$formDataStore.selectedColor}">●</span> <span style="font-size: 14px;">{job. workExperienceResults}</span><br>
-                                </td>
-                            </tr>
-                        {/each}
-                    </table>
-                </td>
-            </tr>
+            <!-- Nationality -->
+            <div class="info-item">
+                <span style="color: {$formDataStore.selectedColor || "gray"}">●</span>
+                <span class="specs-item">Nazionalità: {$cvInitialData.nationality}</span>
+            </div>
 
-            <!-- Formazione Section -->
-            <tr>
-                <td colspan="3" style="padding: 12px; border-top: 1px solid {$formDataStore.selectedColor}">
+            <!-- IsProtectedCategory -->
+            <div class="info-item">
+                <span style="color: {$formDataStore.selectedColor || "gray"}">●</span>
+                <span>Categoria protetta:</span><span class="specs-item" style="margin-left: 5px">{$cvInitialData.isProtectedCategory}</span>
+            </div>
 
-                    {#if $formDataStore.educations.some((education) => education.educationType !== "" || education.fieldOfStudy !== "" || education.qualification.length > 0 || education.educationGoals !== "" || education.startDateAcademicEducation !== "" || education.endDateAcademicEducation !== "")}
-                        <div style="font-size: 24px; color: {$formDataStore.selectedColor}; margin-bottom:12px; text-align: center; letter-spacing:0.2cap;">FORMAZIONE</div>
-                    {/if}
+            <!-- HasOwnCar -->  
+            <div class="info-item">
+                <span style="color: {$formDataStore.selectedColor || "gray"}">●</span>
+                <span>Automunito:</span><span class="specs-item ms-1">{$cvInitialData.drivingLicences}</span>
+            </div>
+            
+        </div>
+    
+    </div>
 
-                    <table cellpadding="5" cellspacing="0" style="width: 100%; font-size: 12px; color: gray;">
-                            
-                        {#each $formDataStore.educations as education (education)}
-                            <tr>
-                                <td style="display: block;padding: 0 4px;">
-                                    <div style="margin-bottom: 0px; display: flex; justify-content: space-between;"><span><span style="color: {$formDataStore.selectedColor};">●</span> <span style="font-weight: 600;">{education.qualification} - {education.fieldOfStudy} - {education.educationType} </span></span><span style="font-size: 14px;">{education.endDateAcademicEducation}</span></div>
-                                </td>
-                            </tr>
-                        {/each}
-                            
-                    </table>
+    <!-- Main Section -->
 
-                </td>
-                    
-            </tr>
+    <!-- Profile Summary --> 
+    <div class="profile-summary-container">
+        <div class="profile-summary-title" style="color: {$formDataStore.selectedColor || "black"}; border-top: 1px solid {$formDataStore.selectedColor || "black"};">BREVE PRESENTAZIONE</div>
+        <p>{$cvInitialData.profileSummary}</p>
+    </div>
 
-            <!-- Skills e Competenze Section -->
-            <tr>
-                <td colspan="3" style="padding: 12px; border-top: 1px solid {$formDataStore.selectedColor}">
-                    {#if $formDataStore.digitalSkills.some((digitalSkill) => digitalSkill.skill !== "")}
-                        <div style="font-size: 24px; color: {$formDataStore.selectedColor}; margin-bottom:12px; text-align: center; letter-spacing:0.2cap;">SKILLS E COMPETENZE</div>
-                    {/if}
+    <!-- Work Experiences --> 
+    <div class="work-experience-container">
 
-                    <table cellpadding="5" cellspacing="0" style="width: 100%; font-size: 12px; color: gray;">
+        <div class="watermark-logo" style="background-image: url(https://{currentTenant}.blob.core.windows.net/cdn/cv/transparent-logo.png);"></div>
 
-                        <tr>
+        <div class="work-experience-title" style="color: {$formDataStore.selectedColor || "black"}; border-top: 1px solid {$formDataStore.selectedColor || "black"};">ESPERIENZE DI LAVORO</div>
 
-                            <td>
-                            
-                                {#each $formDataStore.digitalSkills as digitalSkill (digitalSkill)}
-                                    <td style="font-size: 14px;"><span style="padding:4px; background-color: #ffffff; border: 1px solid {$formDataStore.selectedColor}; border-radius: 12px; margin-right: 4px;"><span style="font-weight: 600;">{digitalSkill.skill}</span> <span>- {digitalSkill.level}</span> </span></td>
-                                {/each}
+        {#each $cvInitialData.jobs as job}
+    
+            <div class="work-experience-item">
+                <div class="job-details">{job.role} - {job.company} - in {job.location}</div>         
+                <div class="job-dates">{job.startDateWorkExperience}/{job.endDateWorkExperience}</div>          
+            </div>
+            
+            <div class="job-results-wrapper">
+                <span class="me-1" style="color: {$formDataStore.selectedColor || "gray"}">●</span><p class="job-results">{job.workExperienceResults}</p>
+            </div>
+        
+        {/each}
 
-                            </td>
+    </div>
 
-                        </tr>
+    <!-- Academic Background -->
+    <div class="academic-background-container">
+        
+        <div class="academic-background-title" style="color:{$formDataStore.selectedColor || "black"};">FORMAZIONE</div>
+    
+        {#each $cvInitialData.educations as education (education)}
 
-                        <tr><td></td></tr>
+            <div class="academic-background-item">
 
-                    </table>
-                </td>
-            </tr>
-
-            <!-- Lingue Section -->
-            <tr>
-                <td colspan="3" style="padding: 12px; border-top: 1px solid {$formDataStore.selectedColor};">
-
-                    {#if $formDataStore.languagesSkills.some((selectedLanguage) => selectedLanguage.lang !== "")}
-                        <div style="font-size: 24px; color: {$formDataStore.selectedColor};margin-bottom:12px;text-align: center;letter-spacing:0.2cap;">LINGUE</div>
-                    {/if}
-
-                    <p style="font-size: 14px; color: {$formDataStore.selectedColor};">
-                        
-                        {#each $formDataStore.languagesSkills as selectedLanguage (selectedLanguage)}
-                            <span style="padding:4px;background-color: #ffffff;border: 1px solid black; border-radius: 12px; margin-right: 4px;"><span style="font-weight: 600;">{selectedLanguage.lang}</span> <span>-{selectedLanguage.level}</span> </span>
-                        {/each}
-
-                    </p>
-
-                </td>
-
-            </tr>
-
-            <!-- Footer Section -->
-            <tr>
-                <td colspan="3" style="padding: 16px 12px; display: flex;align-items: center; border-top: 1px solid {$formDataStore.selectedColor};">
-                <div style="display: flex;align-items: center;gap: 8px;">
-                    <p style="font-size: 8px; color: #666; margin: 0;">Autorizzo il trattamento dei dati personali nel rispetto della vigente normativa sulla protezione dei dati personali ed in particolare il Regolamento Europeo per la protezione dei dati personali 2016/679, il d.lgs. 30/06/2003 n. 196 e successive modifiche e integrazioni.</p>
-                    <div style="display: flex;align-items: center;justify-content: center;flex-direction: column;">
-                        <span>{@html $formDataStore.userSignature}</span> 
-                        <div style="height: 10px; border-bottom: 1px solid #e6e6e6; width: 200px; margin-bottom: 10px;"></div>
-                    </div>
+                <div class="education-details-wrapper">
+                    <span class="me-1" style="color: {$formDataStore.selectedColor || "gray"}">●</span><div class="education-details">{education.qualification} - {education.educationType} - {education.fieldOfStudy}</div>
                 </div>
-                </td>
-            </tr>
 
-            <tr>
-                <td colspan="3" style="text-align: center;">
-                    <div style="display: flex; justify-content: center; align-items: center; gap: 10px; font-size: 8px; color: #666; margin-top: 46px;padding-bottom: 16px;">
-                        <div style="background-image:url(https://{currentTenant}.blob.core.windows.net/cdn/cv/extended-logo.png);background-size: contain;background-position: center;background-repeat: no-repeat;width: 42px; height: 12px; display: inline-block; text-align: center; line-height: 12px;"></div>
-                        <p style="margin: 0;">{currentCopyrightPolicy}</p>
+                <div class="education-dates">{education.endDateAcademicEducation}</div>
+
+            </div>
+            
+        {/each}
+
+    </div>
+
+    <!-- Hard Skills -->
+    <div class="hard-skills-container">
+    
+        <div class="hard-skills-title" style="color:{$formDataStore.selectedColor || "black"}; border-top: 1px solid {$formDataStore.selectedColor || "black"};">SKILLS E COMPETENZE</div>
+        
+        <div class="hard-skills-wrapper">
+            
+            {#each $cvInitialData.digitalSkills as digitalSkill (digitalSkill)}
+                <div class="hard-skills-details" style="border: 1px solid {$formDataStore.selectedColor || "black"};">{digitalSkill.skill} - {digitalSkill.level}</div>
+            {/each}
+                
+        </div>
+
+    </div>
+
+    <!-- Language Skills -->
+    <div class="language-skills-container">
+    
+        <div class="language-skills-title" style="color:{$formDataStore.selectedColor || "black"}; border-top: 1px solid {$formDataStore.selectedColor || "black"};">LINGUE</div>
+       
+        <div class="language-skills-wrapper">
+            
+            {#each $cvInitialData.languagesSkills as selectedLanguage (selectedLanguage)}
+                <div class="language-skills-details" style="border: 1px solid {$formDataStore.selectedColor || "black"};">{selectedLanguage.lang} - {selectedLanguage.level}</div>
+            {/each}
+                
+        </div>
+
+    </div>
+
+    <!-- Footer Section -->
+    <div class="footer-container" style="border-top: 1px solid {$formDataStore.selectedColor || "black"};">
+    
+        <!-- Policy Privacy & Signature Section -->
+        {#if $isPrivacyPolicyApproved && $isAllowed}
+
+            <div class="d-flex">
+
+                    <div class="policy-privacy-container">
+                        <p>Autorizzo il trattamento dei dati personali nel rispetto della vigente normativa sulla protezione dei dati personali ed in particolare il Regolamento Europeo per la protezione dei dati personali 2016/679, il d.lgs. 30/06/2003 n. 196 e successive modifiche e integrazioni.</p>
                     </div>
-                </td>
-            </tr>
 
-        </tbody>
+                    <div class="user-signature-container">
+                        <img src="{$formDataStore.userSignature}" alt="Firma digitale" style="width:60%;">
+                    </div>
 
-    </table>
+            </div>
+
+        {/if}           
+ 
+    </div>
 
 </div>
+
+ <!-- Company info Section -->
+
+<div class="copyright-container">
+    
+    <div class="company-logo" style="background-image:url(https://{currentTenant}.blob.core.windows.net/cdn/cv/extended-logo.png);"></div>
+    <p class="copyright-text">{currentCopyrightPolicy}</p>
+        
+</div>        
+
+<style>
+
+#cv-template2-container{
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    font-family: 'Poppins', sans-serif;
+    height: auto;
+    border-radius: 12px;
+}
+
+.user-full-name {
+    padding-top: 0.5rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.user-profession {
+    padding-top: 0.5rem;
+    font-size: 1rem;
+    color: gray;
+    padding: 0.2rem 0;
+}
+
+.profile-info-container, .user-info-container {
+    display: flex;
+    justify-content: center;
+    padding: 0.5rem 0;
+    font-size: 0.7rem;
+    color: gray;
+}
+
+.info-item > .specs-item {
+  margin-right: 0.5rem;
+}
+
+.watermark-logo {
+    position: absolute;
+    width: 400px; 
+    height: 400px;
+    top: 0;
+    right: -180px;
+    aspect-ratio: 1/1;
+    background-size: cover;
+    overflow: hidden;
+}
+
+.profile-summary-title, .work-experience-title, .academic-background-title, .hard-skills-title, .language-skills-title {
+    font-size: 1rem;
+    text-align: center;
+    padding-top: 0.5rem;
+}
+
+p {
+    margin: 0;
+    font-size: 0.7rem;
+    color: gray;
+}
+
+.profile-summary-container p {
+    padding: 0.5rem 1rem;
+}
+
+.work-experience-container {
+    position: relative;
+}
+
+.work-experience-item, .academic-background-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    flex-basis: 100%;
+    padding: 0.5rem 1rem;
+    font-size: 0.7rem;
+}
+
+.job-details {
+    font-weight: 600;
+}
+
+.job-results-wrapper {
+    padding: 0 1rem;
+}
+
+.job-results, .education-details {
+    display: inline;
+}
+
+.hard-skills-wrapper, .language-skills-wrapper {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    font-size: 0.9rem;
+    padding: 1rem;
+}
+
+.hard-skills-details, .language-skills-details {
+    display: inline-block;
+    padding: 0.2rem;
+    border-radius: 12px;
+    font-weight: 600;
+}
+
+.footer-container {
+    padding: 0 1rem;
+}
+
+.policy-privacy-container {
+    flex-basis: 70%;
+}
+
+.policy-privacy-container p {
+    font-size: 0.6rem; 
+    color: #666;
+    padding: 1rem;
+}
+
+.user-signature-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-basis: 30%;
+}
+
+.copyright-container {
+        display: flex;
+        width: 90%;
+        margin-top: 1rem; 
+        gap: 10px;
+}
+
+.company-logo {
+    flex-shrink: 0;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    aspect-ratio: 2 / 1;
+    width: 50px; 
+    height: 25px; 
+}
+
+.copyright-text {
+    font-size: 8px; 
+    color: #666;
+    flex-grow: 1;
+}
+
+</style>

@@ -5,7 +5,7 @@
 
 </script>
 
-<div class="cv-template3-container">
+<div id="cv-template3-container">
 
     <div class="left-section">
 
@@ -204,8 +204,7 @@
 </div>
         
 <style>
-
-    .cv-template3-container{
+    #cv-template3-container{
         display: flex;
         flex-direction: row;
         width: 90%;
@@ -306,6 +305,7 @@
 
     .user-signature-container {
         text-align: center;
+        padding: 1rem 0;
     }
 
     .user-status-info {
@@ -333,6 +333,7 @@
         right: -250px;
         aspect-ratio: 1/1;
         background-size: contain;
+        overflow: hidden;
     }
 
     .job-details, .education-details-container {

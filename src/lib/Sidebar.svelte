@@ -228,8 +228,6 @@
    
   }
 
-  let disableAddLanguageButton: boolean = false;
-
   function addDigitalSkills(): void{
    if($formDataStore.digitalSkills.length >  0) {
      $formDataStore.digitalSkills.push({ skill: "", level: "" })
@@ -245,13 +243,9 @@
   }
   
   function addLanguage(): void {
-    if ($formDataStore.languagesSkills.length < 3) {
+    if ($formDataStore.languagesSkills.length > 0) {
       $formDataStore.languagesSkills.push({ lang: "", level: "" });
       $formDataStore.languagesSkills = $formDataStore.languagesSkills;
-    }
-
-    if ($formDataStore.languagesSkills.length >= 3) {
-      disableAddLanguageButton = true;
     }
   }
 
@@ -260,7 +254,6 @@
       (selectedLanguage, i) => i !== index
     );
     $formDataStore.languagesSkills = $formDataStore.languagesSkills;
-    disableAddLanguageButton = false;
   }
 
   function addWorkExperience(): void {
@@ -1075,8 +1068,7 @@
               type="button"
               class="btn-add-style"
               aria-label="Aggiungi lingua"
-              on:click={() => addLanguage()}
-              disabled={disableAddLanguageButton}>
+              on:click={() => addLanguage()}>
               <span>Aggiungi Lingua</span>
               <i class="fa-solid fa-plus ms-2"></i>
             </button>
@@ -1085,7 +1077,6 @@
         </div>
 
         <!-- Automunito -->
-
         <div class="py-3">
 
           <label for="formLabelSelfDriven">Sei automunito?</label>
@@ -1123,7 +1114,6 @@
         </div>
         
         <!-- Patente -->
-
         <div class="py-3">
           
           <div>
@@ -1160,7 +1150,6 @@
         </div>
 
         <!-- Dettagli Carriera -->
-
         <div class="flex-center-utility py-4">
           <h2 class="title-section-style">DETTAGLI CARRIERA</h2>
         </div>
@@ -1471,7 +1460,6 @@
   </form>
 
   <!---- Privacy Policy ---->
-
   <div class="py-5">
     <div class="form-check form-switch privacy-label flex-center-utility">
         <input class="form-check-input me-2" 
@@ -1495,7 +1483,6 @@
   </div>
 
   <!---- User Signature ---->
-
   <div>
 
     <div class="signature-container">
@@ -1530,8 +1517,7 @@
 
   </div>
 
-  <!---- Download Button ---->
-    
+  <!---- Download Button ----> 
   <div class="mt-5">
     <button class="download-btn" aria-label="Scarica Curriculum Vitae" on:click={checkCvPreview} disabled={!$isAllowed || !$isPrivacyPolicyApproved}>SCARICA CV <i class="fa-solid fa-download"></i></button>
   </div>
@@ -1694,7 +1680,6 @@
   }
 
   .btn-remove-style {
-    margin-top: 0.5rem;
     background-color: #e74c3c;
     font-size: 1rem;
     color: white;
