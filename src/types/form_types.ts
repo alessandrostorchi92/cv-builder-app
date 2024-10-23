@@ -10,7 +10,7 @@
         nationality: string,
         birthPlace: string
         birthDate: string,
-        address: string,
+        address: Residence[],
         phonePrefix: string,
         phone: string,
         email: string,
@@ -27,8 +27,14 @@
         selectedCvTemplate: string;   
     }
 
-    export type WorkHistory = {
+    export type Residence = {
+        streetAddress: string;
+        streetNumber: string,
+        city: string;
+        region: string;
+    };
 
+    export type WorkHistory = {
         role: string,
         company: string,
         location: string,
@@ -36,7 +42,6 @@
         startDateWorkExperience: string,
         endDateWorkExperience: string,
         isEmployed: boolean,
-
     };
 
     export type AcademicHistory = {

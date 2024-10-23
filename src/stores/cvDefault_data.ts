@@ -8,51 +8,48 @@ export const cvInitialData = derived(formDataStore, ($formDataStore) => {
   const handleInitialDataJob = $formDataStore.jobs.map(job => {
     
     return {
-
       role: (!job.role || job.role.trim() === "") ? "Ruolo" : job.role,
       company: (!job.company || job.company.trim() === "") ? "Azienda" : job.company,
       location: (!job.location || job.location.trim() === "") ? "Località" : job.location,
       workExperienceResults: (!job.workExperienceResults || job.workExperienceResults.trim() === "") ? "In antiquitate, Romani magnas res gestas et sapientiam in diversis disciplinis coluerunt. Philosophia, ars, et litterae floruerunt inter cives, qui sapientiae et veritati studebant. Multi poëtæ, ut Virgilius et Ovidius, fabulas et historias narraverunt, quas ad posteritatem pervenire voluerunt. Sicut in vita cotidiana, ita in bellis et in pace, Romani unitatem et fortitudinem semper quaerebant. Res publica, sub duce et consilio, multis rebus periculis se opposuit, atque fines imperii a Britannia usque ad Aegyptum extendit. Haec omnia exempla docet nos de virtutibus et sapientia, quae in animis hominum semper manent." : job.workExperienceResults,
       startDateWorkExperience: (!job.startDateWorkExperience) ? "Data Inizio" : formattedWorkAcademicDate(job.startDateWorkExperience),
       endDateWorkExperience: (job.isEmployed) ? "Presente" : (!job.isEmployed && job.endDateWorkExperience) ? formattedWorkAcademicDate(job.endDateWorkExperience) : "Data Fine",
-
     };
 
   });
 
   // Funzione che imposta i valori di default da assegnare alla sezione formazione
-
   const handleInitialDataEducation = $formDataStore.educations.map(education => ({
-
     qualification: (!education.qualification) ? "Titolo di studio" : education.qualification,
     fieldOfStudy: (!education.fieldOfStudy || education.fieldOfStudy.trim() === "") ? "Campo di studio" : education.fieldOfStudy,
     educationType: (!education.educationType || education.educationType.trim() === "") ? "Ente di formazione" : education.educationType,
     educationGoals: (!education.educationGoals || education.educationGoals.trim() === "") ? "In antiquitate, Romani magnas res gestas et sapientiam in diversis disciplinis coluerunt. Philosophia, ars, et litterae floruerunt inter cives, qui sapientiae et veritati studebant. Multi poëtæ, ut Virgilius et Ovidius, fabulas et historias narraverunt, quas ad posteritatem pervenire voluerunt. Sicut in vita cotidiana, ita in bellis et in pace, Romani unitatem et fortitudinem semper quaerebant. Res publica, sub duce et consilio, multis rebus periculis se opposuit, atque fines imperii a Britannia usque ad Aegyptum extendit. Haec omnia exempla docet nos de virtutibus et sapientia, quae in animis hominum semper manent." : education.educationGoals,
     startDateAcademicEducation: (!education.startDateAcademicEducation) ? "Data Inizio" : formattedWorkAcademicDate(education.startDateAcademicEducation),
     endDateAcademicEducation: (!education.endDateAcademicEducation) ? "Data Fine" : formattedWorkAcademicDate(education.endDateAcademicEducation)
-
   }));
 
+  // Funzione che imposta i valori di default da assegnare alla sezione indirizzo di residenza
+  const handleInitialDataAddress = $formDataStore.address.map(addressItem => ({
+    streetAddress: !addressItem.streetAddress || addressItem.streetAddress.trim() === "" ? "Indirizzo" : addressItem.streetAddress,
+    streetNumber: !addressItem.streetNumber || addressItem.streetNumber.trim() === "" ? "Numero Civico" : addressItem.streetNumber,
+    city: !addressItem.city || addressItem.city.trim() === "" ? "Città" : addressItem.city,
+    region: !addressItem.region || addressItem.region.trim() === "" ? "Regione" : addressItem.region,
+  }));
+  
   // Funzione che imposta i valori di default da assegnare alla sezione lingue
-
   const handleInitialDataLanguage = $formDataStore.languagesSkills.map(selectedLanguage => ({
-
     lang: (!selectedLanguage.lang) ? "Lingua" : selectedLanguage.lang,
     level: (!selectedLanguage.level) ? "Livello" : selectedLanguage.level
-
   }));
 
   // Funzione che imposta i valori di default da assegnare alla sezione competenze
   const handleInitialDataHardSkill = $formDataStore.digitalSkills.map(digitalSkill => ({
-
     skill: (!digitalSkill.skill) ? "Competenza" : digitalSkill.skill,
     level: (!digitalSkill.level) ? "Livello" : digitalSkill.level
-
   }));
 
   
   return {
-
     name: (!$formDataStore.name || $formDataStore.name.trim() === "") ? "Nome" : $formDataStore.name,
     surname: (!$formDataStore.surname || $formDataStore.surname.trim() === "") ? "Cognome" : $formDataStore.surname,
     profession: (!$formDataStore.profession || $formDataStore.profession.trim() === "") ? "Professione" : $formDataStore.profession,
@@ -62,7 +59,7 @@ export const cvInitialData = derived(formDataStore, ($formDataStore) => {
     hasOwnCar: !$formDataStore.hasOwnCar ? "Non specificato" : $formDataStore.hasOwnCar,
     drivingLicences: $formDataStore.drivingLicences.length === 0 ? "Tipologia Patenti" : $formDataStore.drivingLicences.join(", "),
     isProtectedCategory: !$formDataStore.isProtectedCategory ? "Non specificato" : $formDataStore.isProtectedCategory,
-    address: (!$formDataStore.address || $formDataStore.address.trim() === "") ? "Indirizzo Postale" : $formDataStore.address,
+    address: handleInitialDataAddress,
     phonePrefix: !$formDataStore.phonePrefix ? "Prefisso" : $formDataStore.phonePrefix,
     phoneNumber: (!$formDataStore.phone || $formDataStore.phone.trim() === "") ? "Cellulare" : $formDataStore.phone,
     email: (!$formDataStore.email || $formDataStore.email.trim() === "") ? "Email" : $formDataStore.email,
@@ -70,8 +67,7 @@ export const cvInitialData = derived(formDataStore, ($formDataStore) => {
     jobs: handleInitialDataJob,
     educations: handleInitialDataEducation,
     languagesSkills: handleInitialDataLanguage,
-    digitalSkills: handleInitialDataHardSkill
-
+    digitalSkills: handleInitialDataHardSkill,
   };
 
 });

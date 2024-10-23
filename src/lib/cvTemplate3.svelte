@@ -45,7 +45,9 @@
         <!-- House Icon -->
         <div class="info-item">
             <i class="fa-solid fa-house" style="color: {$formDataStore.selectedColor || "black"}"></i>
-            <span>{$cvInitialData.address}</span>
+            {#each $cvInitialData.address as addressItem}
+            <span class="specs-item">{addressItem.streetAddress} {addressItem.streetNumber}, {addressItem.city} - {addressItem.region}</span>
+            {/each}
         </div>
 
         <!-- Email Icon -->

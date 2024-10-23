@@ -27,7 +27,9 @@
             <!-- User House -->
             <div class="info-item">
                 <span style="color: {$formDataStore.selectedColor || "gray"}">●</span>
-                <span class="specs-item">{$cvInitialData.address}</span>
+                {#each $cvInitialData.address as addressItem}
+                    <span class="specs-item">{addressItem.streetAddress} {addressItem.streetNumber}, {addressItem.city} - {addressItem.region}</span>
+                {/each}
             </div>
 
             <!-- User Phone -->

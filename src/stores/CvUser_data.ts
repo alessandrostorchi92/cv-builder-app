@@ -9,7 +9,14 @@ let userFormData: formTypes.FormData = {
   nationality: "",
   birthPlace: "",
   birthDate: "",
-  address: "",
+  address: [
+    {
+      streetAddress: "",
+      streetNumber: "",
+      city: "",
+      region: "",
+    }
+  ],
   phonePrefix: "",
   phone: "",
   email: "",
@@ -50,7 +57,6 @@ let userFormData: formTypes.FormData = {
 export const formDataStore = writable(userFormData);
 
 // Salvo i dati nel localStorage
-
 export function storeUserData(storeData: formTypes.FormData): void {
 
   try {
@@ -65,7 +71,6 @@ export function storeUserData(storeData: formTypes.FormData): void {
 }
 
 // Aggiornamento dei dati salvati nel localStorage
-
 export function updateStoreUserData(): void {
 
   try {
@@ -87,7 +92,6 @@ export function updateStoreUserData(): void {
 }
 
 // Recupero i dati dal localStorage
-
 export function getStoreUserData(): void {
 
   try {
@@ -112,7 +116,6 @@ export function getStoreUserData(): void {
 }
 
 // Eliminazione dei dati del localStorage
-
 export function clearLocalStorage(): void {
   if (typeof window !== "undefined" && typeof localStorage !== "undefined") {
     localStorage.clear();
@@ -123,7 +126,6 @@ export let isAllowed: formTypes.isAllowed = writable(false);
 export let isPrivacyPolicyApproved: formTypes.isAllowed = writable(false);
 
 // Formattazione data di nascita
-
 export function formattedBirthDate(date: string): string {
   if (!date) return "";
   const [year, month, day] = date.split("-");
@@ -131,7 +133,6 @@ export function formattedBirthDate(date: string): string {
 }
 
 // Formattazione data delle esperienze lavorative e accademiche
-
 export function formattedWorkAcademicDate(date: string): string {
   if (!date) return "";
   const [year] = date.split("-"); 
@@ -139,7 +140,6 @@ export function formattedWorkAcademicDate(date: string): string {
 }
 
 // Funzione per ottenere il logo
-
 function getTenant(): string | null {
 
     try {
@@ -173,7 +173,6 @@ function getTenant(): string | null {
 export const currentTenant = getTenant();
 
 // Funzione per ottenere la didascalia del footer
-
 function getCopyrightPolicy(): string | null {
 
   try {

@@ -53,13 +53,11 @@
 
   });
 
-
   afterUpdate(() => {
 
     clearLocalStorage();
 
   });
-
 
 </script>
 

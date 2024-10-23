@@ -226,35 +226,35 @@
       
     };
    
-  }
+  };
 
   function addDigitalSkills(): void{
    if($formDataStore.digitalSkills.length >  0) {
      $formDataStore.digitalSkills.push({ skill: "", level: "" })
      $formDataStore.digitalSkills = $formDataStore.digitalSkills;
    }
-  }
+  };
 
   function removeDigitalSkill(index: number): void {
 
     $formDataStore.digitalSkills = $formDataStore.digitalSkills.filter((digitalSkill, i) => i !== index);
     $formDataStore.digitalSkills = $formDataStore.digitalSkills; 
 
-  }
+  };
   
   function addLanguage(): void {
     if ($formDataStore.languagesSkills.length > 0) {
       $formDataStore.languagesSkills.push({ lang: "", level: "" });
       $formDataStore.languagesSkills = $formDataStore.languagesSkills;
     }
-  }
+  };
 
   function removeLanguage(index: number): void {
     $formDataStore.languagesSkills = $formDataStore.languagesSkills.filter(
       (selectedLanguage, i) => i !== index
     );
     $formDataStore.languagesSkills = $formDataStore.languagesSkills;
-  }
+  };
 
   function addWorkExperience(): void {
     if ($formDataStore.jobs.length > 0) {
@@ -265,15 +265,16 @@
         workExperienceResults: "",
         startDateWorkExperience: "",
         endDateWorkExperience: "",
+        isEmployed: false,
       });
       $formDataStore.jobs = $formDataStore.jobs;
     }
-  }
+  };
 
   function removeWorkExperience(index: number): void {
     $formDataStore.jobs = $formDataStore.jobs.filter((job, i) => i !== index);
     $formDataStore.jobs = $formDataStore.jobs;
-  }
+  };
 
   function addAcademicEducation(): void {
     if ($formDataStore.educations.length > 0) {
@@ -287,14 +288,14 @@
       });
       $formDataStore.educations = $formDataStore.educations;
     }
-  }
+  };
 
   function removeAcademicEducation(index: number): void {
     $formDataStore.educations = $formDataStore.educations.filter(
       (education, i) => i !== index
     );
     $formDataStore.educations = $formDataStore.educations;
-  }
+  };
 
   let canvas: HTMLCanvasElement;
   let isDrawing: boolean = false;
@@ -314,14 +315,14 @@
           console.error("Impossibile ottenere il contesto di disegno 2D dal canvas.");
         }
 
-  }
+  };
 
   function updateCanvasJs(): void {
 
   canvas.width = canvas.offsetWidth;
   canvas.height = canvas.offsetHeight;
 
-  }
+  };
 
   function getPointerPosition(event: PointerEvent): { positionX: number; positionY: number } {
 
@@ -332,7 +333,7 @@
 
   return { positionX, positionY };
 
-  }
+  };
 
   function handlePointerDown(event: PointerEvent): void {
 
@@ -347,7 +348,7 @@
 
     points.push(`M${positionX},${positionY}`);
 
-  }
+  };
 
   function handlePointerMove(event: PointerEvent): void {
     if(!isDrawing || !ctx) return;
@@ -360,7 +361,7 @@
 
     isSigned = true;
 
-  }
+  };
 
   function handlePointerUp(event: PointerEvent): void {
     isDrawing = false;
@@ -384,7 +385,7 @@
 
     convertSvgToBase64(svgSignature);
 
-  }
+  };
 
   function convertSvgToBase64(svg: string): void {
 
@@ -404,7 +405,7 @@
       
     reader.readAsDataURL(svgBlob);
 
-  }
+  };
 
   function clearSignatureDrawing(): void {
     if (ctx) {
@@ -414,37 +415,408 @@
       isAllowed.set(false);
       validators.checkClickCancBtn();
     }
-  }
+  };
 
   function handleSignatureAuthorization() {
     isSigned = true; 
     isAllowed.set(true);
     validators.checkClickAuthBtn();
   
-  }
+  };
 
-  function isProfilePictureUploaded(): void {
-    const filePictureUploadedInput: HTMLInputElement | null = document.querySelector('[name="filePicture"]');
-    const errorProfilePictureUploadedMessage: HTMLDivElement | null = document.querySelector(".error-file-picture-message");
+  function checkNameInput(): void {
+    const userNameInput: HTMLInputElement | null = document.querySelector("[name='name']");
+    const errorNameMessages: HTMLDivElement | null = document.querySelector(".error-name-messages");
 
-    const setProfilePictureUploadedErrorFeedBack = (message: string) => {
+    const setNameErrorFeedBack = (message: string) => {
+        if (errorNameMessages) {
+          errorNameMessages.innerText = message;
+          errorNameMessages.classList.add("error-user-data", "fw-bolder");
+          errorNameMessages.style.fontSize = "0.8rem";
+        }
 
-        if (errorProfilePictureUploadedMessage) {
-            errorProfilePictureUploadedMessage.innerText = message;
-            errorProfilePictureUploadedMessage.classList.add("error-user-data", "fw-bolder");
-            errorProfilePictureUploadedMessage.style.fontSize = "0.8rem";
+        if(userNameInput) {
+          userNameInput.classList.add("is-invalid");
+        }
+    };
+
+    if (userNameInput) {
+        const userNameValue = userNameInput.value.trim();
+
+        if (userNameValue === "") {
+          setNameErrorFeedBack("Il nome è obbligatorio. Per favore inseriscilo.");
+        }
+    }
+  };
+
+  function checkSurnameInput(): void {
+
+    const userSurnameInput: HTMLInputElement | null = document.querySelector("[name='surname']");
+    const errorSurnameMessages: HTMLDivElement | null = document.querySelector(".error-surname-messages");
+
+    const setSurnameErrorFeedBack = (message: string) => {
+        if (errorSurnameMessages) {
+          errorSurnameMessages.innerText = message;
+          errorSurnameMessages.classList.add("error-user-data", "fw-bolder");
+          errorSurnameMessages.style.fontSize = "0.8rem";
+        }
+
+        if(userSurnameInput) {
+          userSurnameInput.classList.add("is-invalid");
+        }
+    };
+
+    if (userSurnameInput) {
+
+        const userSurnameValue = userSurnameInput.value.trim();
+
+        if (userSurnameValue === "") {
+            setSurnameErrorFeedBack("Il cognome è obbligatorio. Per favore inseriscilo.");
+        } 
+    }
+  };
+
+  function checkProfessionInput(): void {
+
+    const userProfessionInput: HTMLInputElement | null = document.querySelector("[name='profession']");
+    const errorProfessionMessages: HTMLDivElement | null = document.querySelector(".error-profession-messages");
+
+    
+    const setProfessionErrorFeedbak = (message: string) => {
+
+        if (errorProfessionMessages) {
+            errorProfessionMessages.innerText = message;
+            errorProfessionMessages.classList.add("error-user-data", "fw-bolder");
+            errorProfessionMessages.style.fontSize = "0.8rem";
+        }
+
+        if(userProfessionInput) {
+          userProfessionInput.classList.add("is-invalid");
         }
 
     };
+  
+    if (userProfessionInput) {
 
-    if (filePictureUploadedInput) {
-        
-        if (!filePictureUploadedInput.files || filePictureUploadedInput.files.length === 0) {
-            setProfilePictureUploadedErrorFeedBack("Mi dispiace, devi caricare la tua immagine di profillo");
+        const userProfessionValue = userProfessionInput.value.trim();
+
+        if (userProfessionValue === "") {
+            setProfessionErrorFeedbak("La professione è obbligatoria. Per favore inseriscila.");
         }
 
+      }
+  };
+
+  function checkNationalityInput(): void {
+
+    const userNationalityInput: HTMLInputElement | null = document.querySelector("[name='nationality']");
+    const errorNationalityMessages: HTMLDivElement | null = document.querySelector(".error-nationality-messages");
+
+    const setNationalityErrorFeedback = (message:string) => {
+
+      if(errorNationalityMessages) {
+        errorNationalityMessages.innerText = message;
+        errorNationalityMessages.classList.add("error-user-data", "fw-bolder");
+        errorNationalityMessages.style.fontSize = "0.8rem";
+      }
+
+      if(userNationalityInput) {
+        userNationalityInput.classList.add("is-invalid");
+      }
+
+    };
+
+    if(userNationalityInput) {
+
+      const userNationalityValue = userNationalityInput.value.trim();
+
+      if(userNationalityValue === "") {
+        setNationalityErrorFeedback("Lo stato di nascita è obbligatorio. Per favore inseriscilo.");
+      } 
+
     }
-    
+
+  };
+
+  function checkBirthPlaceInput(): void {
+
+    const userBirthPlaceInput: HTMLInputElement | null = document.querySelector("[name='birthPlace']");
+    const errorBirthPlaceMessages: HTMLDivElement | null = document.querySelector(".error-birthplace-message");
+
+    const setBirthPlaceErrorFeedback = (message:string) => {
+
+      if(errorBirthPlaceMessages) {
+        errorBirthPlaceMessages.innerText = message;
+        errorBirthPlaceMessages.classList.add("error-user-data", "fw-bolder");
+        errorBirthPlaceMessages.style.fontSize = "0.8rem";
+      }
+
+      if(userBirthPlaceInput) {
+        userBirthPlaceInput.classList.add("is-invalid");
+      }
+
+    };
+
+    if(userBirthPlaceInput) {
+
+      const userBirthPlaceValue = userBirthPlaceInput.value.trim();
+
+      if(userBirthPlaceValue === "") {
+        setBirthPlaceErrorFeedback("Il luogo di nascita è obbligatorio. Per favore inseriscilo.");
+      } 
+
+    }
+
+  };
+
+  function checkBirthDateInput(): void {
+    const userBirthDateInput: HTMLInputElement | null = document.querySelector("[name='birthDate']");
+    const errorBirthDateMessage: HTMLDivElement | null = document.querySelector(".error-birthdate-message");
+
+    const setBirthDateErrorFeedback = (message: string) => {
+
+        if (errorBirthDateMessage) {
+            errorBirthDateMessage.innerText = message;
+            errorBirthDateMessage.classList.add("error-user-data", "fw-bolder");
+            errorBirthDateMessage.style.fontSize = "0.8rem";
+        }
+
+        if (userBirthDateInput) {
+          userBirthDateInput.classList.add("is-invalid");
+        }
+    };
+
+    if (userBirthDateInput) {
+      const birthDateValue: string = userBirthDateInput.value;
+
+      if (birthDateValue === "") {
+        setBirthDateErrorFeedback("La data di nascita è obbligatoria. Per favore inseriscila.");
+      }
+    }
+  };
+
+  function checkStreetAddressInput(): void {
+
+    const userStreetAddressInput: HTMLInputElement | null = document.querySelector("[name='streetAddress']");
+    const errorStreetAddressMessages: HTMLDivElement | null = document.querySelector(".error-street-address-messages");
+
+    const setStreetAddressErrorFeedback = (message: string) => {
+
+      if (errorStreetAddressMessages) {
+        errorStreetAddressMessages.innerText = message;
+        errorStreetAddressMessages.classList.add("error-user-data", "fw-bolder");
+        errorStreetAddressMessages.style.fontSize = "0.8rem";
+      }
+
+      if(userStreetAddressInput) {
+        userStreetAddressInput.classList.add("is-invalid");
+      }
+    }
+
+    if (userStreetAddressInput) {
+      const userAddressValue = userStreetAddressInput.value.trim();
+      if (userAddressValue === "") {
+        setStreetAddressErrorFeedback("L'indirizzo di residenza è obbligatorio. Per favore inseriscilo.");
+      }
+    }
+  };
+
+  function checkStreetNumberInput(): void {
+
+    const userStreetNumberInput: HTMLInputElement | null = document.querySelector("[name='streetNumber']");
+    const errorStreetNumberMessages: HTMLDivElement | null = document.querySelector(".error-street-number-messages");
+
+    const setStreetNumberErrorFeedback = (message:string) => {
+
+      if(errorStreetNumberMessages) {
+          errorStreetNumberMessages.innerText = message;
+          errorStreetNumberMessages.classList.add("error-user-data", "fw-bolder");
+          errorStreetNumberMessages.style.fontSize = "0.8rem";
+      }
+
+      if(userStreetNumberInput) {
+        userStreetNumberInput.classList.add("is-invalid");
+      }
+
+    };
+
+    if(userStreetNumberInput) {
+
+      const userStreetNumberValue = userStreetNumberInput.value.trim();
+
+      if(userStreetNumberValue === "") {
+
+      setStreetNumberErrorFeedback("Il n° civico è obbligatorio. Per favore inseriscilo.");
+
+      } 
+
+    }
+
+  };
+
+  function checkCityInput(): void {
+
+    const userCityInput: HTMLInputElement | null = document.querySelector("[name='city']");
+    const errorCityMessages: HTMLDivElement | null = document.querySelector(".error-city-messages");
+
+    const setCityErrorFeedback = (message:string) => {
+
+      if(errorCityMessages) {
+          errorCityMessages.innerText = message;
+          errorCityMessages.classList.add("error-user-data", "fw-bolder");
+          errorCityMessages.style.fontSize = "0.8rem";
+      }
+
+      if(userCityInput) {
+        userCityInput.classList.add("is-invalid");
+      }
+
+    };
+
+    if(userCityInput) {
+
+      const userCityValue = userCityInput.value.trim();
+
+      if(userCityValue === "") {
+
+        setCityErrorFeedback("La città è obbligatoria: Per favore inseriscila.");
+
+      } 
+
+    }
+
+  };
+
+  function checkRegionInput(): void {
+
+    const userRegionInput: HTMLInputElement | null = document.querySelector("[name='region']");
+    const errorRegionMessages: HTMLDivElement | null = document.querySelector(".error-region-messages");
+
+    const setRegionErrorFeedback = (message:string) => {
+
+      if(errorRegionMessages) {
+          errorRegionMessages.innerText = message;
+          errorRegionMessages.classList.add("error-user-data", "fw-bolder");
+          errorRegionMessages.style.fontSize = "0.8rem";
+      }
+
+      if(userRegionInput) {
+        userRegionInput.classList.add("is-invalid");
+      }
+
+    };
+
+    if(userRegionInput) {
+
+      const userCityValue = userRegionInput.value.trim();
+
+      if(userCityValue === "") {
+
+        setRegionErrorFeedback("La regione è obbligatoria: Per favore inseriscila.");
+
+      }
+
+    }
+
+  };
+
+  function checkPhonePrefixSelect(): void {
+
+    const userPhonePrefixSelect: HTMLInputElement | null = document.querySelector("[name='phonePrefix']");
+    const errorPhonePrefixMessage: HTMLDivElement | null = document.querySelector(".error-phoneprefix-message");
+
+    const setPhonePrefixErrorFeedback = (message:string) => {
+
+      if(errorPhonePrefixMessage) {
+        errorPhonePrefixMessage.innerText = message;
+        errorPhonePrefixMessage.classList.add("error-user-data", "fw-bolder");
+        errorPhonePrefixMessage.style.fontSize = "0.8rem";
+      }
+
+      if(userPhonePrefixSelect) {
+        userPhonePrefixSelect.classList.add("is-invalid");
+      }
+
+    };
+
+    if(userPhonePrefixSelect) {
+
+      const userPhonePrefixOption = userPhonePrefixSelect.value.trim();
+
+      if(userPhonePrefixOption === "") {
+
+        setPhonePrefixErrorFeedback("Per favore, seleziona almeno un prefisso telefonico.");
+
+      } 
+
+    }
+
+  };
+
+  function checkPhoneInput(): void {
+
+    const userPhoneInput: HTMLInputElement | null = document.querySelector("[name='phone']");
+    const errorPhoneMessages: HTMLDivElement | null = document.querySelector(".error-phone-messages");
+
+    const setBirthPlaceErrorFeedback = (message:string) => {
+
+      if(errorPhoneMessages) {
+          errorPhoneMessages.innerText = message;
+          errorPhoneMessages.classList.add("error-user-data", "fw-bolder");
+          errorPhoneMessages.style.fontSize = "0.8rem";
+      }
+
+      if(userPhoneInput) {
+          userPhoneInput.classList.add("is-invalid");
+      }
+
+    } ;
+
+    if(userPhoneInput) {
+
+      const userPhoneValue = userPhoneInput.value.trim();
+
+      if(userPhoneValue === "") {
+
+        setBirthPlaceErrorFeedback("Il cellulare è obbligatorio. Per favore inseriscilo.");
+
+      }
+
+    }
+
+  };
+
+  function checkEmailInput(): void {
+
+    const userEmailInput: HTMLInputElement | null = document.querySelector("[name='email']");
+    const errorEmailMessages: HTMLDivElement | null = document.querySelector(".error-email-messages");
+
+    const setEmailErrorFeedBack = (message: string) => {
+
+      if(errorEmailMessages) {
+        errorEmailMessages.innerText = message;
+        errorEmailMessages.classList.add("error-user-data", "fw-bolder");
+        errorEmailMessages.style.fontSize = "0.8rem";
+      }
+
+      if(userEmailInput) {
+          userEmailInput.classList.add("is-invalid");
+      }
+
+    };
+
+    if(userEmailInput) {
+
+      const userEmailValue = userEmailInput.value.trim();
+
+      if(userEmailValue === "") {
+
+        setEmailErrorFeedBack("L'email è obbligatoria. Per favore inseriscila.");
+
+      } 
+
+    }
+
   };
 
   function isProtectedCategoryRadiosSelected(): void {
@@ -474,38 +846,7 @@
     };
 
     if (!isSelected) {
-        setProtectedCategoryErrorFeedBack("Mi dispiace, devi selezionare almeno un'opzione");
-    }
-  };
-
-  function checkDrivingLicenceCheckboxesInput(): void {
-    
-    const drivingLicenceCheckboxInputs: NodeListOf<HTMLInputElement> = document.querySelectorAll('input[name="drivingLicenceCheckBoxOptions"]');
-    const errorDrivingLicenceMessage: HTMLDivElement | null = document.querySelector(".error-driving-licence-message");
-    let isSelected = false;
-
-    drivingLicenceCheckboxInputs.forEach(drivingLicenceCheckbox => {
-
-        if (drivingLicenceCheckbox.checked) {
-            isSelected = true;
-        } else {
-            drivingLicenceCheckbox.classList.add("is-invalid");
-        }
-
-    });
-
-    const setDrivingLicenceErrorFeedBack = (message: string) => {
-
-        if (errorDrivingLicenceMessage) {
-            errorDrivingLicenceMessage.innerText = message;
-            errorDrivingLicenceMessage.classList.add("error-user-data", "fw-bolder");
-            errorDrivingLicenceMessage.style.fontSize = "0.8rem";
-        }
-
-    };
-
-    if (!isSelected) {
-        setDrivingLicenceErrorFeedBack("Mi dispiace, devi selezionare almeno un'opzione");
+        setProtectedCategoryErrorFeedBack("Per favore, seleziona almeno un'opzione");
     }
   };
 
@@ -536,22 +877,79 @@
     };
 
     if (!isSelected) {
-        setHasOwnCarErrorFeedback ("Mi dispiace, devi selezionare almeno un'opzione");
+        setHasOwnCarErrorFeedback ("Per favore, seleziona almeno un'opzione");
     }
 
   };
 
   function checkCvPreview(): void {
+
+    if (!$formDataStore.name) {
+        checkNameInput();
+    }
+
+    if (!$formDataStore.surname) {
+        checkSurnameInput();
+    }
+
+    if (!$formDataStore.profession) {
+        checkProfessionInput();
+    }
+
+    if(!$formDataStore.nationality) {
+      checkNationalityInput();
+    }
     
-    if($formDataStore.filePicture === "" || $formDataStore.isProtectedCategory === "" || $formDataStore.drivingLicences.length === 0 || $formDataStore.hasOwnCar === "" ) {
-        isProfilePictureUploaded();
+    if (!$formDataStore.isProtectedCategory) {
         isProtectedCategoryRadiosSelected();
-        checkDrivingLicenceCheckboxesInput();
+    }
+
+    if (!$formDataStore.hasOwnCar) {
         isHasOwnCarRadiosSelected();
     }
 
+    if(!$formDataStore.birthPlace) {
+      checkBirthPlaceInput();
+    }
+
+    if(!$formDataStore.birthDate) {
+      checkBirthDateInput();
+    }
+
+    $formDataStore.address.forEach(addressItem => {
+
+      if (!addressItem.streetAddress) { 
+          checkStreetAddressInput(); 
+      }
+
+      if(!addressItem.streetNumber) {
+        checkStreetNumberInput();
+      }
+
+      if(!addressItem.city) {
+        checkCityInput();
+      }
+
+      if(!addressItem.region) {
+        checkRegionInput();
+      }
+
+    });
+
+    if(!$formDataStore.phonePrefix) {
+      checkPhonePrefixSelect();
+    }
+
+    if(!$formDataStore.phone) {
+      checkPhoneInput();
+    }
+
+    if(!$formDataStore.email) {
+      checkEmailInput();
+    }
+
   }
-  
+
   onMount(() => {
     
     const savedStoreData = localStorage.getItem("formData");
@@ -601,7 +999,6 @@
       <div class="row">
 
         <!-- Immagine di profilo -->
-
         <div class="flex-center-utility py-3">
           <div class="file-picture-container">
             <label for="file-picture-input">
@@ -628,7 +1025,6 @@
         </div>
 
         <!-- Name -->
-
         <div class="py-3">
           <label for="textInputName">Nome</label>
           <span class="isRequired">*</span>
@@ -649,7 +1045,6 @@
         </div>
 
         <!-- Cognome -->
-
         <div class="py-3">
           <label for="textInputSurname">Cognome</label>
           <span class="isRequired">*</span>
@@ -670,7 +1065,6 @@
         </div>
 
         <!-- Professione -->
-
         <div class="py-3">
           <label for="textInputProfession">Professione</label>
           <span class="isRequired">*</span>
@@ -691,7 +1085,6 @@
         </div>
 
          <!-- Nazionalità -->
-
          <div class="py-3">
           <label for="textInputNationality">Stato di nascita</label>
           <span class="isRequired">*</span>
@@ -712,7 +1105,6 @@
         </div>
 
         <!---- Luogo di Nascita ---->
-
         <div class="py-3">
           <label for="textInputBirthDate">Luogo di nascita</label>
           <span class="isRequired">*</span>
@@ -733,7 +1125,6 @@
         </div>
 
         <!---- Data di Nascita ---->
-
         <div class="py-3">
           <label for="formInputBirthDate">Data di nascita</label>
           <span class="isRequired">*</span>
@@ -744,8 +1135,10 @@
             id="formInputBirthDate"
             autocomplete="off"
             name="birthDate"
+            min="1954-01-01"
+            max="2006-12-31"
             bind:value={$formDataStore.birthDate}
-            on:blur={() => validators.checkBirthDateInput()}
+            on:change={() => validators.checkBirthDateInput()}
           />
 
           <div class="success-birthdate-message"></div>
@@ -753,27 +1146,111 @@
         </div>
 
         <!-- Residenza/Domicilio -->
-
         <div class="py-3">
-          <label for="formInputAddress">Residenza/Domicilio</label>
-          <span class="isRequired">*</span>
-          <input
-            type="text"
-            class="form-control"
-            id="formInputAddress"
-            autocomplete="off"
-            name="address"
-            placeholder="Via Roma 123, 00100 Roma"
-            bind:value={$formDataStore.address}
-            on:input={() => validators.checkAddressInput()}
-          />
 
-          <div class="success-address-message"></div>
-          <div class="error-address-messages"></div>
+          {#each $formDataStore.address as addressItem}
+
+            <div class="flex-center-utility justify-content-around gap-2 mb-3">
+
+                  <!-- Indirizzo di Residenza -->
+                  <div style="width: 70%;">
+
+                    <label for="formInputStreetAddress">Indirizzo di Residenza</label>
+                    <span class="isRequired">*</span>
+
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="formInputStreetAddress"
+                      autocomplete="off"
+                      name="streetAddress"
+                      placeholder="Indirizzo di residenza"
+                      bind:value={addressItem.streetAddress}
+                      on:input={() => validators.checkStreetAddressInput()}
+                    />
+
+                    <div class="success-street-address-message"></div>
+                    <div class="error-street-address-messages"></div>
+
+                  </div>
+
+                  <!-- Numero Civico -->
+                  <div style="width: 30%;">
+
+                    <label for="formInputStreetNumber">N° Civico</label>
+                    <span class="isRequired">*</span>
+                    
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="formInputStreetNumber"
+                      autocomplete="off"
+                      name="streetNumber"
+                      placeholder="N° civico"
+                      bind:value={addressItem.streetNumber}
+                      on:input={() => validators.checkStreetNumberInput()}
+                    />
+
+                    <div class="success-street-number-message"></div>
+                    <div class="error-street-number-messages"></div>
+
+                  </div>
+  
+            </div>
+
+            <div class="flex-center-utility justify-content-around gap-2">
+
+              <!-- Città -->
+              <div style="width: 50%;">
+
+                    <label for="formInputCity">Città</label>
+                    <span class="isRequired">*</span>
+
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="formInputCity"
+                      autocomplete="off"
+                      name="city"
+                      placeholder="Città"
+                      bind:value={addressItem.city}
+                      on:input={() => validators.checkCityInput()}
+                    />
+
+                    <div class="success-city-message"></div>
+                    <div class="error-city-messages"></div>
+
+              </div>
+
+              <!-- Regione -->
+              <div style="width: 50%;">
+
+                    <label for="formInputRegion">Regione</label>
+                    <span class="isRequired">*</span>
+                    
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="formInputRegion"
+                      autocomplete="off"
+                      name="region"
+                      placeholder="Regione"
+                      bind:value={addressItem.region}
+                      on:input={() => validators.checkRegionInput()}
+                    />
+
+                    <div class="success-region-message"></div>
+                    <div class="error-region-messages"></div>
+
+              </div>
+  
+            </div>
+
+          {/each}
+            
         </div>
 
         <!-- Cellulare -->
-
         <div class="py-3">
 
           <label for="formSelectPhone">Cellulare</label>
@@ -788,7 +1265,7 @@
               autocomplete="off"
               name="phonePrefix"
               bind:value={$formDataStore.phonePrefix}
-              on:blur={() => validators.checkPhonePrefixSelect()}
+              on:change={() => validators.checkPhonePrefixSelect()}
             >
               <option value="" disabled class="prefix-option" id="defaultOption"
                 ><span>Prefisso</span></option
@@ -826,7 +1303,6 @@
         </div>
 
         <!---- Email ---->
-
         <div class="py-3">
           <label for="formInputEmail">Email</label>
           <span class="isRequired">*</span>
@@ -836,7 +1312,7 @@
             id="formInputEmail"
             autocomplete="off"
             name="email"
-            placeholder="mario.rossi@gmail.com"
+            placeholder="nome.utente123@example.com."
             bind:value={$formDataStore.email}
             on:input={() => validators.checkEmailInput()}
           />
@@ -846,10 +1322,9 @@
         </div>
 
         <!---- Profilo Personale ---->
-
         <div class="py-3">
           <label for="formInputProfileSummary">Profilo personale</label>
-          <span class="isRequired">*</span>
+    
           <textarea
             class="form-control h-auto"
             id="formInputProfileSummary"
@@ -866,7 +1341,6 @@
         </div>
 
         <!-- Categorie protette -->
-
         <div class="py-3">
           <span class="me-1">
             <label for="formLabelSelfDriven">Appartenente alle categorie protette:</label>
@@ -904,11 +1378,9 @@
         </div>
 
         <!-- Competenze digitali -->
-
         <div class="py-3">
 
           <label for="formInputDigitalSkills">Competenze Digitali</label>
-          <span class="isRequired">*</span>
 
           {#each $formDataStore.digitalSkills as digitalSkill, digitalSkillIndex}
 
@@ -990,11 +1462,9 @@
         </div>
 
         <!-- Lingue -->
-
         <div class="py-3">
 
           <label for="formLabelLanguages">Lingue</label>
-          <span class="isRequired">*</span>
         
           {#each $formDataStore.languagesSkills as selectedLanguage, languageIndex}
 
@@ -1006,7 +1476,7 @@
                 id="formSelectLanguages{languageIndex}"
                 name="languages"
                 bind:value={selectedLanguage.lang}
-                on:blur={() => validators.checkLanguageSelect(languageIndex)}>
+                on:change={() => validators.checkLanguageSelect(languageIndex)}>
                 <option value="" disabled>Lingua</option>
                 {#each optionsLanguages as optionsLanguage (optionsLanguage.value)}
                   <option value={optionsLanguage.value}>{optionsLanguage.label}</option>
@@ -1019,7 +1489,7 @@
                 id="formSelectLanguageLevels{languageIndex}"
                 name="languageLevels"
                 bind:value={selectedLanguage.level}
-                on:blur={() => validators.checkLanguageLevelSelect(languageIndex)}>
+                on:change={() => validators.checkLanguageLevelSelect(languageIndex)}>
                 <option value="" disabled>Livello</option>
                 {#each optionslanguageLevels as optionslanguageLevel (optionslanguageLevel.value)}
                   <option value={optionslanguageLevel.value}>{optionslanguageLevel.label}</option>
@@ -1049,14 +1519,17 @@
               {/if}
         
               <div class="visual-feedback-group-container" style="width: 100%;">
+
                 <div class="left-visual-feedback-position" style="width: 50%;">
                   <div class="success-user-data" id="success-language-message{languageIndex}"></div>
                   <div class="error-user-data" id="error-language-message{languageIndex}"></div>
                 </div>
+
                 <div class="right-visual-feedback-position" style="width: 50%;">
                   <div class="success-user-data" id="success-language-level-message{languageIndex}"></div>
                   <div class="error-user-data" id="error-language-level-message{languageIndex}"></div>
                 </div>
+
               </div>
 
             </div>
@@ -1119,7 +1592,6 @@
           <div>
 
             <label for="formLabelDrivingLicence">Patente</label>
-            <span class="isRequired">*</span>
 
             {#each drivingLicenceCheckBoxs as drivingLicenceCheckBox}
               <div class="form-check">
@@ -1156,10 +1628,9 @@
 
         {#each $formDataStore.jobs as job, jobIndex}
 
-            <div class="py-3">
+          <div class="py-3">
 
               <label for="textInputJobRole{jobIndex}">Ruolo</label>
-              <span class="isRequired">*</span>
 
               <input
                 type="text"
@@ -1172,12 +1643,15 @@
                 on:input={() => validators.checkJobRoleTextInput(jobIndex)}
               />
 
-              <div id="success-job-role-message{jobIndex}"></div>
-              <div id="error-job-role-messages{jobIndex}"></div>
+              <div id="success-job-role-message{jobIndex}" class="form-text"></div>
+              <div id="error-job-role-messages{jobIndex}" class="form-text"></div>
 
-              <div class="py-3">
+          </div>
+
+          <div class="py-3">
+
                 <label for="textInputCompany{jobIndex}">Azienda</label>
-                <span class="isRequired">*</span>
+  
                 <input
                   type="text"
                   class="form-control"
@@ -1189,13 +1663,15 @@
                   on:input={() => validators.checkCompanyTextInput(jobIndex)}
                 />
 
-                <div id="success-company-message{jobIndex}"></div>
-                <div id="error-company-messages{jobIndex}"></div>
-              </div>
+                <div id="success-company-message{jobIndex}" class="form-text"></div>
+                <div id="error-company-messages{jobIndex}" class="form-text"></div>
 
-              <div class="py-3">
+          </div>
+
+          <div class="py-3">
+
                 <label for="textInputCompany{jobIndex}">Luogo di lavoro</label>
-                <span class="isRequired">*</span>
+      
                 <input
                   type="text"
                   class="form-control"
@@ -1207,32 +1683,36 @@
                   on:input={() => validators.checkLocationTextInput(jobIndex)}
                 />
 
-                <div id="success-location-message{jobIndex}"></div>
-                <div id="error-location-messages{jobIndex}"></div>
-              </div>
+                <div id="success-location-message{jobIndex}" class="form-text"></div>
+                <div id="error-location-messages{jobIndex}" class="form-text"></div>
 
-              <div class="py-3">
+          </div>
+
+          <div class="py-3">
+
                 <label for="textAreaInputWorkExperienceResults{jobIndex}">Risultati professionali ottenuti</label>
-                <span class="isRequired">*</span>
+        
                 <textarea
                   class="form-control h-auto"
                   id="textAreaInputWorkExperienceResults{jobIndex}"
                   name="workExperienceResults"
                   rows="6"
+                  maxlength="500"
                   placeholder="Parlaci dei risultati professionali che hai conseguito..."
                   bind:value={job.workExperienceResults}
                   on:input={() => validators.checkWorkExperienceResultsTextArea(jobIndex)}
                 ></textarea>
 
-                <div id="success-work-experience-results-message{jobIndex}"></div>
-                <div id="error-work-experience-results-messages{jobIndex}"></div>
-              </div>
+                <div id="success-work-experience-results-message{jobIndex}" class="form-text"></div>
+                <div id="error-work-experience-results-messages{jobIndex}" class="form-text"></div>
+          </div>
 
-              <div class="py-3 flex-center-utility justify-content-around gap-1">
+          <div class="py-3 flex-center-utility justify-content-around gap-1">
+
                 <div>
-                  <label for="startDateInputWorkExperience{jobIndex}" class="custom-date-input">Data di inizio</label>
-                  <span class="isRequired">*</span>
 
+                  <label for="startDateInputWorkExperience{jobIndex}">Data di inizio</label>
+                
                   <input
                     type="month"
                     class="form-control"
@@ -1240,16 +1720,18 @@
                     name="startDateWorkExperience"
                     max={job.endDateWorkExperience}
                     bind:value={job.startDateWorkExperience}
-                    on:blur={() => validators.checkStartAndEndWorkExperienceDateInput(jobIndex)}
+                    on:change={() => validators.checkStartAndEndWorkExperienceDateInput(jobIndex)}
                   />
 
-                  <div id="success-startDateWorkExperience-message{jobIndex}"></div>
-                  <div id="error-startDateWorkExperience-messages{jobIndex}"></div>
+                  <div id="success-startDateWorkExperience-message{jobIndex}" class="form-text"></div>
+                  <div id="error-startDateWorkExperience-messages{jobIndex}" class="form-text"></div>
+
                 </div>
 
                 <div>
-                  <label for="endDateInputWorkExperience{jobIndex}" class="custom-date-input">Data di fine</label>
-                  <span class="isRequired">*</span>
+
+                  <label for="endDateInputWorkExperience{jobIndex}">Data di fine</label>
+            
                   <input
                     type="month"
                     class="form-control"
@@ -1257,22 +1739,26 @@
                     name="endDateWorkExperience"
                     min={job.startDateWorkExperience}
                     bind:value={job.endDateWorkExperience}
-                    on:blur={() => validators.checkStartAndEndWorkExperienceDateInput(jobIndex)}
+                    on:change={() => validators.checkStartAndEndWorkExperienceDateInput(jobIndex)}
                     disabled={job.isEmployed}
                   />
 
-                  <div id="success-endDateWorkExperience-message{jobIndex}"></div>
-                  <div id="error-endDateWorkExperience-messages{jobIndex}"></div>
+                  <div id="success-endDateWorkExperience-message{jobIndex}" class="form-text"></div>
+                  <div id="error-endDateWorkExperience-messages{jobIndex}" class="form-text"></div>
                 </div>
-              </div>
 
-              <div class="d-flex justify-content-center py-1">
-                <input class="form-check-input me-1 custom-checkbox" type="checkbox" id="checkboxNoLabel" aria-label="Indica se stai attualmente ricoprendo questo ruolo" bind:checked={job.isEmployed} on:change={() => {if (job.isEmployed) {job.endDateWorkExperience = "";}}}>
-                <label for="checkboxNoLabel">Attualmente sto ricoprendo questo ruolo</label>
-              </div>
+          </div>
+
+          {#if jobIndex === 0}
+                
+                <div class="d-flex justify-content-center py-1">
+                  <input class="form-check-input me-1 custom-checkbox" type="checkbox" id="checkboxNoLabel" aria-label="Indica se stai attualmente ricoprendo questo ruolo" bind:checked={job.isEmployed}  on:change={() => {job.endDateWorkExperience = ""; validators.checkCurrentJob(jobIndex);}}>
+                  <label for="checkboxNoLabel">Attualmente sto ricoprendo questo ruolo</label>
+                </div>
+
+          {/if}
             
-
-              {#if jobIndex > 0}
+          {#if jobIndex > 0}
                 <div class="flex-center-utility mb-3">
                   <button
                     type="button"
@@ -1280,9 +1766,7 @@
                     on:click={() => removeWorkExperience(jobIndex)}
                     ><i class="fa-solid fa-trash"></i></button>
                 </div>
-              {/if}
-
-            </div>
+          {/if}
             
         {/each}
 
@@ -1297,79 +1781,71 @@
         </div>
 
         <!-- Dettagli Formazione -->
-
-          <div class="flex-center-utility py-5">
+        <div class="flex-center-utility mt-5">
             <h2 class="title-section-style">DETTAGLI FORMAZIONE</h2>
-          </div>
+        </div>
 
-          {#each $formDataStore.educations as education, educationIndex}
+        {#each $formDataStore.educations as education, educationIndex}
 
-            <div class="py-3">
+            <div class="py-4">
 
-              <label for="selectQualification{educationIndex}">Titolo di studio</label>
-              <span class="isRequired">*</span>
+              <div class="py-3">
 
-              <div class="input-group">
-                <select
-                  class="form-select"
-                  style="width: 50%;"
-                  id="selectQualification{educationIndex}"
-                  aria-label="QualificationSelect"
-                  name="qualification"
-                  bind:value={education.qualification}
-                  on:blur={() =>
-                    validators.checkQualificationsSelect(educationIndex)}
-                >
-                  <option value="" disabled>Titolo di Studio</option>
-    
-                  {#each educationLevels as educationLevel (educationLevel.value)}
-                    <option value={educationLevel.value}
-                      >{educationLevel.value}</option
-                    >
-                  {/each}
-                </select>
-    
-                <input
-                  type="text"
-                  class="form-control"
-                  style="width: 50%;"
-                  id="textInputFieldOfStudy{educationIndex}"
-                  name="fieldOfStudy"
-                  autocomplete="off"
-                  placeholder="Campo di studio"
-                  bind:value={education.fieldOfStudy}
-                  on:input={() =>
-                    validators.checkFieldOfStudyTextInput(educationIndex)}
-                />
-    
-                <div class="visual-feedback-group-container" style="width: 100%;">
-                  <div class="left-visual-feedback-position" style="width: 50%};">
-                    <div
-                      class="success-user-data"
-                      id="success-qualification-message{educationIndex}"
-                    ></div>
-                    <div
-                      class="error-user-data"
-                      id="error-qualification-message{educationIndex}"
-                    ></div>
+                <label for="selectQualification{educationIndex}">Titolo di studio</label>
+  
+                <div class="input-group">
+  
+                  <select
+                    class="form-select"
+                    style="width: 50%;"
+                    id="selectQualification{educationIndex}"
+                    aria-label="QualificationSelect"
+                    name="qualification"
+                    bind:value={education.qualification}
+                    on:blur={() => validators.checkQualificationsSelect(educationIndex)}
+                  >
+                    <option value="" disabled>Titolo di Studio</option>
+      
+                    {#each educationLevels as educationLevel (educationLevel.value)}
+                      <option value={educationLevel.value}>{educationLevel.value}</option>
+                    {/each}
+  
+                  </select>
+      
+                  <input
+                    type="text"
+                    class="form-control"
+                    style="width: 50%;"
+                    id="textInputFieldOfStudy{educationIndex}"
+                    name="fieldOfStudy"
+                    autocomplete="off"
+                    placeholder="Campo di studio"
+                    bind:value={education.fieldOfStudy}
+                    on:input={() => validators.checkFieldOfStudyTextInput(educationIndex)}
+                  />
+      
+                  <div class="visual-feedback-group-container" style="width: 100%;">
+  
+                    <div class="left-visual-feedback-position" style="width: 50%;">
+                      <div class="success-user-data form-text" id="success-qualification-message{educationIndex}"></div>
+                      <div class="error-user-data form-text" id="error-qualification-message{educationIndex}"></div>
+                    </div>
+  
+                    <div class="right-visual-feedback-position" style="width: 50%;">
+                      <div class="success-user-data form-text" id="success-field-study-message{educationIndex}"></div>
+                      <div class="error-user-data form-text" id="error-field-study-message{educationIndex}"></div>
+                    </div>
+  
                   </div>
-                  <div class="right-visual-feedback-position" style="width: 50%};">
-                    <div
-                      class="success-user-data"
-                      id="success-field-study-message{educationIndex}"
-                    ></div>
-                    <div
-                      class="error-user-data"
-                      id="error-field-study-message{educationIndex}"
-                    ></div>
-                  </div>
+  
                 </div>
 
               </div>
     
               <div class="py-3">
+
                 <label for="textInputEducationType{educationIndex}">Ente di formazione</label>
-                <span class="isRequired">*</span>
+
                 <input
                   type="text"
                   class="form-control"
@@ -1381,34 +1857,35 @@
                   on:input={() => validators.checkEducationTypeTextInput(educationIndex)}
                 />
     
-                <div id="success-education-type-message{educationIndex}"></div>
-                <div id="error-education-type-messages{educationIndex}"></div>
+                <div id="success-education-type-message{educationIndex}" class="form-text"></div>
+                <div id="error-education-type-messages{educationIndex}" class="form-text"></div>
               </div>
     
               <div class="py-3">
+
                 <label for="formInputEducationGoals{educationIndex}">Risultati accademici raggiunti</label>
-                <span class="isRequired">*</span>
+  
                 <textarea
                   class="form-control h-auto"
                   id="formInputEducationGoals{educationIndex}"
                   rows="6"
+                  maxlength="500"
                   placeholder="Parlaci degli obiettivi accademici che hai raggiunto..."
                   bind:value={education.educationGoals}
                   on:input={() => validators.checkEducationGoalsTextArea(educationIndex)}
                 ></textarea>
     
-                <div id="success-education-goals-message{educationIndex}"></div>
-                <div id="error-education-goals-messages{educationIndex}"></div>
+                <div id="success-education-goals-message{educationIndex}" class="form-text"></div>
+                <div id="error-education-goals-messages{educationIndex}" class="form-text"></div>
+
               </div>
     
-              <div class="py-3 flex-center-utility">
+              <div class="flex-center-utility flex-column">
     
-                <div>
-                  <label
-                    for="endDateInputAcademicEducation{educationIndex}"
-                    class="custom-date-input">Data di fine</label
-                  >
-                  <span class="isRequired">*</span>
+                <div class="w-50">
+
+                  <label for="endDateInputAcademicEducation{educationIndex}">Data di fine</label>
+                
                   <input
                     type="month"
                     class="form-control"
@@ -1416,14 +1893,12 @@
                     name="endDateAcademicEducation"
                     min={education.startDateAcademicEducation}
                     bind:value={education.endDateAcademicEducation}
-                    on:blur={() =>
-                      validators.checkStartAndEndAcademicEducationDateInput(
-                        educationIndex
-                      )}
+                    on:change={() => validators.checkEndAcademicEducationDateInput(educationIndex)}
                   />
     
-                  <div id="success-endDateAcademicEducation-message{educationIndex}"></div>
-                  <div id="error-endDateAcademicEducation-messages{educationIndex}"></div>
+                  <div id="success-endDateAcademicEducation-message{educationIndex}" class="form-text"></div>
+                  <div id="error-endDateAcademicEducation-messages{educationIndex}" class="form-text"></div>
+
                 </div>
 
               </div>
@@ -1441,17 +1916,13 @@
 
             </div>
 
-          {/each}
+        {/each}
 
-          <div class="flex-center-utility">
-            <button
-              type="button"
-              class="btn-add-style"
-              aria-label="Aggiungi Formazione"
-              on:click={() => addAcademicEducation()}
-              ><span>Aggiungi Formazione</span><i class="fa-solid fa-plus ms-2"></i></button
-            >
-          </div>
+        <div class="flex-center-utility">
+
+          <button type="button" class="btn-add-style" aria-label="Aggiungi Formazione" on:click={() => addAcademicEducation()}><span>Aggiungi Formazione</span><i class="fa-solid fa-plus ms-2"></i></button>
+
+        </div>
 
       </div>
 
@@ -1461,7 +1932,7 @@
 
   <!---- Privacy Policy ---->
   <div class="py-5">
-    <div class="form-check form-switch privacy-label flex-center-utility">
+    <div class="form-check form-switch privacy-label">
         <input class="form-check-input me-2" 
           type="checkbox" 
           role="switch" 
@@ -1471,10 +1942,9 @@
           on:change={() => validators.checkPolicyPrivacySwitchInput()}
         >
         <label for="flexSwitchCheckChecked">Accetto la privacy policy per scaricare il CV</label>
+        <span class="isRequired ms-1">*</span>
     </div>
 
-    <p class="privacy-policy-style">"Autorizzo il trattamento dei dati personali contenuti nel mio curriculum vitae in base al D. Lgs. 196/2003 e al Regolamento UE 2016/679"</p>
-    
     <div class="text-center px-5">
       <div class="success-user-data success-policy-privacy-message"></div>
       <div class="error-user-data error-policy-privacy-message"></div>
@@ -1717,14 +2187,6 @@
     font-weight: 600;
   }
 
-  .privacy-policy-style {
-      font-size: 0.9rem ;
-      font-style: oblique;
-      font-weight: 400;
-      padding: 0 1rem;
-      text-align: center;
-  }
-
   .signature-container{
     position: relative;
   }
@@ -1732,7 +2194,7 @@
   .label-signature{
     position: absolute;
     top: -30px;
-    left: 70px
+    left: 0
   }
 
   .signature-pad-style {

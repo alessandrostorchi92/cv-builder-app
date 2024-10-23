@@ -71,15 +71,23 @@
                 <div class="right-section">
                     
                     <!-- House Icon -->
+
                     <div class="info-item">
+
                         <i class="fa-solid fa-house" style="color: {$formDataStore.selectedColor || "black"}"></i>
-                        <span>{$cvInitialData.address}</span>
+
+                        {#each $cvInitialData.address as addressItem}
+                            <span>{addressItem.streetAddress}<span class="ms-1">{addressItem.streetNumber},</span> {addressItem.city} - {addressItem.region}</span>
+                        {/each}
+
                     </div>
 
                     <!-- Phone Icon-->
                     <div class="info-item">
+
                         <i class="fa-solid fa-mobile-screen" style="color: {$formDataStore.selectedColor || "black"}"></i>
                         <span>{$cvInitialData.phonePrefix} {$cvInitialData.phoneNumber}</span>
+                        
                     </div>
 
                     <!-- Email Icon -->
@@ -197,12 +205,12 @@
         <!-- Footer Section -->
         <div class="footer-divider">
     
-            <!-- Policy Privacy & Signature Section -->
+        <!-- Policy Privacy & Signature Section -->
             {#if $isPrivacyPolicyApproved && $isAllowed}
     
-                <div class="d-flex">
+                <div class="policy-privacy-container">
     
-                    <div class="policy-privacy-container">
+                    <div class="policy-privacy">
     
                         <p>Autorizzo il trattamento dei dati personali nel rispetto della vigente normativa sulla protezione dei dati personali ed in particolare il Regolamento Europeo per la protezione dei dati personali 2016/679, il d.lgs. 30/06/2003 n. 196 e successive modifiche e integrazioni.</p>
     
@@ -218,7 +226,7 @@
     
             {/if}
     
-            <!-- Company info Section -->
+        <!-- Company info Section -->
             <div class="copyright-container">
         
                 <div class="company-logo" style="background-image:url(https://{currentTenant}.blob.core.windows.net/cdn/cv/extended-logo.png);"></div>
@@ -393,19 +401,26 @@
     }
 
     .footer-divider {
-        margin-top: 1.6rem;
+        margin-top: 1rem;
         border-top: 1px solid #e6e6e6;
     }
 
     .policy-privacy-container {
+        display: flex;
+        align-items: center;
+        padding: 1rem;
+    }
+
+    .policy-privacy {
+        font-size: 0.6rem; 
+        color: #666;
+    }
+
+    .policy-privacy {
         flex-basis: 70%;
     }
 
-    .policy-privacy-container p {
-        font-size: 0.6rem; 
-        color: #666;
-        padding: 1rem;
-    }
+
 
     .user-signature-container {
         display: flex;
@@ -419,7 +434,7 @@
         justify-content: center;
         align-items: center;
         margin-top: 2rem; 
-        gap: 10px
+        gap: 10px;
     }
 
     .company-logo {
