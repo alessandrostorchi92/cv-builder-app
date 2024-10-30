@@ -47,7 +47,7 @@
     export type AcademicHistory = {
         qualification: string,
         fieldOfStudy: string,
-        educationType: string,
+        trainingCenter: string,
         educationGoals: string,
         startDateAcademicEducation: string,
         endDateAcademicEducation: string,

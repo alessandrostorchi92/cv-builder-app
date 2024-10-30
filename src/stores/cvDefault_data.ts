@@ -22,7 +22,7 @@ export const cvInitialData = derived(formDataStore, ($formDataStore) => {
   const handleInitialDataEducation = $formDataStore.educations.map(education => ({
     qualification: (!education.qualification) ? "Titolo di studio" : education.qualification,
     fieldOfStudy: (!education.fieldOfStudy || education.fieldOfStudy.trim() === "") ? "Campo di studio" : education.fieldOfStudy,
-    educationType: (!education.educationType || education.educationType.trim() === "") ? "Ente di formazione" : education.educationType,
+    trainingCenter: (!education.trainingCenter || education.trainingCenter.trim() === "") ? "Ente di formazione" : education.trainingCenter,
     educationGoals: (!education.educationGoals || education.educationGoals.trim() === "") ? "In antiquitate, Romani magnas res gestas et sapientiam in diversis disciplinis coluerunt. Philosophia, ars, et litterae floruerunt inter cives, qui sapientiae et veritati studebant. Multi poëtæ, ut Virgilius et Ovidius, fabulas et historias narraverunt, quas ad posteritatem pervenire voluerunt. Sicut in vita cotidiana, ita in bellis et in pace, Romani unitatem et fortitudinem semper quaerebant. Res publica, sub duce et consilio, multis rebus periculis se opposuit, atque fines imperii a Britannia usque ad Aegyptum extendit. Haec omnia exempla docet nos de virtutibus et sapientia, quae in animis hominum semper manent." : education.educationGoals,
     startDateAcademicEducation: (!education.startDateAcademicEducation) ? "Data Inizio" : formattedWorkAcademicDate(education.startDateAcademicEducation),
     endDateAcademicEducation: (!education.endDateAcademicEducation) ? "Data Fine" : formattedWorkAcademicDate(education.endDateAcademicEducation)

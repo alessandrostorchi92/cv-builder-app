@@ -1,860 +1,248 @@
 import { isPrivacyPolicyApproved, isAllowed } from "../stores/CvUser_data";
 
-// ProfilePicture Validation
+export function checkMandatoryProfileDataInputs(inputName: string, successMessageSelector: string, errorMessageSelector: string, successFeedbackMsg: string, errorFeedbackMsg: string): void {
 
-export function isProfilePictureUploaded(): void {
+    const personalDetailMandatoryInput: HTMLInputElement | null = document.querySelector(`[name='${inputName}']`);
+    const errorMessage: HTMLDivElement | null = document.querySelector(errorMessageSelector);
+    const successMessage: HTMLDivElement | null = document.querySelector(successMessageSelector);
+    const phonePattern = /^[0-9]+$/;
+    const emailPattern = /^[A-Za-z0-9_.-]+@[A-Za-z0-9_.-]+\.[A-Za-z]{2,6}$/;
 
-    const filePictureUploadedInput: HTMLInputElement | null = document.querySelector('[name="filePicture"]');
-    const successProfilePictureUploadedMessage: HTMLDivElement | null = document.querySelector(".success-file-picture-message");
-    const errorProfilePictureUploadedMessage: HTMLDivElement | null = document.querySelector(".error-file-picture-message");
+    const setErrorFeedbackMsg = (message:string) => {
 
-    const setProfilePictureUploadedSuccessFeedback = (message: string) => {
-
-        if (successProfilePictureUploadedMessage) {
-            successProfilePictureUploadedMessage.innerText = message;
-            successProfilePictureUploadedMessage.classList.add("success-user-data", "fw-bolder");
-            successProfilePictureUploadedMessage.style.fontSize = "0.8rem";
+        if(errorMessage) {
+            errorMessage.innerText = message;
+            errorMessage.classList.add("error-user-data", "fw-bolder");
+            errorMessage.style.fontSize = "0.8rem";
         }
 
-    }
+        if(personalDetailMandatoryInput) {
+            personalDetailMandatoryInput.classList.add("is-invalid");
+        }
 
-    if(filePictureUploadedInput) {
-            
-        if (filePictureUploadedInput) {
-            setProfilePictureUploadedSuccessFeedback("Ottimo lavoro, hai caricato la tua immagine di profilo nel CV");
-            if(errorProfilePictureUploadedMessage) {
-                errorProfilePictureUploadedMessage.style.display = "none";
+        if(successMessage) {
+            successMessage.innerText = "";
+        }
+
+    };
+
+
+    const setSuccessFeedbackMsg = (message: string) => {
+
+        if (successMessage) {
+            successMessage.innerText = message;
+            successMessage.classList.add("success-user-data", "fw-bolder");
+            successMessage.style.fontSize = "0.8rem";
+        }
+
+        if (personalDetailMandatoryInput) {
+            personalDetailMandatoryInput.classList.remove("is-invalid");
+            personalDetailMandatoryInput.classList.add("is-valid");
+        }
+
+        if (errorMessage) {
+            errorMessage.innerText = "";
+        }
+
+    };
+
+    if (personalDetailMandatoryInput) {
+
+        const personalDetailMandatoryValue = personalDetailMandatoryInput.value.trim();
+
+        if (personalDetailMandatoryValue !== "") {
+           
+            if (inputName === "phone" && !phonePattern.test(personalDetailMandatoryValue)) {
+
+                setErrorFeedbackMsg(errorFeedbackMsg);
+
+            } else if(inputName === "email" && !emailPattern.test(personalDetailMandatoryValue)) {
+
+                setErrorFeedbackMsg(errorFeedbackMsg);
+
+            } else {
+                
+                setSuccessFeedbackMsg(successFeedbackMsg);
+
             }
-        } 
+
+        } else {
+            
+            if (successMessage) {
+                successMessage.innerText = "";
+            }
+
+            if (personalDetailMandatoryInput) {
+                personalDetailMandatoryInput.classList.remove("is-valid");
+            }
+
+            if(errorMessage) {
+                errorMessage.innerText = "";
+            }
+
+            if (personalDetailMandatoryInput) {
+                personalDetailMandatoryInput.classList.remove("is-invalid");
+            }
+
+        }
+
     }
 
 }
 
-// Profile Data Validations
-    
-export function checkNameInput(): void {
+export function checkOptionalProfileDataInputs(inputName: string, successMessageSelector: string, errorMessageSelector: string, successFeedbackMsg: string, errorFeedbackMsg: string): void {
 
-    const userNameInput: HTMLInputElement | null = document.querySelector("[name='name']");
-    const errorNameMessages: HTMLDivElement | null = document.querySelector(".error-name-messages");
-    const successNameMessage: HTMLDivElement | null = document.querySelector(".success-name-message");
+    const personalDetailOptionalInput: HTMLInputElement | null = document.querySelector(`[name='${inputName}']`);
+    const errorMessage: HTMLDivElement | null = document.querySelector(errorMessageSelector);
+    const successMessage: HTMLDivElement | null = document.querySelector(successMessageSelector);
 
-    const setNameSuccessFeedback= (message:string) => {
+    const setErrorFeedbackMsg = (message: string) => {
 
-        if(successNameMessage) {
-            successNameMessage.innerText = message;
-            successNameMessage.classList.add("success-user-data", "fw-bolder");
-            successNameMessage.style.fontSize = "0.8rem";
+        if (errorMessage) {
+            errorMessage.innerText = message;
+            errorMessage.classList.add("error-user-data", "fw-bolder");
+            errorMessage.style.fontSize = "0.8rem";
         }
 
-        if(userNameInput) {
-            userNameInput.classList.remove("is-invalid");
-            userNameInput.classList.add("is-valid");
+        if (personalDetailOptionalInput) {
+            personalDetailOptionalInput.classList.add("is-invalid");
         }
 
-        if(errorNameMessages) {
-            errorNameMessages.innerText = "";
+        if (successMessage) {
+            successMessage.innerText = "";
         }
-
     };
 
-    if(userNameInput) {
+    const setSuccessFeedbackMsg = (message: string) => {
 
-        const userNameValue = userNameInput.value.trim();
-
-        if(userNameValue === "") {
-
-            if(successNameMessage) {
-                successNameMessage.innerText = "";
-            }
-
-            if (userNameInput) {
-                userNameInput.classList.remove("is-valid");
-            }
-
-        } else {
-            
-            setNameSuccessFeedback("Ottimo lavoro, il nome è stato inserito nel CV.");
-
+        if (successMessage) {
+            successMessage.innerText = message;
+            successMessage.classList.add("success-user-data", "fw-bolder");
+            successMessage.style.fontSize = "0.8rem";
         }
-    
-    }
 
+        if (personalDetailOptionalInput) {
+            personalDetailOptionalInput.classList.remove("is-invalid");
+            personalDetailOptionalInput.classList.add("is-valid");
+        }
+
+        if (errorMessage) {
+            errorMessage.innerText = "";
+        }
+    };
+
+    if (personalDetailOptionalInput) {
+
+        const fileSelected = personalDetailOptionalInput.files && personalDetailOptionalInput.files.length > 0;
+        const optionalTextInputValue = personalDetailOptionalInput.value.trim();
+        const optionalSelectInputValue = personalDetailOptionalInput.value;
+        
+    
+        if (inputName === "filePicture" && fileSelected) {
+
+            setSuccessFeedbackMsg(successFeedbackMsg);
+    
+        } else if (inputName === "profileSummary" && optionalTextInputValue.length >= 500) {
+
+            setErrorFeedbackMsg(errorFeedbackMsg);
+        
+        } else if(inputName === "digitalSkill" && optionalTextInputValue) {
+
+            setSuccessFeedbackMsg(successFeedbackMsg);
+        
+        } else if(inputName === "skillLevel" && optionalSelectInputValue) {
+
+            setSuccessFeedbackMsg(successFeedbackMsg);
+        
+        } else if(inputName === "`languages" && optionalSelectInputValue) {
+
+            setSuccessFeedbackMsg(successFeedbackMsg);
+
+        } else if(inputName === "`languageLevels" && optionalSelectInputValue) {
+
+            setSuccessFeedbackMsg(successFeedbackMsg);
+        
+        } else if (optionalTextInputValue.length === 0) {
+    
+            if (successMessage) {
+                successMessage.innerText = "";
+            }
+    
+            if (personalDetailOptionalInput) {
+                personalDetailOptionalInput.classList.remove("is-valid");
+            }
+    
+        } else {
+            setSuccessFeedbackMsg(successFeedbackMsg);
+        }
+    }
+    
+}
+
+// ProfilePicture Optional Validation
+
+export function isProfilePictureUploaded(): void {
+    checkOptionalProfileDataInputs("filePicture", ".success-file-picture-message", ".error-file-picture-message", "Ottimo lavoro, hai caricato la tua immagine di profilo nel CV", "")
+}
+
+// Profile Data Validations
+
+export function checkNameInput(): void {
+    checkMandatoryProfileDataInputs("name", ".success-name-message", ".error-name-message", "Ottimo lavoro, il nome è stato inserito nel CV", "")
 };
 
 export function checkSurnameInput(): void {
-
-    const userSurnameInput: HTMLInputElement | null = document.querySelector("[name='surname']");
-    const errorSurnameMessages: HTMLDivElement | null = document.querySelector(".error-surname-messages");
-    const successSurnameMessage: HTMLDivElement | null = document.querySelector(".success-surname-message");
-
-    const setSurnameSuccessFeedback = (message: string) => {
-
-        if(successSurnameMessage) {
-            successSurnameMessage.innerText = message;
-            successSurnameMessage.classList.add("success-user-data", "fw-bolder");
-            successSurnameMessage.style.fontSize = "0.8rem"
-        }
-
-        if(userSurnameInput) {
-            userSurnameInput.classList.remove("is-invalid");
-            userSurnameInput.classList.add("is-valid");
-        }
-
-        if(errorSurnameMessages) {
-            errorSurnameMessages.innerText = "";
-        }
-    };
-
-    if(userSurnameInput) {
-
-        const userSurnameValue = userSurnameInput.value.trim();
-
-        if(userSurnameValue === "") {
-
-            if(successSurnameMessage) {
-                successSurnameMessage.innerText = "";
-            }
-
-            if (userSurnameInput) {
-                userSurnameInput.classList.remove("is-valid");
-            }
-
-        } else {
-            
-            setSurnameSuccessFeedback("Ottimo lavoro, il cognome è stato inserito nel CV.");
-
-        }
-    }
+    checkMandatoryProfileDataInputs("surname", ".success-surname-message", ".error-surname-message", "Ottimo lavoro, il cognome è stato inserito nel CV", "")
 };
 
 export function checkProfessionInput(): void {
-
-    const userProfessionInput: HTMLInputElement | null = document.querySelector("[name='profession']");
-    const errorProfessionMessages: HTMLDivElement | null = document.querySelector(".error-profession-messages");
-    const successProfessionMessage: HTMLDivElement | null = document.querySelector(".success-profession-message");
-
-    const setProfessionSuccessFeedback = (message: string) => {
-
-        if(successProfessionMessage) {
-            successProfessionMessage.innerText = message;
-            successProfessionMessage.classList.add("success-user-data", "fw-bolder");
-            successProfessionMessage.style.fontSize = "0.8rem"
-        }
-
-        if(userProfessionInput) {
-            userProfessionInput.classList.remove("is-invalid");
-            userProfessionInput.classList.add("is-valid");
-        }
-
-        if(errorProfessionMessages) {
-            errorProfessionMessages.innerHTML = "";
-        }
-
-    };
-
-    if(userProfessionInput) {
-
-        const userProfessionValue = userProfessionInput.value.trim();
-
-        if(userProfessionValue === "") {
-
-            if(successProfessionMessage) {
-                successProfessionMessage.innerText = "";
-            }
-
-            if (userProfessionInput) {
-                userProfessionInput.classList.remove("is-valid");
-            }
-
-        } else {
-            
-            setProfessionSuccessFeedback ("Ottimo lavoro, la professione è stata inserita nel CV.");
-
-        }
-    
-    }
-
+    checkMandatoryProfileDataInputs("profession", ".success-profession-message", ".error-profession-message", "Ottimo lavoro, la professione è stata inserita nel CV", "")
 };
 
 export function checkNationalityInput(): void { 
-
-    const userNationalityInput: HTMLInputElement | null = document.querySelector("[name='nationality']");
-    const errorNationalityMessages: HTMLDivElement | null = document.querySelector(".error-nationality-messages");
-    const successNationalityMessage: HTMLDivElement | null = document.querySelector(".success-nationality-message");
-
-    const setNationalityErrorFeedback = (message:string) => {
-
-        if(errorNationalityMessages) {
-            errorNationalityMessages.innerText = message;
-            errorNationalityMessages.classList.add("error-user-data", "fw-bolder");
-            errorNationalityMessages.style.fontSize = "0.8rem";
-        }
-
-        if(userNationalityInput) {
-            userNationalityInput.classList.add("is-invalid");
-        }
-
-        if(successNationalityMessage) {
-            successNationalityMessage.innerText = "";
-        }
-
-    };
-
-    const setNationalitySuccessFeedback = (message:string) => {
-
-        if(successNationalityMessage) {
-            successNationalityMessage.innerText = message;
-            successNationalityMessage.classList.add("success-user-data", "fw-bolder");
-            successNationalityMessage.style.fontSize = "0.8rem";
-        }
-
-        if(userNationalityInput) {
-            userNationalityInput.classList.remove("is-invalid");
-            userNationalityInput.classList.add("is-valid");
-        }
-
-        if(errorNationalityMessages) {
-            errorNationalityMessages.innerText = "";
-        }
-
-    };
-
-    if(userNationalityInput) {
-
-        const userNationalityValue = userNationalityInput.value.trim();
-
-        if(userNationalityValue === "") {
-
-            if(successNationalityMessage) {
-                successNationalityMessage.innerText = "";
-            }
-
-            if (userNationalityInput) {
-                userNationalityInput.classList.remove("is-valid");
-            }
-
-        } else {
-            
-            setNationalitySuccessFeedback("Ottimo lavoro, lo stato di nascita è stato inserito nel CV.");
-
-        }
-
-    }
-
+    checkMandatoryProfileDataInputs("nationality", ".success-nationality-message", ".error-nationality-message", "Ottimo lavoro, lo stato di nascita è stato inserito nel CV", "")
 };
 
 export function checkBirthPlaceInput(): void { 
-
-    const userBirthPlaceInput: HTMLInputElement | null = document.querySelector("[name='birthPlace']");
-    const errorBirthPlaceMessages: HTMLDivElement | null = document.querySelector(".error-birthplace-message");
-    const successBirthPlaceMessage: HTMLDivElement | null = document.querySelector(".success-birthplace-message");
-
-    const setBirthPlaceSuccessFeedback = (message:string) => {
-
-        if(successBirthPlaceMessage) {
-            successBirthPlaceMessage.innerText = message;
-            successBirthPlaceMessage.classList.add("success-user-data", "fw-bolder");
-            successBirthPlaceMessage.style.fontSize = "0.8rem";
-        }
-
-        if(userBirthPlaceInput) {
-            userBirthPlaceInput.classList.remove("is-invalid");
-            userBirthPlaceInput.classList.add("is-valid");
-        }
-
-        if(errorBirthPlaceMessages) {
-            errorBirthPlaceMessages.innerText = "";
-        }
-
-    };
-
-    if(userBirthPlaceInput) {
-
-        const userBirthPlaceValue = userBirthPlaceInput.value.trim();
-
-        if(userBirthPlaceValue === "") {
-
-            if(successBirthPlaceMessage) {
-                successBirthPlaceMessage.innerText = "";
-            }
-
-            if (userBirthPlaceInput) {
-                userBirthPlaceInput.classList.remove("is-valid");
-            }
-
-        } else {
-            
-            setBirthPlaceSuccessFeedback("Ottimo lavoro, il luogo di nascita è stato inserito nel CV.");
-
-        }
-
-    }
-
+    checkMandatoryProfileDataInputs("birthPlace", ".success-birthplace-message", ".error-birthplace-message", "Ottimo lavoro, il luogo di nascita è stato inserito nel CV", "")
 };
 
 export function checkBirthDateInput(): void {
-
-    const userBirthDateInput: HTMLInputElement | null = document.querySelector("[name='birthDate']");
-    const errorBirthDateMessage: HTMLDivElement | null = document.querySelector(".error-birthdate-message");
-    const successBirthDateMessage: HTMLDivElement | null = document.querySelector(".success-birthdate-message");
-
-    const setBirthDateErrorFeedback = (message:string) => {
-
-        if(errorBirthDateMessage) {
-            errorBirthDateMessage.innerText = message;
-            errorBirthDateMessage.classList.add("error-user-data", "fw-bolder");
-            errorBirthDateMessage.style.fontSize = "0.8rem";
-        }
-
-        if(userBirthDateInput) {
-            userBirthDateInput.classList.add("is-invalid");
-        }
-
-        if(successBirthDateMessage) {
-            successBirthDateMessage.innerText = "";
-        }
-
-    };
-
-    const setBirthDateSuccessFeedback = (message:string) => {
-
-        if(successBirthDateMessage) {
-            successBirthDateMessage.innerText = message;
-            successBirthDateMessage.classList.add("success-user-data", "fw-bolder");
-            successBirthDateMessage.style.fontSize = "0.8rem";
-        }
-
-        if(userBirthDateInput) {
-            userBirthDateInput.classList.remove("is-invalid");
-            userBirthDateInput.classList.add("is-valid");
-        }
-
-        if(errorBirthDateMessage) {
-            errorBirthDateMessage.innerText = "";
-        }
-
-    };
-
-    if(userBirthDateInput) {
-
-        const birthDateValue: string = userBirthDateInput.value;
-        const birthDate: Date = new Date(birthDateValue);
-
-        const birthDateMin = new Date(userBirthDateInput.min);
-        const birthDateMax = new Date(userBirthDateInput.max);
-        
-        if (birthDate < birthDateMin || birthDate > birthDateMax) {
-
-            setBirthDateErrorFeedback("La data di nascita non è valida. Inserisci una data compresa tra il 1954 e il 2006.");
-
-        } else if(birthDateValue === "") {
-
-            if(successBirthDateMessage) {
-                successBirthDateMessage.innerText = "";
-            }
-
-            if (userBirthDateInput) {
-                userBirthDateInput.classList.remove("is-valid");
-            }
-
-            if(errorBirthDateMessage) {
-                errorBirthDateMessage.innerText = "";
-            }
-
-            if (userBirthDateInput) {
-                userBirthDateInput.classList.remove("is-invalid");
-            }
-
-        } else {
-            
-            setBirthDateSuccessFeedback("Ottimo lavoro, la data di nascita è stata inserita nel CV.");
-
-        }
-        
-    }
-
+    checkMandatoryProfileDataInputs("birthDate", ".success-birthdate-message", ".error-birthdate-message", "Ottimo lavoro, la data di nascita è stata inserita nel CV", "")
 };
 
 export function checkStreetAddressInput(): void {
-
-    const userStreetAddressInput: HTMLInputElement | null = document.querySelector("[name='streetAddress']");
-    const errorStreetAddressMessages: HTMLDivElement | null = document.querySelector(".error-street-address-messages");
-    const successStreetAddressMessage: HTMLDivElement | null = document.querySelector(".success-street-address-message");
-
-    const setStreetAddressSuccessFeedback = (message:string) => {
-
-        if(successStreetAddressMessage) {
-             successStreetAddressMessage.innerText = message;
-             successStreetAddressMessage.classList.add("success-user-data", "fw-bolder");
-             successStreetAddressMessage.style.fontSize = "0.8rem";
-            }
-    
-        if(userStreetAddressInput) {
-            userStreetAddressInput.classList.remove("is-invalid");
-            userStreetAddressInput.classList.add("is-valid");
-            }
-    
-        if(errorStreetAddressMessages) {
-             errorStreetAddressMessages.innerText = "";
-        }
-    
-    }; 
-    
-    if(userStreetAddressInput) {
-
-        const userAddressValue = userStreetAddressInput.value.trim();
-    
-        if(userAddressValue === "") {
-
-            if(successStreetAddressMessage) {
-                successStreetAddressMessage.innerText = "";
-            }
-
-            if (userStreetAddressInput) {
-                userStreetAddressInput.classList.remove("is-valid");
-            }
-
-        } else {
-            
-            setStreetAddressSuccessFeedback("Ottimo lavoro, l'indirizzo di residenza è stato inserito nel CV.");
-
-        }
-    
-    }
-
+    checkMandatoryProfileDataInputs("streetAddress", ".success-street-address-message", ".error-street-address-message", "Ottimo lavoro, l'indirizzo di residenza è stato inserito nel CV", "")
 };
 
 export function checkStreetNumberInput(): void {
-
-    const userStreetNumberInput: HTMLInputElement | null = document.querySelector("[name='streetNumber']");
-    const errorStreetNumberMessages: HTMLDivElement | null = document.querySelector(".error-street-number-messages");
-    const successStreetNumberMessage: HTMLDivElement | null = document.querySelector(".success-street-number-message");
-
-    const setStreetNumberSuccessFeedback = (message:string) => {
-
-        if(successStreetNumberMessage) {
-            successStreetNumberMessage.innerText = message;
-            successStreetNumberMessage.classList.add("success-user-data", "fw-bolder");
-            successStreetNumberMessage.style.fontSize = "0.8rem";
-            }
-    
-        if(userStreetNumberInput) {
-            userStreetNumberInput.classList.remove("is-invalid");
-            userStreetNumberInput.classList.add("is-valid");
-            }
-    
-        if(errorStreetNumberMessages) {
-            errorStreetNumberMessages.innerText = "";
-        }
-    
-    }; 
-
-    if(userStreetNumberInput) {
-
-        const userStreetNumberValue = userStreetNumberInput.value.trim();
-
-        if(userStreetNumberValue === "") {
-
-            if(successStreetNumberMessage) {
-                successStreetNumberMessage.innerText = "";
-            }
-
-            if (userStreetNumberInput) {
-                userStreetNumberInput.classList.remove("is-valid");
-            }
-
-        } else {
-            
-            setStreetNumberSuccessFeedback ("Ottimo lavoro, il numero civico è stato inserito nel CV.");
-
-        }
-
-
-    }
-
+    checkMandatoryProfileDataInputs("streetNumber", ".success-street-number-message", ".error-street-number-message", "Ottimo lavoro, il numero civico è stato inserito nel CV", "")
 };
 
 export function checkCityInput(): void {
-
-    const userCityInput: HTMLInputElement | null = document.querySelector("[name='city']");
-    const errorCityMessages: HTMLDivElement | null = document.querySelector(".error-city-messages");
-    const successCityMessage: HTMLDivElement | null = document.querySelector(".success-city-message");
-
-    const setCitySuccessFeedback = (message:string) => {
-
-        if(successCityMessage) {
-            successCityMessage.innerText = message;
-            successCityMessage.classList.add("success-user-data", "fw-bolder");
-            successCityMessage.style.fontSize = "0.8rem";
-        }
-    
-        if(userCityInput) {
-            userCityInput.classList.remove("is-invalid");
-            userCityInput.classList.add("is-valid");
-        }
-    
-        if(errorCityMessages) {
-            errorCityMessages.innerText = "";
-        }
-    
-    };
-
-    if(userCityInput) {
-
-        const userCityValue = userCityInput.value.trim();
-    
-        if( userCityValue === "") {
-
-            if(successCityMessage) {
-                successCityMessage.innerText = "";
-            }
-
-            if (userCityInput) {
-                userCityInput.classList.remove("is-valid");
-            }
-
-        } else {
-            
-            setCitySuccessFeedback("Ottimo lavoro, la città di residenza è stata inserita nel CV.");
-
-        }
-    
-    }
-
+    checkMandatoryProfileDataInputs("city", ".success-city-message", ".error-city-message", "Ottimo lavoro, la città di residenza è stata inserita nel CV", "")
 };
 
 export function checkRegionInput(): void {
-
-    const userRegionInput: HTMLInputElement | null = document.querySelector("[name='region']");
-    const errorRegionMessages: HTMLDivElement | null = document.querySelector(".error-region-messages");
-    const successRegionMessage: HTMLDivElement | null = document.querySelector(".success-region-message");
-
-    const setRegionSuccessFeedback = (message:string) => {
-
-        if(successRegionMessage) {
-            successRegionMessage.innerText = message;
-            successRegionMessage.classList.add("success-user-data", "fw-bolder");
-            successRegionMessage.style.fontSize = "0.8rem";
-        }
-    
-        if(userRegionInput) {
-            userRegionInput.classList.remove("is-invalid");
-            userRegionInput.classList.add("is-valid");
-        }
-    
-        if(errorRegionMessages) {
-            errorRegionMessages.innerText = "";
-        }
-    
-    };
-
-    if(userRegionInput) {
-
-        const userRegionValue = userRegionInput.value.trim();
-    
-        if(userRegionValue === "") {
-
-            if(successRegionMessage) {
-                successRegionMessage.innerText = "";
-            }
-
-            if (userRegionInput) {
-                userRegionInput.classList.remove("is-valid");
-            }
-
-        } else {
-            
-            setRegionSuccessFeedback("Ottimo lavoro, la regione di residenza è stata inserita nel CV.");
-
-        }
-    
-    }
-
+    checkMandatoryProfileDataInputs("region", ".success-region-message", ".error-region-message", "Ottimo lavoro, la regione di residenza è stata inserita nel CV", "")
 };
 
 export function checkPhonePrefixSelect(): void {
-    
-    const userPhonePrefixSelect: HTMLInputElement | null = document.querySelector("[name='phonePrefix']");
-    const errorPhonePrefixMessage: HTMLDivElement | null = document.querySelector(".error-phoneprefix-message");
-    const successPhonePrefixMessage: HTMLDivElement | null = document.querySelector(".success-phoneprefix-message");
-
-    const setPhonePrefixSuccessFeedback = (message:string) => {
-
-        if(successPhonePrefixMessage) {
-            successPhonePrefixMessage.innerText = message;
-            successPhonePrefixMessage.classList.add("success-user-data", "fw-bolder");
-            successPhonePrefixMessage.style.fontSize = "0.8rem";
-        }
-
-        if(userPhonePrefixSelect) {
-            userPhonePrefixSelect.classList.remove("is-invalid");
-            userPhonePrefixSelect.classList.add("is-valid");
-        }
-
-        if(errorPhonePrefixMessage) {
-            errorPhonePrefixMessage.innerText = "";
-        }
-
-    };
-
-    if(userPhonePrefixSelect) {
-
-        const userPhonePrefixOption = userPhonePrefixSelect.value;
-
-        if(userPhonePrefixOption) {
-
-            setPhonePrefixSuccessFeedback("Ottimo lavoro, il prefisso telefonico è stato inserito nel CV.");
-
-        } 
-
-    } 
-
+    checkMandatoryProfileDataInputs("phonePrefix", ".success-phoneprefix-message", ".error-phoneprefix-message", "Ottimo lavoro, la regione di residenza è stata inserita nel CV", "")
 };
 
 export function checkPhoneInput(): void {
-
-    const userPhoneInput: HTMLInputElement | null = document.querySelector("[name='phone']");
-    const errorPhoneMessages: HTMLDivElement | null = document.querySelector(".error-phone-messages");
-    const successPhoneMessage: HTMLDivElement | null = document.querySelector(".success-phone-message");
-    const namePattern = /^\d+$/;
-
-    const setBirthPlaceErrorFeedback = (message:string) => {
-
-        if(errorPhoneMessages) {
-            errorPhoneMessages.innerText = message;
-            errorPhoneMessages.classList.add("error-user-data", "fw-bolder");
-            errorPhoneMessages.style.fontSize = "0.8rem";
-        }
-
-        if(userPhoneInput) {
-            userPhoneInput.classList.add("is-invalid");
-        }
-
-        if(successPhoneMessage) {
-            successPhoneMessage.innerText = "";
-        }
-
-    };
-
-    const setBirthPlaceSuccessFeedback = (message:string) => {
-
-        if(successPhoneMessage) {
-            successPhoneMessage.innerText = message;
-            successPhoneMessage.classList.add("success-user-data", "fw-bolder");
-            successPhoneMessage.style.fontSize = "0.8rem";
-        }
-
-        if(userPhoneInput) {
-            userPhoneInput.classList.remove("is-invalid");
-            userPhoneInput.classList.add("is-valid");
-        }
-
-        if(errorPhoneMessages) {
-            errorPhoneMessages.innerText = "";
-        }
-
-    };
-
-    if(userPhoneInput) {
-
-        const userPhoneValue = userPhoneInput.value.trim();
-
-        if(userPhoneValue === "") {
-
-            if(successPhoneMessage) {
-                successPhoneMessage.innerText = "";
-            }
-
-            if (userPhoneInput) {
-                userPhoneInput.classList.remove("is-valid");
-            }
-
-            if(errorPhoneMessages) {
-                errorPhoneMessages.innerText = "";
-            }
-
-            if (userPhoneInput) {
-                userPhoneInput.classList.remove("is-invalid");
-            }
-
-        } else if(userPhoneValue.length >= 15) {
-
-            setBirthPlaceErrorFeedback("Il cellulare non può contenere più di 15 numeri.");
-
-        } else if(!namePattern.test(userPhoneValue)) {
-
-            setBirthPlaceErrorFeedback("Il cellulare può contenere solo numeri.");
-
-        } else {
-
-            setBirthPlaceSuccessFeedback("Ottimo lavoro, il cellulare è stato inserito nel CV.");
-
-        }
-
-    }
+    checkMandatoryProfileDataInputs("phone", ".success-phone-message", ".error-phone-messages", "Ottimo lavoro, il cellulare è stato inserito nel CV", "Il cellulare può contenere solo numeri")
 }; 
 
 export function checkEmailInput(): void {
-        
-    const userEmailInput: HTMLInputElement | null = document.querySelector("[name='email']");
-    const errorEmailMessages: HTMLDivElement | null = document.querySelector(".error-email-messages");
-    const successEmailMessage: HTMLDivElement | null = document.querySelector(".success-email-message");
-    const emailPattern = /^[A-Za-z0-9_.-]+@[A-Za-z0-9_.-]+\.[A-Za-z]{2,6}$/;
-
-    const setEmailErrorFeedBack = (message: string) => {
-
-        if(errorEmailMessages) {
-            errorEmailMessages.innerText = message;
-            errorEmailMessages.classList.add("error-user-data", "fw-bolder");
-            errorEmailMessages.style.fontSize = "0.8rem";
-        }
-
-        if(userEmailInput) {
-            userEmailInput.classList.add("is-invalid");
-        }
-
-        if(successEmailMessage) {
-            successEmailMessage.innerText = "";
-        }
-
-    };
-
-    const setEmailSuccessFeedback = (message: string) => {
-
-        if(successEmailMessage) {
-            successEmailMessage.innerText = message;
-            successEmailMessage.classList.add("success-user-data", "fw-bolder");
-            successEmailMessage.style.fontSize = "0.8rem"
-        }
-
-        if(userEmailInput) {
-            userEmailInput.classList.remove("is-invalid");
-            userEmailInput.classList.add("is-valid");
-        }
-
-        if(errorEmailMessages) {
-            errorEmailMessages.innerText = "";
-        }
-    };
-
-    if(userEmailInput) {
-
-        const userEmailValue = userEmailInput.value.trim();
-
-        if(userEmailValue === "") {
-
-            if(successEmailMessage) {
-                successEmailMessage.innerText = "";
-            }
-
-            if (userEmailInput) {
-                userEmailInput.classList.remove("is-valid");
-            }
-
-            if(errorEmailMessages) {
-                errorEmailMessages.innerText = "";
-            }
-
-            if (userEmailInput) {
-                userEmailInput.classList.remove("is-invalid");
-            }
-
-        } else if(!emailPattern.test(userEmailValue)) {
-
-            setEmailErrorFeedBack("Mi dispiace, L'email inserita contiene caratteri non validi nel nome utente. Puoi utilizzare lettere, numeri, punti, trattini bassi (_) e trattini (-)");;
-
-        } else {
-
-            setEmailSuccessFeedback ("Ottimo lavoro, l'email è stata inserita nel CV.");
-
-        }
-
-    }
-
-        if(!emailPattern.test(userEmailValue)) {
-
-            setEmailErrorFeedBack("Mi dispiace, l'email inserita non rispetta l'esempio fornito");
-
-        } else {
-
-            setEmailSuccessFeedback("Ottimo lavoro, l'email è corretta");
-
-        }
-
+    checkMandatoryProfileDataInputs("email", ".success-email-message", ".error-email-messages", "Ottimo lavoro, il cellulare è stato inserito nel CV", "Mi dispiace, inserisci un'email valida nel seguente formato: cognome.nome_90@example.com")
 };
 
-// ProfileSummary Validation
+// ProfileSummary Optional Validation
 
-export function checkProfileSummaryTextArea(): void {
-
-    const profileSummaryTextArea: HTMLTextAreaElement | null = document.querySelector("[name='profileSummary']");
-    const errorProfileSummaryMessages: HTMLDivElement | null = document.querySelector(".error-profile-summary-messages");
-    const successProfileSummaryMessage: HTMLDivElement | null = document.querySelector(".success-profile-summary-message");
-
-    const setProfileSummaryErrorFeedBack = (message: string) => {
-
-        if(errorProfileSummaryMessages) {
-            errorProfileSummaryMessages.innerText = message;
-            errorProfileSummaryMessages.classList.add("error-user-data", "fw-bolder");
-            errorProfileSummaryMessages.style.fontSize = "0.8rem";
-        }
-
-        if(profileSummaryTextArea) {
-            profileSummaryTextArea.classList.add("is-invalid");
-        }
-
-        if(successProfileSummaryMessage) {
-            successProfileSummaryMessage.innerText = "";
-        }
-
-    };
-
-    const setProfileSummarySuccessFeedback = (message: string) => {
-
-        if(successProfileSummaryMessage) {
-            successProfileSummaryMessage.innerText = message;
-            successProfileSummaryMessage.classList.add("success-user-data", "fw-bolder");
-            successProfileSummaryMessage.style.fontSize = "0.8rem"
-        }
-
-        if(profileSummaryTextArea) {
-            profileSummaryTextArea.classList.remove("is-invalid");
-            profileSummaryTextArea.classList.add("is-valid");
-        }
-
-        if(errorProfileSummaryMessages) {
-            errorProfileSummaryMessages.innerText = "";
-        }
-    };
-
-    if(profileSummaryTextArea) {
-
-        const profileSummaryValue = profileSummaryTextArea.value.trim();
-
-        if(profileSummaryValue === "") {
-
-            if (successProfileSummaryMessage) {
-                successProfileSummaryMessage.innerText = "";
-            }
-
-            if (profileSummaryTextArea) {
-                profileSummaryTextArea.classList.remove("is-valid");
-            }
-
-        }
-
-         else if(profileSummaryValue.length >= 500) {
-
-            setProfileSummaryErrorFeedBack("Mi dispiace, il profilo personale non può contenere più di 500 caratteri");
-
-        } else {
-
-            setProfileSummarySuccessFeedback ("Ottimo lavoro, il profilo personale è corretto");
-
-        }
-    
-    }
-
+export function checkProfileSummaryInput(): void {
+    checkOptionalProfileDataInputs("profileSummary", ".success-profile-summary-message", ".error-profile-summary-message", "Ottimo lavoro, il profilo personale è stato inserito nel CV", "Mi dispiace, il profilo personale non può contenere più di 500 caratteri")
 };
 
 // ProtectedCategory Validation
@@ -909,247 +297,23 @@ export function isProtectedCategoryRadiosSelected(): void {
 // DigitalSkill Validations
 
 export function checkDigitalSkillsTextInput(index: number): void {
-
-    const digitalSkillsTextInput: HTMLSelectElement | null = document.querySelector(`[name="digitalSkill${index}"]`);
-    const errorDigitalSkillMessage: HTMLDivElement | null = document.querySelector(`#error-digital-skill-message${index}`);
-    const successDigitalSkillMessage: HTMLDivElement | null = document.querySelector(`#success-digital-skill-message${index}`);
-
-    const setDigitalSkillErrorFeedBack = (message:string) => {
-
-        if(errorDigitalSkillMessage) {
-            errorDigitalSkillMessage.innerText = message;
-            errorDigitalSkillMessage.classList.add("error-user-data", "fw-bolder");
-            errorDigitalSkillMessage.style.fontSize = "0.8rem";
-        }
-
-        if(digitalSkillsTextInput) {
-            digitalSkillsTextInput.classList.add("is-invalid");
-        }
-
-        if(successDigitalSkillMessage) {
-            successDigitalSkillMessage.innerText = "";
-        }
-
-    };
-
-    const setDigitalSkillSuccessFeedback = (message:string) => {
-
-        if(successDigitalSkillMessage) {
-            successDigitalSkillMessage.innerText = message;
-            successDigitalSkillMessage.classList.add("success-user-data", "fw-bolder");
-            successDigitalSkillMessage.style.fontSize = "0.8rem";
-        }
-
-        if(digitalSkillsTextInput) {
-            digitalSkillsTextInput.classList.remove("is-invalid");
-            digitalSkillsTextInput.classList.add("is-valid");
-        }
-
-        if(errorDigitalSkillMessage) {
-            errorDigitalSkillMessage.innerText = "";
-        }
-
-    };
-
-    if( digitalSkillsTextInput) {
-
-        const digitalSkillValue =  digitalSkillsTextInput.value.trim();
-
-        if(digitalSkillValue === "") {
-
-            setDigitalSkillErrorFeedBack("La competenza digitale è obbligatoria");
-
-        } else {
-
-            setDigitalSkillSuccessFeedback("Ottimo lavoro, la competenza digitale è corretta");
-
-        }
-    
-    }
-
+    checkOptionalProfileDataInputs(`digitalSkill${index}`, `#success-digital-skill-message${index}`, `#error-digital-skill-message${index}`, "Ottimo lavoro, la competenza digitale è stata inserita nel CV", "")
 }
 
 export function checkLevelSkillSelect(index: number): void {
-
-    const levelSkillSelect: HTMLSelectElement | null = document.querySelector(`[name="skillLevel${index}"]`);
-    const errorLevelSkillMessage: HTMLDivElement | null = document.querySelector(`#error-level-skill-message${index}`);
-    const successLevelSkillMessage: HTMLDivElement | null = document.querySelector(`#success-level-skill-message${index}`);
-
-    const setLevelSkillErrorFeedBack = (message:string) => {
-
-        if(errorLevelSkillMessage) {
-            errorLevelSkillMessage.innerText = message;
-            errorLevelSkillMessage.classList.add("error-user-data", "fw-bolder");
-            errorLevelSkillMessage.style.fontSize = "0.8rem";
-        }
-
-        if(levelSkillSelect) {
-            levelSkillSelect.classList.add("is-invalid");
-            levelSkillSelect.classList.remove("is-valid");
-        }
-
-    };
-
-    const setLevelSkillSuccessFeedback = (message:string) => {
-
-        if(successLevelSkillMessage) {
-            successLevelSkillMessage.innerText = message;
-            successLevelSkillMessage.classList.add("success-user-data", "fw-bolder");
-            successLevelSkillMessage.style.fontSize = "0.8rem";
-        }
-
-        if(levelSkillSelect) {
-            levelSkillSelect.classList.remove("is-invalid");
-            levelSkillSelect.classList.add("is-valid");
-        }
-
-        if(errorLevelSkillMessage) {
-            errorLevelSkillMessage.innerText = "";
-        }
-
-    };
-
-    if(levelSkillSelect) {
-
-        const levelSkillValue =  levelSkillSelect.value.trim();
-
-        if(levelSkillValue  === "") {
-
-            setLevelSkillErrorFeedBack("Mi dispiace, il livello della competenza digitale è obbligatorio");
-
-        } else {
-
-            setLevelSkillSuccessFeedback("Ottimo lavoro, il livello della competenza digitale è corretto");
-
-        }
-    
-    }
-
+    checkOptionalProfileDataInputs(`skillLevel${index}`, `#success-level-skill-message${index}`, `#error-level-skill-message${index}`, "Ottimo lavoro, il livello della competenza digitale è stata inserita nel CV", "")
 }
 
 //  Language Validations
 
 export function checkLanguageSelect(index: number): void {
-
-    const languageSelect: HTMLSelectElement | null = document.querySelector(`#formSelectLanguages${index}`);
-    const errorLanguageMessage: HTMLDivElement | null = document.querySelector(`#error-language-message${index}`);
-    const successLanguageMessage: HTMLDivElement | null = document.querySelector(`#success-language-message${index}`);
-    
-    const setLanguageErrorFeedback = (message:string) => {
-
-        if (errorLanguageMessage) {
-            errorLanguageMessage.innerText = message;
-            errorLanguageMessage.classList.add("error-user-data", "fw-bolder");
-            errorLanguageMessage.style.fontSize = "0.8rem";
-        }
-
-        if (languageSelect) {
-            languageSelect.classList.add("is-invalid");
-        }
-
-        if (successLanguageMessage) {
-            successLanguageMessage.innerText = "";
-        }
-
-    };
-
-    const setLanguageSuccessFeedback = (message:string) => {
-
-        if (successLanguageMessage) {
-            successLanguageMessage.innerText = message;
-            successLanguageMessage.classList.add("success-user-data", "fw-bolder");
-            successLanguageMessage.style.fontSize = "0.8rem";
-        }
-
-        if (languageSelect) {
-            languageSelect.classList.remove("is-invalid");
-            languageSelect.classList.add("is-valid");
-        }
-
-        if (errorLanguageMessage) {
-            errorLanguageMessage.innerText = "";
-        }
-
-    };
-
-    if (languageSelect) {
-
-        const languageOption = languageSelect.value;
-
-        if (languageOption === "") {
-
-            setLanguageErrorFeedback("Mi dispiace, seleziona almeno una lingua");
-
-        } else {
-
-            setLanguageSuccessFeedback("Ottimo lavoro, hai inserito la lingua nel CV");
-
-        }
-
-    } 
-
+    checkOptionalProfileDataInputs(`languages${index}`, `#success-language-message${index}`, `#error-language-message${index}`, "Ottimo lavoro, la lingua è stata inserita nel CV", "")
 };
 
 export function checkLanguageLevelSelect(index: number): void {
-
-    const languageLevelSelect: HTMLInputElement | null = document.querySelector(`#formSelectLanguageLevels${index}`);
-    const errorLanguageLevelMessage: HTMLDivElement | null = document.querySelector(`#error-language-level-message${index}`);
-    const successLanguageLevelMessage: HTMLDivElement | null = document.querySelector(`#success-language-level-message${index}`);
-
-    const setLanguageLevelErrorFeedback = (message:string) => {
-
-        if (errorLanguageLevelMessage) {
-            errorLanguageLevelMessage.innerText = message;
-            errorLanguageLevelMessage.classList.add("error-user-data", "fw-bolder");
-            errorLanguageLevelMessage.style.fontSize = "0.8rem";
-        }
-
-        if (languageLevelSelect) {
-            languageLevelSelect.classList.add("is-invalid");
-        }
-
-        if (successLanguageLevelMessage) {
-            successLanguageLevelMessage.innerText = "";
-        }
-
-    };
-
-    const setLanguageLevelSuccessFeedback = (message:string) => {
-
-        if (successLanguageLevelMessage) {
-            successLanguageLevelMessage.innerText = message;
-            successLanguageLevelMessage.classList.add("success-user-data", "fw-bolder");
-            successLanguageLevelMessage.style.fontSize = "0.8rem";
-        }
-
-        if (languageLevelSelect) {
-            languageLevelSelect.classList.remove("is-invalid");
-            languageLevelSelect.classList.add("is-valid");
-        }
-
-        if (errorLanguageLevelMessage) {
-            errorLanguageLevelMessage.innerText = "";
-        }
-
-    };
-
-    if (languageLevelSelect) {
-
-        const languageLevelOption = languageLevelSelect.value;
-
-        if (languageLevelOption === "") {
-
-            setLanguageLevelErrorFeedback("Mi dispiace, seleziona almeno un livello di lingua");
-
-        } else {
-
-            setLanguageLevelSuccessFeedback("Ottimo lavoro, hai inserito il livello di lingua nel CV");
-
-        }
-
-    } 
-
+    checkOptionalProfileDataInputs(`languageLevels${index}`, `#success-language-level-message${index}`, `#error-language-message${index}`, "Ottimo lavoro, il livello della lingua è stata inserita nel CV", "")
 };
+
 
 // Driving Licence Validations
 
@@ -1246,610 +410,222 @@ export function checkDrivingLicenceCheckboxesInput(): void {
 
 // Job Validations
 
-export function checkJobRoleTextInput(index: number): void {
+export function checkWorkExperienceInputs(label: string, index: number, successFeedbackMsg: string, errorFeedbackMsg: string): void {
 
-    const jobRoleTextInput: HTMLInputElement | null = document.querySelector(`#textInputJobRole${index}`);
-    const successJobRoleMessage: HTMLDivElement | null = document.querySelector(`#success-job-role-message${index}`);
-
-    const setJobRoleSuccessFeedback= (message:string) => {
-
-        if(successJobRoleMessage) {
-            successJobRoleMessage.innerText = message;
-            successJobRoleMessage.classList.add("success-user-data", "fw-bolder");
-            successJobRoleMessage.style.fontSize = "0.8rem";
-        }
-
-        if(jobRoleTextInput) {
-            jobRoleTextInput.classList.remove("is-invalid");
-            jobRoleTextInput.classList.add("is-valid");
-        }
-
-        if(jobRoleTextInput) {
-            jobRoleTextInput.innerText = "";
-        }
-
-    };
-
-    if(jobRoleTextInput) {
-
-        const jobRoleValue = jobRoleTextInput.value.trim();
-
-        if(jobRoleValue === "") {
-
-            if(successJobRoleMessage) {
-                successJobRoleMessage.innerText = "";
-            }
-
-            if (jobRoleTextInput) {
-                jobRoleTextInput.classList.remove("is-valid");
-            }
-
-        } else {
-
-            setJobRoleSuccessFeedback("Ottimo lavoro, il ruolo è stato inserito nel CV");
-
-        }
+    const jobInputNameSelector = `#input${label}${index}`;
     
-    }
-
-};
-
-export function checkCompanyTextInput(index: number): void {
-
-    const companyTextInput: HTMLInputElement | null = document.querySelector(`#textInputCompany${index}`);
-    const errorCompanyMessages: HTMLDivElement | null = document.querySelector(`#error-company-messages${index}`);
-    const successCompanyMessage: HTMLDivElement | null = document.querySelector(`#success-company-message${index}`);
-
-    const setCompanySuccessFeedback= (message:string) => {
-
-        if(successCompanyMessage) {
-            successCompanyMessage.innerText = message;
-            successCompanyMessage.classList.add("success-user-data", "fw-bolder");
-            successCompanyMessage.style.fontSize = "0.8rem";
-        }
-
-        if(companyTextInput) {
-            companyTextInput.classList.remove("is-invalid");
-            companyTextInput.classList.add("is-valid");
-        }
-
-        if(errorCompanyMessages) {
-            errorCompanyMessages.innerText = "";
-        }
-
+    const addHyphenBetweenWords = (str: string): string => {
+        return str.split(/(?=[A-Z])/).join('-').toLowerCase();
     };
 
-    if(companyTextInput) {
+    const formattedLabel = addHyphenBetweenWords(label);
 
-        const companyValue = companyTextInput.value.trim();
-
-        if(companyValue === "") {
-
-            if(successCompanyMessage) {
-                successCompanyMessage.innerText = "";
-            }
-
-            if (companyTextInput) {
-                companyTextInput.classList.remove("is-valid");
-            }
-
-        } else {
-
-            setCompanySuccessFeedback("Ottimo lavoro, l'azienda è stata inserita nel CV");
-
-        }
+    const jobSuccessMessageSelector = `#success-${formattedLabel}-message${index}`;
     
-    }
-
-};
-
-export function checkLocationTextInput(index: number): void {
-
-    const locationTextInput: HTMLInputElement | null = document.querySelector(`#textInputLocation${index}`);
-    const errorLocationMessages: HTMLDivElement | null = document.querySelector(`#error-location-messages${index}`);
-    const successLocationMessage: HTMLDivElement | null = document.querySelector(`#success-location-message${index}`);
-
-    const setLocationSuccessFeedback = (message: string) => {
-        if (successLocationMessage) {
-            successLocationMessage.innerText = message;
-            successLocationMessage.classList.add("success-user-data", "fw-bolder");
-            successLocationMessage.style.fontSize = "0.8rem";
-        }
-
-        if (locationTextInput) {
-            locationTextInput.classList.remove("is-invalid");
-            locationTextInput.classList.add("is-valid");
-        }
-
-        if (errorLocationMessages) {
-            errorLocationMessages.innerText = "";
-        }
-    };
-
-    if (locationTextInput) {
-        const locationValue = locationTextInput.value.trim();
-
-        if (locationValue === "") {
-
-            if(successLocationMessage) {
-                successLocationMessage.innerText = "";
-            }
-
-            if (locationTextInput) {
-                locationTextInput.classList.remove("is-valid");
-            }
-
-        } else {
-
-            setLocationSuccessFeedback("Ottimo lavoro, il luogo di lavoro è stato inserito nel CV");
-
-        }
-    }
+    const jobErrorMessageSelector = `#error-${formattedLabel}-messages${index}`;
     
-};
+    const jobInputLabel: HTMLInputElement | HTMLTextAreaElement | null = document.querySelector(jobInputNameSelector);
 
-export function checkWorkExperienceResultsTextArea(index: number): void {
+        
+    const jobSuccessMessage: HTMLDivElement | null = document.querySelector(jobSuccessMessageSelector);
+    const jobErrorMessage: HTMLDivElement | null = document.querySelector(jobErrorMessageSelector);
 
-    const workExperienceResultsTextArea: HTMLTextAreaElement | null = document.querySelector(`#textAreaInputWorkExperienceResults${index}`);
-    const errorWorkExperienceResultsMessages: HTMLDivElement | null = document.querySelector(`#error-work-experience-results-messages${index}`);
-    const successWorkExperienceResultsMessage: HTMLDivElement | null = document.querySelector(`#success-work-experience-results-message${index}`);
-
-    const setProfileSummaryErrorFeedBack = (message: string) => {
-
-        if(errorWorkExperienceResultsMessages) {
-            errorWorkExperienceResultsMessages.innerText = message;
-            errorWorkExperienceResultsMessages.classList.add("error-user-data", "fw-bolder");
-            errorWorkExperienceResultsMessages.style.fontSize = "0.8rem";
+    const setSuccessFeedbackMsg = (message: string) => {
+        if (jobSuccessMessage) {
+            jobSuccessMessage.innerText = message;
+            jobSuccessMessage.classList.add("success-user-data", "fw-bolder");
+            jobSuccessMessage.style.fontSize = "0.8rem";
         }
-
-        if(workExperienceResultsTextArea) {
-            workExperienceResultsTextArea.classList.add("is-invalid");
+        if (jobInputLabel) {
+            jobInputLabel.classList.remove("is-invalid");
+            jobInputLabel.classList.add("is-valid");
         }
-
-        if(successWorkExperienceResultsMessage) {
-            successWorkExperienceResultsMessage.innerText = "";
-        }
-
-    };
-
-    const setProfileSummarySuccessFeedback = (message: string) => {
-
-        if(successWorkExperienceResultsMessage) {
-            successWorkExperienceResultsMessage.innerText = message;
-            successWorkExperienceResultsMessage.classList.add("success-user-data", "fw-bolder");
-            successWorkExperienceResultsMessage.style.fontSize = "0.8rem"
-        }
-
-        if(workExperienceResultsTextArea) {
-            workExperienceResultsTextArea.classList.remove("is-invalid");
-            workExperienceResultsTextArea.classList.add("is-valid");
-        }
-
-        if(errorWorkExperienceResultsMessages) {
-            errorWorkExperienceResultsMessages.innerText = "";
+        if (jobErrorMessage) {
+            jobErrorMessage.innerText = "";
         }
     };
 
-    if(workExperienceResultsTextArea) {
+    const setErrorFeedbackMsg = (message: string) => {
+        if (jobErrorMessage) {
+            jobErrorMessage.innerText = message;
+            jobErrorMessage.classList.add("error-user-data", "fw-bolder");
+            jobErrorMessage.style.fontSize = "0.8rem";
+        }
+        if (jobInputLabel) {
+            jobInputLabel.classList.add("is-invalid");
+        }
+        if (jobSuccessMessage) {
+            jobSuccessMessage.innerText = "";
+        }
+    };
 
-        const workExperienceResultsValue = workExperienceResultsTextArea.value.trim();
+    if (jobInputLabel) {
 
-        if(workExperienceResultsValue === "") {
+        const jobInputValue = jobInputLabel.value.trim();
+        
+        if (jobInputValue === "") {
 
-            if(successWorkExperienceResultsMessage) {
-                successWorkExperienceResultsMessage.innerText = "";
+            if (jobSuccessMessage) {
+                jobSuccessMessage.innerText = "";
             }
-
-            if (workExperienceResultsTextArea) {
-                workExperienceResultsTextArea.classList.remove("is-valid");
+            if (jobInputLabel) {
+                jobInputLabel.classList.remove("is-valid");
             }
-
-        } else if(workExperienceResultsValue.length >= 500) {
-
-            setProfileSummaryErrorFeedBack("Mi dispiace, il campo risultati professionali ottenuti non può contenere più di 500 caratteri");
 
         } else {
 
-            setProfileSummarySuccessFeedback ("Ottimo lavoro, il campo risultati professionali ottenuti è stato inserito nel CV");
-
-        }
-    
-    }
-
-};
-
-export function checkStartAndEndWorkExperienceDateInput(index: number): void {
-    
-    const startDateWorkExperienceDateInput: HTMLInputElement | null = document.querySelector(`#startDateInputWorkExperience${index}`);
-    const errorStartDateWorkExperienceMessages: HTMLDivElement | null = document.querySelector(`#error-startDateWorkExperience-messages${index}`);
-    const successStartDateWorkExperienceMessage: HTMLDivElement | null = document.querySelector(`#success-startDateWorkExperience-message${index}`);
-
-    const setStartDateWorkExperienceSuccessFeedBack = (message: string) => {
-
-        if(successStartDateWorkExperienceMessage) {
-            successStartDateWorkExperienceMessage.innerText = message;
-            successStartDateWorkExperienceMessage.classList.add("success-user-data", "fw-bolder");
-            successStartDateWorkExperienceMessage.style.fontSize = "0.8rem"
-        }
-
-        if(startDateWorkExperienceDateInput) {
-            startDateWorkExperienceDateInput.classList.remove("is-invalid");
-            startDateWorkExperienceDateInput.classList.add("is-valid");
-        }
-
-        if(errorStartDateWorkExperienceMessages) {
-            errorStartDateWorkExperienceMessages.innerText = "";
-        }
-
-    };
-
-    const endDateWorkExperienceDateInput: HTMLInputElement | null = document.querySelector(`#endDateInputWorkExperience${index}`);
-    const errorEndDateWorkExperienceMessages: HTMLDivElement | null = document.querySelector(`#error-endDateWorkExperience-messages${index}`);
-    const successEndDateWorkExperienceMessage: HTMLDivElement | null = document.querySelector(`#success-endDateWorkExperience-message${index}`);
-    const isEmployedCheckbox = document.getElementById("checkboxNoLabel") as HTMLInputElement | null;
-
-
-    const setEndDateWorkExperienceSuccessFeedBack = (message: string) => {
-
-        if(successEndDateWorkExperienceMessage) {
-            successEndDateWorkExperienceMessage.innerText = message;
-            successEndDateWorkExperienceMessage.classList.add("success-user-data", "fw-bolder");
-            successEndDateWorkExperienceMessage.style.fontSize = "0.8rem"
-        }
-
-        if(endDateWorkExperienceDateInput) {
-            endDateWorkExperienceDateInput.classList.remove("is-invalid");
-            endDateWorkExperienceDateInput.classList.add("is-valid");
-        }
-
-        if(errorEndDateWorkExperienceMessages) {
-            errorEndDateWorkExperienceMessages.innerText = "";
-        }
-
-    };
-
-    if(startDateWorkExperienceDateInput) {
-
-        const startDateWorkExperienceValue = startDateWorkExperienceDateInput?.value.trim();
-
-        if (startDateWorkExperienceValue === "") {
-
-            if (successStartDateWorkExperienceMessage) {
-                successStartDateWorkExperienceMessage.innerText = "";
-            }
-        
-            if (startDateWorkExperienceDateInput) {
-                startDateWorkExperienceDateInput.classList.remove("is-valid");
-            }
-        
-           
-        } else {
-        
-            setStartDateWorkExperienceSuccessFeedBack("Ottimo lavoro, la data di inizio lavoro è stata inserita nel CV");
-        
-        }
-    }
-
-    if(endDateWorkExperienceDateInput) {
-
-        const endDateWorkExperienceValue: string = endDateWorkExperienceDateInput?.value.trim();
-        const isChecked: boolean | undefined = isEmployedCheckbox?.checked;
-
-        if (endDateWorkExperienceValue === "") {
-
-            if (successEndDateWorkExperienceMessage) {
-                successEndDateWorkExperienceMessage.innerText = "";
-            }
-        
-            if (endDateWorkExperienceDateInput) {
-                endDateWorkExperienceDateInput.classList.remove("is-valid");
-            }
-         
-        } else {
-
-            if(isChecked) {
-
-                if(successEndDateWorkExperienceMessage) {
-                    successEndDateWorkExperienceMessage.innerText = "";
-                }
-                
-                endDateWorkExperienceDateInput.classList.remove("is-valid");
-
+            if (label === "JobResults" && jobInputValue.length >= 500) {
+                setErrorFeedbackMsg(errorFeedbackMsg);
             } else {
-        
-                setEndDateWorkExperienceSuccessFeedBack("Ottimo lavoro, la data di fine lavoro è stata inserita nel CV");
-        
+                setSuccessFeedbackMsg(successFeedbackMsg);
             }
 
         }
-   
     }
+
 }
 
+export function checkJobRoleInput(index: number): void {
+    checkWorkExperienceInputs("JobRole", index, "Ottimo lavoro, il ruolo è stato inserito nel CV", "");
+}
+
+export function checkCompanyNameInput(index: number): void {
+    checkWorkExperienceInputs("CompanyName", index, "Ottimo lavoro, l'azienda è stata inserita nel CV", "");
+};
+
+export function checkJobLocationInput(index: number): void {
+    checkWorkExperienceInputs("JobLocation", index, "Ottimo lavoro, il luogo di lavoro è stato inserito nel CV", "");
+};
+
+export function checkJobResultsInput(index: number): void {
+    checkWorkExperienceInputs("JobResults", index, "Ottimo lavoro, il campo risultati professionali ottenuti è stato inserito nel CV", "Mi dispiace, il campo risultati professionali ottenuti non può contenere più di 500 caratteri");
+};
+
+export function checkStartJobInput(index: number): void {
+    checkWorkExperienceInputs("StartJob", index, "Ottimo lavoro, la data di inizio lavoro è stata inserita nel CV", "");
+};
+
+export function checkEndJobInput(index: number): void {
+    checkWorkExperienceInputs("EndJob", index, "Ottimo lavoro, la data di fine lavoro è stata inserita nel CV", "")
+};
+      
 export function checkCurrentJob(index: number): void {
 
-    const endDateWorkExperienceDateInput: HTMLInputElement | null = document.querySelector(`#endDateInputWorkExperience${index}`);
-    const successEndDateWorkExperienceMessage: HTMLDivElement | null = document.querySelector(`#success-endDateWorkExperience-message${index}`);
-    const isEmployedCheckbox = document.getElementById("checkboxNoLabel") as HTMLInputElement | null;
+    const endDateJobInput: HTMLInputElement | null = document.querySelector(`#inputEndJob${index}`);
+    const successEndDateJobFeedbackMsg: HTMLDivElement | null = document.querySelector(`#success-end-job-message${index}`);
+    const isEmployedCheckbox = document.getElementById("currentJobCheckbox") as HTMLInputElement | null;
+  
+    if (endDateJobInput) {
+      const isChecked: boolean | undefined = isEmployedCheckbox?.checked;
+  
+      if (isChecked) {
 
-    if(endDateWorkExperienceDateInput) {
-
-        const isChecked: boolean | undefined = isEmployedCheckbox?.checked;
-
-        if(isChecked) {
-
-            if(successEndDateWorkExperienceMessage) {
-                successEndDateWorkExperienceMessage.innerText = "";
-                endDateWorkExperienceDateInput.classList.remove("is-valid");
-            }
-
+        if (successEndDateJobFeedbackMsg) {
+          successEndDateJobFeedbackMsg.innerText = "";
+          console.log(successEndDateJobFeedbackMsg);
+          
+          endDateJobInput.classList.remove("is-valid");
         }
 
+      }
     }
 
-}
+  };
+  
 
 // Education Validations 
 
-export function checkQualificationsSelect(index:number): void {
+export function checkEducationInputs(label: string, index: number, successFeedbackMsg: string, errorFeedbackMsg: string): void {
 
-    const qualificationsSelect: HTMLSelectElement | null = document.querySelector(`#selectQualification${index}`);
-    const errorQualificationMessage: HTMLDivElement | null = document.querySelector(`#error-qualification-message${index}`);
-    const successQualificationMessage: HTMLDivElement | null = document.querySelector(`#success-qualification-message${index}`);
-
-    const setQualificationSuccessFeedback = (message:string) => {
-
-        if (successQualificationMessage) {
-            successQualificationMessage.innerText = message;
-            successQualificationMessage.classList.add("success-user-data", "fw-bolder");
-            successQualificationMessage.style.fontSize = "0.8rem";
-        }
-
-        if (qualificationsSelect) {
-            qualificationsSelect.classList.remove("is-invalid");
-            qualificationsSelect.classList.add("is-valid");
-        }
-
-        if (errorQualificationMessage) {
-            errorQualificationMessage.innerText = "";
-        }
-
-    };
-
-    if (qualificationsSelect) {
-
-        const qualificationOption = qualificationsSelect.value.trim();
-
-        if (qualificationOption) {
-
-            setQualificationSuccessFeedback("Ottimo lavoro, il titolo di studio è stato inserito nel CV");
-
-        } 
-
-    } 
+    const educationInputNameSelector = `#input${label}${index}`;
     
-};
-
-export function checkFieldOfStudyTextInput(index: number): void {
-
-    const fieldOfStudyTextInput: HTMLInputElement | null = document.querySelector(`#textInputFieldOfStudy${index}`);
-    const errorFieldOfStudyMessage: HTMLDivElement | null = document.querySelector(`#error-field-study-message${index}`);
-    const successFieldOfStudyMessage: HTMLDivElement | null = document.querySelector(`#success-field-study-message${index}`);
-
-    const setFieldOfStudySuccessFeedback = (message:string) => {
-
-        if(successFieldOfStudyMessage) {
-            successFieldOfStudyMessage.innerText = message;
-            successFieldOfStudyMessage.classList.add("success-user-data", "fw-bolder");
-            successFieldOfStudyMessage.style.fontSize = "0.8rem";
-        }
-
-        if(fieldOfStudyTextInput) {
-            fieldOfStudyTextInput.classList.remove("is-invalid");
-            fieldOfStudyTextInput.classList.add("is-valid");
-        }
-
-        if(errorFieldOfStudyMessage) {
-            errorFieldOfStudyMessage.innerText = "";
-        }
-
+    const addHyphenBetweenWords = (str: string): string => {
+        return str.split(/(?=[A-Z])/).join('-').toLowerCase();
     };
 
-    if(fieldOfStudyTextInput) {
+    const formattedLabel = addHyphenBetweenWords(label);
 
-        const fieldOfStudyValue = fieldOfStudyTextInput.value.trim();
-
-        if(fieldOfStudyValue === "") {
-
-            if(successFieldOfStudyMessage) {
-                successFieldOfStudyMessage.innerText = "";
-            }
-
-            if (fieldOfStudyTextInput) {
-                fieldOfStudyTextInput.classList.remove("is-valid");
-            }
-
-        } else {
-
-            setFieldOfStudySuccessFeedback("Ottimo lavoro, il campo di studio è stato inserito nel CV");
-
-        }
+    const educationSuccessMessageSelector = `#success-${formattedLabel}-message${index}`;
+    const educationErrorMessageSelector = `#error-${formattedLabel}-messages${index}`;
     
-    }
+    const educationInputLabel: HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement | null = document.querySelector(educationInputNameSelector);
+    const educationSuccessMessage: HTMLDivElement | null = document.querySelector(educationSuccessMessageSelector);
+    const educationErrorMessage: HTMLDivElement | null = document.querySelector(educationErrorMessageSelector);
 
-};
-
-export function checkEducationTypeTextInput(index: number): void {
-
-    const educationTypeTextInput: HTMLInputElement | null = document.querySelector(`#textInputEducationType${index}`);
-    const errorEducationTypeMessages: HTMLDivElement | null = document.querySelector(`#error-education-type-messages${index}`);
-    const successEducationTypeMessage: HTMLDivElement | null = document.querySelector(`#success-education-type-message${index}`);
-
-    const setEducationTypeSuccessFeedback = (message:string) => {
-
-        if(successEducationTypeMessage) {
-            successEducationTypeMessage.innerText = message;
-            successEducationTypeMessage.classList.add("success-user-data", "fw-bolder");
-            successEducationTypeMessage.style.fontSize = "0.8rem";
+    const setSuccessFeedbackMsg = (message: string) => {
+        if (educationSuccessMessage) {
+            educationSuccessMessage.innerText = message;
+            educationSuccessMessage.classList.add("success-user-data", "fw-bolder");
+            educationSuccessMessage.style.fontSize = "0.8rem";
         }
-
-        if(educationTypeTextInput) {
-            educationTypeTextInput.classList.remove("is-invalid");
-            educationTypeTextInput.classList.add("is-valid");
+        if (educationInputLabel) {
+            educationInputLabel.classList.remove("is-invalid");
+            educationInputLabel.classList.add("is-valid");
         }
-
-        if(errorEducationTypeMessages) {
-            errorEducationTypeMessages.innerText = "";
+        if (educationErrorMessage) {
+            educationErrorMessage.innerText = "";
         }
-
     };
 
-    if(educationTypeTextInput) {
-
-        const educationTypeValue = educationTypeTextInput.value.trim();
-
-        if(educationTypeValue === "") {
-
-            if(successEducationTypeMessage) {
-                successEducationTypeMessage.innerText = "";
-            }
-
-            if (educationTypeTextInput) {
-                educationTypeTextInput.classList.remove("is-valid");
-            }
-
-        } else {
-
-            setEducationTypeSuccessFeedback("Ottimo lavoro, l'ente di formazione è stato inserito nel CV");
-
+    const setErrorFeedbackMsg = (message: string) => {
+        if (educationErrorMessage) {
+            educationErrorMessage.innerText = message;
+            educationErrorMessage.classList.add("error-user-data", "fw-bolder");
+            educationErrorMessage.style.fontSize = "0.8rem";
         }
+        if (educationInputLabel) {
+            educationInputLabel.classList.add("is-invalid");
+        }
+        if (educationSuccessMessage) {
+            educationSuccessMessage.innerText = "";
+        }
+    };
 
+    if (educationInputLabel) {
+
+        const educationInputValue = educationInputLabel.value;
         
-    
-    }
+        if(!educationInputValue) {
 
-};
-
-export function checkEducationGoalsTextArea(index:number): void {
-
-    const educationGoalsTextArea: HTMLTextAreaElement | null = document.querySelector(`#formInputEducationGoals${index}`);
-    const errorEducationGoalsMessages: HTMLDivElement | null = document.querySelector(`#error-education-goals-messages${index}`);
-    const successEducationGoalsMessage: HTMLDivElement | null = document.querySelector(`#success-education-goals-message${index}`);
-
-    const setProfileSummaryErrorFeedBack = (message: string) => {
-
-        if(errorEducationGoalsMessages) {
-            errorEducationGoalsMessages.innerText = message;
-            errorEducationGoalsMessages.classList.add("error-user-data", "fw-bolder");
-            errorEducationGoalsMessages.style.fontSize = "0.8rem";
-        }
-
-        if(educationGoalsTextArea) {
-            educationGoalsTextArea.classList.add("is-invalid");
-        }
-
-        if(successEducationGoalsMessage) {
-            successEducationGoalsMessage.innerText = "";
-        }
-
-    };
-
-    const setProfileSummarySuccessFeedback = (message: string) => {
-
-        if(successEducationGoalsMessage) {
-            successEducationGoalsMessage.innerText = message;
-            successEducationGoalsMessage.classList.add("success-user-data", "fw-bolder");
-            successEducationGoalsMessage.style.fontSize = "0.8rem"
-        }
-
-        if(educationGoalsTextArea) {
-            educationGoalsTextArea.classList.remove("is-invalid");
-            educationGoalsTextArea.classList.add("is-valid");
-        }
-
-        if(errorEducationGoalsMessages) {
-            errorEducationGoalsMessages.innerText = "";
-        }
-    };
-
-    if(educationGoalsTextArea) {
-
-        const educationGoalsValue = educationGoalsTextArea.value.trim();
-
-        if(educationGoalsValue === "") {
-
-            if(successEducationGoalsMessage) {
-                successEducationGoalsMessage.innerText = "";
+            if (educationSuccessMessage) {
+                educationSuccessMessage.innerText = "";
             }
-
-            if (educationGoalsTextArea) {
-                educationGoalsTextArea.classList.remove("is-valid");
+            if (educationInputLabel) {
+                educationInputLabel.classList.remove("is-valid");
             }
-
-        } else if(educationGoalsValue.length >= 500) {
-
-            setProfileSummaryErrorFeedBack("Mi dispiace, il campo risultati accademici raggiunti non può contenere più di 500 caratteri");
 
         } else {
 
-            setProfileSummarySuccessFeedback ("Ottimo lavoro, il campo risultati accademici raggiunti è stato inserito nel CV");
+            if (label === "EducationGoals" && educationInputValue.length >= 500) {
+                setErrorFeedbackMsg(errorFeedbackMsg);
+            } else {
+                setSuccessFeedbackMsg(successFeedbackMsg);
+            }
 
         }
-    
     }
 
+}
+
+export function checkEducationTitleSelect(index:number): void {
+    checkEducationInputs("EducationTitle", index, "Ottimo lavoro, il titolo di studio è stato inserito nel CV", "")
+};
+
+export function checkFieldStudyInput(index: number): void {
+    checkEducationInputs("StudyField", index, "Ottimo lavoro, il campo di studio è stato inserito nel CV", "")
+};
+
+export function checkEducationTypeInput(index: number): void {
+    checkEducationInputs("TrainingCenter", index, "Ottimo lavoro, l'ente di formazione è stato inserito nel CV", "")
+};
+
+export function checkEducationGoalsInput(index:number): void {
+    checkEducationInputs("EducationGoals", index, "Ottimo lavoro, il campo risultati accademici raggiunti è stato inserito nel CV", "Mi dispiace, il campo risultati accademici raggiunti non può contenere più di 500 caratteri")
 };
 
 export function checkEndAcademicEducationDateInput(index: number): void {
-
-    const endDateAcademicEducationDateInput: HTMLInputElement | null = document.querySelector(`#endDateInputAcademicEducation${index}`);
-    const errorEndDateAcademicEducationMessages: HTMLDivElement | null = document.querySelector(`#error-endDateAcademicEducation-messages${index}`);
-    const successEndDateAcademicEducationMessage: HTMLDivElement | null = document.querySelector(`#success-endDateAcademicEducation-message${index}`);
-
-    const setEndDateAcademicEducationSuccessFeedBack = (message: string) => {
-
-        if(successEndDateAcademicEducationMessage) {
-            successEndDateAcademicEducationMessage.innerText = message;
-            successEndDateAcademicEducationMessage.classList.add("success-user-data", "fw-bolder");
-            successEndDateAcademicEducationMessage.style.fontSize = "0.8rem"
-        }
-
-        if(endDateAcademicEducationDateInput) {
-            endDateAcademicEducationDateInput.classList.remove("is-invalid");
-            endDateAcademicEducationDateInput.classList.add("is-valid");
-        }
-
-        if(errorEndDateAcademicEducationMessages) {
-            errorEndDateAcademicEducationMessages.innerText = "";
-        }
-
-    };
-
-    if(endDateAcademicEducationDateInput) {
-
-        const endDateAcademicEducationValue = endDateAcademicEducationDateInput.value.trim();
-
-        if(endDateAcademicEducationValue === "") {
-
-            if(successEndDateAcademicEducationMessage) {
-                successEndDateAcademicEducationMessage.innerText = "";
-            }
-
-            if (endDateAcademicEducationDateInput) {
-                endDateAcademicEducationDateInput.classList.remove("is-valid");
-            }
-            
-
-        } else {
-
-            setEndDateAcademicEducationSuccessFeedBack ("Ottimo lavoro, la data di fine studio è stata inserito nel CV");
-
-        }
-  
-    }
-
+    checkEducationInputs("EndEducation", index, "Ottimo lavoro, la data di fine studio è stata inserito nel CV", "")
 };
-
 
 // Policy Privacy Validation (Mandatory)
 
@@ -1911,6 +687,7 @@ export function checkPolicyPrivacySwitchInput(): void {
 export function checkClickAuthBtn(): void {
 
     const successAuthSignMessage: HTMLDivElement | null = document.querySelector(".success-auth-sign-message");
+    const errorCancSignMessage = document.querySelector<HTMLDivElement>(".error-canc-sign-message");
 
     const setAuthSignSuccessFeedback = (message: string) => {
 
@@ -1918,6 +695,10 @@ export function checkClickAuthBtn(): void {
             successAuthSignMessage.innerText = message;
             successAuthSignMessage.classList.add("success-user-data", "fw-bolder");
             successAuthSignMessage.style.fontSize = "0.8rem"
+        }
+
+        if (errorCancSignMessage) {
+            errorCancSignMessage.innerText = "";
         }
 
     };

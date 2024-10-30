@@ -152,7 +152,7 @@
                         <div class="education-details-container">
         
                             <div class="dot-item" style="background-color: {$formDataStore.selectedColor || "black"};"></div>
-                            <div class="education-details">{education.qualification} - {education.educationType} - {education.fieldOfStudy}</div>
+                            <div class="education-details">{education.qualification} - {education.trainingCenter} - {education.fieldOfStudy}</div>
                             
                         </div>
         

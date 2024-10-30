@@ -178,7 +178,7 @@
                         
                     <div class="education-details-container">
 
-                        <div class="education-details">{education.endDateAcademicEducation} - {education.qualification} - {education.educationType}</div>
+                        <div class="education-details">{education.endDateAcademicEducation} - {education.qualification} - {education.trainingCenter}</div>
                         
                     </div>
 

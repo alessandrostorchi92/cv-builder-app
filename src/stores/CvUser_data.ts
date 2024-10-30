@@ -41,7 +41,7 @@ let userFormData: formTypes.FormData = {
     {
       qualification: "",
       fieldOfStudy: "",
-      educationType: "",
+      trainingCenter: "",
       educationGoals: "",
       startDateAcademicEducation: "",
       endDateAcademicEducation: "",

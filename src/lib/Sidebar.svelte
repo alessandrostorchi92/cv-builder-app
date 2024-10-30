@@ -281,7 +281,7 @@
       $formDataStore.educations.push({
         qualification: "",
         fieldOfStudy: "",
-        educationType: "",
+        trainingCenter: "",
         educationGoals: "",
         startDateAcademicEducation: "",
         endDateAcademicEducation: "",
@@ -424,462 +424,121 @@
   
   };
 
-  function checkNameInput(): void {
-    const userNameInput: HTMLInputElement | null = document.querySelector("[name='name']");
-    const errorNameMessages: HTMLDivElement | null = document.querySelector(".error-name-messages");
+  function checkMandatoryInputs(inputName: string, errorMessageSelector: string, errorMessage: string): void {
 
-    const setNameErrorFeedBack = (message: string) => {
-        if (errorNameMessages) {
-          errorNameMessages.innerText = message;
-          errorNameMessages.classList.add("error-user-data", "fw-bolder");
-          errorNameMessages.style.fontSize = "0.8rem";
+    const mandatoryInput: HTMLInputElement | null = document.querySelector(`[name='${inputName}']`);
+    const errorMessages: HTMLDivElement | null = document.querySelector(errorMessageSelector);
+
+    const setErrorFeedback = (message: string) => {
+
+        if (errorMessages) {
+            errorMessages.innerText = message;
+            errorMessages.classList.add("error-user-data", "fw-bolder");
+            errorMessages.style.fontSize = "0.8rem";
         }
 
-        if(userNameInput) {
-          userNameInput.classList.add("is-invalid");
+        if (mandatoryInput) {
+            mandatoryInput.classList.add("is-invalid");
         }
+
     };
 
-    if (userNameInput) {
-        const userNameValue = userNameInput.value.trim();
-
-        if (userNameValue === "") {
-          setNameErrorFeedBack("Il nome è obbligatorio. Per favore inseriscilo.");
+    if (mandatoryInput) {
+        const inputValue = mandatoryInput.value.trim();
+        if (inputValue === "") {
+            setErrorFeedback(errorMessage);
         }
     }
-  };
+
+  }
+
+  function checkNameInput(): void {
+    checkMandatoryInputs('name', '.error-name-message', 'Il nome è obbligatorio. Per favore inseriscilo.');
+  }
 
   function checkSurnameInput(): void {
-
-    const userSurnameInput: HTMLInputElement | null = document.querySelector("[name='surname']");
-    const errorSurnameMessages: HTMLDivElement | null = document.querySelector(".error-surname-messages");
-
-    const setSurnameErrorFeedBack = (message: string) => {
-        if (errorSurnameMessages) {
-          errorSurnameMessages.innerText = message;
-          errorSurnameMessages.classList.add("error-user-data", "fw-bolder");
-          errorSurnameMessages.style.fontSize = "0.8rem";
-        }
-
-        if(userSurnameInput) {
-          userSurnameInput.classList.add("is-invalid");
-        }
-    };
-
-    if (userSurnameInput) {
-
-        const userSurnameValue = userSurnameInput.value.trim();
-
-        if (userSurnameValue === "") {
-            setSurnameErrorFeedBack("Il cognome è obbligatorio. Per favore inseriscilo.");
-        } 
-    }
-  };
+    checkMandatoryInputs('surname', '.error-surname-message', 'Il cognome è obbligatorio. Per favore inseriscilo.');
+  }
 
   function checkProfessionInput(): void {
-
-    const userProfessionInput: HTMLInputElement | null = document.querySelector("[name='profession']");
-    const errorProfessionMessages: HTMLDivElement | null = document.querySelector(".error-profession-messages");
-
-    
-    const setProfessionErrorFeedbak = (message: string) => {
-
-        if (errorProfessionMessages) {
-            errorProfessionMessages.innerText = message;
-            errorProfessionMessages.classList.add("error-user-data", "fw-bolder");
-            errorProfessionMessages.style.fontSize = "0.8rem";
-        }
-
-        if(userProfessionInput) {
-          userProfessionInput.classList.add("is-invalid");
-        }
-
-    };
-  
-    if (userProfessionInput) {
-
-        const userProfessionValue = userProfessionInput.value.trim();
-
-        if (userProfessionValue === "") {
-            setProfessionErrorFeedbak("La professione è obbligatoria. Per favore inseriscila.");
-        }
-
-      }
-  };
+    checkMandatoryInputs('profession', '.error-profession-message', 'Lo stato di nascita è obbligatorio. Per favore inseriscilo.');
+  }
 
   function checkNationalityInput(): void {
-
-    const userNationalityInput: HTMLInputElement | null = document.querySelector("[name='nationality']");
-    const errorNationalityMessages: HTMLDivElement | null = document.querySelector(".error-nationality-messages");
-
-    const setNationalityErrorFeedback = (message:string) => {
-
-      if(errorNationalityMessages) {
-        errorNationalityMessages.innerText = message;
-        errorNationalityMessages.classList.add("error-user-data", "fw-bolder");
-        errorNationalityMessages.style.fontSize = "0.8rem";
-      }
-
-      if(userNationalityInput) {
-        userNationalityInput.classList.add("is-invalid");
-      }
-
-    };
-
-    if(userNationalityInput) {
-
-      const userNationalityValue = userNationalityInput.value.trim();
-
-      if(userNationalityValue === "") {
-        setNationalityErrorFeedback("Lo stato di nascita è obbligatorio. Per favore inseriscilo.");
-      } 
-
-    }
-
+    checkMandatoryInputs('nationality', '.error-nationality-message', 'Lo stato di nascita è obbligatorio. Per favore inseriscilo.');
   };
 
   function checkBirthPlaceInput(): void {
-
-    const userBirthPlaceInput: HTMLInputElement | null = document.querySelector("[name='birthPlace']");
-    const errorBirthPlaceMessages: HTMLDivElement | null = document.querySelector(".error-birthplace-message");
-
-    const setBirthPlaceErrorFeedback = (message:string) => {
-
-      if(errorBirthPlaceMessages) {
-        errorBirthPlaceMessages.innerText = message;
-        errorBirthPlaceMessages.classList.add("error-user-data", "fw-bolder");
-        errorBirthPlaceMessages.style.fontSize = "0.8rem";
-      }
-
-      if(userBirthPlaceInput) {
-        userBirthPlaceInput.classList.add("is-invalid");
-      }
-
-    };
-
-    if(userBirthPlaceInput) {
-
-      const userBirthPlaceValue = userBirthPlaceInput.value.trim();
-
-      if(userBirthPlaceValue === "") {
-        setBirthPlaceErrorFeedback("Il luogo di nascita è obbligatorio. Per favore inseriscilo.");
-      } 
-
-    }
-
+    checkMandatoryInputs('birthPlace', '.error-birthplace-message', 'Il luogo di nascita è obbligatorio. Per favore inseriscilo.');
   };
 
   function checkBirthDateInput(): void {
-    const userBirthDateInput: HTMLInputElement | null = document.querySelector("[name='birthDate']");
-    const errorBirthDateMessage: HTMLDivElement | null = document.querySelector(".error-birthdate-message");
-
-    const setBirthDateErrorFeedback = (message: string) => {
-
-        if (errorBirthDateMessage) {
-            errorBirthDateMessage.innerText = message;
-            errorBirthDateMessage.classList.add("error-user-data", "fw-bolder");
-            errorBirthDateMessage.style.fontSize = "0.8rem";
-        }
-
-        if (userBirthDateInput) {
-          userBirthDateInput.classList.add("is-invalid");
-        }
-    };
-
-    if (userBirthDateInput) {
-      const birthDateValue: string = userBirthDateInput.value;
-
-      if (birthDateValue === "") {
-        setBirthDateErrorFeedback("La data di nascita è obbligatoria. Per favore inseriscila.");
-      }
-    }
+    checkMandatoryInputs('birthDate', '.error-birthdate-message', 'La data di nascita è obbligatoria. Per favore inseriscila.');
   };
 
   function checkStreetAddressInput(): void {
-
-    const userStreetAddressInput: HTMLInputElement | null = document.querySelector("[name='streetAddress']");
-    const errorStreetAddressMessages: HTMLDivElement | null = document.querySelector(".error-street-address-messages");
-
-    const setStreetAddressErrorFeedback = (message: string) => {
-
-      if (errorStreetAddressMessages) {
-        errorStreetAddressMessages.innerText = message;
-        errorStreetAddressMessages.classList.add("error-user-data", "fw-bolder");
-        errorStreetAddressMessages.style.fontSize = "0.8rem";
-      }
-
-      if(userStreetAddressInput) {
-        userStreetAddressInput.classList.add("is-invalid");
-      }
-    }
-
-    if (userStreetAddressInput) {
-      const userAddressValue = userStreetAddressInput.value.trim();
-      if (userAddressValue === "") {
-        setStreetAddressErrorFeedback("L'indirizzo di residenza è obbligatorio. Per favore inseriscilo.");
-      }
-    }
+    checkMandatoryInputs('streetAddress', '.error-street-address-message', "L'indirizzo di residenza è obbligatorio. Per favore inseriscilo.");
   };
 
   function checkStreetNumberInput(): void {
-
-    const userStreetNumberInput: HTMLInputElement | null = document.querySelector("[name='streetNumber']");
-    const errorStreetNumberMessages: HTMLDivElement | null = document.querySelector(".error-street-number-messages");
-
-    const setStreetNumberErrorFeedback = (message:string) => {
-
-      if(errorStreetNumberMessages) {
-          errorStreetNumberMessages.innerText = message;
-          errorStreetNumberMessages.classList.add("error-user-data", "fw-bolder");
-          errorStreetNumberMessages.style.fontSize = "0.8rem";
-      }
-
-      if(userStreetNumberInput) {
-        userStreetNumberInput.classList.add("is-invalid");
-      }
-
-    };
-
-    if(userStreetNumberInput) {
-
-      const userStreetNumberValue = userStreetNumberInput.value.trim();
-
-      if(userStreetNumberValue === "") {
-
-      setStreetNumberErrorFeedback("Il n° civico è obbligatorio. Per favore inseriscilo.");
-
-      } 
-
-    }
-
+    checkMandatoryInputs('streetNumber', '.error-street-number-message', 'Il n° civico è obbligatorio. Per favore inseriscilo.');
   };
 
   function checkCityInput(): void {
-
-    const userCityInput: HTMLInputElement | null = document.querySelector("[name='city']");
-    const errorCityMessages: HTMLDivElement | null = document.querySelector(".error-city-messages");
-
-    const setCityErrorFeedback = (message:string) => {
-
-      if(errorCityMessages) {
-          errorCityMessages.innerText = message;
-          errorCityMessages.classList.add("error-user-data", "fw-bolder");
-          errorCityMessages.style.fontSize = "0.8rem";
-      }
-
-      if(userCityInput) {
-        userCityInput.classList.add("is-invalid");
-      }
-
-    };
-
-    if(userCityInput) {
-
-      const userCityValue = userCityInput.value.trim();
-
-      if(userCityValue === "") {
-
-        setCityErrorFeedback("La città è obbligatoria: Per favore inseriscila.");
-
-      } 
-
-    }
-
+    checkMandatoryInputs('city', '.error-city-message', 'La città è obbligatoria: Per favore inseriscila.');
   };
 
   function checkRegionInput(): void {
-
-    const userRegionInput: HTMLInputElement | null = document.querySelector("[name='region']");
-    const errorRegionMessages: HTMLDivElement | null = document.querySelector(".error-region-messages");
-
-    const setRegionErrorFeedback = (message:string) => {
-
-      if(errorRegionMessages) {
-          errorRegionMessages.innerText = message;
-          errorRegionMessages.classList.add("error-user-data", "fw-bolder");
-          errorRegionMessages.style.fontSize = "0.8rem";
-      }
-
-      if(userRegionInput) {
-        userRegionInput.classList.add("is-invalid");
-      }
-
-    };
-
-    if(userRegionInput) {
-
-      const userCityValue = userRegionInput.value.trim();
-
-      if(userCityValue === "") {
-
-        setRegionErrorFeedback("La regione è obbligatoria: Per favore inseriscila.");
-
-      }
-
-    }
-
+    checkMandatoryInputs('region', '.error-region-message', 'La regione è obbligatoria: Per favore inseriscila.');
   };
 
   function checkPhonePrefixSelect(): void {
-
-    const userPhonePrefixSelect: HTMLInputElement | null = document.querySelector("[name='phonePrefix']");
-    const errorPhonePrefixMessage: HTMLDivElement | null = document.querySelector(".error-phoneprefix-message");
-
-    const setPhonePrefixErrorFeedback = (message:string) => {
-
-      if(errorPhonePrefixMessage) {
-        errorPhonePrefixMessage.innerText = message;
-        errorPhonePrefixMessage.classList.add("error-user-data", "fw-bolder");
-        errorPhonePrefixMessage.style.fontSize = "0.8rem";
-      }
-
-      if(userPhonePrefixSelect) {
-        userPhonePrefixSelect.classList.add("is-invalid");
-      }
-
-    };
-
-    if(userPhonePrefixSelect) {
-
-      const userPhonePrefixOption = userPhonePrefixSelect.value.trim();
-
-      if(userPhonePrefixOption === "") {
-
-        setPhonePrefixErrorFeedback("Per favore, seleziona almeno un prefisso telefonico.");
-
-      } 
-
-    }
-
+    checkMandatoryInputs('phonePrefix', '.error-phoneprefix-message', 'Per favore, seleziona almeno un prefisso telefonico.');
   };
 
   function checkPhoneInput(): void {
-
-    const userPhoneInput: HTMLInputElement | null = document.querySelector("[name='phone']");
-    const errorPhoneMessages: HTMLDivElement | null = document.querySelector(".error-phone-messages");
-
-    const setBirthPlaceErrorFeedback = (message:string) => {
-
-      if(errorPhoneMessages) {
-          errorPhoneMessages.innerText = message;
-          errorPhoneMessages.classList.add("error-user-data", "fw-bolder");
-          errorPhoneMessages.style.fontSize = "0.8rem";
-      }
-
-      if(userPhoneInput) {
-          userPhoneInput.classList.add("is-invalid");
-      }
-
-    } ;
-
-    if(userPhoneInput) {
-
-      const userPhoneValue = userPhoneInput.value.trim();
-
-      if(userPhoneValue === "") {
-
-        setBirthPlaceErrorFeedback("Il cellulare è obbligatorio. Per favore inseriscilo.");
-
-      }
-
-    }
-
+    checkMandatoryInputs('phone', '.error-phone-messages', 'Il cellulare è obbligatorio. Per favore inseriscilo.');
   };
 
   function checkEmailInput(): void {
-
-    const userEmailInput: HTMLInputElement | null = document.querySelector("[name='email']");
-    const errorEmailMessages: HTMLDivElement | null = document.querySelector(".error-email-messages");
-
-    const setEmailErrorFeedBack = (message: string) => {
-
-      if(errorEmailMessages) {
-        errorEmailMessages.innerText = message;
-        errorEmailMessages.classList.add("error-user-data", "fw-bolder");
-        errorEmailMessages.style.fontSize = "0.8rem";
-      }
-
-      if(userEmailInput) {
-          userEmailInput.classList.add("is-invalid");
-      }
-
-    };
-
-    if(userEmailInput) {
-
-      const userEmailValue = userEmailInput.value.trim();
-
-      if(userEmailValue === "") {
-
-        setEmailErrorFeedBack("L'email è obbligatoria. Per favore inseriscila.");
-
-      } 
-
-    }
-
+    checkMandatoryInputs('email', '.error-email-messages', "L'email è obbligatoria. Per favore inseriscila.");
   };
 
-  function isProtectedCategoryRadiosSelected(): void {
+  function checkMandatoryRadioInputs(radioName: string, errorMessageSelector: string, errorMessage: string): void {
 
-    const protectedCategoryRadiosInput: NodeListOf<HTMLInputElement> = document.querySelectorAll('input[name="protectedCategoryRadioOptions"]');
-    const errorProtectedCategoryMessage: HTMLDivElement | null = document.querySelector(".error-protected-category-message");
+    const radioInputs: NodeListOf<HTMLInputElement> = document.querySelectorAll(`input[name="${radioName}"]`);
+    const errorMessages: HTMLDivElement | null = document.querySelector(errorMessageSelector);
     let isSelected = false;
 
-    protectedCategoryRadiosInput.forEach(protectedCategoryRadio => {
-
-        if (protectedCategoryRadio.checked) {
+    radioInputs.forEach(radio => {
+        if (radio.checked) {
+            radio.classList.add("is-valid"); 
             isSelected = true;
         } else {
-            protectedCategoryRadio.classList.add("is-invalid");
+            radio.classList.add("is-invalid");
         }
-
     });
 
-    const setProtectedCategoryErrorFeedBack = (message: string) => {
-
-        if (errorProtectedCategoryMessage) {
-            errorProtectedCategoryMessage.innerText = message;
-            errorProtectedCategoryMessage.classList.add("error-user-data", "fw-bolder");
-            errorProtectedCategoryMessage.style.fontSize = "0.8rem";
+    const setErrorFeedback = (message: string) => {
+        if (errorMessages) {
+            errorMessages.innerText = message;
+            errorMessages.classList.add("error-user-data", "fw-bolder");
+            errorMessages.style.fontSize = "0.8rem";
         }
-
     };
 
     if (!isSelected) {
-        setProtectedCategoryErrorFeedBack("Per favore, seleziona almeno un'opzione");
+        setErrorFeedback(errorMessage);
     }
-  };
+
+  }
+
+  function isProtectedCategoryRadiosSelected(): void {
+      checkMandatoryRadioInputs('protectedCategoryRadioOptions', '.error-protected-category-message', "Per favore, seleziona almeno un'opzione");
+  }
 
   function isHasOwnCarRadiosSelected(): void {
-
-    const isHasOwnCarRadioInputs: NodeListOf<HTMLInputElement> = document.querySelectorAll('input[name="drivingLicenceRadioOptions"]');
-    const errorHasOwnCarMessage: HTMLDivElement | null = document.querySelector(".error-has-own-car-message");
-
-    let isSelected = false;
-
-    isHasOwnCarRadioInputs.forEach(isHasOwnCarRadioInput => {
-
-        if (isHasOwnCarRadioInput.checked) {
-            isHasOwnCarRadioInput.classList.add("is-valid");
-            isSelected = true;
-        }
-
-    });
-
-    const setHasOwnCarErrorFeedback = (message: string) => {
-
-        if (errorHasOwnCarMessage) {
-            errorHasOwnCarMessage.innerText = message;
-            errorHasOwnCarMessage.classList.add("error-user-data", "fw-bolder");
-            errorHasOwnCarMessage.style.fontSize = "0.8rem";
-        }
-    
-    };
-
-    if (!isSelected) {
-        setHasOwnCarErrorFeedback ("Per favore, seleziona almeno un'opzione");
-    }
-
+    checkMandatoryRadioInputs('drivingLicenceRadioOptions', '.error-has-own-car-message', "Per favore, seleziona almeno un'opzione");
   };
 
   function checkCvPreview(): void {
@@ -1008,11 +667,12 @@
         </div>
 
         <div class="text-center py-3">
-          <label for="file-picture-input" class="custom-file-input">SCEGLI FOTO</label>
+
+          <label for="inputFilePicture" class="custom-file-input">SCEGLI FOTO</label>
 
           <input
             type="file"
-            id="file-picture-input"
+            id="inputFilePicture"
             accept="image/*"
             name="filePicture"
             on:change={(event) => { validators.isProfilePictureUploaded(); handleFileChange(event); }}
@@ -1026,13 +686,13 @@
 
         <!-- Name -->
         <div class="py-3">
-          <label for="textInputName">Nome</label>
+          <label for="inputName">Nome</label>
           <span class="isRequired">*</span>
 
           <input
             type="text"
             class="form-control"
-            id="textInputName"
+            id="inputName"
             autocomplete="off"
             name="name"
             placeholder="Nome"
@@ -1040,19 +700,19 @@
             on:input={() => validators.checkNameInput()}
           />
 
-          <div class="success-user-data success-name-message"></div>
-          <div class="error-user-data error-name-messages"></div>
+          <div class="success-user-data success-name-message form-text"></div>
+          <div class="error-user-data error-name-message form-text"></div>
         </div>
 
         <!-- Cognome -->
         <div class="py-3">
-          <label for="textInputSurname">Cognome</label>
+          <label for="inputSurname">Cognome</label>
           <span class="isRequired">*</span>
 
           <input
             type="text"
             class="form-control"
-            id="textInputSurname"
+            id="inputSurname"
             autocomplete="off"
             name="surname"
             placeholder="Cognome"
@@ -1060,19 +720,19 @@
             on:input={() => validators.checkSurnameInput()}
           />
 
-          <div class="success-user-data success-surname-message"></div>
-          <div class="error-user-data error-surname-messages"></div>
+          <div class="success-user-data success-surname-message form-text"></div>
+          <div class="error-user-data error-surname-message form-text"></div>
         </div>
 
         <!-- Professione -->
         <div class="py-3">
-          <label for="textInputProfession">Professione</label>
+          <label for="inputProfession">Professione</label>
           <span class="isRequired">*</span>
 
           <input
             type="text"
             class="form-control"
-            id="textInputProfession"
+            id="inputProfession"
             autocomplete="off"
             name="profession"
             placeholder="Professione"
@@ -1080,19 +740,19 @@
             on:input={() => validators.checkProfessionInput()}
           />
 
-          <div class="success-user-data success-profession-message"></div>
-          <div class="error-user-data error-profession-messages"></div>
+          <div class="success-user-data success-profession-message form-text"></div>
+          <div class="error-user-data error-profession-message form-text"></div>
         </div>
 
          <!-- Nazionalità -->
          <div class="py-3">
-          <label for="textInputNationality">Stato di nascita</label>
+          <label for="inputNationality">Stato di nascita</label>
           <span class="isRequired">*</span>
 
           <input
             type="text"
             class="form-control"
-            id="textInputNationality"
+            id="inputNationality"
             autocomplete="off"
             name="nationality"
             placeholder="Nazione"
@@ -1100,19 +760,19 @@
             on:input={() => validators.checkNationalityInput()}
           />
 
-          <div class="success-nationality-message"></div>
-          <div class="error-nationality-messages"></div>
+          <div class="success-nationality-message form-text"></div>
+          <div class="error-nationality-message form-text"></div>
         </div>
 
         <!---- Luogo di Nascita ---->
         <div class="py-3">
-          <label for="textInputBirthDate">Luogo di nascita</label>
+          <label for="inputBirthPlace">Luogo di nascita</label>
           <span class="isRequired">*</span>
 
           <input
             type="text"
             class="form-control"
-            id="textInputBirthDate"
+            id="inputBirthPlace"
             autocomplete="off"
             name="birthPlace"
             placeholder="Città"
@@ -1120,19 +780,19 @@
             on:input={() => validators.checkBirthPlaceInput()}
           />
 
-          <div class="success-birthplace-message"></div>
-          <div class="error-birthplace-message"></div>
+          <div class="success-birthplace-message form-text"></div>
+          <div class="error-birthplace-message form-text"></div>
         </div>
 
         <!---- Data di Nascita ---->
         <div class="py-3">
-          <label for="formInputBirthDate">Data di nascita</label>
+          <label for="inputBirthDate">Data di nascita</label>
           <span class="isRequired">*</span>
 
           <input
             type="date"
             class="form-control"
-            id="formInputBirthDate"
+            id="inputBirthDate"
             autocomplete="off"
             name="birthDate"
             min="1954-01-01"
@@ -1141,8 +801,8 @@
             on:change={() => validators.checkBirthDateInput()}
           />
 
-          <div class="success-birthdate-message"></div>
-          <div class="error-birthdate-message"></div>
+          <div class="success-birthdate-message form-text"></div>
+          <div class="error-birthdate-message form-text"></div>
         </div>
 
         <!-- Residenza/Domicilio -->
@@ -1169,8 +829,8 @@
                       on:input={() => validators.checkStreetAddressInput()}
                     />
 
-                    <div class="success-street-address-message"></div>
-                    <div class="error-street-address-messages"></div>
+                    <div class="success-street-address-message form-text"></div>
+                    <div class="error-street-address-message form-text"></div>
 
                   </div>
 
@@ -1191,8 +851,8 @@
                       on:input={() => validators.checkStreetNumberInput()}
                     />
 
-                    <div class="success-street-number-message"></div>
-                    <div class="error-street-number-messages"></div>
+                    <div class="success-street-number-message form-text"></div>
+                    <div class="error-street-number-message form-text"></div>
 
                   </div>
   
@@ -1217,8 +877,8 @@
                       on:input={() => validators.checkCityInput()}
                     />
 
-                    <div class="success-city-message"></div>
-                    <div class="error-city-messages"></div>
+                    <div class="success-city-message form-text"></div>
+                    <div class="error-city-message form-text"></div>
 
               </div>
 
@@ -1239,8 +899,8 @@
                       on:input={() => validators.checkRegionInput()}
                     />
 
-                    <div class="success-region-message"></div>
-                    <div class="error-region-messages"></div>
+                    <div class="success-region-message form-text"></div>
+                    <div class="error-region-message form-text"></div>
 
               </div>
   
@@ -1253,14 +913,15 @@
         <!-- Cellulare -->
         <div class="py-3">
 
-          <label for="formSelectPhone">Cellulare</label>
+          <label for="selectPhone">Cellulare</label>
           <span class="isRequired">*</span>
 
           <div class="input-group mb-3">
+
             <select
               class="form-select"
               style="width: 50%;"
-              id="formSelectPhonePrefix"
+              id="inputSelectPhonePrefix"
               aria-label="PhonePrefixSelect"
               autocomplete="off"
               name="phonePrefix"
@@ -1279,7 +940,7 @@
               type="tel"
               class="form-control"
               style="width: 50%;"
-              id="formSelectPhone"
+              id="inputSelectPhone"
               autocomplete="off"
               name="phone"
               placeholder="Cellulare"
@@ -1289,55 +950,58 @@
   
             <div class="visual-feedback-group-container" style="width: 100%;">
               <div class="left-visual-feedback-position" style="width: 50%;">
-                <div class="success-user-data success-phoneprefix-message"></div>
-                <div class="error-user-data error-phoneprefix-message"></div>
+                <div class="success-user-data success-phoneprefix-message form-text"></div>
+                <div class="error-user-data error-phoneprefix-message form-text"></div>
               </div>
   
               <div class="right-visual-feedback-position" style="width: 50%;">
-                <div class="success-user-data success-phone-message"></div>
-                <div class="error-user-data error-phone-messages"></div>
+                <div class="success-user-data success-phone-message form-text"></div>
+                <div class="error-user-data  error-phone-messages form-text"></div>
               </div>
+
             </div>
+            
           </div>
 
         </div>
 
         <!---- Email ---->
         <div class="py-3">
-          <label for="formInputEmail">Email</label>
+          <label for="inputEmail">Email</label>
           <span class="isRequired">*</span>
           <input
             type="email"
             class="form-control"
-            id="formInputEmail"
+            id="inputEmail"
             autocomplete="off"
             name="email"
-            placeholder="nome.utente123@example.com."
+            placeholder="cognome.nome_90@example.com"
             bind:value={$formDataStore.email}
-            on:input={() => validators.checkEmailInput()}
+            on:change={() => validators.checkEmailInput()}
           />
 
-          <div class="success-email-message"></div>
-          <div class="error-email-messages"></div>
+          <div class="success-email-message form-text"></div>
+          <div class="error-email-messages form-text"></div>
         </div>
 
         <!---- Profilo Personale ---->
         <div class="py-3">
-          <label for="formInputProfileSummary">Profilo personale</label>
+
+          <label for="inputProfileSummary">Profilo personale</label>
     
           <textarea
             class="form-control h-auto"
-            id="formInputProfileSummary"
+            id="inputProfileSummary"
             rows="6"
             maxlength="500"
             name="profileSummary"
             placeholder="Descriviti in poche righe..."
             bind:value={$formDataStore.profileSummary}
-            on:input={() => validators.checkProfileSummaryTextArea()}
+            on:input={() => validators.checkProfileSummaryInput()}
           ></textarea>
 
-          <div class="success-profile-summary-message"></div>
-          <div class="error-profile-summary-messages"></div>
+          <div class="success-profile-summary-message form-text"></div>
+          <div class="error-profile-summary-message form-text"></div> 
         </div>
 
         <!-- Categorie protette -->
@@ -1380,9 +1044,9 @@
         <!-- Competenze digitali -->
         <div class="py-3">
 
-          <label for="formInputDigitalSkills">Competenze Digitali</label>
-
           {#each $formDataStore.digitalSkills as digitalSkill, digitalSkillIndex}
+
+          <label for="inputDigitalSkills{digitalSkillIndex}">Competenza digitale</label>
 
             <div class="input-group mb-3">
 
@@ -1390,12 +1054,12 @@
                 type="text"
                 class="form-control"
                 style="width: {digitalSkillIndex > 0 ? '40%' : '50%'};"
-                id="formInputDigitalSkills{digitalSkillIndex}"
+                id="inputDigitalSkills{digitalSkillIndex}"
                 autocomplete="off"
                 name="digitalSkill{digitalSkillIndex}"
                 placeholder="Competenza digitale"
                 bind:value={digitalSkill.skill}
-                on:blur={() => validators.checkDigitalSkillsTextInput(digitalSkillIndex)}
+                on:input={() => validators.checkDigitalSkillsTextInput(digitalSkillIndex)}
               >
 
               <select
@@ -1404,8 +1068,7 @@
                 id="skillLevelSelect{digitalSkillIndex}"
                 name="skillLevel{digitalSkillIndex}"
                 bind:value={digitalSkill.level}
-                on:blur={() => validators.checkLevelSkillSelect(digitalSkillIndex)}
-                >
+                on:change={() => validators.checkLevelSkillSelect(digitalSkillIndex)}>
                 
                 <option value="" disabled>Livello</option>
       
@@ -1434,13 +1097,13 @@
               <div class="visual-feedback-group-container" style="width: 100%;">
 
                 <div class="left-visual-feedback-position" style="width: {digitalSkillIndex > 0 ? '40%' : '50%'};">
-                  <div class="success-user-data" id="success-digital-skill-message{digitalSkillIndex}"></div>
-                  <div class="error-user-data" id="error-digital-skill-message{digitalSkillIndex}"></div>
+                  <div class="success-user-data form-text" id="success-digital-skill-message{digitalSkillIndex}"></div>
+                  <div class="error-user-data form-text" id="error-digital-skill-message{digitalSkillIndex}"></div>
                 </div>
 
                 <div class="right-visual-feedback-position" style="width: {digitalSkillIndex > 0 ? '40%' : '50%'};">
-                  <div class="success-user-data" id="success-level-skill-message{digitalSkillIndex}"></div>
-                  <div class="error-user-data" id="error-level-skill-message{digitalSkillIndex}"></div>
+                  <div class="success-user-data form-text" id="success-level-skill-message{digitalSkillIndex}"></div>
+                  <div class="error-user-data form-text" id="error-level-skill-message{digitalSkillIndex}"></div>
                 </div>
 
               </div>
@@ -1464,7 +1127,7 @@
         <!-- Lingue -->
         <div class="py-3">
 
-          <label for="formLabelLanguages">Lingue</label>
+          <label for="inputLanguages">Lingua</label>
         
           {#each $formDataStore.languagesSkills as selectedLanguage, languageIndex}
 
@@ -1473,8 +1136,8 @@
               <select
                 class="form-select"
                 style="width: {languageIndex > 0 ? '40%' : '50%'};"
-                id="formSelectLanguages{languageIndex}"
-                name="languages"
+                id="selectLanguages{languageIndex}"
+                name="languages{languageIndex}"
                 bind:value={selectedLanguage.lang}
                 on:change={() => validators.checkLanguageSelect(languageIndex)}>
                 <option value="" disabled>Lingua</option>
@@ -1486,8 +1149,8 @@
               <select
                 class="form-select"
                 style="width: {languageIndex > 0 ? '40%' : '50%'};"
-                id="formSelectLanguageLevels{languageIndex}"
-                name="languageLevels"
+                id="selectLanguageLevels{languageIndex}"
+                name="languageLevels{languageIndex}"
                 bind:value={selectedLanguage.level}
                 on:change={() => validators.checkLanguageLevelSelect(languageIndex)}>
                 <option value="" disabled>Livello</option>
@@ -1521,13 +1184,13 @@
               <div class="visual-feedback-group-container" style="width: 100%;">
 
                 <div class="left-visual-feedback-position" style="width: 50%;">
-                  <div class="success-user-data" id="success-language-message{languageIndex}"></div>
-                  <div class="error-user-data" id="error-language-message{languageIndex}"></div>
+                  <div class="success-user-data form-text" id="success-language-message{languageIndex}"></div>
+                  <div class="error-user-data form-text" id="error-language-message{languageIndex}"></div>
                 </div>
 
                 <div class="right-visual-feedback-position" style="width: 50%;">
-                  <div class="success-user-data" id="success-language-level-message{languageIndex}"></div>
-                  <div class="error-user-data" id="error-language-level-message{languageIndex}"></div>
+                  <div class="success-user-data form-text" id="success-language-level-message{languageIndex}"></div>
+                  <div class="error-user-data form-text" id="error-language-level-message{languageIndex}"></div>
                 </div>
 
               </div>
@@ -1630,17 +1293,17 @@
 
           <div class="py-3">
 
-              <label for="textInputJobRole{jobIndex}">Ruolo</label>
+              <label for="inputJobRole{jobIndex}">Ruolo</label>
 
               <input
                 type="text"
                 class="form-control"
-                id="textInputJobRole{jobIndex}"
+                id="inputJobRole{jobIndex}"
                 name="jobRole"
                 autocomplete="off"
                 placeholder="Posizione lavorativa"
                 bind:value={job.role}
-                on:input={() => validators.checkJobRoleTextInput(jobIndex)}
+                on:input={() => validators.checkJobRoleInput(jobIndex)}
               />
 
               <div id="success-job-role-message{jobIndex}" class="form-text"></div>
@@ -1650,101 +1313,102 @@
 
           <div class="py-3">
 
-                <label for="textInputCompany{jobIndex}">Azienda</label>
+                <label for="inputCompanyName{jobIndex}">Azienda</label>
   
                 <input
                   type="text"
                   class="form-control"
-                  id="textInputCompany{jobIndex}"
-                  name="company"
+                  id="inputCompanyName{jobIndex}"
+                  name="companyName"
                   autocomplete="off"
                   placeholder="Azienda"
                   bind:value={job.company}
-                  on:input={() => validators.checkCompanyTextInput(jobIndex)}
+                  on:input={() => validators.checkCompanyNameInput(jobIndex)}
                 />
 
-                <div id="success-company-message{jobIndex}" class="form-text"></div>
-                <div id="error-company-messages{jobIndex}" class="form-text"></div>
+                <div id="success-company-name-message{jobIndex}" class="form-text"></div>
+                <div id="error-company-name-messages{jobIndex}" class="form-text"></div>
 
           </div>
 
           <div class="py-3">
 
-                <label for="textInputCompany{jobIndex}">Luogo di lavoro</label>
+                <label for="inputJobLocation{jobIndex}">Luogo di lavoro</label>
       
                 <input
                   type="text"
                   class="form-control"
-                  id="textInputLocation{jobIndex}"
-                  name="location"
+                  id="inputJobLocation{jobIndex}"
+                  name="jobLocation"
                   autocomplete="off"
                   placeholder="Luogo di lavoro"
                   bind:value={job.location}
-                  on:input={() => validators.checkLocationTextInput(jobIndex)}
+                  on:input={() => validators.checkJobLocationInput(jobIndex)}
                 />
 
-                <div id="success-location-message{jobIndex}" class="form-text"></div>
-                <div id="error-location-messages{jobIndex}" class="form-text"></div>
+                <div id="success-job-location-message{jobIndex}" class="form-text"></div>
+                <div id="error-job-location-messages{jobIndex}" class="form-text"></div>
 
           </div>
 
           <div class="py-3">
 
-                <label for="textAreaInputWorkExperienceResults{jobIndex}">Risultati professionali ottenuti</label>
+                <label for="inputJobResults{jobIndex}">Risultati professionali ottenuti</label>
         
                 <textarea
                   class="form-control h-auto"
-                  id="textAreaInputWorkExperienceResults{jobIndex}"
-                  name="workExperienceResults"
+                  id="inputJobResults{jobIndex}"
+                  name="jobResults"
                   rows="6"
                   maxlength="500"
                   placeholder="Parlaci dei risultati professionali che hai conseguito..."
                   bind:value={job.workExperienceResults}
-                  on:input={() => validators.checkWorkExperienceResultsTextArea(jobIndex)}
+                  on:input={() => validators.checkJobResultsInput(jobIndex)}
                 ></textarea>
 
-                <div id="success-work-experience-results-message{jobIndex}" class="form-text"></div>
-                <div id="error-work-experience-results-messages{jobIndex}" class="form-text"></div>
+                <div id="success-job-results-message{jobIndex}" class="form-text"></div>
+                <div id="error-job-results-messages{jobIndex}" class="form-text"></div>
           </div>
 
           <div class="py-3 flex-center-utility justify-content-around gap-1">
 
                 <div>
 
-                  <label for="startDateInputWorkExperience{jobIndex}">Data di inizio</label>
+                  <label for="inputStartJob{jobIndex}">Data di inizio</label>
                 
                   <input
                     type="month"
                     class="form-control"
-                    id="startDateInputWorkExperience{jobIndex}"
-                    name="startDateWorkExperience"
+                    id="inputStartJob{jobIndex}"
+                    name="startJob"
                     max={job.endDateWorkExperience}
                     bind:value={job.startDateWorkExperience}
-                    on:change={() => validators.checkStartAndEndWorkExperienceDateInput(jobIndex)}
+                    on:change={() => validators.checkStartJobInput(jobIndex)}
                   />
 
-                  <div id="success-startDateWorkExperience-message{jobIndex}" class="form-text"></div>
-                  <div id="error-startDateWorkExperience-messages{jobIndex}" class="form-text"></div>
+                  <div id="success-start-job-message{jobIndex}" class="form-text"></div>
+                  <div id="error-start-job-messages{jobIndex}" class="form-text"></div>
 
                 </div>
 
                 <div>
 
-                  <label for="endDateInputWorkExperience{jobIndex}">Data di fine</label>
+                  <label for="inputEndJob{jobIndex}">Data di fine</label>
             
                   <input
                     type="month"
                     class="form-control"
-                    id="endDateInputWorkExperience{jobIndex}"
-                    name="endDateWorkExperience"
+                    id={`inputEndJob${jobIndex}`}
+                    name="endJob"
                     min={job.startDateWorkExperience}
                     bind:value={job.endDateWorkExperience}
-                    on:change={() => validators.checkStartAndEndWorkExperienceDateInput(jobIndex)}
+                    on:change={() => validators.checkEndJobInput(jobIndex)}
                     disabled={job.isEmployed}
                   />
 
-                  <div id="success-endDateWorkExperience-message{jobIndex}" class="form-text"></div>
-                  <div id="error-endDateWorkExperience-messages{jobIndex}" class="form-text"></div>
+                  <div id="success-end-job-message{jobIndex}" class="form-text"></div>
+                  <div id="error-end-job-messages{jobIndex}" class="form-text"></div>
+
                 </div>
 
           </div>
@@ -1752,7 +1416,7 @@
           {#if jobIndex === 0}
                 
                 <div class="d-flex justify-content-center py-1">
-                  <input class="form-check-input me-1 custom-checkbox" type="checkbox" id="checkboxNoLabel" aria-label="Indica se stai attualmente ricoprendo questo ruolo" bind:checked={job.isEmployed}  on:change={() => {job.endDateWorkExperience = ""; validators.checkCurrentJob(jobIndex);}}>
+                  <input class="form-check-input me-1 custom-checkbox" type="checkbox" id="currentJobCheckbox" aria-label="Indica se stai attualmente ricoprendo questo ruolo" bind:checked={job.isEmployed}  on:change={() => {job.endDateWorkExperience = ""; validators.checkCurrentJob(jobIndex);}}>
                   <label for="checkboxNoLabel">Attualmente sto ricoprendo questo ruolo</label>
                 </div>
 
@@ -1770,155 +1434,136 @@
             
         {/each}
 
-        <div class="flex-center-utility">
-          <button
-            type="button"
-            class="btn-add-style"
-            aria-label="Aggiungi lavoro"
-            on:click={() => addWorkExperience()}
-            ><span>Aggiungi Lavoro</span><i class="fa-solid fa-plus ms-2"></i></button
-          >
+        <div class="flex-center-utility py-3">
+          <button type="button" class="btn-add-style" aria-label="Aggiungi lavoro" on:click={() => addWorkExperience()}><span>Aggiungi Lavoro</span><i class="fa-solid fa-plus ms-2"></i></button>
         </div>
 
         <!-- Dettagli Formazione -->
-        <div class="flex-center-utility mt-5">
+        <div class="flex-center-utility py-4">
             <h2 class="title-section-style">DETTAGLI FORMAZIONE</h2>
         </div>
 
         {#each $formDataStore.educations as education, educationIndex}
 
-            <div class="py-4">
+          <div class="py-3">
 
-              <div class="py-3">
+              <label for="inputEducationTitle{educationIndex}">Titolo di studio</label>
+                          
+              <select
 
-                <label for="selectQualification{educationIndex}">Titolo di studio</label>
-  
-                <div class="input-group">
-  
-                  <select
-                    class="form-select"
-                    style="width: 50%;"
-                    id="selectQualification{educationIndex}"
-                    aria-label="QualificationSelect"
-                    name="qualification"
-                    bind:value={education.qualification}
-                    on:blur={() => validators.checkQualificationsSelect(educationIndex)}
-                  >
-                    <option value="" disabled>Titolo di Studio</option>
+                  class="form-select"
+                  id="inputEducationTitle{educationIndex}"
+                  name="educationTitle"
+                  bind:value={education.qualification}
+                  on:change={() => validators.checkEducationTitleSelect(educationIndex)}>
+                  <option value="" disabled>Titolo di Studio</option>
       
-                    {#each educationLevels as educationLevel (educationLevel.value)}
-                      <option value={educationLevel.value}>{educationLevel.value}</option>
-                    {/each}
-  
-                  </select>
+                  {#each educationLevels as educationLevel (educationLevel.value)}
+                    <option value={educationLevel.value}>{educationLevel.value}</option>
+                  {/each}
+
+              </select>
+
+              <div class="success-user-data form-text" id="success-education-title-message{educationIndex}"></div>
+              <div class="error-user-data form-text" id="error-education-title-message{educationIndex}"></div>
+
+          </div>
+
+          <div class="py-3">
+
+            <label for="inputStudyField{educationIndex}">Campo di studio</label>
       
+            <input
+                type="text"
+                class="form-control"
+                id="inputStudyField{educationIndex}"
+                name="studyField"
+                autocomplete="off"
+                placeholder="Campo di studio"
+                bind:value={education.fieldOfStudy}
+              on:input={() => validators.checkFieldStudyInput(educationIndex)}
+            />
+
+            <div class="success-user-data form-text" id="success-study-field-message{educationIndex}"></div>
+            <div class="error-user-data form-text" id="error-study-field-message{educationIndex}"></div>
+            
+          </div>
+                      
+          <div class="py-3">
+
+                  <label for="inputTrainingCenter{educationIndex}">Ente di formazione</label>
+
                   <input
                     type="text"
                     class="form-control"
-                    style="width: 50%;"
-                    id="textInputFieldOfStudy{educationIndex}"
-                    name="fieldOfStudy"
+                    id="inputTrainingCenter{educationIndex}"
+                    name="trainingCenter"
                     autocomplete="off"
-                    placeholder="Campo di studio"
-                    bind:value={education.fieldOfStudy}
-                    on:input={() => validators.checkFieldOfStudyTextInput(educationIndex)}
+                    placeholder="Ente di formazione"
+                    bind:value={education.trainingCenter}
+                    on:input={() => validators.checkEducationTypeInput(educationIndex)}
                   />
       
-                  <div class="visual-feedback-group-container" style="width: 100%;">
-  
-                    <div class="left-visual-feedback-position" style="width: 50%;">
-                      <div class="success-user-data form-text" id="success-qualification-message{educationIndex}"></div>
-                      <div class="error-user-data form-text" id="error-qualification-message{educationIndex}"></div>
-                    </div>
-  
-                    <div class="right-visual-feedback-position" style="width: 50%;">
-                      <div class="success-user-data form-text" id="success-field-study-message{educationIndex}"></div>
-                      <div class="error-user-data form-text" id="error-field-study-message{educationIndex}"></div>
-                    </div>
-  
+                  <div id="success-training-center-message{educationIndex}" class="form-text"></div>
+                  <div id="error-training-center-messages{educationIndex}" class="form-text"></div>
+          </div>
+      
+          <div class="py-3">
+
+                  <label for="inputEducationGoals{educationIndex}">Risultati accademici raggiunti</label>
+    
+                  <textarea
+                    class="form-control h-auto"
+                    id="inputEducationGoals{educationIndex}"
+                    rows="6"
+                    maxlength="500"
+                    placeholder="Parlaci degli obiettivi accademici che hai raggiunto..."
+                    bind:value={education.educationGoals}
+                    on:input={() => validators.checkEducationGoalsInput(educationIndex)}
+                  ></textarea>
+      
+                  <div id="success-education-goals-message{educationIndex}" class="form-text"></div>
+                  <div id="error-education-goals-messages{educationIndex}" class="form-text"></div>
+
+          </div>
+      
+          <div class="flex-center-utility flex-column">
+      
+                  <div class="w-50">
+
+                    <label for="inputEndEducation{educationIndex}">Data di fine</label>
+                  
+                    <input
+                      type="month"
+                      class="form-control"
+                      id="inputEndEducation{educationIndex}"
+                      name="endEducation"
+                      min={education.startDateAcademicEducation}
+                      bind:value={education.endDateAcademicEducation}
+                      on:change={() => validators.checkEndAcademicEducationDateInput(educationIndex)}
+                    />
+      
+                    <div id="success-end-education-message{educationIndex}" class="form-text"></div>
+                    <div id="error-end-education-messages{educationIndex}" class="form-text"></div>
+
                   </div>
-  
-                </div>
 
-              </div>
-    
-              <div class="py-3">
-
-                <label for="textInputEducationType{educationIndex}">Ente di formazione</label>
-
-                <input
-                  type="text"
-                  class="form-control"
-                  id="textInputEducationType{educationIndex}"
-                  name="educationType"
-                  autocomplete="off"
-                  placeholder="Ente di formazione"
-                  bind:value={education.educationType}
-                  on:input={() => validators.checkEducationTypeTextInput(educationIndex)}
-                />
-    
-                <div id="success-education-type-message{educationIndex}" class="form-text"></div>
-                <div id="error-education-type-messages{educationIndex}" class="form-text"></div>
-              </div>
-    
-              <div class="py-3">
-
-                <label for="formInputEducationGoals{educationIndex}">Risultati accademici raggiunti</label>
-  
-                <textarea
-                  class="form-control h-auto"
-                  id="formInputEducationGoals{educationIndex}"
-                  rows="6"
-                  maxlength="500"
-                  placeholder="Parlaci degli obiettivi accademici che hai raggiunto..."
-                  bind:value={education.educationGoals}
-                  on:input={() => validators.checkEducationGoalsTextArea(educationIndex)}
-                ></textarea>
-    
-                <div id="success-education-goals-message{educationIndex}" class="form-text"></div>
-                <div id="error-education-goals-messages{educationIndex}" class="form-text"></div>
-
-              </div>
-    
-              <div class="flex-center-utility flex-column">
-    
-                <div class="w-50">
-
-                  <label for="endDateInputAcademicEducation{educationIndex}">Data di fine</label>
-                
-                  <input
-                    type="month"
-                    class="form-control"
-                    id="endDateInputAcademicEducation{educationIndex}"
-                    name="endDateAcademicEducation"
-                    min={education.startDateAcademicEducation}
-                    bind:value={education.endDateAcademicEducation}
-                    on:change={() => validators.checkEndAcademicEducationDateInput(educationIndex)}
-                  />
-    
-                  <div id="success-endDateAcademicEducation-message{educationIndex}" class="form-text"></div>
-                  <div id="error-endDateAcademicEducation-messages{educationIndex}" class="form-text"></div>
-
-                </div>
-
-              </div>
-    
-              {#if educationIndex > 0}
-                <div class="flex-center-utility mb-3">
-                  <button
-                    type="button"
-                    class="btn-remove-style"
-                    on:click={() => removeAcademicEducation(educationIndex)}
-                    ><i class="fa-solid fa-trash"></i></button
-                  >
-                </div>
-              {/if}
-
-            </div>
+          </div>
+      
+          {#if educationIndex > 0}
+                  <div class="flex-center-utility mb-3">
+                    <button
+                      type="button"
+                      class="btn-remove-style"
+                      on:click={() => removeAcademicEducation(educationIndex)}
+                      ><i class="fa-solid fa-trash"></i></button
+                    >
+                  </div>
+          {/if}
 
         {/each}
 
-        <div class="flex-center-utility">
+        <div class="flex-center-utility py-3">
 
           <button type="button" class="btn-add-style" aria-label="Aggiungi Formazione" on:click={() => addAcademicEducation()}><span>Aggiungi Formazione</span><i class="fa-solid fa-plus ms-2"></i></button>
 

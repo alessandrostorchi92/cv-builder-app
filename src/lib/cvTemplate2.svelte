@@ -110,7 +110,7 @@
             <div class="academic-background-item">
 
                 <div class="education-details-wrapper">
-                    <span class="me-1" style="color: {$formDataStore.selectedColor || "gray"}">●</span><div class="education-details">{education.qualification} - {education.educationType} - {education.fieldOfStudy}</div>
+                    <span class="me-1" style="color: {$formDataStore.selectedColor || "gray"}">●</span><div class="education-details">{education.qualification} - {education.trainingCenter} - {education.fieldOfStudy}</div>
                 </div>
 
                 <div class="education-dates">{education.endDateAcademicEducation}</div>
