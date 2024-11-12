@@ -1,4 +1,3 @@
-
 <script lang="ts">
 
     import {formDataStore, isAllowed, isPrivacyPolicyApproved, currentTenant, currentCopyrightPolicy} from "../stores/CvUser_data"; 
@@ -76,9 +75,8 @@
 
                         <i class="fa-solid fa-house" style="color: {$formDataStore.selectedColor || "black"}"></i>
 
-                        {#each $cvInitialData.address as addressItem}
-                            <span>{addressItem.streetAddress}<span class="ms-1">{addressItem.streetNumber},</span> {addressItem.city} - {addressItem.region}</span>
-                        {/each}
+                        <span>{$cvInitialData.address.streetAddress},<span class="ms-1">{$cvInitialData.address.postalCode},</span> {$cvInitialData.address.city} - {$cvInitialData.address.region}</span>
+
 
                     </div>
 

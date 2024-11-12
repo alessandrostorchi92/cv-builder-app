@@ -8,71 +8,79 @@
 <div id="cv-template2-container" style="border: 1px solid {$formDataStore.selectedColor || "black"};">
 
     <!-- Header Section -->
-    <div class="text-center">
-        
-        <!-- User Full Name -->
-        <div class="user-full-name"><span style="color: {$formDataStore.selectedColor || "gray"};">{$cvInitialData.name}</span><span class="ms-1" style="color: #888888;">{$cvInitialData.surname}</span></div>
+     <div class="header-section">
 
-        <!-- User Profession -->
-        <div class="user-profession">{$cvInitialData.profession}</div>
+         <div class="text-center">
+             
+             <!-- User Full Name -->
+             <div class="user-full-name"><span style="color: {$formDataStore.selectedColor || "gray"};">{$cvInitialData.name}</span><span class="ms-1" style="color: #888888;">{$cvInitialData.surname}</span></div>
+     
+             <!-- User Profession -->
+             <div class="user-profession">{$cvInitialData.profession}</div>
+     
+             <div class="profile-info-container">
+     
+                 <!-- User BirthCake -->                 
+                 <div class="info-item">
+                     <span style="color: {$formDataStore.selectedColor || "gray"}">●</span>
+                     <span class="specs-item">{$cvInitialData.birthDate}, {$cvInitialData.birthPlace}</span>
+                 </div>
+     
+                 <!-- User House -->
+                 <div class="info-item">
+                     <span style="color: {$formDataStore.selectedColor || "gray"}">●</span>
+                     <span>{$cvInitialData.address.streetAddress},<span class="ms-1">{$cvInitialData.address.postalCode},</span> {$cvInitialData.address.city} - {$cvInitialData.address.region}</span>
+     
+                 </div>
+     
+                 <!-- User Phone -->
+                 <div class="info-item">
+                     <span style="color: {$formDataStore.selectedColor || "gray"}">●</span>
+                     <span class="specs-item">{$cvInitialData.phonePrefix} {$cvInitialData.phoneNumber}</span>
+                 </div>
+     
+                 <!-- User Email -->
+                 <div class="info-item">
+                     <span style="color: {$formDataStore.selectedColor || "gray"}">●</span>
+                     <span class="specs-item">{$cvInitialData.email}</span>
+                 </div>
+     
+             </div>
+     
+             <div class="user-info-container" style="border-top: 1px solid {$formDataStore.selectedColor || "black"};">
+     
+                 <!-- Nationality -->
+                 <div class="info-item">
+                     <span style="color: {$formDataStore.selectedColor || "gray"}">●</span>
+                     <span class="specs-item">Nazionalità: {$cvInitialData.nationality}</span>
+                 </div>
+     
+                 <!-- IsProtectedCategory -->
+                 <div class="info-item">
+                     <span style="color: {$formDataStore.selectedColor || "gray"}">●</span>
+                     <span>Categoria protetta:</span><span class="specs-item" style="margin-left: 5px">{$cvInitialData.isProtectedCategory}</span>
+                 </div>
+     
+                 <!-- HasOwnCar -->  
+                 <div class="info-item">
+                     <span style="color: {$formDataStore.selectedColor || "gray"}">●</span>
+                     <span>Automunito -</span>
+                     {#if $formDataStore.hasOwnCar}
+                         <span class="specs-item ms-1">{$cvInitialData.drivingLicences}</span>
+                     {/if}
+                 </div>
+                 
+             </div>
+         
+         </div>
 
-        <div class="profile-info-container">
-
-            <!-- User BirthCake -->                 
-            <div class="info-item">
-                <span style="color: {$formDataStore.selectedColor || "gray"}">●</span>
-                <span class="specs-item">{$cvInitialData.birthDate}, {$cvInitialData.birthPlace}</span>
-            </div>
-
-            <!-- User House -->
-            <div class="info-item">
-                <span style="color: {$formDataStore.selectedColor || "gray"}">●</span>
-                {#each $cvInitialData.address as addressItem}
-                    <span class="specs-item">{addressItem.streetAddress} {addressItem.streetNumber}, {addressItem.city} - {addressItem.region}</span>
-                {/each}
-            </div>
-
-            <!-- User Phone -->
-            <div class="info-item">
-                <span style="color: {$formDataStore.selectedColor || "gray"}">●</span>
-                <span class="specs-item">{$cvInitialData.phonePrefix} {$cvInitialData.phoneNumber}</span>
-            </div>
-
-            <!-- User Email -->
-            <div class="info-item">
-                <span style="color: {$formDataStore.selectedColor || "gray"}">●</span>
-                <span class="specs-item">{$cvInitialData.email}</span>
-            </div>
-
-        </div>
-
-        <div class="user-info-container" style="border-top: 1px solid {$formDataStore.selectedColor || "black"};">
-
-            <!-- Nationality -->
-            <div class="info-item">
-                <span style="color: {$formDataStore.selectedColor || "gray"}">●</span>
-                <span class="specs-item">Nazionalità: {$cvInitialData.nationality}</span>
-            </div>
-
-            <!-- IsProtectedCategory -->
-            <div class="info-item">
-                <span style="color: {$formDataStore.selectedColor || "gray"}">●</span>
-                <span>Categoria protetta:</span><span class="specs-item" style="margin-left: 5px">{$cvInitialData.isProtectedCategory}</span>
-            </div>
-
-            <!-- HasOwnCar -->  
-            <div class="info-item">
-                <span style="color: {$formDataStore.selectedColor || "gray"}">●</span>
-                <span>Automunito:</span><span class="specs-item ms-1">{$cvInitialData.drivingLicences}</span>
-            </div>
-            
-        </div>
-    
-    </div>
+     </div>
 
     <!-- Main Section -->
 
-    <!-- Profile Summary --> 
+    <div class="main-section">
+
+        <!-- Profile Summary --> 
     <div class="profile-summary-container">
         <div class="profile-summary-title" style="color: {$formDataStore.selectedColor || "black"}; border-top: 1px solid {$formDataStore.selectedColor || "black"};">BREVE PRESENTAZIONE</div>
         <p>{$cvInitialData.profileSummary}</p>
@@ -104,7 +112,8 @@
     <div class="academic-background-container">
         
         <div class="academic-background-title" style="color:{$formDataStore.selectedColor || "black"};">FORMAZIONE</div>
-    
+
+        
         {#each $cvInitialData.educations as education (education)}
 
             <div class="academic-background-item">
@@ -118,7 +127,7 @@
             </div>
             
         {/each}
-
+        
     </div>
 
     <!-- Hard Skills -->
@@ -148,6 +157,8 @@
             {/each}
                 
         </div>
+
+    </div>
 
     </div>
 
@@ -220,17 +231,6 @@
   margin-right: 0.5rem;
 }
 
-.watermark-logo {
-    position: absolute;
-    width: 400px; 
-    height: 400px;
-    top: 0;
-    right: -180px;
-    aspect-ratio: 1/1;
-    background-size: cover;
-    overflow: hidden;
-}
-
 .profile-summary-title, .work-experience-title, .academic-background-title, .hard-skills-title, .language-skills-title {
     font-size: 1rem;
     text-align: center;
@@ -249,6 +249,23 @@ p {
 
 .work-experience-container {
     position: relative;
+}
+
+.main-section {
+    position: relative;
+    z-index: 0;
+}
+
+.watermark-logo {
+    position: absolute;
+    width: 400px; 
+    height: 400px;
+    top: 0;
+    right: -180px;
+    aspect-ratio: 1/1;
+    background-size: cover;
+    overflow: hidden; 
+    z-index: -1;
 }
 
 .work-experience-item, .academic-background-item {

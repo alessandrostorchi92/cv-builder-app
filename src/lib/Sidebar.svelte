@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { formDataStore, isAllowed, isPrivacyPolicyApproved } from "../stores/CvUser_data";
+  import {formDataStore, isAllowed, isPrivacyPolicyApproved, currentTenant, tenantColor} from "../stores/CvUser_data";
   import * as validators from "../validators/form_validation";
   import { onMount } from "svelte";
 
@@ -179,11 +179,11 @@
   ];
 
   const drivingLicenceCheckBoxs = [
-    { value: "A", label: "Patente A" },
-    { value: "B", label: "Patente B" },
-    { value: "C", label: "Patente C" },
-    { value: "D", label: "Patente D" },
-    { value: "E", label: "Patente E" },
+    { value: "A", label: "A" },
+    { value: "B", label: "B" },
+    { value: "C", label: "C" },
+    { value: "D", label: "D" },
+    { value: "E", label: "E" },
   ];
 
   const educationLevels = [
@@ -203,18 +203,17 @@
   ];
 
   function handleFileChange(event: Event) {
-
     const fileInput = event.target as HTMLInputElement;
-    
-    if (fileInput.files) { 
-      
+
+    if (fileInput.files) {
       const file = fileInput.files[0];
       const reader = new FileReader();
 
       reader.onloadend = () => {
-        formDataStore.update(store => {
+        formDataStore.update((store) => {
           return { ...store, filePicture: reader.result as string };
         });
+
       };
 
       reader.onerror = () => {
@@ -223,38 +222,36 @@
       };
 
       reader.readAsDataURL(file);
-      
-    };
-   
-  };
+    }
+  }
 
-  function addDigitalSkills(): void{
-   if($formDataStore.digitalSkills.length >  0) {
-     $formDataStore.digitalSkills.push({ skill: "", level: "" })
-     $formDataStore.digitalSkills = $formDataStore.digitalSkills;
-   }
-  };
+  function addDigitalSkills(): void {
+    if ($formDataStore.digitalSkills.length > 0) {
+      $formDataStore.digitalSkills.push({ skill: "", level: "" });
+      $formDataStore.digitalSkills = $formDataStore.digitalSkills;
+    }
+  }
 
   function removeDigitalSkill(index: number): void {
+    $formDataStore.digitalSkills = $formDataStore.digitalSkills.filter(
+      (digitalSkill, i) => i !== index
+    );
+    $formDataStore.digitalSkills = $formDataStore.digitalSkills;
+  }
 
-    $formDataStore.digitalSkills = $formDataStore.digitalSkills.filter((digitalSkill, i) => i !== index);
-    $formDataStore.digitalSkills = $formDataStore.digitalSkills; 
-
-  };
-  
   function addLanguage(): void {
     if ($formDataStore.languagesSkills.length > 0) {
       $formDataStore.languagesSkills.push({ lang: "", level: "" });
       $formDataStore.languagesSkills = $formDataStore.languagesSkills;
     }
-  };
+  }
 
   function removeLanguage(index: number): void {
     $formDataStore.languagesSkills = $formDataStore.languagesSkills.filter(
       (selectedLanguage, i) => i !== index
     );
     $formDataStore.languagesSkills = $formDataStore.languagesSkills;
-  };
+  }
 
   function addWorkExperience(): void {
     if ($formDataStore.jobs.length > 0) {
@@ -269,12 +266,12 @@
       });
       $formDataStore.jobs = $formDataStore.jobs;
     }
-  };
+  }
 
   function removeWorkExperience(index: number): void {
     $formDataStore.jobs = $formDataStore.jobs.filter((job, i) => i !== index);
     $formDataStore.jobs = $formDataStore.jobs;
-  };
+  }
 
   function addAcademicEducation(): void {
     if ($formDataStore.educations.length > 0) {
@@ -283,19 +280,18 @@
         fieldOfStudy: "",
         trainingCenter: "",
         educationGoals: "",
-        startDateAcademicEducation: "",
         endDateAcademicEducation: "",
       });
       $formDataStore.educations = $formDataStore.educations;
     }
-  };
+  }
 
   function removeAcademicEducation(index: number): void {
     $formDataStore.educations = $formDataStore.educations.filter(
       (education, i) => i !== index
     );
     $formDataStore.educations = $formDataStore.educations;
-  };
+  }
 
   let canvas: HTMLCanvasElement;
   let isDrawing: boolean = false;
@@ -304,54 +300,51 @@
   let ctx: CanvasRenderingContext2D | null = null;
 
   function getCanvasRenderingContext2D(): void {
+    ctx = canvas.getContext("2d");
 
-        ctx = canvas.getContext('2d');
-
-        if (ctx) {
-          ctx.lineWidth = 2; 
-          ctx.lineCap = 'round';
-          ctx.strokeStyle = '#000';
-        } else {
-          console.error("Impossibile ottenere il contesto di disegno 2D dal canvas.");
-        }
-
-  };
+    if (ctx) {
+      ctx.lineWidth = 2;
+      ctx.lineCap = "round";
+      ctx.strokeStyle = "#000";
+    } else {
+      console.error(
+        "Impossibile ottenere il contesto di disegno 2D dal canvas."
+      );
+    }
+  }
 
   function updateCanvasJs(): void {
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+  }
 
-  canvas.width = canvas.offsetWidth;
-  canvas.height = canvas.offsetHeight;
+  function getPointerPosition(event: PointerEvent): {
+    positionX: number;
+    positionY: number;
+  } {
+    const rect = canvas.getBoundingClientRect();
 
-  };
+    const positionX = event.clientX - rect.left;
+    const positionY = event.clientY - rect.top;
 
-  function getPointerPosition(event: PointerEvent): { positionX: number; positionY: number } {
-
-  const rect = canvas.getBoundingClientRect();
-
-  const positionX = event.clientX - rect.left;
-  const positionY = event.clientY - rect.top;
-
-  return { positionX, positionY };
-
-  };
+    return { positionX, positionY };
+  }
 
   function handlePointerDown(event: PointerEvent): void {
-
     isDrawing = true;
 
     const { positionX, positionY } = getPointerPosition(event);
 
-    if(ctx) {
+    if (ctx) {
       ctx.beginPath();
       ctx.moveTo(positionX, positionY);
     }
 
     points.push(`M${positionX},${positionY}`);
-
-  };
+  }
 
   function handlePointerMove(event: PointerEvent): void {
-    if(!isDrawing || !ctx) return;
+    if (!isDrawing || !ctx) return;
 
     const { positionX, positionY } = getPointerPosition(event);
     ctx?.lineTo(positionX, positionY);
@@ -360,8 +353,7 @@
     points.push(`L${positionX},${positionY}`);
 
     isSigned = true;
-
-  };
+  }
 
   function handlePointerUp(event: PointerEvent): void {
     isDrawing = false;
@@ -384,275 +376,75 @@
     $formDataStore.userSignature = svgSignature;
 
     convertSvgToBase64(svgSignature);
-
-  };
+  }
 
   function convertSvgToBase64(svg: string): void {
-
-    const svgBlob = new Blob([svg], { type: 'image/svg+xml' });
+    const svgBlob = new Blob([svg], { type: "image/svg+xml" });
     const reader = new FileReader();
-    
+
     reader.onloadend = () => {
-        formDataStore.update(store => {
-          return { ...store, userSignature: reader.result as string };
-        });
+      formDataStore.update((store) => {
+        return { ...store, userSignature: reader.result as string };
+      });
     };
 
     reader.onerror = () => {
-        reader.abort();
-        console.log("Errore durante la lettura del file SVG");
+      reader.abort();
+      console.log("Errore durante la lettura del file SVG");
     };
-      
-    reader.readAsDataURL(svgBlob);
 
-  };
+    reader.readAsDataURL(svgBlob);
+  }
 
   function clearSignatureDrawing(): void {
     if (ctx) {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      points = []; 
+      points = [];
       isSigned = false;
       isAllowed.set(false);
       validators.checkClickCancBtn();
     }
-  };
+  }
 
   function handleSignatureAuthorization() {
-    isSigned = true; 
+    isSigned = true;
     isAllowed.set(true);
     validators.checkClickAuthBtn();
-  
-  };
-
-  function checkMandatoryInputs(inputName: string, errorMessageSelector: string, errorMessage: string): void {
-
-    const mandatoryInput: HTMLInputElement | null = document.querySelector(`[name='${inputName}']`);
-    const errorMessages: HTMLDivElement | null = document.querySelector(errorMessageSelector);
-
-    const setErrorFeedback = (message: string) => {
-
-        if (errorMessages) {
-            errorMessages.innerText = message;
-            errorMessages.classList.add("error-user-data", "fw-bolder");
-            errorMessages.style.fontSize = "0.8rem";
-        }
-
-        if (mandatoryInput) {
-            mandatoryInput.classList.add("is-invalid");
-        }
-
-    };
-
-    if (mandatoryInput) {
-        const inputValue = mandatoryInput.value.trim();
-        if (inputValue === "") {
-            setErrorFeedback(errorMessage);
-        }
-    }
-
-  }
-
-  function checkNameInput(): void {
-    checkMandatoryInputs('name', '.error-name-message', 'Il nome è obbligatorio. Per favore inseriscilo.');
-  }
-
-  function checkSurnameInput(): void {
-    checkMandatoryInputs('surname', '.error-surname-message', 'Il cognome è obbligatorio. Per favore inseriscilo.');
-  }
-
-  function checkProfessionInput(): void {
-    checkMandatoryInputs('profession', '.error-profession-message', 'Lo stato di nascita è obbligatorio. Per favore inseriscilo.');
-  }
-
-  function checkNationalityInput(): void {
-    checkMandatoryInputs('nationality', '.error-nationality-message', 'Lo stato di nascita è obbligatorio. Per favore inseriscilo.');
-  };
-
-  function checkBirthPlaceInput(): void {
-    checkMandatoryInputs('birthPlace', '.error-birthplace-message', 'Il luogo di nascita è obbligatorio. Per favore inseriscilo.');
-  };
-
-  function checkBirthDateInput(): void {
-    checkMandatoryInputs('birthDate', '.error-birthdate-message', 'La data di nascita è obbligatoria. Per favore inseriscila.');
-  };
-
-  function checkStreetAddressInput(): void {
-    checkMandatoryInputs('streetAddress', '.error-street-address-message', "L'indirizzo di residenza è obbligatorio. Per favore inseriscilo.");
-  };
-
-  function checkStreetNumberInput(): void {
-    checkMandatoryInputs('streetNumber', '.error-street-number-message', 'Il n° civico è obbligatorio. Per favore inseriscilo.');
-  };
-
-  function checkCityInput(): void {
-    checkMandatoryInputs('city', '.error-city-message', 'La città è obbligatoria: Per favore inseriscila.');
-  };
-
-  function checkRegionInput(): void {
-    checkMandatoryInputs('region', '.error-region-message', 'La regione è obbligatoria: Per favore inseriscila.');
-  };
-
-  function checkPhonePrefixSelect(): void {
-    checkMandatoryInputs('phonePrefix', '.error-phoneprefix-message', 'Per favore, seleziona almeno un prefisso telefonico.');
-  };
-
-  function checkPhoneInput(): void {
-    checkMandatoryInputs('phone', '.error-phone-messages', 'Il cellulare è obbligatorio. Per favore inseriscilo.');
-  };
-
-  function checkEmailInput(): void {
-    checkMandatoryInputs('email', '.error-email-messages', "L'email è obbligatoria. Per favore inseriscila.");
-  };
-
-  function checkMandatoryRadioInputs(radioName: string, errorMessageSelector: string, errorMessage: string): void {
-
-    const radioInputs: NodeListOf<HTMLInputElement> = document.querySelectorAll(`input[name="${radioName}"]`);
-    const errorMessages: HTMLDivElement | null = document.querySelector(errorMessageSelector);
-    let isSelected = false;
-
-    radioInputs.forEach(radio => {
-        if (radio.checked) {
-            radio.classList.add("is-valid"); 
-            isSelected = true;
-        } else {
-            radio.classList.add("is-invalid");
-        }
-    });
-
-    const setErrorFeedback = (message: string) => {
-        if (errorMessages) {
-            errorMessages.innerText = message;
-            errorMessages.classList.add("error-user-data", "fw-bolder");
-            errorMessages.style.fontSize = "0.8rem";
-        }
-    };
-
-    if (!isSelected) {
-        setErrorFeedback(errorMessage);
-    }
-
-  }
-
-  function isProtectedCategoryRadiosSelected(): void {
-      checkMandatoryRadioInputs('protectedCategoryRadioOptions', '.error-protected-category-message', "Per favore, seleziona almeno un'opzione");
-  }
-
-  function isHasOwnCarRadiosSelected(): void {
-    checkMandatoryRadioInputs('drivingLicenceRadioOptions', '.error-has-own-car-message', "Per favore, seleziona almeno un'opzione");
-  };
-
-  function checkCvPreview(): void {
-
-    if (!$formDataStore.name) {
-        checkNameInput();
-    }
-
-    if (!$formDataStore.surname) {
-        checkSurnameInput();
-    }
-
-    if (!$formDataStore.profession) {
-        checkProfessionInput();
-    }
-
-    if(!$formDataStore.nationality) {
-      checkNationalityInput();
-    }
-    
-    if (!$formDataStore.isProtectedCategory) {
-        isProtectedCategoryRadiosSelected();
-    }
-
-    if (!$formDataStore.hasOwnCar) {
-        isHasOwnCarRadiosSelected();
-    }
-
-    if(!$formDataStore.birthPlace) {
-      checkBirthPlaceInput();
-    }
-
-    if(!$formDataStore.birthDate) {
-      checkBirthDateInput();
-    }
-
-    $formDataStore.address.forEach(addressItem => {
-
-      if (!addressItem.streetAddress) { 
-          checkStreetAddressInput(); 
-      }
-
-      if(!addressItem.streetNumber) {
-        checkStreetNumberInput();
-      }
-
-      if(!addressItem.city) {
-        checkCityInput();
-      }
-
-      if(!addressItem.region) {
-        checkRegionInput();
-      }
-
-    });
-
-    if(!$formDataStore.phonePrefix) {
-      checkPhonePrefixSelect();
-    }
-
-    if(!$formDataStore.phone) {
-      checkPhoneInput();
-    }
-
-    if(!$formDataStore.email) {
-      checkEmailInput();
-    }
-
   }
 
   onMount(() => {
-    
     const savedStoreData = localStorage.getItem("formData");
 
     if (savedStoreData) {
       formDataStore.set(JSON.parse(savedStoreData));
     }
 
-    if(canvas) {
-      
+    if (canvas) {
       updateCanvasJs();
       getCanvasRenderingContext2D();
-
-    }  else {
-
-    console.warn("Il canvas non è definito");
-
+    } else {
+      console.warn("Il canvas non è definito");
     }
-
   });
-  
+
 </script>
 
 <div id="sidebar">
 
+  <div class="company-logo" style="background-image:url(https://{currentTenant}.blob.core.windows.net/cdn/cv/extended-logo.png);"></div>
+
   <div class="text-center">
-
-    <h1 class="title-app-style">CREA IL TUO CURRICULUM VITAE</h1>
-
-    <h3 class="description-title-app-style py-2">
-      Fai il tuo primo passo verso il tuo lavoro ideale: crea il tuo curriculum e
-      fai decollare la tua carriera
-    </h3>
-
+    <h1 class="title-app-style {tenantColor}" style="color: var(--primary-color);">CREA IL TUO CURRICULUM VITAE</h1>
+    <h3 class="description-title-app-style py-2">Fai il tuo primo passo verso il tuo lavoro ideale: crea il tuo curriculum e fai decollare la tua carriera</h3>
   </div>
 
   <!-- Informazioni di contatto -->
 
   <div class="flex-center-utility py-4">
-    <h2 class="title-section-style">INFORMAZIONI DI CONTATTO</h2>
+    <h2 class="title-section-style {tenantColor}" style="color: var(--primary-color);">INFORMAZIONI DI CONTATTO</h2>
   </div>
 
   <form>
-
     <div class="container">
 
       <div class="row">
@@ -661,27 +453,30 @@
         <div class="flex-center-utility py-3">
           <div class="file-picture-container">
             <label for="file-picture-input">
-              <div class="file-picture"></div>
+              <div class="file-picture" style="background-image: url({$formDataStore.filePicture || '/background-profile-picture.png'})"></div>
             </label>
           </div>
         </div>
 
-        <div class="text-center py-3">
-
-          <label for="inputFilePicture" class="custom-file-input">SCEGLI FOTO</label>
+        <div class="text-center py-3 {tenantColor}">
+          <label for="inputFilePicture" style="color: white; background-color: var(--primary-color);" class="custom-file-input">SCEGLI FOTO</label>
 
           <input
             type="file"
             id="inputFilePicture"
             accept="image/*"
             name="filePicture"
-            on:change={(event) => { validators.isProfilePictureUploaded(); handleFileChange(event); }}
+            on:change={(event) => {
+              validators.isProfilePictureUploaded();
+              handleFileChange(event);
+            }}
           />
 
           <div style="width: 50%; margin: 0 auto;">
             <div class="success-user-data success-file-picture-message"></div>
             <div class="error-user-data error-file-picture-message"></div>
           </div>
+          
         </div>
 
         <!-- Name -->
@@ -720,7 +515,9 @@
             on:input={() => validators.checkSurnameInput()}
           />
 
-          <div class="success-user-data success-surname-message form-text"></div>
+          <div
+            class="success-user-data success-surname-message form-text"
+          ></div>
           <div class="error-user-data error-surname-message form-text"></div>
         </div>
 
@@ -740,12 +537,14 @@
             on:input={() => validators.checkProfessionInput()}
           />
 
-          <div class="success-user-data success-profession-message form-text"></div>
+          <div
+            class="success-user-data success-profession-message form-text"
+          ></div>
           <div class="error-user-data error-profession-message form-text"></div>
         </div>
 
-         <!-- Nazionalità -->
-         <div class="py-3">
+        <!-- Nazionalità -->
+        <div class="py-3">
           <label for="inputNationality">Stato di nascita</label>
           <span class="isRequired">*</span>
 
@@ -807,117 +606,97 @@
 
         <!-- Residenza/Domicilio -->
         <div class="py-3">
+          <div class="flex-center-utility justify-content-around gap-2 mb-3">
+            <!-- Indirizzo di Residenza -->
+            <div style="width: 70%;">
+              <label for="formInputStreetAddress">Indirizzo di Residenza</label>
+              <span class="isRequired">*</span>
 
-          {#each $formDataStore.address as addressItem}
+              <input
+                type="text"
+                class="form-control"
+                id="formInputStreetAddress"
+                autocomplete="off"
+                name="streetAddress"
+                placeholder="Via Roma, 25"
+                bind:value={$formDataStore.address.streetAddress}
+                on:input={() => validators.checkStreetAddressInput()}
+              />
 
-            <div class="flex-center-utility justify-content-around gap-2 mb-3">
-
-                  <!-- Indirizzo di Residenza -->
-                  <div style="width: 70%;">
-
-                    <label for="formInputStreetAddress">Indirizzo di Residenza</label>
-                    <span class="isRequired">*</span>
-
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="formInputStreetAddress"
-                      autocomplete="off"
-                      name="streetAddress"
-                      placeholder="Indirizzo di residenza"
-                      bind:value={addressItem.streetAddress}
-                      on:input={() => validators.checkStreetAddressInput()}
-                    />
-
-                    <div class="success-street-address-message form-text"></div>
-                    <div class="error-street-address-message form-text"></div>
-
-                  </div>
-
-                  <!-- Numero Civico -->
-                  <div style="width: 30%;">
-
-                    <label for="formInputStreetNumber">N° Civico</label>
-                    <span class="isRequired">*</span>
-                    
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="formInputStreetNumber"
-                      autocomplete="off"
-                      name="streetNumber"
-                      placeholder="N° civico"
-                      bind:value={addressItem.streetNumber}
-                      on:input={() => validators.checkStreetNumberInput()}
-                    />
-
-                    <div class="success-street-number-message form-text"></div>
-                    <div class="error-street-number-message form-text"></div>
-
-                  </div>
-  
+              <div class="success-street-address-message form-text"></div>
+              <div class="error-street-address-message form-text"></div>
             </div>
 
-            <div class="flex-center-utility justify-content-around gap-2">
+            <!-- Codice Postale -->
+            <div style="width: 30%;">
+              <label for="inputPostalCode">CAP</label>
+              <span class="isRequired">*</span>
 
-              <!-- Città -->
-              <div style="width: 50%;">
+              <input
+                type="text"
+                class="form-control"
+                id="inputPostalCode"
+                autocomplete="off"
+                name="postalCode"
+                placeholder="41100"
+                bind:value={$formDataStore.address.postalCode}
+                on:input={() => validators.checkPostalCodeInput()}
+              />
 
-                    <label for="formInputCity">Città</label>
-                    <span class="isRequired">*</span>
+              <div class="success-street-number-message form-text"></div>
+              <div class="error-street-number-messages form-text"></div>
+            </div>
+          </div>
 
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="formInputCity"
-                      autocomplete="off"
-                      name="city"
-                      placeholder="Città"
-                      bind:value={addressItem.city}
-                      on:input={() => validators.checkCityInput()}
-                    />
+          <div class="flex-center-utility justify-content-around gap-2">
+            <!-- Città -->
+            <div style="width: 50%;">
+              <label for="formInputCity">Città</label>
+              <span class="isRequired">*</span>
 
-                    <div class="success-city-message form-text"></div>
-                    <div class="error-city-message form-text"></div>
+              <input
+                type="text"
+                class="form-control"
+                id="formInputCity"
+                autocomplete="off"
+                name="city"
+                placeholder="Città"
+                bind:value={$formDataStore.address.city}
+                on:input={() => validators.checkCityInput()}
+              />
 
-              </div>
-
-              <!-- Regione -->
-              <div style="width: 50%;">
-
-                    <label for="formInputRegion">Regione</label>
-                    <span class="isRequired">*</span>
-                    
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="formInputRegion"
-                      autocomplete="off"
-                      name="region"
-                      placeholder="Regione"
-                      bind:value={addressItem.region}
-                      on:input={() => validators.checkRegionInput()}
-                    />
-
-                    <div class="success-region-message form-text"></div>
-                    <div class="error-region-message form-text"></div>
-
-              </div>
-  
+              <div class="success-city-message form-text"></div>
+              <div class="error-city-message form-text"></div>
             </div>
 
-          {/each}
-            
+            <!-- Regione -->
+            <div style="width: 50%;">
+              <label for="formInputRegion">Regione</label>
+              <span class="isRequired">*</span>
+
+              <input
+                type="text"
+                class="form-control"
+                id="formInputRegion"
+                autocomplete="off"
+                name="region"
+                placeholder="Regione"
+                bind:value={$formDataStore.address.region}
+                on:input={() => validators.checkRegionInput()}
+              />
+
+              <div class="success-region-message form-text"></div>
+              <div class="error-region-message form-text"></div>
+            </div>
+          </div>
         </div>
 
         <!-- Cellulare -->
         <div class="py-3">
-
           <label for="selectPhone">Cellulare</label>
           <span class="isRequired">*</span>
 
           <div class="input-group mb-3">
-
             <select
               class="form-select"
               style="width: 50%;"
@@ -935,7 +714,7 @@
                 <option value={phonePrefix.value}> {phonePrefix.label}</option>
               {/each}
             </select>
-  
+
             <input
               type="tel"
               class="form-control"
@@ -947,22 +726,27 @@
               bind:value={$formDataStore.phone}
               on:input={() => validators.checkPhoneInput()}
             />
-  
+
             <div class="visual-feedback-group-container" style="width: 100%;">
               <div class="left-visual-feedback-position" style="width: 50%;">
-                <div class="success-user-data success-phoneprefix-message form-text"></div>
-                <div class="error-user-data error-phoneprefix-message form-text"></div>
+                <div
+                  class="success-user-data success-phoneprefix-message form-text"
+                ></div>
+                <div
+                  class="error-user-data error-phoneprefix-message form-text"
+                ></div>
               </div>
-  
+
               <div class="right-visual-feedback-position" style="width: 50%;">
-                <div class="success-user-data success-phone-message form-text"></div>
-                <div class="error-user-data  error-phone-messages form-text"></div>
+                <div
+                  class="success-user-data success-phone-message form-text"
+                ></div>
+                <div
+                  class="error-user-data error-phone-messages form-text"
+                ></div>
               </div>
-
             </div>
-            
           </div>
-
         </div>
 
         <!---- Email ---->
@@ -986,9 +770,8 @@
 
         <!---- Profilo Personale ---->
         <div class="py-3">
-
           <label for="inputProfileSummary">Profilo personale</label>
-    
+
           <textarea
             class="form-control h-auto"
             id="inputProfileSummary"
@@ -1001,13 +784,15 @@
           ></textarea>
 
           <div class="success-profile-summary-message form-text"></div>
-          <div class="error-profile-summary-message form-text"></div> 
+          <div class="error-profile-summary-message form-text"></div>
         </div>
 
         <!-- Categorie protette -->
         <div class="py-3">
           <span class="me-1">
-            <label for="formLabelSelfDriven">Appartenente alle categorie protette:</label>
+            <label for="formLabelSelfDriven"
+              >Appartenente alle categorie protette:</label
+            >
             <span class="isRequired">*</span>
           </span>
 
@@ -1046,10 +831,9 @@
 
           {#each $formDataStore.digitalSkills as digitalSkill, digitalSkillIndex}
 
-          <label for="inputDigitalSkills{digitalSkillIndex}">Competenza digitale</label>
+            <label for="inputDigitalSkills{digitalSkillIndex}">Competenza digitale</label>
 
             <div class="input-group mb-3">
-
               <input
                 type="text"
                 class="form-control"
@@ -1059,8 +843,9 @@
                 name="digitalSkill{digitalSkillIndex}"
                 placeholder="Competenza digitale"
                 bind:value={digitalSkill.skill}
-                on:input={() => validators.checkDigitalSkillsTextInput(digitalSkillIndex)}
-              >
+                on:input={() =>
+                  validators.checkDigitalSkillsTextInput(digitalSkillIndex)}
+              />
 
               <select
                 class="form-select"
@@ -1068,46 +853,59 @@
                 id="skillLevelSelect{digitalSkillIndex}"
                 name="skillLevel{digitalSkillIndex}"
                 bind:value={digitalSkill.level}
-                on:change={() => validators.checkLevelSkillSelect(digitalSkillIndex)}>
-                
+                on:change={() =>
+                  validators.checkLevelSkillSelect(digitalSkillIndex)}
+              >
                 <option value="" disabled>Livello</option>
-      
-                {#each optionsSkillLevels as optionSkillLevel (optionSkillLevel)}
-                  <option >{optionSkillLevel.level}</option>
-                {/each}
 
+                {#each optionsSkillLevels as optionSkillLevel (optionSkillLevel)}
+                  <option>{optionSkillLevel.level}</option>
+                {/each}
               </select>
 
               {#if digitalSkillIndex > 0}
-  
                 <div class="input-group-append px-1" style="width: 20%;">
-
                   <button
-                      type="button"
-                      class="btn-remove-style"
-                      
-                      on:click={() => {removeDigitalSkill(digitalSkillIndex)}}>
-                      <i class="fa-solid fa-trash"></i>
-                    </button>
-                    
+                    type="button"
+                    class="btn-remove-style"
+                    on:click={() => {
+                      removeDigitalSkill(digitalSkillIndex);
+                    }}
+                  >
+                    <i class="fa-solid fa-trash"></i>
+                  </button>
                 </div>
-
               {/if}
 
               <div class="visual-feedback-group-container" style="width: 100%;">
-
-                <div class="left-visual-feedback-position" style="width: {digitalSkillIndex > 0 ? '40%' : '50%'};">
-                  <div class="success-user-data form-text" id="success-digital-skill-message{digitalSkillIndex}"></div>
-                  <div class="error-user-data form-text" id="error-digital-skill-message{digitalSkillIndex}"></div>
+                <div
+                  class="left-visual-feedback-position"
+                  style="width: {digitalSkillIndex > 0 ? '40%' : '50%'};"
+                >
+                  <div
+                    class="success-user-data form-text"
+                    id="success-digital-skill-message{digitalSkillIndex}"
+                  ></div>
+                  <div
+                    class="error-user-data form-text"
+                    id="error-digital-skill-message{digitalSkillIndex}"
+                  ></div>
                 </div>
 
-                <div class="right-visual-feedback-position" style="width: {digitalSkillIndex > 0 ? '40%' : '50%'};">
-                  <div class="success-user-data form-text" id="success-level-skill-message{digitalSkillIndex}"></div>
-                  <div class="error-user-data form-text" id="error-level-skill-message{digitalSkillIndex}"></div>
+                <div
+                  class="right-visual-feedback-position"
+                  style="width: {digitalSkillIndex > 0 ? '40%' : '50%'};"
+                >
+                  <div
+                    class="success-user-data form-text"
+                    id="success-level-skill-message{digitalSkillIndex}"
+                  ></div>
+                  <div
+                    class="error-user-data form-text"
+                    id="error-level-skill-message{digitalSkillIndex}"
+                  ></div>
                 </div>
-
               </div>
-
             </div>
 
           {/each}
@@ -1117,18 +915,19 @@
         <div class="flex-center-utility">
           <button
             type="button"
-            class="btn-add-style"
+            class="btn-add-style {tenantColor}"
+            style="background-color: var(--primary-color);"
             aria-label="Aggiungi competenza"
             on:click={() => addDigitalSkills()}
-            ><span>Aggiungi Competenza</span><i class="fa-solid fa-plus ms-2"></i>
+            ><span>Aggiungi Competenza</span><i class="fa-solid fa-plus ms-2"
+            ></i>
           </button>
         </div>
 
         <!-- Lingue -->
         <div class="py-3">
-
           <label for="inputLanguages">Lingua</label>
-        
+
           {#each $formDataStore.languagesSkills as selectedLanguage, languageIndex}
 
             <div class="input-group mb-3">
@@ -1139,82 +938,119 @@
                 id="selectLanguages{languageIndex}"
                 name="languages{languageIndex}"
                 bind:value={selectedLanguage.lang}
-                on:change={() => validators.checkLanguageSelect(languageIndex)}>
+                on:change={() => validators.checkLanguageSelect(languageIndex)}
+              >
                 <option value="" disabled>Lingua</option>
                 {#each optionsLanguages as optionsLanguage (optionsLanguage.value)}
-                  <option value={optionsLanguage.value}>{optionsLanguage.label}</option>
+                  <option value={optionsLanguage.value}
+                    >{optionsLanguage.label}</option
+                  >
                 {/each}
               </select>
-        
+
               <select
                 class="form-select"
                 style="width: {languageIndex > 0 ? '40%' : '50%'};"
                 id="selectLanguageLevels{languageIndex}"
                 name="languageLevels{languageIndex}"
                 bind:value={selectedLanguage.level}
-                on:change={() => validators.checkLanguageLevelSelect(languageIndex)}>
+                on:change={() =>
+                  validators.checkLanguageLevelSelect(languageIndex)}
+              >
                 <option value="" disabled>Livello</option>
                 {#each optionslanguageLevels as optionslanguageLevel (optionslanguageLevel.value)}
-                  <option value={optionslanguageLevel.value}>{optionslanguageLevel.label}</option>
+                  <option value={optionslanguageLevel.value}
+                    >{optionslanguageLevel.label}</option
+                  >
                 {/each}
               </select>
-        
+
               {#if languageIndex > 0}
                 <div class="input-group-append px-1" style="width: 20%;">
                   <button
                     type="button"
                     class="btn-remove-style"
-                    on:click={() => removeLanguage(languageIndex)}>
+                    on:click={() => removeLanguage(languageIndex)}
+                  >
                     <i class="fa-solid fa-trash"></i>
                   </button>
                 </div>
 
-                <div class="visual-feedback-group-container" style="width: 100%;">
-                  <div class="left-visual-feedback-position" style="width: {languageIndex > 0 ? '40%' : '50%'};">
-                    <div class="success-user-data" id="success-language-message{languageIndex}"></div>
-                    <div class="error-user-data" id="error-language-message{languageIndex}"></div>
+                <div
+                  class="visual-feedback-group-container"
+                  style="width: 100%;"
+                >
+                  <div
+                    class="left-visual-feedback-position"
+                    style="width: {languageIndex > 0 ? '40%' : '50%'};"
+                  >
+                    <div
+                      class="success-user-data"
+                      id="success-language-message{languageIndex}"
+                    ></div>
+                    <div
+                      class="error-user-data"
+                      id="error-language-message{languageIndex}"
+                    ></div>
                   </div>
-                  <div class="right-visual-feedback-position" style="width: {languageIndex > 0 ? '40%' : '50%'};">
-                    <div class="success-user-data" id="success-language-level-message{languageIndex}"></div>
-                    <div class="error-user-data" id="error-language-level-message{languageIndex}"></div>
+                  <div
+                    class="right-visual-feedback-position"
+                    style="width: {languageIndex > 0 ? '40%' : '50%'};"
+                  >
+                    <div
+                      class="success-user-data"
+                      id="success-language-level-message{languageIndex}"
+                    ></div>
+                    <div
+                      class="error-user-data"
+                      id="error-language-level-message{languageIndex}"
+                    ></div>
                   </div>
                 </div>
               {/if}
-        
-              <div class="visual-feedback-group-container" style="width: 100%;">
 
+              <div class="visual-feedback-group-container" style="width: 100%;">
                 <div class="left-visual-feedback-position" style="width: 50%;">
-                  <div class="success-user-data form-text" id="success-language-message{languageIndex}"></div>
-                  <div class="error-user-data form-text" id="error-language-message{languageIndex}"></div>
+                  <div
+                    class="success-user-data form-text"
+                    id="success-language-message{languageIndex}"
+                  ></div>
+                  <div
+                    class="error-user-data form-text"
+                    id="error-language-message{languageIndex}"
+                  ></div>
                 </div>
 
                 <div class="right-visual-feedback-position" style="width: 50%;">
-                  <div class="success-user-data form-text" id="success-language-level-message{languageIndex}"></div>
-                  <div class="error-user-data form-text" id="error-language-level-message{languageIndex}"></div>
+                  <div
+                    class="success-user-data form-text"
+                    id="success-language-level-message{languageIndex}"
+                  ></div>
+                  <div
+                    class="error-user-data form-text"
+                    id="error-language-level-message{languageIndex}"
+                  ></div>
                 </div>
-
               </div>
-
             </div>
-
           {/each}
-        
+
           <div class="flex-center-utility">
             <button
               type="button"
-              class="btn-add-style"
+              class="btn-add-style {tenantColor}"
+              style="background-color: var(--primary-color);"
               aria-label="Aggiungi lingua"
-              on:click={() => addLanguage()}>
+              on:click={() => addLanguage()}
+            >
               <span>Aggiungi Lingua</span>
               <i class="fa-solid fa-plus ms-2"></i>
             </button>
           </div>
-
         </div>
 
         <!-- Automunito -->
         <div class="py-3">
-
           <label for="formLabelSelfDriven">Sei automunito?</label>
           <span class="isRequired">*</span>
 
@@ -1228,7 +1064,9 @@
               bind:group={$formDataStore.hasOwnCar}
               on:change={() => validators.isHasOwnCarRadiosSelected()}
             />
-            <label class="form-check-label" for="drivingLicenceUpRadioYes">Sì</label>
+            <label class="form-check-label" for="drivingLicenceUpRadioYes"
+              >Sì</label
+            >
           </div>
 
           <div class="form-check">
@@ -1241,19 +1079,18 @@
               bind:group={$formDataStore.hasOwnCar}
               on:change={() => validators.isHasOwnCarRadiosSelected()}
             />
-            <label class="form-check-label" for="drivingLicenceDownRadioNo">No</label>
+            <label class="form-check-label" for="drivingLicenceDownRadioNo"
+              >No</label
+            >
           </div>
 
           <div class="success-has-own-car-message"></div>
           <div class="error-has-own-car-message"></div>
-          
         </div>
-        
+
         <!-- Patente -->
         <div class="py-3">
-          
           <div>
-
             <label for="formLabelDrivingLicence">Patente</label>
 
             {#each drivingLicenceCheckBoxs as drivingLicenceCheckBox}
@@ -1262,7 +1099,8 @@
                   class="form-check-input"
                   type="checkbox"
                   name="drivingLicenceCheckBoxOptions"
-                  id={"formCheckBoxDrivingLicence" + drivingLicenceCheckBox.value}
+                  id={"formCheckBoxDrivingLicence" +
+                    drivingLicenceCheckBox.value}
                   value={drivingLicenceCheckBox.label}
                   bind:group={$formDataStore.drivingLicences}
                   on:change={() =>
@@ -1277,295 +1115,376 @@
                 </label>
               </div>
             {/each}
-  
+
             <div class="success-driving-licence-message"></div>
             <div class="error-driving-licence-message"></div>
           </div>
-
         </div>
 
         <!-- Dettagli Carriera -->
         <div class="flex-center-utility py-4">
-          <h2 class="title-section-style">DETTAGLI CARRIERA</h2>
+          <h2 class="title-section-style {tenantColor}" style="color: var(--primary-color);">DETTAGLI CARRIERA</h2>
         </div>
 
         {#each $formDataStore.jobs as job, jobIndex}
+          <div class="py-3">
+            <label for="inputJobRole{jobIndex}">Ruolo</label>
+
+            <input
+              type="text"
+              class="form-control"
+              id="inputJobRole{jobIndex}"
+              name="jobRole"
+              autocomplete="off"
+              placeholder="Posizione lavorativa"
+              bind:value={job.role}
+              on:input={() => validators.checkJobRoleInput(jobIndex)}
+            />
+
+            <div
+              id="success-job-role-message{jobIndex}"
+              class="form-text"
+            ></div>
+            <div id="error-job-role-messages{jobIndex}" class="form-text"></div>
+          </div>
 
           <div class="py-3">
+            <label for="inputCompanyName{jobIndex}">Azienda</label>
 
-              <label for="inputJobRole{jobIndex}">Ruolo</label>
+            <input
+              type="text"
+              class="form-control"
+              id="inputCompanyName{jobIndex}"
+              name="companyName"
+              autocomplete="off"
+              placeholder="Azienda"
+              bind:value={job.company}
+              on:input={() => validators.checkCompanyNameInput(jobIndex)}
+            />
 
-              <input
-                type="text"
-                class="form-control"
-                id="inputJobRole{jobIndex}"
-                name="jobRole"
-                autocomplete="off"
-                placeholder="Posizione lavorativa"
-                bind:value={job.role}
-                on:input={() => validators.checkJobRoleInput(jobIndex)}
-              />
-
-              <div id="success-job-role-message{jobIndex}" class="form-text"></div>
-              <div id="error-job-role-messages{jobIndex}" class="form-text"></div>
-
+            <div
+              id="success-company-name-message{jobIndex}"
+              class="form-text"
+            ></div>
+            <div
+              id="error-company-name-messages{jobIndex}"
+              class="form-text"
+            ></div>
           </div>
 
           <div class="py-3">
 
-                <label for="inputCompanyName{jobIndex}">Azienda</label>
-  
-                <input
-                  type="text"
-                  class="form-control"
-                  id="inputCompanyName{jobIndex}"
-                  name="companyName"
-                  autocomplete="off"
-                  placeholder="Azienda"
-                  bind:value={job.company}
-                  on:input={() => validators.checkCompanyNameInput(jobIndex)}
-                />
+            <label for="inputJobLocation{jobIndex}">Luogo di lavoro</label>
 
-                <div id="success-company-name-message{jobIndex}" class="form-text"></div>
-                <div id="error-company-name-messages{jobIndex}" class="form-text"></div>
+            <input
+              type="text"
+              class="form-control"
+              id="inputJobLocation{jobIndex}"
+              name="jobLocation"
+              autocomplete="off"
+              placeholder="Luogo di lavoro"
+              bind:value={job.location}
+              on:input={() => validators.checkJobLocationInput(jobIndex)}
+            />
 
+            <div
+              id="success-job-location-message{jobIndex}"
+              class="form-text"
+            ></div>
+            <div
+              id="error-job-location-messages{jobIndex}"
+              class="form-text"
+            ></div>
           </div>
 
           <div class="py-3">
+            <label for="inputJobResults{jobIndex}"
+              >Risultati professionali ottenuti</label
+            >
 
-                <label for="inputJobLocation{jobIndex}">Luogo di lavoro</label>
-      
-                <input
-                  type="text"
-                  class="form-control"
-                  id="inputJobLocation{jobIndex}"
-                  name="jobLocation"
-                  autocomplete="off"
-                  placeholder="Luogo di lavoro"
-                  bind:value={job.location}
-                  on:input={() => validators.checkJobLocationInput(jobIndex)}
-                />
+            <textarea
 
-                <div id="success-job-location-message{jobIndex}" class="form-text"></div>
-                <div id="error-job-location-messages{jobIndex}" class="form-text"></div>
+              class="form-control h-auto"
+              id="inputJobResults{jobIndex}"
+              name="jobResults"
+              rows="6"
+              maxlength="500"
+              placeholder="Parlaci dei risultati professionali che hai conseguito..."
+              bind:value={job.workExperienceResults}
+              on:input={() => validators.checkJobResultsInput(jobIndex)}
 
-          </div>
+            ></textarea>
 
-          <div class="py-3">
+            <div id="success-job-results-message{jobIndex}" class="form-text"></div>
+            <div id="error-job-results-messages{jobIndex}" class="form-text"></div>
 
-                <label for="inputJobResults{jobIndex}">Risultati professionali ottenuti</label>
-        
-                <textarea
-                  class="form-control h-auto"
-                  id="inputJobResults{jobIndex}"
-                  name="jobResults"
-                  rows="6"
-                  maxlength="500"
-                  placeholder="Parlaci dei risultati professionali che hai conseguito..."
-                  bind:value={job.workExperienceResults}
-                  on:input={() => validators.checkJobResultsInput(jobIndex)}
-                ></textarea>
-
-                <div id="success-job-results-message{jobIndex}" class="form-text"></div>
-                <div id="error-job-results-messages{jobIndex}" class="form-text"></div>
           </div>
 
           <div class="py-3 flex-center-utility justify-content-around gap-1">
+            <div>
+              <label for="inputStartJob{jobIndex}">Data di inizio</label>
 
-                <div>
+              <input
+                type="month"
+                class="form-control"
+                id="inputStartJob{jobIndex}"
+                name="startJob"
+                max={job.endDateWorkExperience}
+                bind:value={job.startDateWorkExperience}
+                on:change={() => validators.checkStartJobInput(jobIndex)}
+              />
 
-                  <label for="inputStartJob{jobIndex}">Data di inizio</label>
-                
-                  <input
-                    type="month"
-                    class="form-control"
-                    id="inputStartJob{jobIndex}"
-                    name="startJob"
-                    max={job.endDateWorkExperience}
-                    bind:value={job.startDateWorkExperience}
-                    on:change={() => validators.checkStartJobInput(jobIndex)}
-                  />
+              <div
+                id="success-start-job-message{jobIndex}"
+                class="form-text"
+              ></div>
+              <div
+                id="error-start-job-messages{jobIndex}"
+                class="form-text"
+              ></div>
+            </div>
 
-                  <div id="success-start-job-message{jobIndex}" class="form-text"></div>
-                  <div id="error-start-job-messages{jobIndex}" class="form-text"></div>
+            <div>
+              <label for="inputEndJob{jobIndex}">Data di fine</label>
 
-                </div>
+              <input
+                type="month"
+                class="form-control"
+                id={`inputEndJob${jobIndex}`}
+                name="endJob"
+                min={job.startDateWorkExperience}
+                bind:value={job.endDateWorkExperience}
+                on:change={() => validators.checkEndJobInput(jobIndex)}
+                disabled={job.isEmployed}
+              />
 
-                <div>
-
-                  <label for="inputEndJob{jobIndex}">Data di fine</label>
-            
-                  <input
-                    type="month"
-                    class="form-control"
-                    id={`inputEndJob${jobIndex}`}
-                    name="endJob"
-                    min={job.startDateWorkExperience}
-                    bind:value={job.endDateWorkExperience}
-                    on:change={() => validators.checkEndJobInput(jobIndex)}
-                    disabled={job.isEmployed}
-                  />
-
-                  <div id="success-end-job-message{jobIndex}" class="form-text"></div>
-                  <div id="error-end-job-messages{jobIndex}" class="form-text"></div>
-
-                </div>
-
+              <div
+                id="success-end-job-message{jobIndex}"
+                class="form-text"
+              ></div>
+              <div
+                id="error-end-job-messages{jobIndex}"
+                class="form-text"
+              ></div>
+            </div>
           </div>
 
           {#if jobIndex === 0}
-                
-                <div class="d-flex justify-content-center py-1">
-                  <input class="form-check-input me-1 custom-checkbox" type="checkbox" id="currentJobCheckbox" aria-label="Indica se stai attualmente ricoprendo questo ruolo" bind:checked={job.isEmployed}  on:change={() => {job.endDateWorkExperience = ""; validators.checkCurrentJob(jobIndex);}}>
-                  <label for="checkboxNoLabel">Attualmente sto ricoprendo questo ruolo</label>
-                </div>
+            <div class="d-flex justify-content-center py-1">
+              <input
+                class="form-check-input me-1 custom-checkbox"
+                type="checkbox"
+                id="currentJobCheckbox"
+                aria-label="Indica se stai attualmente ricoprendo questo ruolo"
+                bind:checked={job.isEmployed}
+                on:change={() => {
+                  job.endDateWorkExperience = "";
+                  validators.checkCurrentJob(jobIndex);
+                }}
+              />
+              <label for="checkboxNoLabel"
+                >Attualmente sto ricoprendo questo ruolo</label
+              >
+            </div>
+          {/if}
+
+          {#if jobIndex > 0}
+
+            <div class="flex-center-utility mb-3">
+
+              <button
+                type="button"
+                class="btn-remove-style"
+                on:click={() => removeWorkExperience(jobIndex)}
+                ><i class="fa-solid fa-trash"></i>
+              </button>
+
+            </div>
 
           {/if}
-            
-          {#if jobIndex > 0}
-                <div class="flex-center-utility mb-3">
-                  <button
-                    type="button"
-                    class="btn-remove-style"
-                    on:click={() => removeWorkExperience(jobIndex)}
-                    ><i class="fa-solid fa-trash"></i></button>
-                </div>
-          {/if}
-            
+
         {/each}
 
         <div class="flex-center-utility py-3">
-          <button type="button" class="btn-add-style" aria-label="Aggiungi lavoro" on:click={() => addWorkExperience()}><span>Aggiungi Lavoro</span><i class="fa-solid fa-plus ms-2"></i></button>
+
+          <button
+
+            type="button"
+            class="btn-add-style {tenantColor}"
+            style="background-color: var(--primary-color);"
+            aria-label="Aggiungi lavoro"
+            on:click={() => addWorkExperience()}
+            ><span>Aggiungi Lavoro</span><i class="fa-solid fa-plus ms-2"></i>
+
+          </button>
+
         </div>
 
         <!-- Dettagli Formazione -->
         <div class="flex-center-utility py-4">
-            <h2 class="title-section-style">DETTAGLI FORMAZIONE</h2>
+          <h2 class="title-section-style {tenantColor}" style="color: var(--primary-color);">DETTAGLI FORMAZIONE</h2>
         </div>
 
         {#each $formDataStore.educations as education, educationIndex}
-
           <div class="py-3">
+            <label for="inputEducationTitle{educationIndex}"
+              >Titolo di studio</label
+            >
 
-              <label for="inputEducationTitle{educationIndex}">Titolo di studio</label>
-                          
-              <select
+            <select
+              class="form-select"
+              id="inputEducationTitle{educationIndex}"
+              name="educationTitle"
+              bind:value={education.qualification}
+              on:change={() =>
+                validators.checkEducationTitleSelect(educationIndex)}
+            >
+              <option value="" disabled>Titolo di Studio</option>
 
-                  class="form-select"
-                  id="inputEducationTitle{educationIndex}"
-                  name="educationTitle"
-                  bind:value={education.qualification}
-                  on:change={() => validators.checkEducationTitleSelect(educationIndex)}>
-                  <option value="" disabled>Titolo di Studio</option>
-      
-                  {#each educationLevels as educationLevel (educationLevel.value)}
-                    <option value={educationLevel.value}>{educationLevel.value}</option>
-                  {/each}
+              {#each educationLevels as educationLevel (educationLevel.value)}
+                <option value={educationLevel.value}
+                  >{educationLevel.value}</option
+                >
+              {/each}
+            </select>
 
-              </select>
+            <div
+              class="success-user-data form-text"
+              id="success-education-title-message{educationIndex}"
+            ></div>
 
-              <div class="success-user-data form-text" id="success-education-title-message{educationIndex}"></div>
-              <div class="error-user-data form-text" id="error-education-title-message{educationIndex}"></div>
+            <div
+              class="error-user-data form-text"
+              id="error-education-title-message{educationIndex}"
+            ></div>
 
           </div>
 
           <div class="py-3">
-
             <label for="inputStudyField{educationIndex}">Campo di studio</label>
-      
+
             <input
-                type="text"
-                class="form-control"
-                id="inputStudyField{educationIndex}"
-                name="studyField"
-                autocomplete="off"
-                placeholder="Campo di studio"
-                bind:value={education.fieldOfStudy}
+              type="text"
+              class="form-control"
+              id="inputStudyField{educationIndex}"
+              name="studyField"
+              autocomplete="off"
+              placeholder="Campo di studio"
+              bind:value={education.fieldOfStudy}
               on:input={() => validators.checkFieldStudyInput(educationIndex)}
             />
 
-            <div class="success-user-data form-text" id="success-study-field-message{educationIndex}"></div>
-            <div class="error-user-data form-text" id="error-study-field-message{educationIndex}"></div>
-            
+            <div
+              class="success-user-data form-text"
+              id="success-study-field-message{educationIndex}"
+            ></div>
+            <div
+              class="error-user-data form-text"
+              id="error-study-field-message{educationIndex}"
+            ></div>
           </div>
-                      
+
           <div class="py-3">
+            <label for="inputTrainingCenter{educationIndex}"
+              >Ente di formazione</label
+            >
 
-                  <label for="inputTrainingCenter{educationIndex}">Ente di formazione</label>
+            <input
+              type="text"
+              class="form-control"
+              id="inputTrainingCenter{educationIndex}"
+              name="trainingCenter"
+              autocomplete="off"
+              placeholder="Ente di formazione"
+              bind:value={education.trainingCenter}
+              on:input={() =>
+                validators.checkEducationTypeInput(educationIndex)}
+            />
 
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="inputTrainingCenter{educationIndex}"
-                    name="trainingCenter"
-                    autocomplete="off"
-                    placeholder="Ente di formazione"
-                    bind:value={education.trainingCenter}
-                    on:input={() => validators.checkEducationTypeInput(educationIndex)}
-                  />
-      
-                  <div id="success-training-center-message{educationIndex}" class="form-text"></div>
-                  <div id="error-training-center-messages{educationIndex}" class="form-text"></div>
+            <div
+              id="success-training-center-message{educationIndex}"
+              class="form-text"
+            ></div>
+            <div
+              id="error-training-center-messages{educationIndex}"
+              class="form-text"
+            ></div>
           </div>
-      
+
           <div class="py-3">
+            <label for="inputEducationGoals{educationIndex}"
+              >Risultati accademici raggiunti</label
+            >
 
-                  <label for="inputEducationGoals{educationIndex}">Risultati accademici raggiunti</label>
-    
-                  <textarea
-                    class="form-control h-auto"
-                    id="inputEducationGoals{educationIndex}"
-                    rows="6"
-                    maxlength="500"
-                    placeholder="Parlaci degli obiettivi accademici che hai raggiunto..."
-                    bind:value={education.educationGoals}
-                    on:input={() => validators.checkEducationGoalsInput(educationIndex)}
-                  ></textarea>
-      
-                  <div id="success-education-goals-message{educationIndex}" class="form-text"></div>
-                  <div id="error-education-goals-messages{educationIndex}" class="form-text"></div>
+            <textarea
+              class="form-control h-auto"
+              id="inputEducationGoals{educationIndex}"
+              rows="6"
+              maxlength="500"
+              placeholder="Parlaci degli obiettivi accademici che hai raggiunto..."
+              bind:value={education.educationGoals}
+              on:input={() =>
+                validators.checkEducationGoalsInput(educationIndex)}
+            ></textarea>
 
+            <div
+              id="success-education-goals-message{educationIndex}"
+              class="form-text"
+            ></div>
+            <div
+              id="error-education-goals-messages{educationIndex}"
+              class="form-text"
+            ></div>
           </div>
-      
+
           <div class="flex-center-utility flex-column">
-      
-                  <div class="w-50">
+            <div class="w-50">
+              <label for="inputEndEducation{educationIndex}">Data di fine</label
+              >
 
-                    <label for="inputEndEducation{educationIndex}">Data di fine</label>
-                  
-                    <input
-                      type="month"
-                      class="form-control"
-                      id="inputEndEducation{educationIndex}"
-                      name="endEducation"
-                      min={education.startDateAcademicEducation}
-                      bind:value={education.endDateAcademicEducation}
-                      on:change={() => validators.checkEndAcademicEducationDateInput(educationIndex)}
-                    />
-      
-                    <div id="success-end-education-message{educationIndex}" class="form-text"></div>
-                    <div id="error-end-education-messages{educationIndex}" class="form-text"></div>
+              <input
+                type="month"
+                class="form-control"
+                id="inputEndEducation{educationIndex}"
+                name="endEducation"
+                bind:value={education.endDateAcademicEducation}
+                on:change={() =>
+                  validators.checkEndAcademicEducationDateInput(educationIndex)}
+              />
 
-                  </div>
-
+              <div
+                id="success-end-education-message{educationIndex}"
+                class="form-text"
+              ></div>
+              <div
+                id="error-end-education-messages{educationIndex}"
+                class="form-text"
+              ></div>
+            </div>
           </div>
-      
-          {#if educationIndex > 0}
-                  <div class="flex-center-utility mb-3">
-                    <button
-                      type="button"
-                      class="btn-remove-style"
-                      on:click={() => removeAcademicEducation(educationIndex)}
-                      ><i class="fa-solid fa-trash"></i></button
-                    >
-                  </div>
-          {/if}
 
+          {#if educationIndex > 0}
+            <div class="flex-center-utility mb-3">
+              <button
+                type="button"
+                class="btn-remove-style"
+                on:click={() => removeAcademicEducation(educationIndex)}
+                ><i class="fa-solid fa-trash"></i></button
+              >
+            </div>
+          {/if}
         {/each}
 
         <div class="flex-center-utility py-3">
 
-          <button type="button" class="btn-add-style" aria-label="Aggiungi Formazione" on:click={() => addAcademicEducation()}><span>Aggiungi Formazione</span><i class="fa-solid fa-plus ms-2"></i></button>
+          <button
+            type="button"
+            class="btn-add-style {tenantColor}"
+            style="background-color: var(--primary-color);"
+            aria-label="Aggiungi Formazione"
+            on:click={() => addAcademicEducation()}
+            ><span>Aggiungi Formazione</span><i class="fa-solid fa-plus ms-2"></i>
+          </button>
 
         </div>
 
@@ -1578,15 +1497,16 @@
   <!---- Privacy Policy ---->
   <div class="py-5">
     <div class="form-check form-switch privacy-label">
-        <input class="form-check-input me-2" 
-          type="checkbox" 
-          role="switch" 
-          id="privacyPolicySwitch"
-          name="privacyPolicy"
-          bind:checked={$isPrivacyPolicyApproved}
-          on:change={() => validators.checkPolicyPrivacySwitchInput()}
-        >
-        <label for="flexSwitchCheckChecked">Accetto la privacy policy per scaricare il CV</label>
+      <input
+        class="form-check-input me-2"
+        type="checkbox"
+        role="switch"
+        id="privacyPolicySwitch"
+        name="privacyPolicy"
+        bind:checked={$isPrivacyPolicyApproved}
+        on:change={() => validators.checkPolicyPrivacySwitchInput()}
+      />
+      <label for="flexSwitchCheckChecked" style="font-size: 0.9rem;">Accetto la privacy policy per scaricare il CV</label>
         <span class="isRequired ms-1">*</span>
     </div>
 
@@ -1594,53 +1514,57 @@
       <div class="success-user-data success-policy-privacy-message"></div>
       <div class="error-user-data error-policy-privacy-message"></div>
     </div>
-
   </div>
 
   <!---- User Signature ---->
   <div>
-
     <div class="signature-container">
-
       <div class="label-signature">
         <label for="userSignature">Firma</label>
         <span class="isRequired">*</span>
       </div>
-
     </div>
-  
+
     <div class="flex-center-utility">
-      <canvas id="userSignature" 
-              class="signature-pad-style" 
-              bind:this={canvas} 
-              on:pointerdown={handlePointerDown} 
-              on:pointermove={handlePointerMove}
-              on:pointerup = {handlePointerUp}
-              >
+      <canvas
+        id="userSignature"
+        class="signature-pad-style"
+        bind:this={canvas}
+        on:pointerdown={handlePointerDown}
+        on:pointermove={handlePointerMove}
+        on:pointerup={handlePointerUp}
+      >
       </canvas>
     </div>
-  
+
     <div class="flex-center-utility gap-4 py-3">
-      <button class="btn-remove-style btn-signature" name="cancBtn" aria-label="Cancella Firma" on:click={clearSignatureDrawing}>Cancella</button>
-      <button class="btn-add-style btn-signature" name="authBtn" aria-label="Autorizza Firma" disabled={!isSigned || !$isPrivacyPolicyApproved} on:click={handleSignatureAuthorization}>Autorizza</button>
+      <button
+        class="btn-add-style btn-signature {tenantColor}"
+        style="color: var(--primary-color); background-color: white;"
+        name="cancBtn"
+        aria-label="Cancella Firma"
+        on:click={clearSignatureDrawing}>CANCELLA</button
+      >
+      <button
+        class="btn-add-style btn-signature {isSigned && $isPrivacyPolicyApproved ? tenantColor : ""}"
+        style="background-color: {isSigned && $isPrivacyPolicyApproved ? 'var(--primary-color)' : '#f0f0f0'}"
+        name="authBtn"
+        aria-label="Autorizza Firma"
+        disabled={!isSigned || !$isPrivacyPolicyApproved}
+        on:click={handleSignatureAuthorization}>AUTORIZZA</button
+      >
     </div>
 
     <div class="text-center px-5">
       <div class="success-user-data success-auth-sign-message"></div>
       <div class="error-user-data error-canc-sign-message"></div>
     </div>
-
-  </div>
-
-  <!---- Download Button ----> 
-  <div class="mt-5">
-    <button class="download-btn" aria-label="Scarica Curriculum Vitae" on:click={checkCvPreview} disabled={!$isAllowed || !$isPrivacyPolicyApproved}>SCARICA CV <i class="fa-solid fa-download"></i></button>
   </div>
 
 </div>
 
 <style>
-  
+
   #sidebar {
     flex-direction: column;
     height: 100%;
@@ -1649,9 +1573,8 @@
     max-width: 100%;
     flex-shrink: 0;
     padding: 4rem;
-    background-color: #f5feff;
-    font-family: 'Montserrat', sans-serif;
-    border-radius: 20px;
+    background-color: #3C3C3C;
+    font-family: "Montserrat", sans-serif;
   }
 
   #sidebar::-webkit-scrollbar {
@@ -1689,7 +1612,7 @@
   }
 
   #sidebar::-webkit-scrollbar-track-piece {
-  background: hsl(187, 100%, 98%);
+    background: hsl(187, 100%, 98%);
   }
 
   .flex-center-utility {
@@ -1698,14 +1621,24 @@
     align-items: center;
   }
 
-  .title-app-style{
+  .company-logo {
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    aspect-ratio: 3 / 1;
+    background-size: 70%;
+  }
+
+  .title-app-style {
     font-size: 2rem;
     font-weight: 800;
+    padding: 0.8rem 0;
   }
 
   .description-title-app-style {
     font-size: 1.2rem;
     font-weight: 700;
+    color: white;
   }
 
   .title-section-style {
@@ -1727,13 +1660,13 @@
     top: 0;
     height: 100%;
     width: 100%;
-    background-image: url("/background-profile-picture.png");
     background-size: cover;
     cursor: pointer;
   }
 
-  .form-control, .form-select {
-    height: 2.5rem; 
+  .form-control,
+  .form-select {
+    height: 2.5rem;
   }
 
   input[type="file"] {
@@ -1742,6 +1675,7 @@
 
   .custom-file-input {
     border-radius: 10px;
+    background-color: white;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     font-size: 14px;
     font-weight: 700;
@@ -1750,14 +1684,14 @@
   }
 
   .custom-checkbox {
-    appearance: none; 
+    appearance: none;
     border: 1px solid black;
   }
 
   label {
     font-size: 1rem;
     font-weight: 600;
-    color: black;
+    color: white;
   }
 
   .isRequired {
@@ -1804,7 +1738,9 @@
     border: none;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.3s ease, color 0.3s ease;
+    transition:
+      background-color 0.3s ease,
+      color 0.3s ease;
   }
 
   .btn-remove-style:hover {
@@ -1814,12 +1750,12 @@
 
   .success-user-data {
     background-color: #c3e6cb;
-    color: #155724; 
+    color: #155724;
   }
 
   .error-user-data {
     background-color: #f5c6cb;
-    color: #721c24;            
+    color: #721c24;
   }
 
   .visual-feedback-group-container {
@@ -1827,23 +1763,23 @@
   }
 
   .privacy-label {
-    font-size: 0.8rem ;
+    font-size: 0.8rem;
     font-style: oblique;
     font-weight: 600;
   }
 
-  .signature-container{
+  .signature-container {
     position: relative;
   }
 
-  .label-signature{
+  .label-signature {
     position: absolute;
     top: -30px;
-    left: 0
+    left: 0;
   }
 
   .signature-pad-style {
-    width: 500px; 
+    width: 500px;
     height: 200px;
     background-color: white;
     box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
@@ -1854,33 +1790,6 @@
     width: 7rem;
     padding: 0.8rem;
     font-weight: 600;
-  }
-
-  .download-btn {
-    width: 12rem;
-    display: block;
-    margin: 0 auto;
-    padding: 1rem;
-    font-size: 1rem;
-    text-decoration: none;
-    font-weight: bold;
-    color: #fff;
-    background-color: #007bff;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-  }
-
-  .download-btn:hover {
-    transform: translateY(-2px);
-    background-color: #0056b3;
-  }
-
-  .download-btn:disabled {
-    color: #BDBDBD;
-    background-color: white; 
-    cursor: not-allowed; 
   }
 
 </style>

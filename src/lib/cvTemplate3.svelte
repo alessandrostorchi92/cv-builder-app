@@ -45,9 +45,8 @@
         <!-- House Icon -->
         <div class="info-item">
             <i class="fa-solid fa-house" style="color: {$formDataStore.selectedColor || "black"}"></i>
-            {#each $cvInitialData.address as addressItem}
-            <span class="specs-item">{addressItem.streetAddress} {addressItem.streetNumber}, {addressItem.city} - {addressItem.region}</span>
-            {/each}
+            <span>{$cvInitialData.address.streetAddress},<span class="ms-1">{$cvInitialData.address.postalCode},</span> {$cvInitialData.address.city} - {$cvInitialData.address.region}</span>
+
         </div>
 
         <!-- Email Icon -->
@@ -124,7 +123,7 @@
 
             <div class="info-item">
 
-                <span style="color: {$formDataStore.selectedColor || 'black'};">Automunito:</span>
+                <span style="color: {$formDataStore.selectedColor || 'black'};">Automunito -</span>
 
                 {#if $formDataStore.hasOwnCar}
                     <span>{$cvInitialData.drivingLicences}</span>
@@ -156,7 +155,7 @@
 
                     <div class="job-specs-container">
 
-                        <b class="job-dates">{job.startDateWorkExperience}/{job.endDateWorkExperience}</b>
+                        <b class="job-dates">{job.startDateWorkExperience}/{job.endDateWorkExperience} -</b>
                         <p class="job-results">{job.workExperienceResults}</p>
     
                     </div>
@@ -184,7 +183,7 @@
 
                     <div class="education-specs-container">
 
-                        <span>{education.fieldOfStudy} - </span>
+                        <b>{education.fieldOfStudy} - </b>
                         <p class="education-goals ms-1">{education.educationGoals}</p>
 
                     </div>

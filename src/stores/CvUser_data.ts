@@ -2,6 +2,7 @@ import { writable } from "svelte/store";
 import * as formTypes from "../types/form_types";
 
 let userFormData: formTypes.FormData = {
+  
   filePicture: "",
   name: "",
   surname: "",
@@ -9,14 +10,16 @@ let userFormData: formTypes.FormData = {
   nationality: "",
   birthPlace: "",
   birthDate: "",
-  address: [
+
+  address: 
     {
       streetAddress: "",
-      streetNumber: "",
+      postalCode: "",
       city: "",
       region: "",
     }
-  ],
+  ,
+
   phonePrefix: "",
   phone: "",
   email: "",
@@ -26,6 +29,7 @@ let userFormData: formTypes.FormData = {
   languagesSkills: [{ lang: "", level: "" }],
   drivingLicences: [],
   hasOwnCar: "",
+
   jobs: [
     {
       role: "",
@@ -37,13 +41,13 @@ let userFormData: formTypes.FormData = {
       isEmployed: false,
     },
   ],
+
   educations: [
     {
       qualification: "",
       fieldOfStudy: "",
       trainingCenter: "",
       educationGoals: "",
-      startDateAcademicEducation: "",
       endDateAcademicEducation: "",
     },
   ],
@@ -68,7 +72,7 @@ export function storeUserData(storeData: formTypes.FormData): void {
     console.error("Il salvataggio dei dati nel localStorage non è andato a buon fine", error);
   }
 
-}
+};
 
 // Aggiornamento dei dati salvati nel localStorage
 export function updateStoreUserData(): void {
@@ -89,7 +93,7 @@ export function updateStoreUserData(): void {
     console.error("L'aggiornamento dei dati del localStorage non è andato a buon fine", error);
   } 
 
-}
+};
 
 // Recupero i dati dal localStorage
 export function getStoreUserData(): void {
@@ -113,14 +117,14 @@ export function getStoreUserData(): void {
     console.error("Il recupero dei dati dal localStorage non è andato a buon fine", error);
   }
 
-}
+};
 
 // Eliminazione dei dati del localStorage
 export function clearLocalStorage(): void {
   if (typeof window !== "undefined" && typeof localStorage !== "undefined") {
     localStorage.clear();
   }
-}
+};
 
 export let isAllowed: formTypes.isAllowed = writable(false);
 export let isPrivacyPolicyApproved: formTypes.isAllowed = writable(false);
@@ -144,9 +148,7 @@ function getTenant(): string | null {
 
     try {
 
-      const currentDomain: string = "https://archimedespa.it/";
-
-      console.log("Dominio corrente:", currentDomain);
+      const currentDomain: string = "https://www.during.it/";
 
       if (currentDomain.includes('during')) {
         return 'during';
@@ -171,6 +173,23 @@ function getTenant(): string | null {
 }
 
 export const currentTenant = getTenant();
+
+export function getTenantColor() {
+  
+  switch (currentTenant) {
+    case 'during':
+      return "during-tenant";
+    case 'jobcamere':
+      return "jobcamere-tenant";
+    case 'lavoroexpress':
+      return "lavoroexpress-tenant";
+    case 'archimede':
+      return "archimede-tenant";
+  }
+  
+}
+
+export  const tenantColor = getTenantColor();
 
 // Funzione per ottenere la didascalia del footer
 function getCopyrightPolicy(): string | null {

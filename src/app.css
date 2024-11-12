@@ -6,3 +6,19 @@
     padding: 0;
     box-sizing: border-box;
 }
+
+.during-tenant {
+    --primary-color: #e8641b;
+}
+
+.jobcamere-tenant{
+    --primary-color: #DD0731;
+}
+
+.lavoroexpress-tenant{
+    --primary-color: #FF1616; 
+}
+
+.archimede-tenant{
+    --primary-color:#9A2C54;
+} 

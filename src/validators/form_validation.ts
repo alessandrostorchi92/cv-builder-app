@@ -52,7 +52,7 @@ export function checkMandatoryProfileDataInputs(inputName: string, successMessag
 
         if (personalDetailMandatoryValue !== "") {
            
-            if (inputName === "phone" && !phonePattern.test(personalDetailMandatoryValue)) {
+            if ((inputName === "phone" || inputName === "postalCode") && !phonePattern.test(personalDetailMandatoryValue)) {
 
                 setErrorFeedbackMsg(errorFeedbackMsg);
 
@@ -215,8 +215,8 @@ export function checkStreetAddressInput(): void {
     checkMandatoryProfileDataInputs("streetAddress", ".success-street-address-message", ".error-street-address-message", "Ottimo lavoro, l'indirizzo di residenza è stato inserito nel CV", "")
 };
 
-export function checkStreetNumberInput(): void {
-    checkMandatoryProfileDataInputs("streetNumber", ".success-street-number-message", ".error-street-number-message", "Ottimo lavoro, il numero civico è stato inserito nel CV", "")
+export function checkPostalCodeInput(): void {
+    checkMandatoryProfileDataInputs("postalCode", ".success-street-number-message", ".error-street-number-messages", "Ottimo lavoro, il numero civico è stato inserito nel CV", "Mi dispiace , il codice postale può contenere solo numeri")
 };
 
 export function checkCityInput(): void {

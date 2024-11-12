@@ -2,6 +2,7 @@
 
     import { onMount } from 'svelte';
     import { fade } from 'svelte/transition';
+    import {tenantColor} from "../stores/CvUser_data"; 
     
     import { createEventDispatcher } from 'svelte';
     const dispatch = createEventDispatcher();
@@ -11,7 +12,7 @@
         { name: "cv-template2.png" },
         { name: "cv-template3.png" }
     ];
-
+    
     let showCvTemplates: boolean = false;
 
     function hideCvTemplates() {
@@ -29,19 +30,21 @@
         }, 400);
     })
 
+
 </script>
 
-<div class="popup-overlay">
+<div class="popup-overlay {tenantColor}" style="background-color: var(--primary-color);">
+
     <div class="popup-content">
 
         <div class="close-btn-container">
             <button class="close-btn" aria-label="Chiudi Popup" on:click={hideCvTemplates}><i class="fa-solid fa-xmark"></i></button>
         </div>
-
+        <h1 class=" {tenantColor}" style="color: var(--primary-color);">test</h1>
         <div class="cv-template-gallery">
 
             {#each cvTemplates as cvTemplate, cvTemplateIndex}
-                <div class="cv-template-item" in:fade={{ delay: cvTemplateIndex * 200, duration: 500 }} hidden={!showCvTemplates}>
+                <div class="cv-template-item {tenantColor}" in:fade={{ delay: cvTemplateIndex * 200, duration: 500 }} hidden={!showCvTemplates}>
                     <img src="{cvTemplate.name}" alt="Esempio Template Curriculum Vitae">
                     <button class="use-template-btn" aria-label="Usa Template" on:click={() => setClickedCvTemplate(cvTemplate.name)}>USA TEMPLATE</button>
                 </div>
@@ -50,6 +53,7 @@
         </div>
 
     </div>
+
 </div>
 
 <style>
@@ -60,7 +64,6 @@
         flex-basis: 20%;
         flex-shrink: 0;
         height: 100%;
-        background-color: rgba(0, 0, 0, 0.3); 
         padding: 1rem;
     }
 
@@ -75,7 +78,7 @@
     }
 
     .close-btn {
-        background-color: #b64f43;
+        background-color: #3C3C3C;
         border: none;
         border-radius: 50%;
         width: 3rem;
@@ -101,8 +104,9 @@
     }
 
     .cv-template-item {
-        aspect-ratio: 2/3;
         position: relative;
+        border: 4px solid transparent;
+        transition: border-color 0.3s ease, transform 0.7s ease, opacity 0.35s ease; 
     }
 
     .cv-template-item img {
@@ -113,7 +117,7 @@
     } 
 
     .cv-template-item:hover {
-        cursor:pointer;
+        border-color: #3C3C3C;
     }
 
     .cv-template-gallery:has(.cv-template-item:hover) .cv-template-item:not(:hover) {
@@ -135,7 +139,6 @@
         font-weight: 600;
         border-radius: 8px;
         padding: 0.5rem;
-        background-color: #007bff;
         color: white;
         cursor: pointer;
         box-shadow:
@@ -148,8 +151,8 @@
         transition:background-color 0.3s ease, color 0.3s ease;
     }
 
-    .use-template-btn:hover {
-        background-color: #0056b3;
+    .cv-template-item:hover .use-template-btn {
+        background-color: #3C3C3C;
     }
 
     .cv-template-item:hover .use-template-btn {
@@ -173,4 +176,5 @@
         background: hsl(187, 100%, 98%);
     }
 
+    
 </style>

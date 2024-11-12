@@ -10,7 +10,7 @@
         nationality: string,
         birthPlace: string
         birthDate: string,
-        address: Residence[],
+        address: Residence,
         phonePrefix: string,
         phone: string,
         email: string,
@@ -29,7 +29,7 @@
 
     export type Residence = {
         streetAddress: string;
-        streetNumber: string,
+        postalCode: string,
         city: string;
         region: string;
     };
@@ -49,7 +49,6 @@
         fieldOfStudy: string,
         trainingCenter: string,
         educationGoals: string,
-        startDateAcademicEducation: string,
         endDateAcademicEducation: string,
     };
 

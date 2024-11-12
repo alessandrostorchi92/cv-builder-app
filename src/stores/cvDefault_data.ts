@@ -1,9 +1,7 @@
-import {formDataStore, formattedBirthDate, formattedWorkAcademicDate } from "./CvUser_data";
+import {formDataStore, formattedBirthDate, formattedWorkAcademicDate} from "./CvUser_data";
 import { derived } from 'svelte/store';
 
 export const cvInitialData = derived(formDataStore, ($formDataStore) => {
-  
-  // Funzione che imposta i valori di default da assegnare alla sezione esperienze lavorative
 
   const handleInitialDataJob = $formDataStore.jobs.map(job => {
     
@@ -18,31 +16,29 @@ export const cvInitialData = derived(formDataStore, ($formDataStore) => {
 
   });
 
-  // Funzione che imposta i valori di default da assegnare alla sezione formazione
   const handleInitialDataEducation = $formDataStore.educations.map(education => ({
     qualification: (!education.qualification) ? "Titolo di studio" : education.qualification,
     fieldOfStudy: (!education.fieldOfStudy || education.fieldOfStudy.trim() === "") ? "Campo di studio" : education.fieldOfStudy,
     trainingCenter: (!education.trainingCenter || education.trainingCenter.trim() === "") ? "Ente di formazione" : education.trainingCenter,
     educationGoals: (!education.educationGoals || education.educationGoals.trim() === "") ? "In antiquitate, Romani magnas res gestas et sapientiam in diversis disciplinis coluerunt. Philosophia, ars, et litterae floruerunt inter cives, qui sapientiae et veritati studebant. Multi poëtæ, ut Virgilius et Ovidius, fabulas et historias narraverunt, quas ad posteritatem pervenire voluerunt. Sicut in vita cotidiana, ita in bellis et in pace, Romani unitatem et fortitudinem semper quaerebant. Res publica, sub duce et consilio, multis rebus periculis se opposuit, atque fines imperii a Britannia usque ad Aegyptum extendit. Haec omnia exempla docet nos de virtutibus et sapientia, quae in animis hominum semper manent." : education.educationGoals,
-    startDateAcademicEducation: (!education.startDateAcademicEducation) ? "Data Inizio" : formattedWorkAcademicDate(education.startDateAcademicEducation),
     endDateAcademicEducation: (!education.endDateAcademicEducation) ? "Data Fine" : formattedWorkAcademicDate(education.endDateAcademicEducation)
   }));
 
-  // Funzione che imposta i valori di default da assegnare alla sezione indirizzo di residenza
-  const handleInitialDataAddress = $formDataStore.address.map(addressItem => ({
-    streetAddress: !addressItem.streetAddress || addressItem.streetAddress.trim() === "" ? "Indirizzo" : addressItem.streetAddress,
-    streetNumber: !addressItem.streetNumber || addressItem.streetNumber.trim() === "" ? "Numero Civico" : addressItem.streetNumber,
-    city: !addressItem.city || addressItem.city.trim() === "" ? "Città" : addressItem.city,
-    region: !addressItem.region || addressItem.region.trim() === "" ? "Regione" : addressItem.region,
-  }));
   
-  // Funzione che imposta i valori di default da assegnare alla sezione lingue
+  const handleInitialDataAddress = {
+    streetAddress: ! $formDataStore.address.streetAddress ||  $formDataStore.address.streetAddress.trim() === "" ? "Indirizzo" :  $formDataStore.address.streetAddress,
+    postalCode: ! $formDataStore.address.postalCode ||  $formDataStore.address.postalCode.trim() === "" ? "CAP" :  $formDataStore.address.postalCode,
+    city: ! $formDataStore.address.city ||  $formDataStore.address.city.trim() === "" ? "Città" :  $formDataStore.address.city,
+    region: ! $formDataStore.address.region ||  $formDataStore.address.region.trim() === "" ? "Regione" :  $formDataStore.address.region,
+  };
+  
+  
   const handleInitialDataLanguage = $formDataStore.languagesSkills.map(selectedLanguage => ({
     lang: (!selectedLanguage.lang) ? "Lingua" : selectedLanguage.lang,
     level: (!selectedLanguage.level) ? "Livello" : selectedLanguage.level
   }));
 
-  // Funzione che imposta i valori di default da assegnare alla sezione competenze
+  
   const handleInitialDataHardSkill = $formDataStore.digitalSkills.map(digitalSkill => ({
     skill: (!digitalSkill.skill) ? "Competenza" : digitalSkill.skill,
     level: (!digitalSkill.level) ? "Livello" : digitalSkill.level
@@ -50,14 +46,14 @@ export const cvInitialData = derived(formDataStore, ($formDataStore) => {
 
   
   return {
+    profilePicture: !$formDataStore.filePicture ? "" : $formDataStore.filePicture,
     name: (!$formDataStore.name || $formDataStore.name.trim() === "") ? "Nome" : $formDataStore.name,
     surname: (!$formDataStore.surname || $formDataStore.surname.trim() === "") ? "Cognome" : $formDataStore.surname,
     profession: (!$formDataStore.profession || $formDataStore.profession.trim() === "") ? "Professione" : $formDataStore.profession,
     nationality: (!$formDataStore.nationality || $formDataStore.nationality.trim() === "") ? "Stato di nascita" : $formDataStore.nationality,
     birthDate: !$formDataStore.birthDate ? "Data di nascita" : formattedBirthDate($formDataStore.birthDate),
     birthPlace: (!$formDataStore.birthPlace || $formDataStore.birthPlace.trim() === "") ? "Luogo di Nascita" : $formDataStore.birthPlace,
-    hasOwnCar: !$formDataStore.hasOwnCar ? "Non specificato" : $formDataStore.hasOwnCar,
-    drivingLicences: $formDataStore.drivingLicences.length === 0 ? "Tipologia Patenti" : $formDataStore.drivingLicences.join(", "),
+    drivingLicences: $formDataStore.drivingLicences.length === 0 ? "Patenti" : $formDataStore.drivingLicences,
     isProtectedCategory: !$formDataStore.isProtectedCategory ? "Non specificato" : $formDataStore.isProtectedCategory,
     address: handleInitialDataAddress,
     phonePrefix: !$formDataStore.phonePrefix ? "Prefisso" : $formDataStore.phonePrefix,
@@ -68,6 +64,9 @@ export const cvInitialData = derived(formDataStore, ($formDataStore) => {
     educations: handleInitialDataEducation,
     languagesSkills: handleInitialDataLanguage,
     digitalSkills: handleInitialDataHardSkill,
+    jobSeekerSign: !$formDataStore.userSignature ? "" : $formDataStore.userSignature,
+    color: !$formDataStore.selectedColor ? "black" : $formDataStore.selectedColor,
   };
+
 
 });
