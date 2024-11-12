@@ -65,7 +65,7 @@ export const cvInitialData = derived(formDataStore, ($formDataStore) => {
     languagesSkills: handleInitialDataLanguage,
     digitalSkills: handleInitialDataHardSkill,
     jobSeekerSign: !$formDataStore.userSignature ? "" : $formDataStore.userSignature,
-    color: !$formDataStore.selectedColor ? "black" : $formDataStore.selectedColor,
+    color: !$formDataStore.selectedColor ? "var(--primary-color)" : $formDataStore.selectedColor,
   };
 
 

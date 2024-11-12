@@ -1,7 +1,7 @@
 <script lang="ts">
 
   import {formDataStore, getStoreUserData, updateStoreUserData, clearLocalStorage, isAllowed,
-    isPrivacyPolicyApproved,} from "../stores/CvUser_data";
+    isPrivacyPolicyApproved, tenantColor} from "../stores/CvUser_data";
 
   import PopupTemplates from "$lib/popupTemplates.svelte";
   import Template1 from "$lib/cvTemplate1.svelte";
@@ -171,16 +171,9 @@
     );
   }
 
-  function checkMandatoryRadioInputs(
-    radioName: string,
-    errorMessageSelector: string,
-    errorMessage: string
-  ): void {
-    const radioInputs: NodeListOf<HTMLInputElement> = document.querySelectorAll(
-      `input[name="${radioName}"]`
-    );
-    const errorMessages: HTMLDivElement | null =
-      document.querySelector(errorMessageSelector);
+  function checkMandatoryRadioInputs(radioName: string, errorMessageSelector: string, errorMessage: string): void {
+    const radioInputs: NodeListOf<HTMLInputElement> = document.querySelectorAll(`input[name="${radioName}"]`);
+    const errorMessages: HTMLDivElement | null = document.querySelector(errorMessageSelector);
     let isSelected = false;
 
     radioInputs.forEach((radio) => {
@@ -391,20 +384,20 @@
       <!---- Modify Button ---->
 
       <div class="flex-center-utility">
-        <button class="modify-template-btn" style="background-color: white; color: #007bff;" on:click={showCvTemplates} aria-label="Modifica Stile Cv" disabled={isModifyBtnDisabled}>MODIFICA STILE CV</button>
+        <button class="modify-template-btn {tenantColor}" style="background-color: white; color: var(--primary-color);" aria-label="Modifica lo stile del Cv" on:click={showCvTemplates} disabled={isModifyBtnDisabled}>MODIFICA STILE CV</button>
       </div>
 
       <!---- Download Button ---->
 
       <div class="flex-center-utility">
-        <button class="download-btn" aria-label="Scarica Curriculum Vitae" on:click={getPdfCv} disabled={!$isAllowed || !$isPrivacyPolicyApproved}>SCARICA CV <i class="fa-solid fa-download"></i></button>
+        <button class="download-btn {tenantColor}" style="background-color: var(--primary-color); color: white;" aria-label="Scarica Curriculum Vitae" on:click={getPdfCv} disabled={!$isAllowed || !$isPrivacyPolicyApproved}>SCARICA CV <i class="fa-solid fa-download"></i></button>
       </div>
 
       <!---- Custom colour Button ---->
 
       <div class="flex-center-utility">
 
-        <label for="color-picker-input"><i class="fas fa-palette custom-icon"></i></label>
+        <label for="color-picker-input"><i class="fas fa-palette {tenantColor} custom-icon"></i></label>
 
         <input
           type="color"
@@ -436,13 +429,6 @@
     inset: 0;
     width: 100%;
     height: 100%;
-    background: rgb(17, 45, 78);
-    background: linear-gradient(
-      180deg,
-      rgba(17, 45, 78, 1) 8%,
-      rgba(117, 117, 117, 1) 80%
-    );
-    z-index: 2;
   }
 
   .cv-preview-container {
@@ -456,6 +442,8 @@
     background-color: #f5feff;
     padding: 2rem 0;
     margin-top: 2rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5), 0 8px 16px rgba(0, 0, 0, 0.15); 
+
   }
 
   .toolbar {
@@ -530,7 +518,7 @@
     cursor: pointer;
     width: 60px;
     height: 60px;
-    background-color: #fc73da;
+    background-color: var(--primary-color);
     border-radius: 50%;
     display: flex;
     justify-content: center;

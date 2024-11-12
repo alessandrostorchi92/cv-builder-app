@@ -1,33 +1,49 @@
 import axios from "axios";
 import type { AxiosResponse, ResponseType, AxiosError } from "axios";
-import {formDataStore, formattedWorkAcademicDate, currentTenant, currentCopyrightPolicy} from "../stores/CvUser_data";
+import { formDataStore, formattedWorkAcademicDate, currentTenant, currentCopyrightPolicy } from "../stores/CvUser_data";
 import { readable, get } from "svelte/store";
 
 export const renamedFormDataStore = readable({}, (set) => {
 
   const getJsonData = () => {
-    
+
     const renamedData = get(formDataStore);
     const fullPhone = `${renamedData.phonePrefix} ${renamedData.phone}`;
 
-     
-  switch (renamedData.selectedCvTemplate) {
+    switch (renamedData.selectedCvTemplate) {
+      case "cv-template1.png":
+        renamedData.selectedCvTemplate = "1";
+        break;
+      case "cv-template2.png":
+        renamedData.selectedCvTemplate = "2";
+        break;
+      case "cv-template3.png":
+        renamedData.selectedCvTemplate = "3";
+        break;
+    }
 
-    case "cv-template1.png":
-      renamedData.selectedCvTemplate = "1";
-      break;
-    case "cv-template2.png":
-      renamedData.selectedCvTemplate = "2";
-      break;
-    case "cv-template3.png":
-      renamedData.selectedCvTemplate = "3";
-      break;
+    let tenantColor: string;
 
-  }
+    switch (currentTenant) {
+      case "during":
+        tenantColor = "#e8641b";
+        break;
+      case 'jobcamere':
+        tenantColor = "#DD0731";
+        break;
+      case 'lavoroexpress':
+        tenantColor = "#FF1616";
+        break;
+      case 'archimede':
+        tenantColor = "#9A2C54";
+        break;
+      default:
+        tenantColor = "#000000"; // Valore di fallback, se il tenant non corrisponde a nessuno
+        break;
+    }
 
-
-    const jsonPendingData  = {
-      image_data:renamedData.filePicture?.split(",")[1] ?? "",
+    const jsonPendingData = {
+      image_data: renamedData.filePicture?.split(",")[1] ?? "",
       firstName: renamedData.name,
       lastName: renamedData.surname,
       job_name: renamedData.profession,
@@ -70,8 +86,8 @@ export const renamedFormDataStore = readable({}, (set) => {
       })),
       sign_data: renamedData.userSignature?.split(",")[1] ?? "",
       flagTemplate: renamedData.selectedCvTemplate,
-      color: renamedData.selectedColor || "black",
       tenant: currentTenant,
+      color: renamedData.selectedColor || tenantColor,
       footer: currentCopyrightPolicy,
     };
     set(JSON.stringify(jsonPendingData));
@@ -83,6 +99,7 @@ export const renamedFormDataStore = readable({}, (set) => {
     unsubscribe();
   };
 });
+
 
 export const downloadCv = async (): Promise<AxiosResponse> => {
 

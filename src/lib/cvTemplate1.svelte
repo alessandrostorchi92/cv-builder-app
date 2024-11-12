@@ -1,6 +1,6 @@
 <script lang="ts">
 
-    import {formDataStore, isAllowed, isPrivacyPolicyApproved, currentTenant, currentCopyrightPolicy} from "../stores/CvUser_data"; 
+    import {formDataStore, isAllowed, isPrivacyPolicyApproved, currentTenant, currentCopyrightPolicy, tenantColor} from "../stores/CvUser_data"; 
     import { cvInitialData }  from "../stores/cvDefault_data";
 
 </script>
@@ -31,7 +31,7 @@
     
             <!-- Profile data -->
     
-            <div class="user-full-name"><strong><span style="color: {$formDataStore.selectedColor || "black"};">{$cvInitialData.name}</span> {$cvInitialData.surname}</strong></div>
+            <div class="user-full-name {tenantColor}"><strong><span style="color: {$cvInitialData.color};">{$cvInitialData.name}</span> {$cvInitialData.surname}</strong></div>
             
             <div class="user-profession">{$cvInitialData.profession}</div>
     
@@ -41,27 +41,25 @@
 
                     <!-- Nationality Icon -->
                     <div class="info-item">
-                        <i class="fa-solid fa-earth-americas" style="color: {$formDataStore.selectedColor || "black"}"></i>
+                        <i class="fa-solid fa-earth-americas {tenantColor}" style="color: {$cvInitialData.color}"></i>
                         <span>Nazionalità: {$cvInitialData.nationality}</span>
                     </div>
 
                     <!-- BirthCake Icon -->   
                     <div class="info-item">
-                        <i class="fa-solid fa-cake-candles" style="color: {$formDataStore.selectedColor || "black"}"></i>
+                        <i class="fa-solid fa-cake-candles {tenantColor}" style="color: {$cvInitialData.color}"></i>
                         <span>{$cvInitialData.birthDate}, {$cvInitialData.birthPlace}</span>
                     </div>
 
                     <!-- HasOwnCar Icon -->
-                    {#if $formDataStore.hasOwnCar}
-                        <div class="info-item">
-                            <i class="fa-solid fa-car-side" style="color: {$formDataStore.selectedColor || "black"}"></i>
-                            <span>Automunito:</span><span class="ms-1">{$cvInitialData.drivingLicences}</span>
-                        </div>
-                    {/if}
-                        
+                    <div class="info-item">
+                        <i class="fa-solid fa-car-side {tenantColor}" style="color: {$cvInitialData.color}"></i>
+                        <span>Automunito:</span><span class="ms-1">{$cvInitialData.drivingLicences}</span>
+                    </div>
+                    
                     <!-- IsProtectedCategory Icon -->
                     <div class="info-item">
-                        <i class="fa-regular fa-heart" style="color: {$formDataStore.selectedColor || "black"}"></i>
+                        <i class="fa-regular fa-heart {tenantColor}" style="color: {$cvInitialData.color}"></i>
                         <span>Categoria protetta:</span><span style="margin-left: 5px">{$cvInitialData.isProtectedCategory}</span>
                     </div>
        
@@ -73,7 +71,7 @@
 
                     <div class="info-item">
 
-                        <i class="fa-solid fa-house" style="color: {$formDataStore.selectedColor || "black"}"></i>
+                        <i class="fa-solid fa-house {tenantColor}" style="color: {$cvInitialData.color}"></i>
 
                         <span>{$cvInitialData.address.streetAddress},<span class="ms-1">{$cvInitialData.address.postalCode},</span> {$cvInitialData.address.city} - {$cvInitialData.address.region}</span>
 
@@ -83,14 +81,14 @@
                     <!-- Phone Icon-->
                     <div class="info-item">
 
-                        <i class="fa-solid fa-mobile-screen" style="color: {$formDataStore.selectedColor || "black"}"></i>
+                        <i class="fa-solid fa-mobile-screen {tenantColor}" style="color: {$cvInitialData.color}"></i>
                         <span>{$cvInitialData.phonePrefix} {$cvInitialData.phoneNumber}</span>
                         
                     </div>
 
                     <!-- Email Icon -->
                     <div class="info-item">
-                        <i class="fa-regular fa-envelope" style="color: {$formDataStore.selectedColor || "black"}"></i>
+                        <i class="fa-regular fa-envelope {tenantColor}" style="color: {$cvInitialData.color}"></i>
                         <span>{$cvInitialData.email}</span>
                     </div>
     
@@ -106,7 +104,7 @@
     
         <!-- Profile Summary Section-->
         <div class="profile-summary-container">
-            <div class="profile-summary-title" style="color: {$formDataStore.selectedColor || "black"};">BREVE PRESENTAZIONE</div>
+            <div class="profile-summary-title {tenantColor}" style="color: {$cvInitialData.color};">BREVE PRESENTAZIONE</div>
             <p class="personal-profile-summary">{$cvInitialData.profileSummary}</p>
         </div>
     
@@ -115,7 +113,7 @@
         <!-- Work Experience Section-->
         <div class="work-experience-container">
     
-            <div class="work-experience-title" style="color:{$formDataStore.selectedColor || "black"};">ESPERIENZE</div>
+            <div class="work-experience-title {tenantColor}" style="color:{$cvInitialData.color};">ESPERIENZE</div>
                 
             {#each $cvInitialData.jobs as job}
     
@@ -141,7 +139,7 @@
         <!-- Academic Background Section -->
         <div class="academic-background-container">
         
-                <div class="academic-background-title" style="color:{$formDataStore.selectedColor || "black"};">FORMAZIONE</div>
+                <div class="academic-background-title {tenantColor}" style="color:{$cvInitialData.color};">FORMAZIONE</div>
             
                 {#each $cvInitialData.educations as education (education)}
         
@@ -167,7 +165,7 @@
         <!-- Language Section -->
         <div class="language-container">
     
-            <div class="language-title" style="color: {$formDataStore.selectedColor || 'black'};">LINGUE</div>
+            <div class="language-title {tenantColor}" style="color: {$cvInitialData.color};">LINGUE</div>
             
             {#each $cvInitialData.languagesSkills as selectedLanguage (selectedLanguage)}
         
@@ -185,7 +183,7 @@
         <!-- Hard Skills Section-->
         <div class="hard-skills-container">
     
-            <div class="hard-skills-title" style="color:{$formDataStore.selectedColor || "black"};">SKILLS E COMPETENZE DIGITALI</div>
+            <div class="hard-skills-title {tenantColor}" style="color:{$cvInitialData.color};">SKILLS E COMPETENZE DIGITALI</div>
            
             {#each $cvInitialData.digitalSkills as digitalSkill (digitalSkill)}
     
@@ -328,6 +326,7 @@
         flex-direction: column;
         flex-basis: auto;
         position: relative;
+        z-index: 0;
     }
 
     .profile-summary-container, .work-experience-container, .academic-background-container, .language-container, .hard-skills-container {
@@ -348,11 +347,12 @@
         position: absolute;
         width: 400px; 
         height: 400px;
-        top: 30px;
+        top: 100px;
         right: -230px;
         aspect-ratio: 1/1;
         background-size: cover;
         overflow: hidden;
+        z-index: -1;
     }
 
     .dot-item {
@@ -417,8 +417,6 @@
     .policy-privacy {
         flex-basis: 70%;
     }
-
-
 
     .user-signature-container {
         display: flex;
