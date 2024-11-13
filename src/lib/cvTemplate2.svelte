@@ -88,7 +88,7 @@
         <div class="watermark-logo" style="background-image: url(https://{currentTenant}.blob.core.windows.net/cdn/cv/transparent-logo.png);"></div>
 
         <!-- Work Experiences --> 
-        <div class="work-experience-container {tenantColor}" style="border: 1px solid {$cvInitialData.color};">
+        <div class="work-experience-container py-2 {tenantColor}" style="border: 1px solid {$cvInitialData.color};">
         
             <div class="work-experience-title" style="color: {$cvInitialData.color};">ESPERIENZE DI LAVORO</div>
     
@@ -116,7 +116,7 @@
         
                         <div class="academic-background-item">
         
-                            <div class="education-details-wrapper">
+                            <div class="education-goals-wrapper">
                                 <span class="me-1 {tenantColor}" style="color: {$cvInitialData.color}">●</span><div class="education-details">{education.qualification} - {education.trainingCenter} - {education.fieldOfStudy}</div>
                             </div>
         
@@ -275,7 +275,7 @@ p {
     font-weight: 600;
 }
 
-.job-results-wrapper {
+.job-goals-wrapper {
     padding: 0 1rem;
 }
 
@@ -344,4 +344,49 @@ p {
     flex-grow: 1;
 }
 
+/*-------------------------------------
+
+<!---- Media Queries ---->
+
+------------------------------------- */
+
+    @media screen and (max-width: 1200px) {
+
+    .profile-info-container, .user-info-container {
+        font-size: 0.6rem;
+    }
+
+    @media screen and (max-width: 992px) {
+        .profile-info-container, .user-info-container {
+            font-size: 0.5rem;
+        }
+
+        .user-full-name {
+            font-size: 1.1rem;
+        }
+
+        .user-profession {
+            font-size: 1rem;
+        }
+
+        .profile-summary-title, .work-experience-title, .academic-background-title, .hard-skills-title, .language-skills-title {
+            font-size: 0.9rem;
+    
+        }
+
+        .job-results-wrapper {
+            padding: 0 1rem;
+        }
+
+        .profile-summary-title p, .job-results-wrapper p {
+            font-size: 0.6rem;
+        }
+
+        .work-experience-item, .academic-background-item {
+            font-size: 0.6rem;
+        }
+
+    }
+
+}
 </style>

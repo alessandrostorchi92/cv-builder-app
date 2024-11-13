@@ -606,11 +606,11 @@
 
         <!-- Residenza/Domicilio -->
         <div class="py-3">
+          <label for="formInputStreetAddress">Indirizzo di Residenza</label>
+          <span class="isRequired">*</span>
           <div class="flex-center-utility justify-content-around gap-2 mb-3">
             <!-- Indirizzo di Residenza -->
             <div style="width: 70%;">
-              <label for="formInputStreetAddress">Indirizzo di Residenza</label>
-              <span class="isRequired">*</span>
 
               <input
                 type="text"
@@ -629,8 +629,6 @@
 
             <!-- Codice Postale -->
             <div style="width: 30%;">
-              <label for="inputPostalCode">CAP</label>
-              <span class="isRequired">*</span>
 
               <input
                 type="text"
@@ -841,10 +839,9 @@
                 id="inputDigitalSkills{digitalSkillIndex}"
                 autocomplete="off"
                 name="digitalSkill{digitalSkillIndex}"
-                placeholder="Competenza digitale"
+                placeholder="Competenza"
                 bind:value={digitalSkill.skill}
-                on:input={() =>
-                  validators.checkDigitalSkillsTextInput(digitalSkillIndex)}
+                on:input={() => validators.checkDigitalSkillsTextInput(digitalSkillIndex)}
               />
 
               <select
@@ -878,33 +875,16 @@
               {/if}
 
               <div class="visual-feedback-group-container" style="width: 100%;">
-                <div
-                  class="left-visual-feedback-position"
-                  style="width: {digitalSkillIndex > 0 ? '40%' : '50%'};"
-                >
-                  <div
-                    class="success-user-data form-text"
-                    id="success-digital-skill-message{digitalSkillIndex}"
-                  ></div>
-                  <div
-                    class="error-user-data form-text"
-                    id="error-digital-skill-message{digitalSkillIndex}"
-                  ></div>
+                <div class="left-visual-feedback-position" style="width: {digitalSkillIndex > 0 ? '40%' : '50%'};">
+                  <div class="success-user-data form-text" id="success-digital-skill-message{digitalSkillIndex}"></div>
+                  <div class="error-user-data form-text" id="error-digital-skill-message{digitalSkillIndex}"></div>
                 </div>
 
-                <div
-                  class="right-visual-feedback-position"
-                  style="width: {digitalSkillIndex > 0 ? '40%' : '50%'};"
-                >
-                  <div
-                    class="success-user-data form-text"
-                    id="success-level-skill-message{digitalSkillIndex}"
-                  ></div>
-                  <div
-                    class="error-user-data form-text"
-                    id="error-level-skill-message{digitalSkillIndex}"
-                  ></div>
+                <div class="right-visual-feedback-position" style="width: {digitalSkillIndex > 0 ? '40%' : '50%'};">
+                  <div class="success-user-data form-text" id="success-level-skill-message{digitalSkillIndex}"></div>
+                  <div class="error-user-data form-text" id="error-level-skill-message{digitalSkillIndex}"></div>
                 </div>
+
               </div>
             </div>
 
@@ -918,9 +898,8 @@
             class="btn-add-style {tenantColor}"
             style="background-color: var(--primary-color);"
             aria-label="Aggiungi competenza"
-            on:click={() => addDigitalSkills()}
-            ><span>Aggiungi Competenza</span><i class="fa-solid fa-plus ms-2"
-            ></i>
+            on:click={() => addDigitalSkills()}> 
+            <span>Aggiungi Competenza</span><i class="fa-solid fa-plus ms-2"></i>
           </button>
         </div>
 
@@ -1090,10 +1069,11 @@
 
         <!-- Patente -->
         <div class="py-3">
-          <div>
-            <label for="formLabelDrivingLicence">Patente</label>
 
-            {#each drivingLicenceCheckBoxs as drivingLicenceCheckBox}
+          <label for="formLabelDrivingLicence">Patente</label>
+
+          {#each drivingLicenceCheckBoxs as drivingLicenceCheckBox}
+
               <div class="form-check">
                 <input
                   class="form-check-input"
@@ -1103,22 +1083,17 @@
                     drivingLicenceCheckBox.value}
                   value={drivingLicenceCheckBox.label}
                   bind:group={$formDataStore.drivingLicences}
-                  on:change={() =>
-                    validators.checkDrivingLicenceCheckboxesInput()}
+                  on:change={() => validators.checkDrivingLicenceCheckboxesInput()}
                 />
-                <label
-                  class="form-check-label"
-                  for={"formCheckBoxDrivingLicence" +
-                    drivingLicenceCheckBox.value}
-                >
-                  {drivingLicenceCheckBox.label}
-                </label>
-              </div>
-            {/each}
+                <label class="form-check-label" for={"formCheckBoxDrivingLicence" + drivingLicenceCheckBox.value}>{drivingLicenceCheckBox.label}</label>
 
-            <div class="success-driving-licence-message"></div>
-            <div class="error-driving-licence-message"></div>
-          </div>
+              </div>
+
+          {/each}
+
+          <div class="success-driving-licence-message"></div>
+          <div class="error-driving-licence-message"></div>
+
         </div>
 
         <!-- Dettagli Carriera -->
@@ -1220,8 +1195,10 @@
 
           </div>
 
-          <div class="py-3 flex-center-utility justify-content-around gap-1">
-            <div>
+          <div class="py-3 work-experience-date-style">
+
+            <div class="start-date-job">
+
               <label for="inputStartJob{jobIndex}">Data di inizio</label>
 
               <input
@@ -1234,17 +1211,13 @@
                 on:change={() => validators.checkStartJobInput(jobIndex)}
               />
 
-              <div
-                id="success-start-job-message{jobIndex}"
-                class="form-text"
-              ></div>
-              <div
-                id="error-start-job-messages{jobIndex}"
-                class="form-text"
-              ></div>
+              <div id="success-start-job-message{jobIndex}" class="form-text"></div>
+              <div id="error-start-job-messages{jobIndex}" class="form-text"></div>
+
             </div>
 
-            <div>
+            <div class="end-date-job">
+
               <label for="inputEndJob{jobIndex}">Data di fine</label>
 
               <input
@@ -1258,19 +1231,17 @@
                 disabled={job.isEmployed}
               />
 
-              <div
-                id="success-end-job-message{jobIndex}"
-                class="form-text"
-              ></div>
-              <div
-                id="error-end-job-messages{jobIndex}"
-                class="form-text"
-              ></div>
+              <div id="success-end-job-message{jobIndex}" class="form-text"></div>
+              <div id="error-end-job-messages{jobIndex}" class="form-text"></div>
+
             </div>
+
           </div>
 
           {#if jobIndex === 0}
+
             <div class="d-flex justify-content-center py-1">
+
               <input
                 class="form-check-input me-1 custom-checkbox"
                 type="checkbox"
@@ -1282,10 +1253,10 @@
                   validators.checkCurrentJob(jobIndex);
                 }}
               />
-              <label for="checkboxNoLabel"
-                >Attualmente sto ricoprendo questo ruolo</label
-              >
+
+              <label class="currentlyJob" for="checkBoxCurrentlyJob">Attualmente ricopro questo ruolo</label>
             </div>
+
           {/if}
 
           {#if jobIndex > 0}
@@ -1348,15 +1319,8 @@
               {/each}
             </select>
 
-            <div
-              class="success-user-data form-text"
-              id="success-education-title-message{educationIndex}"
-            ></div>
-
-            <div
-              class="error-user-data form-text"
-              id="error-education-title-message{educationIndex}"
-            ></div>
+            <div class="success-user-data form-text" id="success-education-title-message{educationIndex}"></div>
+            <div class="error-user-data form-text" id="error-education-title-message{educationIndex}"></div>
 
           </div>
 
@@ -1374,20 +1338,13 @@
               on:input={() => validators.checkFieldStudyInput(educationIndex)}
             />
 
-            <div
-              class="success-user-data form-text"
-              id="success-study-field-message{educationIndex}"
-            ></div>
-            <div
-              class="error-user-data form-text"
-              id="error-study-field-message{educationIndex}"
-            ></div>
+            <div class="success-user-data form-text" id="success-study-field-message{educationIndex}"></div>
+            <div class="error-user-data form-text" id="error-study-field-message{educationIndex}"></div>
           </div>
 
           <div class="py-3">
-            <label for="inputTrainingCenter{educationIndex}"
-              >Ente di formazione</label
-            >
+
+            <label for="inputTrainingCenter{educationIndex}">Ente di formazione</label>
 
             <input
               type="text"
@@ -1401,14 +1358,9 @@
                 validators.checkEducationTypeInput(educationIndex)}
             />
 
-            <div
-              id="success-training-center-message{educationIndex}"
-              class="form-text"
-            ></div>
-            <div
-              id="error-training-center-messages{educationIndex}"
-              class="form-text"
-            ></div>
+            <div id="success-training-center-message{educationIndex}" class="form-text"></div>
+            <div id="error-training-center-messages{educationIndex}" class="form-text"></div>
+
           </div>
 
           <div class="py-3">
@@ -1496,12 +1448,12 @@
   </form>
 
   <!---- Privacy Policy ---->
-  <div class="py-5">
+  <div class="py-4">
 
-    <div class="form-check form-switch privacy-label">
+    <div class="flex-center-utility form-check form-switch privacy-label">
 
       <input
-        class="form-check-input"
+        class="form-check-input me-2"
         type="checkbox"
         role="switch"
         id="privacyPolicySwitch"
@@ -1510,12 +1462,12 @@
         on:change={() => validators.checkPolicyPrivacySwitchInput()}
       />
 
-      <label for="flexSwitchCheckChecked" style="font-size: 0.8rem;">Accetto la privacy policy per scaricare il CV</label>
+      <label for="flexSwitchCheckChecked">Accetto la privacy policy</label>
       <span class="isRequired ms-1">*</span>
 
     </div>
 
-    <div class="text-center px-5">
+    <div class="flex-center-utility">
       <div class="success-user-data success-policy-privacy-message"></div>
       <div class="error-user-data error-policy-privacy-message"></div>
     </div>
@@ -1523,49 +1475,41 @@
   </div>
 
   <!---- User Signature ---->
-  <div>
+
+  <div class="signature-wrapper">
+
+    <div class="label-signature">
+      <label for="userSignature">Firma</label>
+      <span class="isRequired">*</span>
+    </div>
+  
     <div class="signature-container">
-      <div class="label-signature">
-        <label for="userSignature">Firma</label>
-        <span class="isRequired">*</span>
-      </div>
+  
+        <canvas
+          id="userSignature"
+          class="signature-pad-style"
+          bind:this={canvas}
+          on:pointerdown={handlePointerDown}
+          on:pointermove={handlePointerMove}
+          on:pointerup={handlePointerUp}>
+        </canvas>
+  
     </div>
 
-    <div class="flex-center-utility">
-      <canvas
-        id="userSignature"
-        class="signature-pad-style"
-        bind:this={canvas}
-        on:pointerdown={handlePointerDown}
-        on:pointermove={handlePointerMove}
-        on:pointerup={handlePointerUp}
-      >
-      </canvas>
-    </div>
+  </div>
 
-    <div class="flex-center-utility gap-4 py-3">
-      <button
-        class="btn-add-style btn-signature {tenantColor}"
-        style="color: var(--primary-color); background-color: white;"
-        name="cancBtn"
-        aria-label="Cancella Firma"
-        on:click={clearSignatureDrawing}>CANCELLA</button
-      >
-      <button
-        class="btn-add-style btn-signature {isSigned && $isPrivacyPolicyApproved ? tenantColor : ""}"
-        style="background-color: {isSigned && $isPrivacyPolicyApproved ? 'var(--primary-color)' : '#f0f0f0'}"
-        name="authBtn"
-        aria-label="Autorizza Firma"
-        disabled={!isSigned || !$isPrivacyPolicyApproved}
-        on:click={handleSignatureAuthorization}>AUTORIZZA</button
-      >
+    <div class="flex-center-utility gap-4 py-2">
+
+      <button class="btn-add-style btn-signature {tenantColor}" style="color: var(--primary-color); background-color: white;" name="cancBtn" aria-label="Cancella Firma" on:click={clearSignatureDrawing}>CANCELLA</button>
+      <button class="btn-add-style btn-signature {isSigned && $isPrivacyPolicyApproved ? tenantColor : ""}" style="background-color: {isSigned && $isPrivacyPolicyApproved ? 'var(--primary-color)' : '#f0f0f0'}" name="authBtn" aria-label="Autorizza Firma" disabled={!isSigned || !$isPrivacyPolicyApproved} on:click={handleSignatureAuthorization}>AUTORIZZA</button>
+
     </div>
 
     <div class="text-center px-5">
       <div class="success-user-data success-auth-sign-message"></div>
       <div class="error-user-data error-canc-sign-message"></div>
     </div>
-  </div>
+  
 
 </div>
 
@@ -1578,13 +1522,13 @@
     flex-basis: 35%;
     max-width: 100%;
     flex-shrink: 0;
-    padding: 4rem;
+    padding: 2rem;
     background-color: #3C3C3C;
     font-family: "Montserrat", sans-serif;
   }
 
   #sidebar::-webkit-scrollbar {
-    width: 0.5rem;
+    width: 0.3rem;
   }
 
   textarea::-webkit-scrollbar {
@@ -1649,6 +1593,7 @@
   }
 
   .title-section-style {
+    text-align: center;
     font-size: 1.5rem;
     font-weight: 700;
   }
@@ -1671,8 +1616,12 @@
     cursor: pointer;
   }
 
-  select, input[type="text"], input[type="month"] {
+  select, input[type="text"], input[type="email"], input[type="tel"], input[type="radio"], input[type="checkbox"], input[type="month"], input[type="date"] {
     font-size: 0.9rem;
+  }
+
+  [id^="success-"], [id^="error-"], [class^="success-"], [class^="error-"] { 
+    font-size: 0.6rem !important;
   }
 
   .form-control,
@@ -1686,11 +1635,10 @@
 
   .custom-file-input {
     border-radius: 10px;
-    background-color: white;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    font-size: 14px;
+    font-size: 1rem;
     font-weight: 700;
-    padding: 1rem;
+    padding: 0.8rem;
     cursor: pointer;
   }
 
@@ -1701,6 +1649,7 @@
 
   label {
     font-size: 1rem;
+    vertical-align: top;
     font-weight: 600;
     color: white;
   }
@@ -1719,13 +1668,9 @@
     font-weight: 600;
     border-radius: 8px;
     padding: 0.5rem;
-    background-color: #007bff;
     color: white;
     cursor: pointer;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition:
-      background-color 0.3s ease,
-      color 0.3s ease;
   }
 
   .btn-add-style:hover {
@@ -1749,9 +1694,7 @@
     border: none;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition:
-      background-color 0.3s ease,
-      color 0.3s ease;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
 
   .btn-remove-style:hover {
@@ -1773,6 +1716,16 @@
     display: flex;
   }
 
+  .work-experience-date-style {
+    display: flex;
+    gap: 0.5rem;
+    width: calc(100% - 0.5rem);
+  }
+
+  .start-date-job, .end-date-job {
+    width: 50%;
+  }
+
   .privacy-label {
     font-size: 0.8rem;
     font-style: oblique;
@@ -1780,27 +1733,151 @@
   }
 
   .signature-container {
-    position: relative;
-  }
-
-  .label-signature {
-    position: absolute;
-    top: -30px;
-    left: 0;
+    width: 100%;
+    height: 200px;
+    margin: 0 auto; 
   }
 
   .signature-pad-style {
-    width: 500px;
-    height: 200px;
     background-color: white;
     box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
     border-radius: 10px;
+    width: 100%; 
+    height: 100%; 
   }
 
   .btn-signature {
     width: 7rem;
     padding: 0.8rem;
     font-weight: 600;
+  }
+
+  /*-------------------------------------
+
+  <!---- Media Queries ---->
+
+  ------------------------------------- */
+
+  @media screen and (max-width: 1200px) {
+
+    #sidebar {
+      padding: 1rem;
+    }
+
+    .company-logo {
+      background-size: 60%;
+    }
+
+    .title-app-style {
+      font-size: 1.8rem;
+    }
+
+    .description-title-app-style {
+      font-size: 1.1rem;
+    }
+
+    .title-section-style {
+      font-size: 1.3rem;
+    }
+
+    .file-picture-container {
+      width: 200px;
+      height: 200px;
+    }
+
+    .custom-file-input {
+      font-size: 0.75rem;
+    }
+
+    label {
+      font-size: 0.9rem;
+    }
+
+    select, input[type="text"], textarea, input[type="email"], input[type="tel"], input[type="radio"], input[type="checkbox"], input[type="month"], input[type="date"] {
+      font-size: 0.75rem;
+    }
+
+    .btn-add-style {
+      width: 200px;
+      font-size: 0.7rem;
+    }
+
+    .btn-remove-style {
+      width: 3rem;
+    }
+
+    .currentlyJob {
+      font-size: 0.8rem;
+    }
+
+    .signature-container {
+      width: 100%;
+      height: 180px;
+    }
+
+    .btn-signature {
+      width: 7rem;
+    }
+
+    .privacy-label {
+      font-size: 0.7rem;
+    }
+
+  }
+
+  @media screen and (max-width: 992px) {
+
+    #sidebar {
+      padding: 0.5rem;
+    }
+
+    .company-logo {
+      background-size: 55%;
+    }
+
+    .title-app-style {
+      font-size: 1.6rem;
+    }
+
+    .description-title-app-style {
+      font-size: 0.9rem;
+    }
+
+    .title-section-style {
+      font-size: 1.2rem;
+    }
+
+    .file-picture-container {
+      width: 180px;
+      height: 180px;
+    }
+
+    .custom-file-input {
+      font-size: 0.65rem;
+    }
+
+    label {
+      font-size: .8rem;
+    }
+
+    .btn-add-style {
+      width: 170px;
+      font-size: 0.65rem;
+    }
+
+    .signature-wrapper {
+      padding: 0 1rem;
+    }
+
+    .signature-container {
+      height: 160px;
+    }
+
+    .btn-signature {
+      width: 6rem;
+    }
+
+
   }
 
 </style>

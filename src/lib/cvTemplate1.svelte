@@ -248,13 +248,12 @@
         display: flex;
         font-family: Ubuntu;
         font-weight: 300;
+        height: auto;
     }
 
     .profile-picture-container, .tenant-picture-container {
         flex-shrink: 0;
         flex-basis: 20%;
-        height: 200px;
-        width: 200px;
         aspect-ratio: 1/1;
     }
     
@@ -277,9 +276,8 @@
         display: flex;
         flex-direction: column;
         flex-basis: 80%;
-        height: 200px;
-        background-color: #f2f2f2; 
-        padding: 10px;
+        background-color: #f2f2f2;
+        padding-left: 1rem;
     }
 
     .user-full-name {
@@ -296,15 +294,14 @@
     .user-personal-info{
         display: flex;
         flex-direction: row;
-        gap: 4rem;
-        font-size: 0.7rem;
-        padding: 0.8rem 0;
+        gap: 3rem;
+        font-size: 0.6rem;
+        padding: 1rem 0;
     }
 
     .left-section, .right-section {
         display: flex;
         flex-direction: column;
-        gap: 4px;
     }
 
     .info-item i {
@@ -449,5 +446,62 @@
         color: #666;
         flex-grow: 1;
     }
+
+    /*-------------------------------------
+
+    <!---- Media Queries ---->
+
+    ------------------------------------- */
+
+    @media screen and (max-width: 1200px) {
+
+        .user-full-name {
+            font-size: 1.8rem;
+        }
+
+        .user-personal-info{
+            gap: 3rem;
+            font-size: 0.6rem;
+            padding: 1rem 0;
+        }
+
+    }
+
+    @media screen and (max-width: 992px) {
+
+        .user-full-name {
+            font-size: 1.5rem;
+        }
+
+        .user-personal-info{
+            gap: 1.5rem;
+        }
+
+        .info-item i {
+            font-size: 0.6rem;
+        }
+
+        .info-item span {
+            font-size: 0.6rem;
+        }
+
+        .profile-summary-title, .work-experience-title, .academic-background-title, .language-title, .hard-skills-title {
+            font-size: 1.2rem;
+        }
+
+        .profile-summary-container, .work-experience-container, .academic-background-container, .language-container, .hard-skills-container {
+            font-size: 0.8rem;
+        }
+
+        .work-experience-item, .academic-background-item {
+            font-size: 0.8rem;
+        }
+
+        .job-dates, .education-dates {
+            font-size: 0.6rem;
+        }
+
+    }
+
 
 </style>

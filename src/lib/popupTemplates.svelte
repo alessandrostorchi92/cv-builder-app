@@ -40,7 +40,7 @@
         <div class="close-btn-container">
             <button class="close-btn" aria-label="Chiudi Popup" on:click={hideCvTemplates}><i class="fa-solid fa-xmark"></i></button>
         </div>
-        <h1 class=" {tenantColor}" style="color: var(--primary-color);">test</h1>
+
         <div class="cv-template-gallery">
 
             {#each cvTemplates as cvTemplate, cvTemplateIndex}
@@ -64,11 +64,11 @@
         flex-basis: 20%;
         flex-shrink: 0;
         height: 100%;
-        padding: 1rem;
     }
 
     .popup-content {
         overflow-y: auto;
+        width: 100%; 
     }
 
     .close-btn-container {
@@ -98,9 +98,9 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        padding: 2rem 1rem;
         gap: 3rem;
         width: 100%;
+        padding: 3rem 1rem;
     }
 
     .cv-template-item {
@@ -160,7 +160,7 @@
     }
 
     .popup-content::-webkit-scrollbar {
-        width: 0.3rem;
+        width: 0.2rem;
     }
 
     .popup-content::-webkit-scrollbar-track {
@@ -176,5 +176,59 @@
         background: hsl(187, 100%, 98%);
     }
 
-    
+    /*-------------------------------------
+
+    <!---- Media Queries ---->
+
+    ------------------------------------- */
+
+    @media screen and (max-width: 1200px) {
+
+        .cv-template-item {
+            border: 3px solid transparent;
+        }
+
+        .cv-template-gallery {
+            padding: 3rem .5rem;
+        }
+
+        .close-btn {
+            width: 2.5rem;
+            height: 2.5rem;
+        }
+
+        .use-template-btn {
+            width: 100px;
+            font-size: 0.7rem;
+        }
+
+    }
+
+    @media screen and (max-width: 992px) {
+
+        .popup-content {
+            overflow-y: hidden;
+        }
+
+        .cv-template-item {
+            border: 2px solid transparent;
+        }
+
+        .cv-template-gallery {
+            padding: 2rem .3rem;
+        }
+
+        .close-btn {
+            width: 2rem;
+            height: 2rem;
+        }
+
+        .use-template-btn {
+            width: 90px;
+            font-size: 0.6rem;
+        }
+
+
+    }
+  
 </style>
