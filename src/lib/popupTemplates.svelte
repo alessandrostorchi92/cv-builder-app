@@ -168,7 +168,7 @@
     }
 
     .popup-content::-webkit-scrollbar-thumb {
-        background: hsl(196, 72%, 86%);
+        background: #3C3C3C;
         border-radius: 100vw;
     }
     

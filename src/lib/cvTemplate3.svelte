@@ -1,6 +1,6 @@
 <script lang="ts">
 
-   import {formDataStore, isPrivacyPolicyApproved, isAllowed, currentTenant, currentCopyrightPolicy} from "../stores/CvUser_data";
+   import {formDataStore, isPrivacyPolicyApproved, isAllowed, currentTenant, currentCopyrightPolicy, tenantColor} from "../stores/CvUser_data";
    import {cvInitialData}  from "../stores/cvDefault_data";
 
 </script>
@@ -25,46 +25,45 @@
         </div>
 
         <!-- User Full Name -->
-        <div class="user-full-name" style="color: {$formDataStore.selectedColor || "black"}">{$cvInitialData.name} {$cvInitialData.surname}</div>
+        <div class="user-full-name {tenantColor}" style="color: {$cvInitialData.color}">{$cvInitialData.name} {$cvInitialData.surname}</div>
         <div class="user-profession">{$cvInitialData.profession}</div>
 
         <!-- Dati di contatto -->
 
         <!-- Nationality Icon -->
         <div class="info-item">
-            <i class="fa-solid fa-earth-americas" style="color: {$formDataStore.selectedColor || "black"}"></i>
+            <i class="fa-solid fa-earth-americas {tenantColor}" style="color: {$cvInitialData.color}"></i>
             <span>Nazionalità: {$cvInitialData.nationality}</span>
         </div>
 
         <!-- BirthCake Icon -->
         <div class="info-item">
-            <i class="fa-solid fa-cake-candles" style="color: {$formDataStore.selectedColor || "black"}"></i>
+            <i class="fa-solid fa-cake-candles {tenantColor}" style="color: {$cvInitialData.color}"></i>
             <span>{$cvInitialData.birthDate}, {$cvInitialData.birthPlace}</span>
         </div>
 
         <!-- House Icon -->
         <div class="info-item">
-            <i class="fa-solid fa-house" style="color: {$formDataStore.selectedColor || "black"}"></i>
+            <i class="fa-solid fa-house {tenantColor}" style="color: {$cvInitialData.color}"></i>
             <span>{$cvInitialData.address.streetAddress},<span class="ms-1">{$cvInitialData.address.postalCode},</span> {$cvInitialData.address.city} - {$cvInitialData.address.region}</span>
-
         </div>
 
         <!-- Email Icon -->
         <div class="info-item">
-            <i class="fa-regular fa-envelope" style="color: {$formDataStore.selectedColor || "black"}"></i>
+            <i class="fa-regular fa-envelope {tenantColor}" style="color: {$cvInitialData.color}"></i>
             <span>{$cvInitialData.email}</span>
         </div>
     
         <!-- Phone Icon-->
         <div class="info-item">
-            <i class="fa-solid fa-mobile-screen" style="color: {$formDataStore.selectedColor || "black"}"></i>
+            <i class="fa-solid fa-mobile-screen {tenantColor}" style="color: {$cvInitialData.color}"></i>
             <span>{$cvInitialData.phonePrefix} {$cvInitialData.phoneNumber}</span>
         </div>
 
         <!-- Language Section-->
-        <div class="languages-container">
+        <div class="languages-container {tenantColor}">
 
-            <div class="languages-title" style="color: {$formDataStore.selectedColor || "black"}; border-bottom: 1px solid {$formDataStore.selectedColor || "black"};">LINGUE</div>
+            <div class="languages-title" style="color: {$cvInitialData.color}; border-bottom: 1px solid {$cvInitialData.color};">LINGUE</div>
                 
             <div class="py-3">
 
@@ -77,9 +76,9 @@
         </div>
 
         <!-- Hard Skill Section-->
-        <div class="hard-skills-container">
+        <div class="hard-skills-container {tenantColor}">
 
-            <div class="hard-skills-title" style="color: {$formDataStore.selectedColor || "black"}; border-bottom: 1px solid {$formDataStore.selectedColor || "black"};">SKILLS E COMPETENZE</div>
+            <div class="hard-skills-title" style="color: {$cvInitialData.color}; border-bottom: 1px solid {$cvInitialData.color};">SKILLS E COMPETENZE</div>
         
             <div class="py-3">
 
@@ -94,19 +93,24 @@
         <!-- Policy Privacy & UserSignature Section-->
         {#if isPrivacyPolicyApproved && $isAllowed}
 
-            <!-- Policy Privacy -->
-            <div class="policy-privacy-container">
+            <div class="{tenantColor}" style="background-color: {$cvInitialData.color};">
 
-            <p>Autorizzo il trattamento dei dati personali nel rispetto della vigente normativa sulla protezione dei dati personali ed in particolare il Regolamento Europeo per la protezione dei dati personali 2016/679, il d.lgs. 30/06/2003 n. 196 e successive modifiche e integrazioni.</p>
+                <!-- Policy Privacy -->
+                <div class="policy-privacy-container">
+    
+                    <p class="px-1">Autorizzo il trattamento dei dati personali nel rispetto della vigente normativa sulla protezione dei dati personali ed in particolare il Regolamento Europeo per la protezione dei dati personali 2016/679, il d.lgs. 30/06/2003 n. 196 e successive modifiche e integrazioni.</p>
+    
+                </div>
+    
+                <!-- User Signature -->
+                <div class="user-signature-container">
+    
+                    <img src="{$cvInitialData.jobSeekerSign}" alt="Firma digitale" style="width:60%;">
+    
+                </div>
 
             </div>
 
-            <!-- User Signature -->
-            <div class="user-signature-container">
-
-            <img src="{$formDataStore.userSignature}" alt="Firma digitale" style="width:60%;">
-
-            </div>
         
         {/if}
 
@@ -115,15 +119,15 @@
     <div class="right-section">
 
         <!-- User Status Section-->
-       <div class="user-status-info">
+       <div class="user-status-info {tenantColor}">
 
             <div class="info-item">
-                <span style="color: {$formDataStore.selectedColor || "black"};">Categoria protetta:</span><span style="margin-left: 5px">{$cvInitialData.isProtectedCategory}</span>
+                <span style="color: {$cvInitialData.color};">Categoria protetta:</span><span style="margin-left: 5px">{$cvInitialData.isProtectedCategory}</span>
             </div>
 
             <div class="info-item">
 
-                <span style="color: {$formDataStore.selectedColor || 'black'};">Automunito -</span>
+                <span style="color: {$cvInitialData.color};">Automunito -</span>
 
                 {#if $formDataStore.hasOwnCar}
                     <span>{$cvInitialData.drivingLicences}</span>
@@ -139,11 +143,11 @@
         </div>
 
         <!-- Work Experience Section-->
-        <div class="work-experience-container">
+        <div class="work-experience-container {tenantColor}">
 
             <div class="watermark-logo" style="background-image: url(https://{currentTenant}.blob.core.windows.net/cdn/cv/transparent-logo.png);"></div>
             
-            <div class="work-experience-title" style="color: {$formDataStore.selectedColor || "black"}; border-bottom: 1px solid {$formDataStore.selectedColor || "black"};">ESPERIENZE LAVORATIVE</div>
+            <div class="work-experience-title" style="color: {$cvInitialData.color}; border-bottom: 1px solid {$cvInitialData.color};">ESPERIENZE LAVORATIVE</div>
                 
             {#each $cvInitialData.jobs as job}
     
@@ -167,9 +171,9 @@
         </div>
 
          <!-- Academic Background Section -->
-        <div class="academic-background-container">
+        <div class="academic-background-container {tenantColor}">
         
-            <div class="academic-background-title" style="color: {$formDataStore.selectedColor || "black"}; border-bottom: 1px solid {$formDataStore.selectedColor || "black"};">FORMAZIONE E QUALIFICHE</div>
+            <div class="academic-background-title" style="color: {$cvInitialData.color}; border-bottom: 1px solid {$cvInitialData.color};">FORMAZIONE E QUALIFICHE</div>
         
             {#each $cvInitialData.educations as education (education)}
 
@@ -216,7 +220,6 @@
         flex-basis: 35%;
         flex-shrink: 0;
         height: auto;
-        border: 1px solid red;
         background-color:#efefef;
         padding: 1.5rem 0.5rem;
     }
@@ -225,7 +228,8 @@
         flex-basis: 65%;
         flex-grow: 0;
         height: auto;
-        border: 1px solid blue;
+        position: relative;
+        z-index: 0;
     }
 
     .profile-picture-container {
@@ -235,10 +239,9 @@
     }
 
     .user-profile-picture {
-        aspect-ratio: 1/1;
-        width: 160px;
+        width: 120px;
         height: 160px;
-        border-radius: 50%;
+        border-radius: 400px;
         object-fit: cover;
     }
 
@@ -255,7 +258,7 @@
 
     .user-full-name {
         font-weight:bold; 
-        font-size:1.5rem;
+        font-size:2rem;
         font-family: Anton;
         text-align: center;
         padding-top: 0.5rem;
@@ -263,7 +266,7 @@
 
     .user-profession {
         color:#808080;
-        font-size:1rem;
+        font-size:1.5rem;
         text-align: center;
         padding-top: 1rem;
         padding-bottom: 1rem;
@@ -322,19 +325,16 @@
         font-size: 0.8rem;
     }
 
-    .work-experience-container {
-        position: relative;
-    }
-
     .watermark-logo {
         position: absolute;
         width: 500px; 
         height: 500px;
-        top: 75px;
+        top: 120px;
         right: -250px;
         aspect-ratio: 1/1;
         background-size: contain;
         overflow: hidden;
+        z-index: -1;
     }
 
     .job-details, .education-details-container {

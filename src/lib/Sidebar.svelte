@@ -1464,15 +1464,16 @@
           </div>
 
           {#if educationIndex > 0}
-            <div class="flex-center-utility mb-3">
+            <div class="flex-center-utility">
               <button
                 type="button"
-                class="btn-remove-style"
+                class="btn-remove-style mt-2"
                 on:click={() => removeAcademicEducation(educationIndex)}
                 ><i class="fa-solid fa-trash"></i></button
               >
             </div>
           {/if}
+
         {/each}
 
         <div class="flex-center-utility py-3">
@@ -1496,9 +1497,11 @@
 
   <!---- Privacy Policy ---->
   <div class="py-5">
+
     <div class="form-check form-switch privacy-label">
+
       <input
-        class="form-check-input me-2"
+        class="form-check-input"
         type="checkbox"
         role="switch"
         id="privacyPolicySwitch"
@@ -1506,14 +1509,17 @@
         bind:checked={$isPrivacyPolicyApproved}
         on:change={() => validators.checkPolicyPrivacySwitchInput()}
       />
-      <label for="flexSwitchCheckChecked" style="font-size: 0.9rem;">Accetto la privacy policy per scaricare il CV</label>
-        <span class="isRequired ms-1">*</span>
+
+      <label for="flexSwitchCheckChecked" style="font-size: 0.8rem;">Accetto la privacy policy per scaricare il CV</label>
+      <span class="isRequired ms-1">*</span>
+
     </div>
 
     <div class="text-center px-5">
       <div class="success-user-data success-policy-privacy-message"></div>
       <div class="error-user-data error-policy-privacy-message"></div>
     </div>
+
   </div>
 
   <!---- User Signature ---->
@@ -1590,7 +1596,7 @@
   }
 
   textarea::-webkit-scrollbar-thumb {
-    background: hsl(196, 72%, 86%);
+    background: #686868;
     border-radius: 100vw;
   }
 
@@ -1600,6 +1606,7 @@
 
   textarea {
     resize: none;
+    font-size: 0.9rem;
   }
 
   #sidebar::-webkit-scrollbar-track {
@@ -1607,7 +1614,7 @@
   }
 
   #sidebar::-webkit-scrollbar-thumb {
-    background: hsl(196, 72%, 86%);
+    background: #686868;
     border-radius: 100vw;
   }
 
@@ -1662,6 +1669,10 @@
     width: 100%;
     background-size: cover;
     cursor: pointer;
+  }
+
+  select, input[type="text"], input[type="month"] {
+    font-size: 0.9rem;
   }
 
   .form-control,
