@@ -341,11 +341,11 @@
 
   });
 
-  // afterUpdate(() => {
+  afterUpdate(() => {
 
-  //   clearLocalStorage();
+    // clearLocalStorage();
 
-  // });
+  });
 
 </script>
 
@@ -390,7 +390,7 @@
       <!---- Download Button ---->
 
       <div class="flex-center-utility">
-        <button class="download-btn {tenantColor}" style="background-color: var(--primary-color); color: white;" aria-label="Scarica Curriculum Vitae" on:click={getPdfCv} disabled={!$isAllowed || !$isPrivacyPolicyApproved}>SCARICA CV <i class="fa-solid fa-download"></i></button>
+        <button class="download-btn {showPopup ? 'pipoo': 'pluto' } {tenantColor}" style="background-color: var(--primary-color); color: white;" aria-label="Scarica Curriculum Vitae" on:click={getPdfCv} disabled={!$isAllowed || !$isPrivacyPolicyApproved}>SCARICA CV <i class="fa-solid fa-download"></i></button>
       </div>
 
       <!---- Custom colour Button ---->
@@ -555,6 +555,64 @@
     color: #666666;
     cursor: not-allowed;
     opacity: 0.6;
+  }
+
+    /*-------------------------------------
+
+  <!---- Media Queries ---->
+
+  ------------------------------------- */
+
+  @media screen and (max-width: 1200px) {
+
+    .select-template-button {
+      width: 12rem;
+      padding: 1rem;
+      font-size: 1rem;
+    }
+
+    .modify-template-btn, .download-btn {
+      width: 12rem;
+      font-size: 0.8rem;
+    }
+
+  
+    .custom-icon {
+      width: 50px;
+      height: 50px;
+      font-size: 1.8rem;
+    }
+  
+  }
+
+  @media screen and (max-width: 992px) {
+
+    .select-template-button {
+      width: 10rem;
+      padding: 1rem;
+      font-size: 0.8rem;
+    }
+
+    .modify-template-btn, .download-btn{
+      width: 10rem;
+      font-size: 0.8rem;
+    }
+
+
+    .custom-icon {
+      width: 50px;
+      height: 50px;
+      font-size: 1.8rem;
+    }
+
+  }
+
+  @media screen and (max-width: 768px) {
+
+    #curriculum-content {
+      display:none;
+    }
+
   }
 
 </style>

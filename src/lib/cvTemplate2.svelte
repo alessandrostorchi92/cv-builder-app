@@ -271,6 +271,10 @@ p {
     font-size: 0.7rem;
 }
 
+.job-results-wrapper {
+    padding: 0 1rem;
+}
+
 .job-details {
     font-weight: 600;
 }
@@ -372,10 +376,6 @@ p {
         .profile-summary-title, .work-experience-title, .academic-background-title, .hard-skills-title, .language-skills-title {
             font-size: 0.9rem;
     
-        }
-
-        .job-results-wrapper {
-            padding: 0 1rem;
         }
 
         .profile-summary-title p, .job-results-wrapper p {

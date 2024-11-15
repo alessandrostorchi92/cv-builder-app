@@ -1498,19 +1498,29 @@
 
   </div>
 
-    <div class="flex-center-utility gap-4 py-2">
+  <div class="flex-center-utility gap-4 py-2">
 
       <button class="btn-add-style btn-signature {tenantColor}" style="color: var(--primary-color); background-color: white;" name="cancBtn" aria-label="Cancella Firma" on:click={clearSignatureDrawing}>CANCELLA</button>
       <button class="btn-add-style btn-signature {isSigned && $isPrivacyPolicyApproved ? tenantColor : ""}" style="background-color: {isSigned && $isPrivacyPolicyApproved ? 'var(--primary-color)' : '#f0f0f0'}" name="authBtn" aria-label="Autorizza Firma" disabled={!isSigned || !$isPrivacyPolicyApproved} on:click={handleSignatureAuthorization}>AUTORIZZA</button>
 
-    </div>
+  </div>
 
-    <div class="text-center px-5">
+  <div class="text-center px-5">
       <div class="success-user-data success-auth-sign-message"></div>
       <div class="error-user-data error-canc-sign-message"></div>
-    </div>
-  
+  </div>
 
+  <!---- Cv Preview button for responsive---->
+
+  <div class="cv-preview-container">
+
+    <div class="cv-preview-overlay mt-4 {tenantColor}">
+      <button class="btn-add-style cv-preview-btn" style="background-color: var(--primary-color);">MOSTRA CV</button>
+    </div>
+
+  </div>
+
+  
 </div>
 
 <style>
@@ -1752,6 +1762,28 @@
     font-weight: 600;
   }
 
+  .cv-preview-container {
+    display: none;
+  }
+
+  .cv-preview-overlay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: auto;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 1rem 0;
+  }
+
+  .cv-preview-overlay {
+    position: fixed;
+    z-index: 2;
+    bottom: 0;
+    width: 100%;
+  }
+
+
   /*-------------------------------------
 
   <!---- Media Queries ---->
@@ -1879,5 +1911,26 @@
 
 
   }
+
+  @media screen and (max-width: 768px) {
+
+    #sidebar {
+      flex-basis: 100%;
+    }
+
+    .cv-preview-container {
+      display: block;
+    }
+
+    .cv-preview-overlay {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      padding: 2rem 0;
+      width: calc(100% - 0.3rem);
+    }
+
+  }
+
 
 </style>

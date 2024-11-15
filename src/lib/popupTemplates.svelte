@@ -206,10 +206,6 @@
 
     @media screen and (max-width: 992px) {
 
-        .popup-content {
-            overflow-y: hidden;
-        }
-
         .cv-template-item {
             border: 2px solid transparent;
         }
