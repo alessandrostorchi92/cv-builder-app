@@ -465,6 +465,11 @@
             padding: 1rem 0;
         }
 
+        .watermark-logo {
+            width: 400px; 
+            height: 400px;
+        }
+
     }
 
     @media screen and (max-width: 992px) {
@@ -499,6 +504,11 @@
 
         .job-dates, .education-dates {
             font-size: 0.6rem;
+        }
+
+        .watermark-logo {
+            width: 350px; 
+            height: 350px;
         }
 
     }

@@ -360,6 +360,11 @@ p {
         font-size: 0.6rem;
     }
 
+    .watermark-logo {
+        width: 300px; 
+        height: 300px;
+    }
+
     @media screen and (max-width: 992px) {
         .profile-info-container, .user-info-container {
             font-size: 0.5rem;
@@ -385,6 +390,7 @@ p {
         .work-experience-item, .academic-background-item {
             font-size: 0.6rem;
         }
+
 
     }
 

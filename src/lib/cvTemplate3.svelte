@@ -433,6 +433,11 @@
             font-size: 0.7rem;
         }
 
+        .watermark-logo {
+            width: 400px; 
+            height: 400px;
+        }
+
     }
 
     @media screen and (max-width: 992px) {
@@ -451,6 +456,11 @@
 
         .job-dates, .education-field-of-study {
             font-size: 0.7rem; 
+        }
+
+        .watermark-logo {
+            width: 350px; 
+            height: 350px;
         }
 
 
