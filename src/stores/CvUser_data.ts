@@ -1,5 +1,8 @@
 import { writable } from "svelte/store";
 import * as formTypes from "../types/form_types";
+import 'sweetalert2/dist/sweetalert2.min.css';
+import Swal from 'sweetalert2';
+import { downloadCv } from "../api/cvGeneratorApi";
 
 let userFormData: formTypes.FormData = {
   
@@ -128,6 +131,11 @@ export function clearLocalStorage(): void {
 
 export let isAllowed: formTypes.isAllowed = writable(false);
 export let isPrivacyPolicyApproved: formTypes.isAllowed = writable(false);
+export let isModifyBtnDisabled: formTypes.isAllowed = writable(false);
+export let isFormValid: formTypes.isFormValid = writable(false);
+export let showPopup: formTypes.isFormValid = writable(false);
+export let viewportWidth = writable(0);
+export let typeName = writable(false);
 
 // Formattazione data di nascita
 export function formattedBirthDate(date: string): string {
@@ -224,3 +232,237 @@ function getCopyrightPolicy(): string | null {
 }
 
 export const currentCopyrightPolicy = getCopyrightPolicy();
+
+function checkMandatoryInputs(
+  inputName: string,
+  errorMessageSelector: string,
+  errorMessage: string
+): void {
+  const mandatoryInput: HTMLInputElement | null = document.querySelector(
+    `[name='${inputName}']`
+  );
+  const errorMessages: HTMLDivElement | null =
+    document.querySelector(errorMessageSelector);
+
+  const setErrorFeedback = (message: string) => {
+    if (errorMessages) {
+      errorMessages.innerText = message;
+      errorMessages.classList.add("error-user-data", "fw-bolder");
+      errorMessages.style.fontSize = "0.8rem";
+    }
+
+    if (mandatoryInput) {
+      mandatoryInput.classList.add("is-invalid");
+    }
+  };
+
+  if (mandatoryInput) {
+    const inputValue = mandatoryInput.value.trim();
+    if (inputValue === "") {
+      setErrorFeedback(errorMessage);
+    }
+  }
+}
+
+function checkNameInput(): void {
+  checkMandatoryInputs("name", ".error-name-message", "Il nome è obbligatorio. Per favore inseriscilo.");
+}
+
+function checkSurnameInput(): void {
+  checkMandatoryInputs("surname", ".error-surname-message", "Il cognome è obbligatorio. Per favore inseriscilo.");
+}
+
+function checkProfessionInput(): void {
+  checkMandatoryInputs("profession", ".error-profession-message", "Lo stato di nascita è obbligatorio. Per favore inseriscilo.");
+}
+
+function checkNationalityInput(): void {
+  checkMandatoryInputs("nationality", ".error-nationality-message", "Lo stato di nascita è obbligatorio. Per favore inseriscilo.");
+}
+
+function checkBirthPlaceInput(): void {
+  checkMandatoryInputs("birthPlace", ".error-birthplace-message", "Il luogo di nascita è obbligatorio. Per favore inseriscilo.");
+}
+
+function checkBirthDateInput(): void {
+  checkMandatoryInputs("birthDate", ".error-birthdate-message", "La data di nascita è obbligatoria. Per favore inseriscila.");
+}
+
+function checkStreetAddressInput(): void {
+  checkMandatoryInputs("streetAddress", ".error-street-address-message", "L'indirizzo di residenza è obbligatorio. Per favore inseriscilo.");
+}
+
+function checkCityInput(): void {
+  checkMandatoryInputs("city", ".error-city-message", "La città è obbligatoria: Per favore inseriscila.");
+}
+
+function checkRegionInput(): void {
+  checkMandatoryInputs("region", ".error-region-message", "La regione è obbligatoria: Per favore inseriscila.");
+}
+
+function checkPhonePrefixSelect(): void {
+  checkMandatoryInputs("phonePrefix", ".error-phoneprefix-message", "Per favore, seleziona almeno un prefisso telefonico.");
+}
+
+function checkPhoneInput(): void {
+  checkMandatoryInputs("phone", ".error-phone-messages", "Il cellulare è obbligatorio. Per favore inseriscilo.");
+}
+
+function checkEmailInput(): void {
+  checkMandatoryInputs("email", ".error-email-messages", "L'email è obbligatoria. Per favore inseriscila.");
+}
+
+function checkMandatoryRadioInputs(radioName: string, errorMessageSelector: string, errorMessage: string): void {
+  const radioInputs: NodeListOf<HTMLInputElement> = document.querySelectorAll(`input[name="${radioName}"]`);
+  const errorMessages: HTMLDivElement | null = document.querySelector(errorMessageSelector);
+  let isSelected = false;
+
+  radioInputs.forEach((radio) => {
+    if (radio.checked) {
+      radio.classList.add("is-valid");
+      isSelected = true;
+    } else {
+      radio.classList.add("is-invalid");
+    }
+  });
+
+  const setErrorFeedback = (message: string) => {
+    if (errorMessages) {
+      errorMessages.innerText = message;
+      errorMessages.classList.add("error-user-data", "fw-bolder");
+      errorMessages.style.fontSize = "0.8rem";
+    }
+  };
+
+  if (!isSelected) {
+    setErrorFeedback(errorMessage);
+  }
+}
+
+function isProtectedCategoryRadiosSelected(): void {
+  checkMandatoryRadioInputs("protectedCategoryRadioOptions", ".error-protected-category-message", "Per favore, seleziona almeno un'opzione");
+}
+
+function isHasOwnCarRadiosSelected(): void {
+  checkMandatoryRadioInputs("drivingLicenceRadioOptions", ".error-has-own-car-message", "Per favore, seleziona almeno un'opzione");
+}
+
+export function checkRequiredFields() {
+
+  isFormValid.set(true);
+
+  if (!userFormData.name) {
+    checkNameInput();
+    isFormValid.set(false);
+  }
+
+  if (!userFormData.surname) {
+    checkSurnameInput();
+    isFormValid.set(false);
+  }
+
+  if (!userFormData.profession) {
+    checkProfessionInput();
+    isFormValid.set(false);
+  }
+
+  if (!userFormData.nationality) {
+    checkNationalityInput();
+    isFormValid.set(false);
+  }
+
+  if (!userFormData.isProtectedCategory) {
+    isProtectedCategoryRadiosSelected();
+    isFormValid.set(false);
+  }
+  
+  if (!userFormData.hasOwnCar) {
+    isHasOwnCarRadiosSelected();
+    isFormValid.set(false);
+  }
+  
+  if (!userFormData.birthPlace) {
+    checkBirthPlaceInput();
+    isFormValid.set(false);
+  }
+
+  if (!userFormData.birthDate) {
+    checkBirthDateInput();
+    isFormValid.set(false);
+  }
+
+  if (!userFormData.address.streetAddress) {
+    checkStreetAddressInput();
+    isFormValid.set(false);
+  }
+
+  if (!userFormData.address.city) {
+    checkCityInput();
+    isFormValid.set(false);
+  }
+
+  if (!userFormData.address.region) {
+    checkRegionInput();
+    isFormValid.set(false);
+  }
+
+  if (!userFormData.phonePrefix) {
+    checkPhonePrefixSelect();
+    isFormValid.set(false);
+  }
+
+  if (!userFormData.phone) {
+    checkPhoneInput();
+    isFormValid.set(false);
+  }
+
+  if (!userFormData.email) {
+    checkEmailInput();
+    isFormValid.set(false);
+  }
+
+  return isFormValid;
+  
+}
+
+export function showCvTemplates() : void {
+  let origin: boolean = false;
+  showPopup.set(true);
+  isModifyBtnDisabled.set(true);
+}
+
+export function getPdfCv(): void {
+  if (checkRequiredFields()) {
+    downloadCv()
+      .then((response) => {
+        if (response.data) {
+          const url = window.URL.createObjectURL(new Blob([response.data]));
+
+          const element = document.createElement("a");
+          element.href = url;
+          element.download = "Cv.pdf";
+
+          document.body.append(element);
+          element.click();
+          element.remove();
+
+          URL.revokeObjectURL(url);
+
+          Swal.fire({
+              title: 'Download completato!',
+              text: `Il tuo CV è stato scaricato con successo.`,
+              icon: 'success',
+              timer: 1500,          
+              showConfirmButton: false 
+          });
+
+        } else {
+          console.error("Nessun dato ricevuto dal server");
+          alert("Non funziona");
+        }
+      })
+      .catch((error) => {
+        console.error("Errore durante il download del CV:", error);
+      });
+  }
+}

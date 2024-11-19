@@ -1,5 +1,5 @@
 <script lang="ts">
-  import {formDataStore, isAllowed, isPrivacyPolicyApproved, currentTenant, tenantColor} from "../stores/CvUser_data";
+  import {formDataStore, isAllowed, isPrivacyPolicyApproved, currentTenant, tenantColor, getPdfCv} from "../stores/CvUser_data";
   import * as validators from "../validators/form_validation";
   import { onMount } from "svelte";
 
@@ -1510,17 +1510,11 @@
       <div class="error-user-data error-canc-sign-message"></div>
   </div>
 
-  <!---- Cv Preview button for responsive---->
-
-  <div class="cv-preview-container">
-
-    <div class="cv-preview-overlay mt-4 {tenantColor}">
-      <button class="btn-add-style cv-preview-btn" style="background-color: var(--primary-color);">MOSTRA CV</button>
-    </div>
-
+  <!---- Download Button ---->
+  <div class="download-container">
+    <button class="download-btn {tenantColor}" style="background-color: var(--primary-color); color: white;" aria-label="Scarica Curriculum Vitae" on:click={getPdfCv} disabled={!$isAllowed || !$isPrivacyPolicyApproved}>SCARICA CV <i class="fa-solid fa-download"></i></button>
   </div>
-
-  
+ 
 </div>
 
 <style>
@@ -1532,7 +1526,7 @@
     flex-basis: 35%;
     max-width: 100%;
     flex-shrink: 0;
-    padding: 2rem;
+    padding: 2rem 2rem 160px 2rem;
     background-color: #3C3C3C;
     font-family: "Montserrat", sans-serif;
   }
@@ -1762,27 +1756,22 @@
     font-weight: 600;
   }
 
-  .cv-preview-container {
-    display: none;
+  .download-btn {
+      width: 12rem;
+      display: block;
+      margin: 0 auto;
+      padding: 1rem;
+      font-size: 1rem;
+      text-decoration: none;
+      font-weight: bold;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition:
+        background-color 0.3s ease,
+        transform 0.3s ease;
   }
-
-  .cv-preview-overlay {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: auto;
-    background-color: rgba(0, 0, 0, 0.7);
-    padding: 1rem 0;
-  }
-
-  .cv-preview-overlay {
-    position: fixed;
-    z-index: 2;
-    bottom: 0;
-    width: 100%;
-  }
-
 
   /*-------------------------------------
 
@@ -1915,22 +1904,30 @@
   @media screen and (max-width: 768px) {
 
     #sidebar {
-      flex-basis: 100%;
+      flex-basis: 100vh;
+      padding: 4px 4px 260px 4px;
+    } 
+
+    .download-container {
+      width: 100%;
+      text-align: center;
+      padding-top: 2rem;
     }
 
-    .cv-preview-container {
-      display: block;
+    .download-btn {
+      width: 80%;
+      font-size: 0.8rem;
+      padding: 0.6rem 0;
     }
-
-    .cv-preview-overlay {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      padding: 2rem 0;
-      width: calc(100% - 0.3rem);
-    }
+        
 
   }
 
+  @media screen and (max-width: 576px) {
+
+    #sidebar {
+      width: 100%;
+    } 
+  }
 
 </style>
