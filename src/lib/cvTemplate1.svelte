@@ -513,5 +513,73 @@
 
     }
 
+    @media screen and (max-width: 390px) {
+
+        .profile-picture-container, .tenant-picture-container {
+            height: 110px;
+            width: 110px;
+        }
+
+        .user-full-name {
+            font-size: 0.8rem;
+        }
+
+        .user-profession {
+            font-size: 0.7rem;
+        }
+
+        .user-personal-info{
+            gap: 0.2rem;
+            font-size: 0.4rem;
+            padding: 0.2rem 0;
+        }
+
+        .info-item i {
+            font-size: 0.4rem;
+        }
+
+        .info-item span {
+            font-size: 0.3rem;
+        }
+
+        .profile-summary-title, .work-experience-title, .academic-background-title, .language-title, .hard-skills-title {
+            font-size: 0.8rem;
+        }
+
+        .profile-summary-container, .work-experience-container, .academic-background-container, .language-container, .hard-skills-container {
+            font-size: 0.6rem;
+        }
+
+        .work-experience-item, .academic-background-item {
+            font-size: 0.5rem;
+        }
+
+        .job-dates, .education-dates {
+            font-size: 0.5rem;
+        }
+
+        .dot-item { 
+            height: 3px; 
+            width: 3px;
+        }
+
+        .policy-privacy p {
+            font-size: 0.4rem;
+        }
+
+        .company-logo {
+            
+            width: 30px; 
+            height: 15px; 
+           
+        }
+
+        .copyright-text {
+            font-size: 0.4rem; 
+        }
+
+
+    }
+
 
 </style>

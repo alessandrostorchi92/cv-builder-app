@@ -242,5 +242,16 @@
     }
 
   }
+
+  @media screen and (max-width: 390px) {
+
+    .cv-template-gallery {
+      width: 70%;
+      margin: 0 auto;
+
+    }
+
+  }
   
 </style>
+

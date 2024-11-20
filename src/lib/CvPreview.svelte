@@ -64,7 +64,6 @@
   }
 
   onMount(() => {
-    $viewportWidth = window.innerWidth;
     getStoreUserData();
     if ($formDataStore.selectedCvTemplate) {
       isOverlay = false;
@@ -74,11 +73,15 @@
     }
 
     updateStoreUserData();
+
+    $viewportWidth = window.innerWidth;
+
   });
 
   afterUpdate(() => {
     clearLocalStorage();
   });
+
 </script>
 
 <div id="curriculum-content">
@@ -110,6 +113,8 @@
         <div class="offcanvas-body">
 
             {#if showPreview == false}
+
+            <h1 class="offcanvas-title text-center" id="offcanvasLabel">SCEGLI MODELLO</h1>
 
               <PopupTemplates on:hideCvTemplates={hideCvTemplates} on:setClickedCvTemplate={displaySelectedCvTemplates}></PopupTemplates>
 
@@ -271,17 +276,15 @@
     }
   }
 
-  @media screen and (max-width: 768px) {
-/* 
-    .overlay-container {
-      top: 0;
-      left: 0;
+  @media screen and (max-width: 576px) {
+    .cv-preview-container {
+      margin: 0 auto;
       width: 100%;
-      height: 100%;
-      background-color: #dadada;
-      z-index: 5;
-    } */
+    }
+
   }
 
 
 </style>
+
+
