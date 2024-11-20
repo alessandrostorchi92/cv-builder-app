@@ -136,7 +136,7 @@
             <div class="hard-skills-wrapper">
                             
                 {#each $cvInitialData.digitalSkills as digitalSkill (digitalSkill)}
-                                <div class="hard-skills-details" style="border: 1px solid {$cvInitialData.color};">{digitalSkill.skill} - {digitalSkill.level}</div>
+                        <div class="hard-skills-details" style="border: 1px solid {$cvInitialData.color};">{digitalSkill.skill} - {digitalSkill.level}</div>
                 {/each}
                                 
             </div>
@@ -327,6 +327,8 @@ p {
 
 .copyright-container {
         display: flex;
+        justify-content: center;
+        align-items: center;
         width: 90%;
         margin-top: 1rem; 
         gap: 10px;
@@ -356,13 +358,15 @@ p {
 
     @media screen and (max-width: 1200px) {
 
-    .profile-info-container, .user-info-container {
-        font-size: 0.6rem;
-    }
+        .profile-info-container, .user-info-container {
+            font-size: 0.6rem;
+        }
 
-    .watermark-logo {
-        width: 300px; 
-        height: 300px;
+        .watermark-logo {
+            width: 300px; 
+            height: 300px;
+        }
+
     }
 
     @media screen and (max-width: 992px) {
@@ -394,5 +398,51 @@ p {
 
     }
 
-}
+    @media screen and (max-width: 390px) {
+
+        .user-full-name {
+            font-size: 0.8rem;
+        }
+
+        .user-profession {
+            font-size: 0.7rem;
+        }
+
+        .profile-info-container, .user-info-container {
+            font-size: 0.3rem; 
+        }
+
+        .profile-summary-title, .work-experience-title, .academic-background-title, .hard-skills-title, .language-skills-title {
+            font-size: 0.5rem;
+    
+        }
+
+        .profile-summary-container p, .job-results-wrapper p {
+            font-size: 0.5rem;
+        }
+
+        .job-results-wrapper span, .education-goals-wrapper span {
+            font-size: 0.5rem;
+        }
+
+        .job-details, .job-dates, .education-details, .education-dates, .hard-skills-details, .language-skills-details  {
+            font-size: 0.4rem;
+        }
+
+        .policy-privacy-container p {
+            font-size: 0.4rem; 
+        }
+
+        .company-logo {
+            width: 40px; 
+            height: 20px; 
+        }
+
+        .copyright-text {
+            font-size: 0.4rem; 
+        }
+
+
+    }
+
 </style>

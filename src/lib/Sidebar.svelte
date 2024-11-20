@@ -1,5 +1,5 @@
 <script lang="ts">
-  import {formDataStore, isAllowed, isPrivacyPolicyApproved, currentTenant, tenantColor, getPdfCv} from "../stores/CvUser_data";
+  import {formDataStore, isAllowed, isPrivacyPolicyApproved, currentTenant, tenantColor, handleDownloadCv} from "../stores/CvUser_data";
   import * as validators from "../validators/form_validation";
   import { onMount } from "svelte";
 
@@ -1512,7 +1512,7 @@
 
   <!---- Download Button ---->
   <div class="download-container">
-    <button class="download-btn {tenantColor}" style="background-color: var(--primary-color); color: white;" aria-label="Scarica Curriculum Vitae" on:click={getPdfCv} disabled={!$isAllowed || !$isPrivacyPolicyApproved}>SCARICA CV <i class="fa-solid fa-download"></i></button>
+      <button class="download-btn {tenantColor}" style="background-color: var(--primary-color); color: white;" aria-label="Scarica Curriculum Vitae" on:click={handleDownloadCv} disabled={!$isAllowed || !$isPrivacyPolicyApproved}>SCARICA CV <i class="fa-solid fa-download"></i></button>
   </div>
  
 </div>
@@ -1773,6 +1773,13 @@
         transform 0.3s ease;
   }
 
+  .modify-template-btn:hover:disabled, .download-btn:disabled {
+      background-color: #cccccc;
+      color: #666666;
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+
   /*-------------------------------------
 
   <!---- Media Queries ---->
@@ -1844,6 +1851,10 @@
       font-size: 0.7rem;
     }
 
+    .download-container {
+      display: none;
+    }
+
   }
 
   @media screen and (max-width: 992px) {
@@ -1898,17 +1909,19 @@
       width: 6rem;
     }
 
-
   }
 
   @media screen and (max-width: 768px) {
 
     #sidebar {
       flex-basis: 100vh;
+      flex-basis: 100%;
+      width: calc(100% - 0.3rem);
       padding: 4px 4px 260px 4px;
     } 
 
     .download-container {
+      display: block;
       width: 100%;
       text-align: center;
       padding-top: 2rem;
@@ -1918,16 +1931,8 @@
       width: 80%;
       font-size: 0.8rem;
       padding: 0.6rem 0;
-    }
-        
+    }    
 
-  }
-
-  @media screen and (max-width: 576px) {
-
-    #sidebar {
-      width: 100%;
-    } 
   }
 
 </style>

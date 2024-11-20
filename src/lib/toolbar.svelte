@@ -1,8 +1,8 @@
 <script lang="ts">
 
-import {formDataStore, isAllowed, isPrivacyPolicyApproved, tenantColor, isModifyBtnDisabled, showCvTemplates, getPdfCv, viewportWidth, typeName} from "../stores/CvUser_data";
+import {formDataStore, isAllowed, isPrivacyPolicyApproved, tenantColor, isModifyBtnDisabled, showCvTemplates, handleDownloadCv, viewportWidth, typeName} from "../stores/CvUser_data";
 
-$: console.log($typeName);
+// $: console.log($typeName);
 
 </script>
 
@@ -56,7 +56,7 @@ $: console.log($typeName);
 
   <!---- Download Button ---->
   <div class="download-container">
-      <button class="download-btn {tenantColor}" style="background-color: var(--primary-color); color: white;" aria-label="Scarica Curriculum Vitae" on:click={getPdfCv} disabled={!$isAllowed || !$isPrivacyPolicyApproved}>SCARICA CV <i class="fa-solid fa-download"></i></button>
+      <button class="download-btn {tenantColor}" style="background-color: var(--primary-color); color: white;" aria-label="Scarica Curriculum Vitae" on:click={handleDownloadCv} disabled={!$isAllowed || !$isPrivacyPolicyApproved}>SCARICA CV <i class="fa-solid fa-download"></i></button>
   </div>
 
 </div>
@@ -182,13 +182,8 @@ $: console.log($typeName);
       }
 
       .download-container {
-        width: 100%;
+        display: none;
       }
-
-      .download-btn {
-        width: 80%;
-      }
-
       .cv-preview-container {
         display: block;
         width: 100%;

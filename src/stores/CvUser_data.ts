@@ -132,8 +132,8 @@ export function clearLocalStorage(): void {
 export let isAllowed: formTypes.isAllowed = writable(false);
 export let isPrivacyPolicyApproved: formTypes.isAllowed = writable(false);
 export let isModifyBtnDisabled: formTypes.isAllowed = writable(false);
-export let isFormValid: formTypes.isFormValid = writable(false);
-export let showPopup: formTypes.isFormValid = writable(false);
+export let isFormValidated = false;
+export let showPopup: formTypes.showPopup = writable(false);
 export let viewportWidth = writable(0);
 export let typeName = writable(false);
 
@@ -156,7 +156,7 @@ function getTenant(): string | null {
 
     try {
 
-      const currentDomain: string = "https://www.during.it/";
+      const currentDomain: string = "https://jobcamere.com/";
 
       if (currentDomain.includes('during')) {
         return 'during';
@@ -232,6 +232,12 @@ function getCopyrightPolicy(): string | null {
 }
 
 export const currentCopyrightPolicy = getCopyrightPolicy();
+
+export function showCvTemplates() : void {
+  let origin: boolean = false;
+  showPopup.set(true);
+  isModifyBtnDisabled.set(true);
+}
 
 function checkMandatoryInputs(
   inputName: string,
@@ -347,122 +353,138 @@ function isHasOwnCarRadiosSelected(): void {
   checkMandatoryRadioInputs("drivingLicenceRadioOptions", ".error-has-own-car-message", "Per favore, seleziona almeno un'opzione");
 }
 
-export function checkRequiredFields() {
+function checkRequiredFields() {
 
-  isFormValid.set(true);
+  isFormValidated = true;
 
   if (!userFormData.name) {
     checkNameInput();
-    isFormValid.set(false);
+    isFormValidated = false;
   }
 
   if (!userFormData.surname) {
     checkSurnameInput();
-    isFormValid.set(false);
+    isFormValidated = false;
   }
 
   if (!userFormData.profession) {
     checkProfessionInput();
-    isFormValid.set(false);
+    isFormValidated = false;
   }
 
   if (!userFormData.nationality) {
     checkNationalityInput();
-    isFormValid.set(false);
+    isFormValidated = false;
   }
 
   if (!userFormData.isProtectedCategory) {
     isProtectedCategoryRadiosSelected();
-    isFormValid.set(false);
+    isFormValidated = false;
   }
   
   if (!userFormData.hasOwnCar) {
     isHasOwnCarRadiosSelected();
-    isFormValid.set(false);
+    isFormValidated = false;
   }
   
   if (!userFormData.birthPlace) {
     checkBirthPlaceInput();
-    isFormValid.set(false);
+    isFormValidated = false;
   }
 
   if (!userFormData.birthDate) {
     checkBirthDateInput();
-    isFormValid.set(false);
+    isFormValidated = false;
   }
 
   if (!userFormData.address.streetAddress) {
     checkStreetAddressInput();
-    isFormValid.set(false);
+    isFormValidated = false;
   }
 
   if (!userFormData.address.city) {
     checkCityInput();
-    isFormValid.set(false);
+    isFormValidated = false;
   }
 
   if (!userFormData.address.region) {
     checkRegionInput();
-    isFormValid.set(false);
+    isFormValidated = false;
   }
 
   if (!userFormData.phonePrefix) {
     checkPhonePrefixSelect();
-    isFormValid.set(false);
+    isFormValidated = false;
   }
 
   if (!userFormData.phone) {
     checkPhoneInput();
-    isFormValid.set(false);
+    isFormValidated = false;
   }
 
   if (!userFormData.email) {
     checkEmailInput();
-    isFormValid.set(false);
+    isFormValidated = false;
   }
 
-  return isFormValid;
+  return isFormValidated;
   
 }
 
-export function showCvTemplates() : void {
-  let origin: boolean = false;
-  showPopup.set(true);
-  isModifyBtnDisabled.set(true);
-}
+function getPdfCv(): void {
 
-export function getPdfCv(): void {
-  if (checkRequiredFields()) {
     downloadCv()
       .then((response) => {
-        if (response.data) {
-          const url = window.URL.createObjectURL(new Blob([response.data]));
+          if (response.data) {
+            const url = window.URL.createObjectURL(new Blob([response.data]));
 
-          const element = document.createElement("a");
-          element.href = url;
-          element.download = "Cv.pdf";
+            const element = document.createElement("a");
+            element.href = url;
+            element.download = "Cv.pdf";
 
-          document.body.append(element);
-          element.click();
-          element.remove();
+            document.body.append(element);
+            element.click();
+            element.remove();
 
-          URL.revokeObjectURL(url);
+            URL.revokeObjectURL(url);
 
-          Swal.fire({
-              title: 'Download completato!',
-              text: `Il tuo CV è stato scaricato con successo.`,
-              icon: 'success',
-              timer: 1500,          
-              showConfirmButton: false 
-          });
+            Swal.fire({
+                title: 'Download completato!',
+                text: `Il tuo CV è stato scaricato con successo.`,
+                icon: 'success',
+                timer: 1500,          
+                showConfirmButton: false 
+            });
 
-        } else {
-          console.error("Nessun dato ricevuto dal server");
-          alert("Non funziona");
-        }
-      })
-      .catch((error) => {
-        console.error("Errore durante il download del CV:", error);
+          } else {
+            console.error("Nessun dato ricevuto dal server");
+            alert("Non funziona");
+          }
+    })
+    .catch((error) => {
+      console.error("Errore durante il download del CV:", error);
       });
+  
+}
+
+export function handleDownloadCv() {
+
+  const isCvDownloadAllowed = checkRequiredFields();
+
+  if (!isCvDownloadAllowed) {
+
+    Swal.fire({
+      title: 'Impossibile scaricare il CV!',
+      text: `Compila i campi obbligatori.`,
+      icon: 'error',
+      timer: 2000,          
+      showConfirmButton: false 
+    });
+
+  } else {
+
+    getPdfCv();
+
   }
+
 }

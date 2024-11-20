@@ -42,10 +42,7 @@
   }
   
   $: showPreview = $typeName;
-
-  $: console.log(showPreview);
   
-
   function CloseOffcanvas(): void {
     let x = document.getElementById("offcanvas") ?? null;
     x?.classList.remove("show");
@@ -55,22 +52,18 @@
 
   function displaySelectedCvTemplates(event: CustomEvent): void {
     $formDataStore.selectedCvTemplate = event.detail.template;
-    localStorage.setItem(
-      "selectedCvTemplate",
-      $formDataStore.selectedCvTemplate
-    );
+    localStorage.setItem("selectedCvTemplate",$formDataStore.selectedCvTemplate);
     $isModifyBtnDisabled = false;
     CloseOffcanvas();
   }
 
   onMount(() => {
+
+    localStorage.removeItem("selectedCvTemplate");
+
     getStoreUserData();
-    if ($formDataStore.selectedCvTemplate) {
-      isOverlay = false;
-      $isModifyBtnDisabled = false;
-    } else {
-      isOverlay = true;
-    }
+
+    isOverlay = true;
 
     updateStoreUserData();
 
@@ -78,20 +71,22 @@
 
   });
 
-  afterUpdate(() => {
-    clearLocalStorage();
-  });
+  // afterUpdate(() => {
+  //   clearLocalStorage();
+  // });
 
 </script>
 
 <div id="curriculum-content">
+
   {#if isOverlay}
+
     {#if $viewportWidth > 768}
+
       <div class="overlay-container flex-center-utility">
-        <button class="select-template-button" on:click={() => selectTemplate()}
-          >SCEGLI TEMPLATE</button
-        >
+        <button class="select-template-button" on:click={() => selectTemplate()}>SCEGLI TEMPLATE</button>
       </div>
+
     {:else}
       <div
         class="offcanvas offcanvas-start {tenantColor}"
@@ -112,15 +107,15 @@
 
         <div class="offcanvas-body">
 
-            {#if showPreview == false}
+          {#if showPreview == false}
 
-            <h1 class="offcanvas-title text-center" id="offcanvasLabel">SCEGLI MODELLO</h1>
+              <h1 class="offcanvas-title text-center" id="offcanvasLabel">SCEGLI MODELLO</h1>
 
               <PopupTemplates on:hideCvTemplates={hideCvTemplates} on:setClickedCvTemplate={displaySelectedCvTemplates}></PopupTemplates>
 
-            {:else}
+          {:else}
 
-              <div class="cv-preview-container">
+            <div class="cv-preview-container">
 
                 {#if $formDataStore.selectedCvTemplate === "cv-template1.png"}
                   <Template1></Template1>
@@ -134,13 +129,15 @@
                   <Template3></Template3>
                 {/if}
 
-              </div>
+            </div>
               
-            {/if}
+          {/if}
           
         </div>
       </div>
+
     {/if}
+    
   {/if}
 
   {#if $showPopup == true}
@@ -276,7 +273,7 @@
     }
   }
 
-  @media screen and (max-width: 576px) {
+  @media screen and (max-width: 768px) {
     .cv-preview-container {
       margin: 0 auto;
       width: 100%;

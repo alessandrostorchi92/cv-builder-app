@@ -166,7 +166,7 @@
         
                                 <b class="job-dates">{job.startDateWorkExperience}/{job.endDateWorkExperience} -</b>
                                 <p class="job-results">{job.workExperienceResults}</p>
-            
+                                
                             </div>
                             
                         </div>
@@ -465,6 +465,59 @@
 
 
     }
+
+    @media screen and (max-width: 390px) {
+
+         .user-profile-picture, .default-profile-picture {
+            width: 80px;
+            height: 120px;
+        }
+
+        .user-full-name {
+            font-size: 1rem;
+        }
+
+        .user-profession {
+            font-size: 0.8rem;
+        }
+
+        .info-item i {
+            font-size: 0.5rem;
+        }
+
+        .info-item span {
+            font-size: 0.4rem;
+        }
+
+        .languages-title, .hard-skills-title, .work-experience-title, .academic-background-title {
+            font-size: 0.6rem; 
+        }
+
+        .language-details, .hard-skills-details {
+            font-size: 0.5rem;
+        }
+
+        .user-status-info {
+            gap: 0.5rem;
+            padding: 0.2rem 0.5rem;
+        }
+
+        .profile-summary-container p, .job-results, .education-goals {
+            font-size: 0.5rem;
+            padding: 0.2rem 0;
+        }
+
+    
+
+        .job-details, .education-details{
+            font-size: 0.5rem; 
+        }
+
+        .job-dates, .education-field-of-study {
+            font-size: 0.5rem; 
+        }
+
+    } 
 
 </style>
 

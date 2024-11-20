@@ -46,11 +46,11 @@
 
         {#each cvTemplates as cvTemplate, cvTemplateIndex}
 
-          <div class="cv-template-item {tenantColor}" in:fade={{ delay: cvTemplateIndex * 200, duration: 800 }}>
+          <div class="cv-template-item {tenantColor}" in:fade={{ delay: cvTemplateIndex * 200, duration: 800 }} on:click={() => setClickedCvTemplate(cvTemplate.name)}>
 
             <img src={cvTemplate.name} alt="Esempio Template Curriculum Vitae"/>
 
-            <button class="use-template-btn" aria-label="Usa Template" on:click={() => setClickedCvTemplate(cvTemplate.name)}>USA TEMPLATE</button>
+            <button class="use-template-btn" aria-label="Usa Template">USA TEMPLATE</button>
 
           </div>
 
@@ -112,6 +112,7 @@
   .cv-template-item {
     position: relative;
     border: 4px solid transparent;
+    cursor: pointer;
     transition:
       border-color 0.3s ease,
       transform 0.7s ease,
@@ -152,7 +153,6 @@
     border-radius: 8px;
     padding: 0.5rem;
     color: white;
-    cursor: pointer;
     box-shadow:
       0.7px 0.5px 2.3px rgba(0, 0, 0, 0.05),
       1.7px 1.3px 5.8px rgba(0, 0, 0, 0.071),
@@ -237,21 +237,18 @@
 
   @media screen and (max-width: 768px) {
 
-    .close-btn {
-      display: none;
-    }
-
-  }
-
-  @media screen and (max-width: 390px) {
-
     .cv-template-gallery {
       width: 70%;
       margin: 0 auto;
 
     }
 
+    .close-btn {
+      display: none;
+    }
+
   }
+
   
 </style>
 
