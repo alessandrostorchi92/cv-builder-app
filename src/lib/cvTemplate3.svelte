@@ -1,7 +1,12 @@
 <script lang="ts">
 
-   import {formDataStore, isPrivacyPolicyApproved, isAllowed, currentTenant, currentCopyrightPolicy, tenantColor} from "../stores/CvUser_data";
+   import {formDataStore, isPrivacyPolicyApproved, isAllowed} from "../stores/CvUser_data";
    import {cvInitialData}  from "../stores/cvDefault_data";
+
+
+   export let tenant: any;
+   export let color: any;
+   export let footer: any;
 
 </script>
 
@@ -12,58 +17,59 @@
         <div class="profile-user-data-container">
         
             <!-- Picture image-->
-            <div class="profile-picture-container">
-        
-                    {#if $formDataStore.filePicture}
+            {#if $formDataStore.filePicture}
             
-                        <img class="user-profile-picture" src="{$formDataStore.filePicture}" alt="Immagine Profilo">
-        
-                    {:else}
-        
-                        <div class= "default-profile-picture" style="background-image: url('/background-profile-picture.png');"></div>
-                    
-                    {/if}
-            
+                <div class="profile-picture-container">
+                    <img class="user-profile-picture" src="{$formDataStore.filePicture}" alt="Immagine Profilo">
+                </div>
+
+            {:else}
+
+            <div class="tenant-picture-container">
+                <div class="tenant-picture" style="background-image:url({tenant == "lavoroexpress" ? 'https://lavoroexpress.it/assets/img/cv/circle.svg' : `https://${tenant}.blob.core.windows.net/cdn/cv/circle.svg`})"></div>
             </div>
+               
+            {/if}
+            
         
             <!-- User Full Name -->
-            <div class="user-full-name {tenantColor}" style="color: {$cvInitialData.color}">{$cvInitialData.name} {$cvInitialData.surname}</div>
+            <div class="user-full-name {color}" style="color: {$cvInitialData.color}">{$cvInitialData.name} {$cvInitialData.surname}</div>
             <div class="user-profession">{$cvInitialData.profession}</div>
         
             <!-- Dati di contatto -->
         
             <!-- Nationality Icon -->
             <div class="info-item">
-                    <i class="fa-solid fa-earth-americas {tenantColor}" style="color: {$cvInitialData.color}"></i>
+                    <i class="fa-solid fa-earth-americas {color}" style="color: {$cvInitialData.color}"></i>
                     <span>Nazionalità: {$cvInitialData.nationality}</span>
             </div>
         
             <!-- BirthCake Icon -->
             <div class="info-item">
-                    <i class="fa-solid fa-cake-candles {tenantColor}" style="color: {$cvInitialData.color}"></i>
+                    <i class="fa-solid fa-cake-candles {color}" style="color: {$cvInitialData.color}"></i>
                     <span>{$cvInitialData.birthDate}, {$cvInitialData.birthPlace}</span>
             </div>
         
             <!-- House Icon -->
             <div class="info-item">
-                    <i class="fa-solid fa-house {tenantColor}" style="color: {$cvInitialData.color}"></i>
+                    <i class="fa-solid fa-house {color}" style="color: {$cvInitialData.color}"></i>
                     <span>{$cvInitialData.address.streetAddress},<span class="ms-1">{$cvInitialData.address.postalCode},</span> {$cvInitialData.address.city} - {$cvInitialData.address.region}</span>
             </div>
         
             <!-- Email Icon -->
             <div class="info-item">
-                    <i class="fa-regular fa-envelope {tenantColor}" style="color: {$cvInitialData.color}"></i>
+                    <i class="fa-regular fa-envelope {color}" style="color: {$cvInitialData.color}"></i>
                     <span>{$cvInitialData.email}</span>
             </div>
             
             <!-- Phone Icon-->
             <div class="info-item">
-                    <i class="fa-solid fa-mobile-screen {tenantColor}" style="color: {$cvInitialData.color}"></i>
+                    <i class="fa-solid fa-mobile-screen {color}" style="color: {$cvInitialData.color}"></i>
                     <span>{$cvInitialData.phonePrefix} {$cvInitialData.phoneNumber}</span>
             </div>
         
             <!-- Language Section-->
-            <div class="languages-container {tenantColor}">
+            <div class="languages-container {color}">
         
                     <div class="languages-title" style="color: {$cvInitialData.color}; border-bottom: 1px solid {$cvInitialData.color};">LINGUE</div>
                         
@@ -78,7 +84,7 @@
             </div>
         
             <!-- Hard Skill Section-->
-            <div class="hard-skills-container {tenantColor}">
+            <div class="hard-skills-container {color}">
         
                     <div class="hard-skills-title" style="color: {$cvInitialData.color}; border-bottom: 1px solid {$cvInitialData.color};">SKILLS E COMPETENZE</div>
                 
@@ -98,7 +104,7 @@
                  
         {#if isPrivacyPolicyApproved && $isAllowed}
         
-            <div class="auth-container {tenantColor}" style="background-color: {$cvInitialData.color};">
+            <div class="auth-container {color}" style="background-color: {$cvInitialData.color};">
         
                         <!-- Policy Privacy -->
                         <div class="policy-privacy-container">
@@ -124,7 +130,7 @@
     <div class="right-section">
         
         <!-- User Status Section-->
-        <div class="user-status-info {tenantColor}">
+        <div class="user-status-info {color}">
         
             <div class="info-item">
                 <span style="color: {$cvInitialData.color};">Categoria protetta:</span><span style="margin-left: 5px">{$cvInitialData.isProtectedCategory}</span>
@@ -148,9 +154,9 @@
         </div>
         
         <!-- Work Experience Section-->
-        <div class="work-experience-container {tenantColor}">
+        <div class="work-experience-container {color}">
         
-                    <div class="watermark-logo" style="background-image: url(https://{currentTenant}.blob.core.windows.net/cdn/cv/transparent-logo.png);"></div>
+                    <div class="watermark-logo" style="background-image:url({tenant == "lavoroexpress" ? 'https://lavoroexpress.it/assets/img/cv/transparent-logo.png' : `https://${tenant}.blob.core.windows.net/cdn/cv/transparent-logo.png`})"></div>
                     
                     <div class="work-experience-title" style="color: {$cvInitialData.color}; border-bottom: 1px solid {$cvInitialData.color};">ESPERIENZE LAVORATIVE</div>
                         
@@ -176,7 +182,7 @@
         </div>
         
         <!-- Academic Background Section -->
-        <div class="academic-background-container {tenantColor}">
+        <div class="academic-background-container {color}">
                 
                     <div class="academic-background-title" style="color: {$cvInitialData.color}; border-bottom: 1px solid {$cvInitialData.color};">FORMAZIONE E QUALIFICHE</div>
                 
@@ -205,8 +211,8 @@
         
         <!-- Footer Section -->
         <div class="footer-container">
-                    <div class="company-logo" style="background-image:url(https://{currentTenant}.blob.core.windows.net/cdn/cv/extended-logo.png);"></div>
-                    <p class="copyright-text">{currentCopyrightPolicy}</p>               
+                    <div class="company-logo" style="background-image:url({tenant == "lavoroexpress" ? 'https://lavoroexpress.it/assets/img/cv/extended-logo.png' : `https://${tenant}.blob.core.windows.net/cdn/cv/extended-logo.png`})"></div>
+                    <p class="copyright-text">{footer}</p>               
         </div>                   
                    
     </div>
@@ -249,15 +255,18 @@
         object-fit: cover;
     }
 
-    .default-profile-picture  {
-        width: 160px;
-        height: 160px;
-        aspect-ratio: 1/1;
-        border-radius: 50%;
-        background-size: cover;
-        background-position: center;
-        border-radius: 50%;
-        margin: 0 auto; 
+    .tenant-picture-container {
+        width: 200px;
+        aspect-ratio: 2/1;
+        padding: 0 1rem;
+    }
+
+    .tenant-picture  {
+        width: 100%;         
+        height: 100%;  
+        background-size: contain; 
+        background-repeat: no-repeat;
+        background-position: center; 
     }
 
     .user-full-name {
@@ -408,6 +417,13 @@
     ------------------------------------- */
     @media screen and (max-width: 1200px) {
 
+        .user-profile-picture {
+            width: 120px;
+            height: 160px;
+            border-radius: 400px;
+            object-fit: cover;
+        }
+
         .user-full-name {
             font-size:1.7rem;
         }
@@ -468,7 +484,7 @@
 
     @media screen and (max-width: 390px) {
 
-         .user-profile-picture, .default-profile-picture {
+         .user-profile-picture{
             width: 80px;
             height: 120px;
         }

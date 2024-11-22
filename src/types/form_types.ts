@@ -1,5 +1,3 @@
-
-import { writable, type Writable } from "svelte/store"; 
       
 export type FormData = {
 
@@ -52,12 +50,6 @@ export type AcademicHistory = {
     endDateAcademicEducation: string,
 };
 
-
-export type isAllowed = Writable<boolean>;
-export type isPrivacyPolicyApproved = Writable<boolean>;
-export type isModifyBtnDisabled = Writable<boolean>;
-export type showPopup = Writable<boolean>;
-export type viewportWidth = Writable<number>;
 
 
 

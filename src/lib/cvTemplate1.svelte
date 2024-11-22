@@ -1,7 +1,11 @@
 <script lang="ts">
 
-    import {formDataStore, isAllowed, isPrivacyPolicyApproved, currentTenant, currentCopyrightPolicy, tenantColor} from "../stores/CvUser_data"; 
+    import {formDataStore, isAllowed, isPrivacyPolicyApproved} from "../stores/CvUser_data"; 
     import { cvInitialData }  from "../stores/cvDefault_data";
+    
+    export let tenant: any;
+    export let color: any;
+    export let footer: any;
 
 </script>
 
@@ -20,7 +24,7 @@
             {:else}
             
                 <div class="tenant-picture-container" style=" background-color: {$formDataStore.selectedColor || "white"}; padding: 20px;">
-                    <div class="tenant-picture" style="background-image: url(https://{currentTenant}.blob.core.windows.net/cdn/cv/circle.svg);"></div>
+                    <div class="tenant-picture" style="background-image:url({tenant == "lavoroexpress" ? 'https://lavoroexpress.it/assets/img/cv/circle.svg' : `https://${tenant}.blob.core.windows.net/cdn/cv/circle.svg`})"></div>
                 </div>
                 
             {/if}
@@ -31,7 +35,7 @@
     
             <!-- Profile data -->
     
-            <div class="user-full-name {tenantColor}"><strong><span style="color: {$cvInitialData.color};">{$cvInitialData.name}</span> {$cvInitialData.surname}</strong></div>
+            <div class="user-full-name {color}"><strong><span style="color: {$cvInitialData.color};">{$cvInitialData.name}</span> {$cvInitialData.surname}</strong></div>
             
             <div class="user-profession">{$cvInitialData.profession}</div>
     
@@ -41,25 +45,25 @@
 
                     <!-- Nationality Icon -->
                     <div class="info-item">
-                        <i class="fa-solid fa-earth-americas {tenantColor}" style="color: {$cvInitialData.color}"></i>
+                        <i class="fa-solid fa-earth-americas {color}" style="color: {$cvInitialData.color}"></i>
                         <span>Nazionalità: {$cvInitialData.nationality}</span>
                     </div>
 
                     <!-- BirthCake Icon -->   
                     <div class="info-item">
-                        <i class="fa-solid fa-cake-candles {tenantColor}" style="color: {$cvInitialData.color}"></i>
+                        <i class="fa-solid fa-cake-candles {color}" style="color: {$cvInitialData.color}"></i>
                         <span>{$cvInitialData.birthDate}, {$cvInitialData.birthPlace}</span>
                     </div>
 
                     <!-- HasOwnCar Icon -->
                     <div class="info-item">
-                        <i class="fa-solid fa-car-side {tenantColor}" style="color: {$cvInitialData.color}"></i>
+                        <i class="fa-solid fa-car-side {color}" style="color: {$cvInitialData.color}"></i>
                         <span>Automunito:</span><span class="ms-1">{$cvInitialData.drivingLicences}</span>
                     </div>
                     
                     <!-- IsProtectedCategory Icon -->
                     <div class="info-item">
-                        <i class="fa-regular fa-heart {tenantColor}" style="color: {$cvInitialData.color}"></i>
+                        <i class="fa-regular fa-heart {color}" style="color: {$cvInitialData.color}"></i>
                         <span>Categoria protetta:</span><span style="margin-left: 5px">{$cvInitialData.isProtectedCategory}</span>
                     </div>
        
@@ -71,7 +75,7 @@
 
                     <div class="info-item">
 
-                        <i class="fa-solid fa-house {tenantColor}" style="color: {$cvInitialData.color}"></i>
+                        <i class="fa-solid fa-house {color}" style="color: {$cvInitialData.color}"></i>
 
                         <span>{$cvInitialData.address.streetAddress},<span class="ms-1">{$cvInitialData.address.postalCode},</span> {$cvInitialData.address.city} - {$cvInitialData.address.region}</span>
 
@@ -81,14 +85,14 @@
                     <!-- Phone Icon-->
                     <div class="info-item">
 
-                        <i class="fa-solid fa-mobile-screen {tenantColor}" style="color: {$cvInitialData.color}"></i>
+                        <i class="fa-solid fa-mobile-screen {color}" style="color: {$cvInitialData.color}"></i>
                         <span>{$cvInitialData.phonePrefix} {$cvInitialData.phoneNumber}</span>
                         
                     </div>
 
                     <!-- Email Icon -->
                     <div class="info-item">
-                        <i class="fa-regular fa-envelope {tenantColor}" style="color: {$cvInitialData.color}"></i>
+                        <i class="fa-regular fa-envelope {color}" style="color: {$cvInitialData.color}"></i>
                         <span>{$cvInitialData.email}</span>
                     </div>
     
@@ -104,16 +108,16 @@
     
         <!-- Profile Summary Section-->
         <div class="profile-summary-container">
-            <div class="profile-summary-title {tenantColor}" style="color: {$cvInitialData.color};">BREVE PRESENTAZIONE</div>
+            <div class="profile-summary-title {color}" style="color: {$cvInitialData.color};">BREVE PRESENTAZIONE</div>
             <p class="personal-profile-summary">{$cvInitialData.profileSummary}</p>
         </div>
     
-        <div class="watermark-logo" style="background-image: url(https://{currentTenant}.blob.core.windows.net/cdn/cv/transparent-logo.png);"></div>
+        <div class="watermark-logo" style="background-image:url({tenant == "lavoroexpress" ? 'https://lavoroexpress.it/assets/img/cv/transparent-logo.png' : `https://${tenant}.blob.core.windows.net/cdn/cv/transparent-logo.png`})"></div>
 
         <!-- Work Experience Section-->
         <div class="work-experience-container">
     
-            <div class="work-experience-title {tenantColor}" style="color:{$cvInitialData.color};">ESPERIENZE</div>
+            <div class="work-experience-title {color}" style="color:{$cvInitialData.color};">ESPERIENZE</div>
                 
             {#each $cvInitialData.jobs as job}
     
@@ -139,7 +143,7 @@
         <!-- Academic Background Section -->
         <div class="academic-background-container">
         
-                <div class="academic-background-title {tenantColor}" style="color:{$cvInitialData.color};">FORMAZIONE</div>
+                <div class="academic-background-title {color}" style="color:{$cvInitialData.color};">FORMAZIONE</div>
             
                 {#each $cvInitialData.educations as education (education)}
         
@@ -165,7 +169,7 @@
         <!-- Language Section -->
         <div class="language-container">
     
-            <div class="language-title {tenantColor}" style="color: {$cvInitialData.color};">LINGUE</div>
+            <div class="language-title {color}" style="color: {$cvInitialData.color};">LINGUE</div>
             
             {#each $cvInitialData.languagesSkills as selectedLanguage (selectedLanguage)}
         
@@ -183,7 +187,7 @@
         <!-- Hard Skills Section-->
         <div class="hard-skills-container">
     
-            <div class="hard-skills-title {tenantColor}" style="color:{$cvInitialData.color};">SKILLS E COMPETENZE DIGITALI</div>
+            <div class="hard-skills-title {color}" style="color:{$cvInitialData.color};">SKILLS E COMPETENZE DIGITALI</div>
            
             {#each $cvInitialData.digitalSkills as digitalSkill (digitalSkill)}
     
@@ -225,8 +229,8 @@
         <!-- Company info Section -->
             <div class="copyright-container">
         
-                <div class="company-logo" style="background-image:url(https://{currentTenant}.blob.core.windows.net/cdn/cv/extended-logo.png);"></div>
-                <p class="copyright-text">{currentCopyrightPolicy}</p>
+                <div class="company-logo" style="background-image:url({tenant == "lavoroexpress" ? 'https://lavoroexpress.it/assets/img/cv/extended-logo.png' : `https://${tenant}.blob.core.windows.net/cdn/cv/extended-logo.png`})"></div>
+                <p class="copyright-text">{footer}</p>
                     
             </div>                   
      

@@ -6,7 +6,6 @@
     clearLocalStorage,
     showPopup,
     isModifyBtnDisabled,
-    tenantColor,
     viewportWidth,
     typeName,
   } from "../stores/CvUser_data";
@@ -18,6 +17,10 @@
   import Toolbar from "./toolbar.svelte";
 
   import { onMount, afterUpdate } from "svelte";
+
+  export let color: any;
+  export let tenant: any;
+  export let footer: any;
 
   let isOverlay: boolean;
 
@@ -89,7 +92,7 @@
 
     {:else}
       <div
-        class="offcanvas offcanvas-start {tenantColor}"
+        class="offcanvas offcanvas-start {color}"
         style="background-color: var(--primary-color);"
         tabindex="-1"
         id="offcanvas"
@@ -111,22 +114,22 @@
 
               <h1 class="offcanvas-title text-center" id="offcanvasLabel">SCEGLI MODELLO</h1>
 
-              <PopupTemplates on:hideCvTemplates={hideCvTemplates} on:setClickedCvTemplate={displaySelectedCvTemplates}></PopupTemplates>
+              <PopupTemplates bind:color on:hideCvTemplates={hideCvTemplates} on:setClickedCvTemplate={displaySelectedCvTemplates}></PopupTemplates>
 
           {:else}
 
             <div class="cv-preview-container">
 
                 {#if $formDataStore.selectedCvTemplate === "cv-template1.png"}
-                  <Template1></Template1>
+                  <Template1 bind:tenant bind:color bind:footer></Template1>
                 {/if}
           
                 {#if $formDataStore.selectedCvTemplate === "cv-template2.png"}
-                  <Template2></Template2>
+                  <Template2 bind:tenant bind:color bind:footer></Template2>
                 {/if}
           
                 {#if $formDataStore.selectedCvTemplate === "cv-template3.png"}
-                  <Template3></Template3>
+                  <Template3 bind:tenant bind:color bind:footer></Template3>
                 {/if}
 
             </div>
@@ -142,6 +145,7 @@
 
   {#if $showPopup == true}
     <PopupTemplates
+    bind:color
       on:hideCvTemplates={hideCvTemplates}
       on:setClickedCvTemplate={displaySelectedCvTemplates}
     ></PopupTemplates>
@@ -151,19 +155,19 @@
 
     <div class="cv-preview-container">
       {#if $formDataStore.selectedCvTemplate === "cv-template1.png"}
-        <Template1></Template1>
+        <Template1 bind:color bind:tenant bind:footer></Template1>
       {/if}
 
       {#if $formDataStore.selectedCvTemplate === "cv-template2.png"}
-        <Template2></Template2>
+        <Template2 bind:color bind:tenant bind:footer></Template2>
       {/if}
 
       {#if $formDataStore.selectedCvTemplate === "cv-template3.png"}
-        <Template3></Template3>
+        <Template3 bind:color bind:tenant bind:footer></Template3>
       {/if}
     </div>
 
-    <Toolbar></Toolbar>
+    <Toolbar bind:color></Toolbar>
 
   </div>
 </div>
@@ -283,5 +287,3 @@
 
 
 </style>
-
-

@@ -1,8 +1,10 @@
 <script lang="ts">
 
-import {formDataStore, isAllowed, isPrivacyPolicyApproved, tenantColor, isModifyBtnDisabled, showCvTemplates, handleDownloadCv, viewportWidth, typeName} from "../stores/CvUser_data";
+import {formDataStore, isAllowed, isPrivacyPolicyApproved, isModifyBtnDisabled, showCvTemplates, handleDownloadCv, viewportWidth, typeName} from "../stores/CvUser_data";
 
 // $: console.log($typeName);
+
+export let color: any;
 
 </script>
 
@@ -12,12 +14,12 @@ import {formDataStore, isAllowed, isPrivacyPolicyApproved, tenantColor, isModify
 
     <!---- Modify Button ---->
     <div>
-      <button class="modify-template-btn {tenantColor}" style="background-color: white; color: var(--primary-color);" aria-label="Modifica lo stile del Cv" on:click={() => showCvTemplates()} disabled={$isModifyBtnDisabled}>MODIFICA STILE CV</button>
+      <button class="modify-template-btn {color}" style="background-color: white; color: var(--primary-color);" aria-label="Modifica lo stile del Cv" on:click={() => showCvTemplates()} disabled={$isModifyBtnDisabled}>SCEGLI STILE CV</button>
     </div>
 
     <!---- Custom colour Button ---->
     <div class="custom-icon-container">
-      <label for="color-picker-input"><i class="fas fa-palette {tenantColor} custom-icon"></i></label>
+      <label for="color-picker-input"><i class="fas fa-palette {color} custom-icon"></i></label>
       <input
           type="color"
           id="color-picker-input"
@@ -31,12 +33,12 @@ import {formDataStore, isAllowed, isPrivacyPolicyApproved, tenantColor, isModify
 
       <!---- Modify Button ---->
       <div>
-        <button class="modify-template-btn {tenantColor}" style="background-color: white; color: var(--primary-color);" aria-label="Modifica lo stile del Cv" on:click={() => {$typeName = false; showCvTemplates()}} disabled={$isModifyBtnDisabled}>MODIFICA STILE CV</button>
+        <button class="modify-template-btn {color}" style="background-color: white; color: var(--primary-color);" aria-label="Modifica lo stile del Cv" on:click={() => {$typeName = false; showCvTemplates()}} disabled={$isModifyBtnDisabled}>MODIFICA STILE CV</button>
       </div>
 
       <!---- Custom colour Button ---->
       <div class="custom-icon-container">
-        <label for="color-picker-input"><i class="fas fa-palette {tenantColor} custom-icon"></i></label>
+        <label for="color-picker-input"><i class="fas fa-palette {color} custom-icon"></i></label>
         <input
             type="color"
             id="color-picker-input"
@@ -56,7 +58,7 @@ import {formDataStore, isAllowed, isPrivacyPolicyApproved, tenantColor, isModify
 
   <!---- Download Button ---->
   <div class="download-container">
-      <button class="download-btn {tenantColor}" style="background-color: var(--primary-color); color: white;" aria-label="Scarica Curriculum Vitae" on:click={handleDownloadCv} disabled={!$isAllowed || !$isPrivacyPolicyApproved}>SCARICA CV <i class="fa-solid fa-download"></i></button>
+      <button class="download-btn {color}" style="background-color: var(--primary-color); color: white;" aria-label="Scarica Curriculum Vitae" on:click={() => handleDownloadCv()} disabled={!$isAllowed || !$isPrivacyPolicyApproved}>SCARICA CV <i class="fa-solid fa-download"></i></button>
   </div>
 
 </div>

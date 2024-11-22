@@ -1,19 +1,23 @@
 <script lang="ts">
 
-    import {formDataStore, isPrivacyPolicyApproved, isAllowed, currentTenant, currentCopyrightPolicy, tenantColor} from "../stores/CvUser_data";
+    import {formDataStore, isPrivacyPolicyApproved, isAllowed} from "../stores/CvUser_data";
     import { cvInitialData }  from "../stores/cvDefault_data";
+
+    export let tenant: any;
+    export let color: any;
+    export let footer: any;
 
 </script>
 
 <div id="cv-template2-container">
 
     <!-- Header Section -->
-    <div class="header-section {tenantColor}" style="border: 1px solid {$cvInitialData.color};">
+    <div class="header-section {color}" style="border: 1px solid {$cvInitialData.color};">
 
         <div class="text-center">
              
              <!-- User Full Name -->
-             <div class="user-full-name {tenantColor}"><span style="color: {$cvInitialData.color};">{$cvInitialData.name}</span><span class="ms-1" style="color: #888888;">{$cvInitialData.surname}</span></div>
+             <div class="user-full-name {color}"><span style="color: {$cvInitialData.color};">{$cvInitialData.name}</span><span class="ms-1" style="color: #888888;">{$cvInitialData.surname}</span></div>
      
              <!-- User Profession -->
              <div class="user-profession">{$cvInitialData.profession}</div>
@@ -22,48 +26,48 @@
      
                  <!-- User BirthCake -->                 
                  <div class="info-item">
-                     <span class="{tenantColor}" style="color: {$cvInitialData.color}">●</span>
+                     <span class="{color}" style="color: {$cvInitialData.color}">●</span>
                      <span class="specs-item">{$cvInitialData.birthDate}, {$cvInitialData.birthPlace}</span>
                  </div>
      
                  <!-- User House -->
                  <div class="info-item">
-                     <span class="{tenantColor}" style="color: {$cvInitialData.color}">●</span>
+                     <span class="{color}" style="color: {$cvInitialData.color}">●</span>
                      <span class="specs-item">{$cvInitialData.address.streetAddress},<span>{$cvInitialData.address.postalCode},</span> {$cvInitialData.address.city} - {$cvInitialData.address.region}</span>
      
                  </div>
      
                  <!-- User Phone -->
                  <div class="info-item">
-                    <span class="{tenantColor}" style="color: {$cvInitialData.color}">●</span>
+                    <span class="{color}" style="color: {$cvInitialData.color}">●</span>
                     <span class="specs-item">{$cvInitialData.phonePrefix} {$cvInitialData.phoneNumber}</span>
                  </div>
      
                  <!-- User Email -->
                  <div class="info-item">
-                    <span class="{tenantColor}" style="color: {$cvInitialData.color}">●</span>
+                    <span class="{color}" style="color: {$cvInitialData.color}">●</span>
                      <span class="specs-item">{$cvInitialData.email}</span>
                  </div>
      
              </div>
      
-             <div class="user-info-container {tenantColor}" style="border-top: 1px solid {$cvInitialData.color};">
+             <div class="user-info-container {color}" style="border-top: 1px solid {$cvInitialData.color};">
      
                  <!-- Nationality -->
                  <div class="info-item">
-                     <span class="{tenantColor}" style="color: {$cvInitialData.color}">●</span>
+                     <span class="{color}" style="color: {$cvInitialData.color}">●</span>
                      <span class="specs-item">Nazionalità: {$cvInitialData.nationality}</span>
                  </div>
      
                  <!-- IsProtectedCategory -->
                  <div class="info-item">
-                    <span class="{tenantColor}" style="color: {$cvInitialData.color}">●</span>
+                    <span class="{color}" style="color: {$cvInitialData.color}">●</span>
                      <span>Categoria protetta:</span><span class="specs-item" style="margin-left: 5px">{$cvInitialData.isProtectedCategory}</span>
                  </div>
      
                  <!-- HasOwnCar -->  
                  <div class="info-item">
-                    <span class="{tenantColor}" style="color: {$cvInitialData.color}">●</span>
+                    <span class="{color}" style="color: {$cvInitialData.color}">●</span>
                      <span>Automunito -</span>
                      {#if $formDataStore.hasOwnCar}
                          <span class="specs-item ms-1">{$cvInitialData.drivingLicences}</span>
@@ -80,15 +84,15 @@
     <div class="main-section">
 
         <!-- Profile Summary --> 
-        <div class="profile-summary-container {tenantColor}" style="border: 1px solid {$cvInitialData.color}; border-top: none; border-bottom: none">
+        <div class="profile-summary-container {color}" style="border: 1px solid {$cvInitialData.color}; border-top: none; border-bottom: none">
             <div class="profile-summary-title" style="color: {$cvInitialData.color};">BREVE PRESENTAZIONE</div>
             <p>{$cvInitialData.profileSummary}</p>
         </div>
 
-        <div class="watermark-logo" style="background-image: url(https://{currentTenant}.blob.core.windows.net/cdn/cv/transparent-logo.png);"></div>
+        <div class="watermark-logo" style="background-image:url({tenant == "lavoroexpress" ? 'https://lavoroexpress.it/assets/img/cv/transparent-logo.png' : `https://${tenant}.blob.core.windows.net/cdn/cv/transparent-logo.png`})"></div>
 
         <!-- Work Experiences --> 
-        <div class="work-experience-container py-2 {tenantColor}" style="border: 1px solid {$cvInitialData.color};">
+        <div class="work-experience-container py-2 {color}" style="border: 1px solid {$cvInitialData.color};">
         
             <div class="work-experience-title" style="color: {$cvInitialData.color};">ESPERIENZE DI LAVORO</div>
     
@@ -100,7 +104,7 @@
                 </div>
                     
                 <div class="job-results-wrapper">
-                    <span class="me-1 {tenantColor}" style="color: {$cvInitialData.color}">●</span><p class="job-results">{job.workExperienceResults}</p>
+                    <span class="me-1 {color}" style="color: {$cvInitialData.color}">●</span><p class="job-results">{job.workExperienceResults}</p>
                 </div>
                 
             {/each}
@@ -108,7 +112,7 @@
         </div>
         
         <!-- Academic Background -->
-        <div class="academic-background-container {tenantColor}"  style="border: 1px solid {$cvInitialData.color}; border-top: none;">
+        <div class="academic-background-container {color}"  style="border: 1px solid {$cvInitialData.color}; border-top: none;">
                     
             <div class="academic-background-title" style="color:{$cvInitialData.color};">FORMAZIONE</div>
         
@@ -117,7 +121,7 @@
                         <div class="academic-background-item">
         
                             <div class="education-goals-wrapper">
-                                <span class="me-1 {tenantColor}" style="color: {$cvInitialData.color}">●</span><div class="education-details">{education.qualification} - {education.trainingCenter} - {education.fieldOfStudy}</div>
+                                <span class="me-1 {color}" style="color: {$cvInitialData.color}">●</span><div class="education-details">{education.qualification} - {education.trainingCenter} - {education.fieldOfStudy}</div>
                             </div>
         
                             <div class="education-dates">{education.endDateAcademicEducation}</div>
@@ -129,7 +133,7 @@
         </div>
             
         <!-- Hard Skills -->
-        <div class="hard-skills-container {tenantColor}" style="border: 1px solid {$cvInitialData.color}; border-top: none;">
+        <div class="hard-skills-container {color}" style="border: 1px solid {$cvInitialData.color}; border-top: none;">
                     
             <div class="hard-skills-title" style="color:{$cvInitialData.color};">SKILLS E COMPETENZE</div>
                         
@@ -144,11 +148,11 @@
         </div>
             
         <!-- Language Skills -->
-        <div class="language-skills-container {tenantColor}" style="border: 1px solid {$cvInitialData.color}; border-top: none;">
+        <div class="language-skills-container {color}" style="border: 1px solid {$cvInitialData.color}; border-top: none;">
                     
             <div class="language-skills-title" style="color:{$cvInitialData.color};">LINGUE</div>
                     
-            <div class="language-skills-wrapper {tenantColor}">
+            <div class="language-skills-wrapper {color}">
                             
                 {#each $cvInitialData.languagesSkills as selectedLanguage (selectedLanguage)}
                     <div class="language-skills-details" style="border: 1px solid {$cvInitialData.color}; color:{$cvInitialData.color};">{selectedLanguage.lang} - {selectedLanguage.level}</div>
@@ -163,7 +167,7 @@
     <!-- Footer Section -->
     {#if $isPrivacyPolicyApproved && $isAllowed}
 
-        <div class="footer-section {tenantColor}" style="border: 1px solid {$cvInitialData.color}; border-top: none">
+        <div class="footer-section {color}" style="border: 1px solid {$cvInitialData.color}; border-top: none">
     
             <div class="d-flex">
 
@@ -187,8 +191,8 @@
 
 <div class="copyright-container">
     
-    <div class="company-logo" style="background-image:url(https://{currentTenant}.blob.core.windows.net/cdn/cv/extended-logo.png);"></div>
-    <p class="copyright-text">{currentCopyrightPolicy}</p>
+    <div class="company-logo" style="background-image:url({tenant == "lavoroexpress" ? 'https://lavoroexpress.it/assets/img/cv/extended-logo.png' : `https://${tenant}.blob.core.windows.net/cdn/cv/extended-logo.png`})"></div>
+    <p class="copyright-text">{footer}</p>
         
 </div>        
 

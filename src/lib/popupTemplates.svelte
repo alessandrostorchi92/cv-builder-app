@@ -1,11 +1,10 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import { fade } from "svelte/transition";
-  import { tenantColor, showPopup } from "../stores/CvUser_data";
+  import { showPopup } from "../stores/CvUser_data";
 
   import { createEventDispatcher } from "svelte";
 
- 
+  export let color: any;
 
   const dispatch = createEventDispatcher();
 
@@ -16,13 +15,13 @@
   ];
 
   function hideCvTemplates() {
-    dispatch("hideCvTemplates", {});
+    dispatch("hideCvTemplates");
     $showPopup = false;
   }
 
   function setClickedCvTemplate(templateName: string) {
     dispatch("setClickedCvTemplate", { template: templateName });
-    hideCvTemplates();
+    $showPopup = true;
   }
 
   onMount(() => {
@@ -34,7 +33,7 @@
 </script>
 
 
-  <div class="popup-overlay {tenantColor}" style="background-color: var(--primary-color);" hidden={!$showPopup}>
+  <div class="popup-overlay {color}" style="background-color: var(--primary-color);" hidden={!$showPopup}>
 
     <div class="popup-content">
 
@@ -46,7 +45,11 @@
 
         {#each cvTemplates as cvTemplate, cvTemplateIndex}
 
-          <div class="cv-template-item {tenantColor}" in:fade={{ delay: cvTemplateIndex * 200, duration: 800 }} on:click={() => setClickedCvTemplate(cvTemplate.name)}>
+          <div class="cv-template-item {color}" style="outline: 2px solid {color};" role="button" tabindex="0" aria-label={`Seleziona il template ${cvTemplate.name}`} on:click={() => setClickedCvTemplate(cvTemplate.name)}  on:keydown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              setClickedCvTemplate(cvTemplate.name);
+            }
+          }}>
 
             <img src={cvTemplate.name} alt="Esempio Template Curriculum Vitae"/>
 
@@ -117,6 +120,10 @@
       border-color 0.3s ease,
       transform 0.7s ease,
       opacity 0.35s ease;
+  }
+
+  .cv-template-item:focus {
+    outline-offset: 2px;
   }
 
   .cv-template-item img {

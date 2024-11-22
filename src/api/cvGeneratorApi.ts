@@ -1,6 +1,6 @@
 import axios from "axios";
 import type { AxiosResponse, ResponseType, AxiosError } from "axios";
-import { formDataStore, formattedWorkAcademicDate, currentTenant, currentCopyrightPolicy } from "../stores/CvUser_data";
+import { formDataStore, formattedWorkAcademicDate, currentCopyrightPolicy, currentTenant } from "../stores/CvUser_data";
 import { readable, get } from "svelte/store";
 
 export const renamedFormDataStore = readable({}, (set) => {
@@ -23,7 +23,6 @@ export const renamedFormDataStore = readable({}, (set) => {
     }
 
     let tenantColor: string;
-
     switch (currentTenant) {
       case "during":
         tenantColor = "#e8641b";
@@ -105,9 +104,6 @@ export const downloadCv = async (): Promise<AxiosResponse> => {
 
     const urlApi = "https://ai.reindal.cloud/generation-app/api/CvGenerator";
     const cvData = get(renamedFormDataStore);
-
-    console.log(cvData);
-    
     try {
 
       const config = {
