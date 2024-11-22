@@ -24,11 +24,11 @@ let userFormData: formTypes.FormData = {
   phone: "",
   email: "",
   profileSummary: "",
-  isProtectedCategory: "",
+  isProtectedCategory: false,
   digitalSkills: [{ skill: "", level: "" }],
   languagesSkills: [{ lang: "", level: "" }],
   drivingLicences: [],
-  hasOwnCar: "",
+  hasOwnCar: false,
 
   jobs: [
     {
@@ -100,7 +100,6 @@ export function getStoreUserData(): void {
       if (savedStoreData) {
         userFormData = JSON.parse(savedStoreData);
         formDataStore.set(userFormData);
-        console.log(savedStoreData);
       }
     }
   } catch (error) {
@@ -400,77 +399,83 @@ function checkRequiredFields() {
 
   isFormValidated = true;
 
-  if (!userFormData.name) {
-    checkNameInput();
-    isFormValidated = false;
-  }
+  formDataStore.subscribe(currentUserFormData => {
 
-  if (!userFormData.surname) {
-    checkSurnameInput();
-    isFormValidated = false;
-  }
+    if (!currentUserFormData.name) {
+      checkNameInput();
+      isFormValidated = false;
+    }
+  
+    if (!currentUserFormData.surname) {
+      checkSurnameInput();
+      isFormValidated = false;
+    }
+  
+    if (!currentUserFormData.profession) {
+      checkProfessionInput();
+      isFormValidated = false;
+    }
+  
+    if (!currentUserFormData.nationality) {
+      checkNationalityInput();
+      isFormValidated = false;
+    }
+  
+    if (!currentUserFormData.isProtectedCategory) {
+      isProtectedCategoryRadiosSelected();
+      isFormValidated = false;
+    }
+  
+    if (!currentUserFormData.hasOwnCar) {
+      isHasOwnCarRadiosSelected();
+      isFormValidated = false;
+    }
+  
+    if (!currentUserFormData.birthPlace) {
+      checkBirthPlaceInput();
+      isFormValidated = false;
+    }
+  
+    if (!currentUserFormData.birthDate) {
+      checkBirthDateInput();
+      isFormValidated = false;
+    }
+  
+    if (!currentUserFormData.address.streetAddress) {
+      checkStreetAddressInput();
+      isFormValidated = false;
+    }
+  
+    if (!currentUserFormData.address.city) {
+      checkCityInput();
+      isFormValidated = false;
+    }
+  
+    if (!currentUserFormData.address.region) {
+      checkRegionInput();
+      isFormValidated = false;
+    }
+  
+    if (!currentUserFormData.phonePrefix) {
+      checkPhonePrefixSelect();
+      isFormValidated = false;
+    }
+  
+    if (!currentUserFormData.phone) {
+      checkPhoneInput();
+      isFormValidated = false;
+    }
+  
+    if (!currentUserFormData.email) {
+      checkEmailInput();
+      isFormValidated = false;
+    }
 
-  if (!userFormData.profession) {
-    checkProfessionInput();
-    isFormValidated = false;
-  }
 
-  if (!userFormData.nationality) {
-    checkNationalityInput();
-    isFormValidated = false;
-  }
-
-  if (!userFormData.isProtectedCategory) {
-    isProtectedCategoryRadiosSelected();
-    isFormValidated = false;
-  }
-
-  if (!userFormData.hasOwnCar) {
-    isHasOwnCarRadiosSelected();
-    isFormValidated = false;
-  }
-
-  if (!userFormData.birthPlace) {
-    checkBirthPlaceInput();
-    isFormValidated = false;
-  }
-
-  if (!userFormData.birthDate) {
-    checkBirthDateInput();
-    isFormValidated = false;
-  }
-
-  if (!userFormData.address.streetAddress) {
-    checkStreetAddressInput();
-    isFormValidated = false;
-  }
-
-  if (!userFormData.address.city) {
-    checkCityInput();
-    isFormValidated = false;
-  }
-
-  if (!userFormData.address.region) {
-    checkRegionInput();
-    isFormValidated = false;
-  }
-
-  if (!userFormData.phonePrefix) {
-    checkPhonePrefixSelect();
-    isFormValidated = false;
-  }
-
-  if (!userFormData.phone) {
-    checkPhoneInput();
-    isFormValidated = false;
-  }
-
-  if (!userFormData.email) {
-    checkEmailInput();
-    isFormValidated = false;
-  }
+  });
 
   return isFormValidated;
+
 }
 
 function getPdfCv(): void {

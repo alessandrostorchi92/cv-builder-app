@@ -13,11 +13,11 @@ export type FormData = {
     phone: string,
     email: string,
     profileSummary: string,
-    isProtectedCategory:string,
+    isProtectedCategory:boolean,
     digitalSkills: { skill: string; level: string }[],
     languagesSkills: { lang: string; level: string }[];
     drivingLicences: string[],
-    hasOwnCar: string,       
+    hasOwnCar: boolean,       
     jobs: WorkHistory[],
     educations: AcademicHistory[],
     userSignature: string;

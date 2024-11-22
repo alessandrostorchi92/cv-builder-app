@@ -647,8 +647,8 @@
                 on:input={() => validators.checkPostalCodeInput()}
               />
 
-              <div class="success-street-number-message form-text"></div>
-              <div class="error-street-number-message form-text"></div>
+              <div class="success-postal-code-message form-text"></div>
+              <div class="error-postal-code-messages form-text"></div>
             </div>
           </div>
 

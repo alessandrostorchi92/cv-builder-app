@@ -216,7 +216,7 @@ export function checkStreetAddressInput(): void {
 };
 
 export function checkPostalCodeInput(): void {
-    checkMandatoryProfileDataInputs("postalCode", ".success-street-number-message", ".error-street-number-messages", "Ottimo lavoro, il numero civico è stato inserito nel CV", "Mi dispiace , il codice postale può contenere solo numeri")
+    checkMandatoryProfileDataInputs("postalCode", ".success-postal-code-message", ".error-postal-code-messages", "Ottimo lavoro, il numero civico è stato inserito nel CV", "Mi dispiace , il codice postale può contenere solo numeri")
 };
 
 export function checkCityInput(): void {
