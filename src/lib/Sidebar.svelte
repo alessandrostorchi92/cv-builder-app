@@ -450,7 +450,7 @@
     <h2 class="title-section-style {color}" style="color: var(--primary-color);">INFORMAZIONI DI CONTATTO</h2>
   </div>
 
-  <form>
+  <form id="cv-form">
     <div class="container">
 
       <div class="row">

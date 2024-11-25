@@ -2,8 +2,6 @@
 
 import {formDataStore, isAllowed, isPrivacyPolicyApproved, isModifyBtnDisabled, showCvTemplates, handleDownloadCv, viewportWidth, typeName} from "../stores/cvForm_data";
 
-// $: console.log($typeName);
-
 export let color: any;
 
 </script>

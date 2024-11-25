@@ -125,6 +125,7 @@ export let showPopup = writable(false);
 export let viewportWidth = writable(0);
 export let typeName = writable(false);
 
+
 // Formattazione data di nascita
 export function formattedBirthDate(date: string): string {
   if (!date) return "";
@@ -521,6 +522,7 @@ function getPdfCv(): void {
 }
 
 export function handleDownloadCv() {
+  
   let isCvDownloadAllowed = checkRequiredFields();
 
   if (!isCvDownloadAllowed) {
@@ -530,7 +532,20 @@ export function handleDownloadCv() {
       icon: "error",
       timer: 2000,
       showConfirmButton: false,
+      didClose: () => {
+        const cvForm = document.getElementById('cv-form');
+        if (cvForm) {
+
+          cvForm?.scrollIntoView({
+            block: "start",
+            behavior: "smooth"
+          });
+
+        }
+      }
+
     });
+
   } else {
     getPdfCv();
   }
