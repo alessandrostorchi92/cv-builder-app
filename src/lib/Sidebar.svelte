@@ -1,6 +1,6 @@
 <script lang="ts">
 
-  import {formDataStore, isAllowed, isPrivacyPolicyApproved, handleDownloadCv} from "../stores/CvUser_data";
+  import {formDataStore, isAllowed, isPrivacyPolicyApproved} from "../stores/cvForm_data";
   import * as validators from "../validators/form_validation";
   import { onMount } from "svelte";
 
@@ -437,7 +437,7 @@
 <div id="sidebar">
 
   {#if tenant != ""}
-  <div class="company-logo" style="background-image:url({tenant == "lavoroexpress" ? 'https://lavoroexpress.it/assets/img/cv/extended-logo.png' : `https://${tenant}.blob.core.windows.net/cdn/cv/extended-logo.png`};"></div>
+  <div class="company-logo" style="background-image:url({tenant == "lavoroexpress" ? 'https://lavoroexpress.it/assets/img/cv/extended-logo.png' : `https://${tenant}.blob.core.windows.net/cdn/cv/extended-logo.png`}"></div>
   {/if}
   <div class="text-center">
     <h1 class="title-app-style {color}" style="color: var(--primary-color);">CREA IL TUO CURRICULUM VITAE</h1>

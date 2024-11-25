@@ -1,6 +1,6 @@
 import axios from "axios";
 import type { AxiosResponse, ResponseType, AxiosError } from "axios";
-import { formDataStore, formattedWorkAcademicDate, currentCopyrightPolicy, currentTenant } from "../stores/CvUser_data";
+import { formDataStore, formattedWorkAcademicDate, currentCopyrightPolicy, currentTenant } from "../stores/cvForm_data";
 import { readable, get } from "svelte/store";
 
 export const renamedFormDataStore = readable({}, (set) => {

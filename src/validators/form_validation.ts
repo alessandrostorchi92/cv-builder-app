@@ -1,4 +1,4 @@
-import { isPrivacyPolicyApproved, isAllowed } from "../stores/CvUser_data";
+import { isPrivacyPolicyApproved, isAllowed } from "../stores/cvForm_data";
 
 export function checkMandatoryProfileDataInputs(inputName: string, successMessageSelector: string, errorMessageSelector: string, successFeedbackMsg: string, errorFeedbackMsg: string): void {
 

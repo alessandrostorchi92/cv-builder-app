@@ -1,6 +1,6 @@
 <script lang="ts">
 
-import {formDataStore, isAllowed, isPrivacyPolicyApproved, isModifyBtnDisabled, showCvTemplates, handleDownloadCv, viewportWidth, typeName} from "../stores/CvUser_data";
+import {formDataStore, isAllowed, isPrivacyPolicyApproved, isModifyBtnDisabled, showCvTemplates, handleDownloadCv, viewportWidth, typeName} from "../stores/cvForm_data";
 
 // $: console.log($typeName);
 

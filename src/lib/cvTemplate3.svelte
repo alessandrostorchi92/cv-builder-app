@@ -1,7 +1,7 @@
 <script lang="ts">
 
-   import {formDataStore, isPrivacyPolicyApproved, isAllowed} from "../stores/CvUser_data";
-   import {cvInitialData}  from "../stores/cvDefault_data";
+import {formDataStore, isPrivacyPolicyApproved, isAllowed} from "../stores/cvForm_data";
+import {cvInitialData}  from "../stores/cvDefault_data";
 
 
    export let tenant: any;

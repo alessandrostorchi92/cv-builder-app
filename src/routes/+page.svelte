@@ -3,7 +3,7 @@
   import Sidebar from "$lib/sidebar.svelte";
   import { onMount } from "svelte";
   import "../app.css";
-  import { getCopyrightPolicy, getTenant, getTenantColor } from "../stores/CvUser_data";
+  import { getCopyrightPolicy, getTenant, getTenantColor } from "../stores/cvForm_data";
   import { currentDomain } from "../stores/domainStore";
 
   export let tenant: any;

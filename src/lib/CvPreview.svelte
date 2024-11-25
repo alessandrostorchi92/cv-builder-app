@@ -1,5 +1,5 @@
 <script lang="ts">
-  import {
+import {
     formDataStore,
     getStoreUserData,
     updateStoreUserData,
@@ -8,7 +8,8 @@
     isModifyBtnDisabled,
     viewportWidth,
     typeName,
-  } from "../stores/CvUser_data";
+  } from "../stores/cvForm_data";
+
 
   import PopupTemplates from "$lib/popupTemplates.svelte";
   import Template1 from "$lib/cvTemplate1.svelte";
@@ -74,9 +75,9 @@
 
   });
 
-  // afterUpdate(() => {
-  //   clearLocalStorage();
-  // });
+  afterUpdate(() => {
+    clearLocalStorage();
+  });
 
 </script>
 

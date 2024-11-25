@@ -296,10 +296,10 @@ function checkStreetAddressInput(): void {
   );
 }
 
-function checkStreetNumberInput(): void {
+function checkPostalCodeInput(): void {
   checkMandatoryInputs(
     "postalCode",
-    ".error-street-number-message",
+    ".error-postal-code-messages",
     "Il codice postale è obbligatorio. Per favore inseriscilo."
   );
 
@@ -443,6 +443,14 @@ function checkRequiredFields() {
   
     if (!currentUserFormData.address.streetAddress) {
       checkStreetAddressInput();
+      isFormValidated = false;
+    }
+
+    console.log(currentUserFormData.address.postalCode);
+    
+
+    if (!currentUserFormData.address.postalCode) {
+      checkPostalCodeInput();
       isFormValidated = false;
     }
   

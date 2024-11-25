@@ -1,4 +1,4 @@
-import {formDataStore, formattedBirthDate, formattedWorkAcademicDate} from "./CvUser_data";
+import {formDataStore, formattedBirthDate, formattedWorkAcademicDate} from "./cvForm_data";
 import { derived } from 'svelte/store';
 
 export const cvInitialData = derived(formDataStore, ($formDataStore) => {

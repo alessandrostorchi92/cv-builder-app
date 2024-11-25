@@ -1,7 +1,6 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import { showPopup } from "../stores/CvUser_data";
-
+  import { showPopup } from "../stores/cvForm_data";
   import { createEventDispatcher } from "svelte";
 
   export let color: any;
