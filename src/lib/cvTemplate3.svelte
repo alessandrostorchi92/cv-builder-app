@@ -137,13 +137,13 @@ import {cvInitialData}  from "../stores/cvDefault_data";
             </div>
         
             <div class="info-item">
-        
-                        <span style="color: {$cvInitialData.color};">Automunito -</span>
-        
-                        {#if $formDataStore.hasOwnCar}
-                            <span>{$cvInitialData.drivingLicences}</span>
-                        {/if}
-        
+
+                {#if $formDataStore.hasOwnCar === true || $formDataStore.hasOwnCar === null}
+                    <span style="color: {$cvInitialData.color};">Automunito</span><span class="ms-1">-</span>
+                {/if}
+                
+                <span class="ms-1">{$cvInitialData.drivingLicences}</span>
+                
             </div>
                     
         </div>
@@ -170,7 +170,7 @@ import {cvInitialData}  from "../stores/cvDefault_data";
         
                             <div class="job-specs-container">
         
-                                <b class="job-dates">{job.startDateWorkExperience}/{job.endDateWorkExperience} -</b>
+                                <b class="job-dates"><span class="start-date-work">{job.startDateWorkExperience}</span>/<span class="end-date-work me-1">{job.endDateWorkExperience}</span><span>-</span></b>
                                 <p class="job-results">{job.workExperienceResults}</p>
                                 
                             </div>
@@ -371,6 +371,14 @@ import {cvInitialData}  from "../stores/cvDefault_data";
         color:#6d6d6d;
         font-size: 0.9rem; 
         font-weight:bold;
+    }
+
+    .job-dates .start-date-work {
+        margin-right: 0.1rem;
+    }
+
+    .job-dates .end-date-work {
+        margin-left: 0.1rem;
     }
 
     p {

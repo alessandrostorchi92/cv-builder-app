@@ -66,9 +66,9 @@
 
   });
 
-  // afterUpdate(() => {
-  //   clearLocalStorage();
-  // });
+  afterUpdate(() => {
+    clearLocalStorage();
+  });
 
 </script>
 
@@ -233,7 +233,7 @@
     text-decoration: none;
     font-weight: bold;
     color: #fff;
-    background-color: #007bff;
+    background-color: #ff1616;
     border: none;
     border-radius: 10px;
     cursor: pointer;
@@ -244,7 +244,7 @@
 
   .select-template-button:hover {
     transform: translateY(-5px);
-    background-color: #0056b3;
+    background-color: #e01010;
   }
 
   /*-------------------------------------

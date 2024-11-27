@@ -24,11 +24,11 @@ let userFormData: formTypes.FormData = {
   phone: "",
   email: "",
   profileSummary: "",
-  isProtectedCategory: false,
+  isProtectedCategory: null,
   digitalSkills: [{ skill: "", level: "" }],
   languagesSkills: [{ lang: "", level: "" }],
   drivingLicences: [],
-  hasOwnCar: false,
+  hasOwnCar: null,
 
   jobs: [
     {
@@ -133,8 +133,15 @@ export function formattedBirthDate(date: string): string {
   return `${day}/${month}/${year}`;
 }
 
-// Formattazione data delle esperienze lavorative e accademiche
-export function formattedWorkAcademicDate(date: string): string {
+// Formattazione data delle esperienze lavorative
+export function formattedWorkDate(date: string): string {
+  if (!date) return "";
+  const [year, month] = date.split("-");
+  return `${month}/${year}`;
+}
+
+// Formattazione data delle formazioni accademiche
+export function formattedAcademicDate(date: string): string {
   if (!date) return "";
   const [year] = date.split("-");
   return `${year}`;
@@ -528,7 +535,7 @@ export function handleDownloadCv() {
   if (!isCvDownloadAllowed) {
     Swal.fire({
       title: "Impossibile scaricare il CV!",
-      text: `Compila i campi obbligatori.`,
+      text: `Compila i campi obbligatori del form.`,
       icon: "error",
       timer: 2000,
       showConfirmButton: false,

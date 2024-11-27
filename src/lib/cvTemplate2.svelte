@@ -33,8 +33,7 @@ import { cvInitialData }  from "../stores/cvDefault_data";
                  <!-- User House -->
                  <div class="info-item">
                      <span class="{color}" style="color: {$cvInitialData.color}">●</span>
-                     <span class="specs-item">{$cvInitialData.address.streetAddress},<span>{$cvInitialData.address.postalCode},</span> {$cvInitialData.address.city} - {$cvInitialData.address.region}</span>
-     
+                     <span class="specs-item">{$cvInitialData.address.streetAddress}, <span>{$cvInitialData.address.postalCode}, </span> {$cvInitialData.address.city} - {$cvInitialData.address.region}</span>
                  </div>
      
                  <!-- User Phone -->
@@ -53,26 +52,31 @@ import { cvInitialData }  from "../stores/cvDefault_data";
      
              <div class="user-info-container {color}" style="border-top: 1px solid {$cvInitialData.color};">
      
-                 <!-- Nationality -->
-                 <div class="info-item">
+                <!-- Nationality -->
+                <div class="info-item">
                      <span class="{color}" style="color: {$cvInitialData.color}">●</span>
                      <span class="specs-item">Nazionalità: {$cvInitialData.nationality}</span>
-                 </div>
+                </div>
      
-                 <!-- IsProtectedCategory -->
-                 <div class="info-item">
+                <!-- IsProtectedCategory -->
+                <div class="info-item">
                     <span class="{color}" style="color: {$cvInitialData.color}">●</span>
                      <span>Categoria protetta:</span><span class="specs-item" style="margin-left: 5px">{$cvInitialData.isProtectedCategory}</span>
-                 </div>
+                </div>
      
-                 <!-- HasOwnCar -->  
-                 <div class="info-item">
+                <!-- HasOwnCar -->  
+                <div class="info-item">
+
                     <span class="{color}" style="color: {$cvInitialData.color}">●</span>
-                     <span>Automunito -</span>
-                     {#if $formDataStore.hasOwnCar}
-                         <span class="specs-item ms-1">{$cvInitialData.drivingLicences}</span>
-                     {/if}
-                 </div>
+
+                    {#if $formDataStore.hasOwnCar === true || $formDataStore.hasOwnCar === null}
+                        <span>Automunito</span><span class="ms-1">-</span>
+                    {/if}
+                     
+                    <span class="ms-1">{$cvInitialData.drivingLicences}</span>
+                    
+                     
+                </div>
                  
              </div>
          
@@ -100,7 +104,8 @@ import { cvInitialData }  from "../stores/cvDefault_data";
             
                 <div class="work-experience-item">
                         <div class="job-details">{job.role} - {job.company} - in {job.location}</div>         
-                        <div class="job-dates">{job.startDateWorkExperience}/{job.endDateWorkExperience}</div>          
+                        <div class="job-dates"><span class="start-date-work">{job.startDateWorkExperience}</span>/<span class="end-date-work">{job.endDateWorkExperience}</span></div>
+          
                 </div>
                     
                 <div class="job-results-wrapper">
@@ -140,7 +145,7 @@ import { cvInitialData }  from "../stores/cvDefault_data";
             <div class="hard-skills-wrapper">
                             
                 {#each $cvInitialData.digitalSkills as digitalSkill (digitalSkill)}
-                        <div class="hard-skills-details" style="border: 1px solid {$cvInitialData.color};">{digitalSkill.skill} - {digitalSkill.level}</div>
+                        <div class="hard-skills-details" style="border: 1px solid {$cvInitialData.color}; color:{$cvInitialData.color}">{digitalSkill.skill} - {digitalSkill.level}</div>
                 {/each}
                                 
             </div>
@@ -290,6 +295,15 @@ p {
 .job-results, .education-details {
     display: inline;
 }
+
+.job-dates .start-date-work {
+    margin-right: 0.1rem;
+}
+
+.job-dates .end-date-work {
+    margin-left: 0.1rem;
+ }
+
 
 .hard-skills-wrapper, .language-skills-wrapper {
     display: flex;

@@ -7,6 +7,7 @@
 
   export let color: any;
   export let tenant: any = "";
+  
 
   const phonePrefixes = [
     { value: "+93", label: "Afghanistan (+93)" },
@@ -176,6 +177,29 @@
     { value: "Arabo", label: "Arabo" },
   ];
 
+  const italianRegions = [
+    { value: "Abruzzo", label: "Abruzzo" },
+    { value: "Basilicata", label: "Basilicata" },
+    { value: "Calabria", label: "Calabria" },
+    { value: "Campania", label: "Campania" },
+    { value: "Emilia-Romagna", label: "Emilia-Romagna" },
+    { value: "Friuli-Venezia Giulia", label: "Friuli-Venezia Giulia" },
+    { value: "Lazio", label: "Lazio" },
+    { value: "Liguria", label: "Liguria" },
+    { value: "Lombardia", label: "Lombardia" },
+    { value: "Marche", label: "Marche" },
+    { value: "Molise", label: "Molise" },
+    { value: "Piemonte", label: "Piemonte" },
+    { value: "Puglia", label: "Puglia" },
+    { value: "Sardegna", label: "Sardegna" },
+    { value: "Sicilia", label: "Sicilia" },
+    { value: "Toscana", label: "Toscana" },
+    { value: "Trentino-Alto Adige", label: "Trentino-Alto Adige" },
+    { value: "Umbria", label: "Umbria" },
+    { value: "Valle d'Aosta", label: "Valle d'Aosta" },
+    { value: "Veneto", label: "Veneto" }
+  ];
+
   const optionslanguageLevels = [
     { value: "A1", label: "Elementare" },
     { value: "B1", label: "Intermedio" },
@@ -301,6 +325,7 @@
   let canvas: HTMLCanvasElement;
   let isDrawing: boolean = false;
   let points: string[] = [];
+
   let isSigned: boolean = false;
   let ctx: CanvasRenderingContext2D | null = null;
 
@@ -439,6 +464,7 @@
   {#if tenant != ""}
   <div class="company-logo" style="background-image:url({tenant == "lavoroexpress" ? 'https://lavoroexpress.it/assets/img/cv/extended-logo.png' : `https://${tenant}.blob.core.windows.net/cdn/cv/extended-logo.png`}"></div>
   {/if}
+
   <div class="text-center">
     <h1 class="title-app-style {color}" style="color: var(--primary-color);">CREA IL TUO CURRICULUM VITAE</h1>
     <h3 class="description-title-app-style py-2">Fai il tuo primo passo verso il tuo lavoro ideale: crea il tuo curriculum e fai decollare la tua carriera</h3>
@@ -465,7 +491,7 @@
         </div>
 
         <div class="text-center py-3 {color}">
-          <label for="inputFilePicture" style="color: white; background-color: var(--primary-color);" class="custom-file-input">SCEGLI FOTO</label>
+          <label for="inputFilePicture" style="background-color: var(--primary-color);" class="custom-file-input">SCEGLI FOTO</label>
 
           <input
             type="file"
@@ -551,7 +577,7 @@
 
         <!-- Nazionalità -->
         <div class="py-3">
-          <label for="inputNationality">Stato di nascita</label>
+          <label for="inputNationality">Nazionalità</label>
           <span class="isRequired">*</span>
 
           <input
@@ -612,9 +638,13 @@
 
         <!-- Residenza/Domicilio -->
         <div class="py-3">
+
           <label for="formInputStreetAddress">Indirizzo di Residenza</label>
+
           <span class="isRequired">*</span>
+
           <div class="flex-center-utility justify-content-around gap-2 mb-3">
+
             <!-- Indirizzo di Residenza -->
             <div style="width: 70%;">
 
@@ -650,9 +680,11 @@
               <div class="success-postal-code-message form-text"></div>
               <div class="error-postal-code-messages form-text"></div>
             </div>
+
           </div>
 
           <div class="flex-center-utility justify-content-around gap-2">
+
             <!-- Città -->
             <div style="width: 50%;">
               <label for="formInputCity">Città</label>
@@ -678,20 +710,27 @@
               <label for="formInputRegion">Regione</label>
               <span class="isRequired">*</span>
 
-              <input
-                type="text"
-                class="form-control"
-                id="formInputRegion"
-                autocomplete="off"
-                name="region"
-                placeholder="Regione"
+              <select class="form-select" 
+                id="inputSelectRegions" 
+                name="region" 
+                aria-label="RegionsSelect" 
+                autocomplete="off" 
                 bind:value={$formDataStore.address.region}
                 on:input={() => validators.checkRegionInput()}
-              />
+              >
+
+                <option value="" disabled id="regionOptions"><span>Regione</span></option>
+                {#each italianRegions as italianRegion}
+                  <option value={italianRegion.value}> {italianRegion.label}</option>
+                {/each}
+                
+              </select>
 
               <div class="success-region-message form-text"></div>
               <div class="error-region-message form-text"></div>
+
             </div>
+
           </div>
         </div>
 
@@ -711,9 +750,7 @@
               bind:value={$formDataStore.phonePrefix}
               on:change={() => validators.checkPhonePrefixSelect()}
             >
-              <option value="" disabled class="prefix-option" id="defaultOption"
-                ><span>Prefisso</span></option
-              >
+              <option value="" disabled id="phonePrefixOptions"><span>+39</span></option>
               {#each phonePrefixes as phonePrefix}
                 <option value={phonePrefix.value}> {phonePrefix.label}</option>
               {/each}
@@ -772,31 +809,11 @@
           <div class="error-email-messages form-text"></div>
         </div>
 
-        <!---- Profilo Personale ---->
-        <div class="py-3">
-          <label for="inputProfileSummary">Profilo personale</label>
-
-          <textarea
-            class="form-control h-auto"
-            id="inputProfileSummary"
-            rows="6"
-            maxlength="500"
-            name="profileSummary"
-            placeholder="Descriviti in poche righe..."
-            bind:value={$formDataStore.profileSummary}
-            on:input={() => validators.checkProfileSummaryInput()}
-          ></textarea>
-
-          <div class="success-profile-summary-message form-text"></div>
-          <div class="error-profile-summary-message form-text"></div>
-        </div>
-
         <!-- Categorie protette -->
         <div class="py-3">
+
           <span class="me-1">
-            <label for="formLabelSelfDriven"
-              >Appartenente alle categorie protette:</label
-            >
+            <label for="formLabelSelfDriven">Appartenente alle categorie protette:</label>
             <span class="isRequired">*</span>
           </span>
 
@@ -806,7 +823,7 @@
               type="radio"
               id="protectedCategoryRadioYes"
               name="protectedCategory"
-              value="Si"
+              value={true}
               bind:group={$formDataStore.isProtectedCategory}
               on:change={() => validators.isProtectedCategoryRadiosSelected()}
             />
@@ -819,7 +836,7 @@
               type="radio"
               id="protectedCategoryRightRadioNo"
               name="protectedCategory"
-              value="No"
+              value={false}
               bind:group={$formDataStore.isProtectedCategory}
               on:change={() => validators.isProtectedCategoryRadiosSelected()}
             />
@@ -828,210 +845,6 @@
 
           <div class="success-protected-category-message"></div>
           <div class="error-protected-category-message"></div>
-        </div>
-
-        <!-- Competenze digitali -->
-        <div class="py-3">
-
-          {#each $formDataStore.digitalSkills as digitalSkill, digitalSkillIndex}
-
-            <label for="inputDigitalSkills{digitalSkillIndex}">Competenza digitale</label>
-
-            <div class="input-group mb-3">
-              <input
-                type="text"
-                class="form-control"
-                style="width: {digitalSkillIndex > 0 ? '40%' : '50%'};"
-                id="inputDigitalSkills{digitalSkillIndex}"
-                autocomplete="off"
-                name="digitalSkill{digitalSkillIndex}"
-                placeholder="Competenza"
-                bind:value={digitalSkill.skill}
-                on:input={() => validators.checkDigitalSkillsTextInput(digitalSkillIndex)}
-              />
-
-              <select
-                class="form-select"
-                style="width: {digitalSkillIndex > 0 ? '40%' : '50%'};"
-                id="skillLevelSelect{digitalSkillIndex}"
-                name="skillLevel{digitalSkillIndex}"
-                bind:value={digitalSkill.level}
-                on:change={() =>
-                  validators.checkLevelSkillSelect(digitalSkillIndex)}
-              >
-                <option value="" disabled>Livello</option>
-
-                {#each optionsSkillLevels as optionSkillLevel (optionSkillLevel)}
-                  <option>{optionSkillLevel.level}</option>
-                {/each}
-              </select>
-
-              {#if digitalSkillIndex > 0}
-                <div class="input-group-append px-1" style="width: 20%;">
-                  <button
-                    type="button"
-                    class="btn-remove-style"
-                    on:click={() => {
-                      removeDigitalSkill(digitalSkillIndex);
-                    }}
-                  >
-                    <i class="fa-solid fa-trash"></i>
-                  </button>
-                </div>
-              {/if}
-
-              <div class="visual-feedback-group-container" style="width: 100%;">
-                <div class="left-visual-feedback-position" style="width: {digitalSkillIndex > 0 ? '40%' : '50%'};">
-                  <div class="success-user-data form-text" id="success-digital-skill-message{digitalSkillIndex}"></div>
-                  <div class="error-user-data form-text" id="error-digital-skill-message{digitalSkillIndex}"></div>
-                </div>
-
-                <div class="right-visual-feedback-position" style="width: {digitalSkillIndex > 0 ? '40%' : '50%'};">
-                  <div class="success-user-data form-text" id="success-level-skill-message{digitalSkillIndex}"></div>
-                  <div class="error-user-data form-text" id="error-level-skill-message{digitalSkillIndex}"></div>
-                </div>
-
-              </div>
-            </div>
-
-          {/each}
-
-        </div>
-
-        <div class="flex-center-utility">
-          <button
-            type="button"
-            class="btn-add-style {color}"
-            style="background-color: var(--primary-color);"
-            aria-label="Aggiungi competenza"
-            on:click={() => addDigitalSkills()}> 
-            <span>Aggiungi Competenza</span><i class="fa-solid fa-plus ms-2"></i>
-          </button>
-        </div>
-
-        <!-- Lingue -->
-        <div class="py-3">
-          <label for="inputLanguages">Lingua</label>
-
-          {#each $formDataStore.languagesSkills as selectedLanguage, languageIndex}
-
-            <div class="input-group mb-3">
-
-              <select
-                class="form-select"
-                style="width: {languageIndex > 0 ? '40%' : '50%'};"
-                id="selectLanguages{languageIndex}"
-                name="languages{languageIndex}"
-                bind:value={selectedLanguage.lang}
-                on:change={() => validators.checkLanguageSelect(languageIndex)}
-              >
-                <option value="" disabled>Lingua</option>
-                {#each optionsLanguages as optionsLanguage (optionsLanguage.value)}
-                  <option value={optionsLanguage.value}
-                    >{optionsLanguage.label}</option
-                  >
-                {/each}
-              </select>
-
-              <select
-                class="form-select"
-                style="width: {languageIndex > 0 ? '40%' : '50%'};"
-                id="selectLanguageLevels{languageIndex}"
-                name="languageLevels{languageIndex}"
-                bind:value={selectedLanguage.level}
-                on:change={() =>
-                  validators.checkLanguageLevelSelect(languageIndex)}
-              >
-                <option value="" disabled>Livello</option>
-                {#each optionslanguageLevels as optionslanguageLevel (optionslanguageLevel.value)}
-                  <option value={optionslanguageLevel.value}
-                    >{optionslanguageLevel.label}</option
-                  >
-                {/each}
-              </select>
-
-              {#if languageIndex > 0}
-                <div class="input-group-append px-1" style="width: 20%;">
-                  <button
-                    type="button"
-                    class="btn-remove-style"
-                    on:click={() => removeLanguage(languageIndex)}
-                  >
-                    <i class="fa-solid fa-trash"></i>
-                  </button>
-                </div>
-
-                <div
-                  class="visual-feedback-group-container"
-                  style="width: 100%;"
-                >
-                  <div
-                    class="left-visual-feedback-position"
-                    style="width: {languageIndex > 0 ? '40%' : '50%'};"
-                  >
-                    <div
-                      class="success-user-data"
-                      id="success-language-message{languageIndex}"
-                    ></div>
-                    <div
-                      class="error-user-data"
-                      id="error-language-message{languageIndex}"
-                    ></div>
-                  </div>
-                  <div
-                    class="right-visual-feedback-position"
-                    style="width: {languageIndex > 0 ? '40%' : '50%'};"
-                  >
-                    <div
-                      class="success-user-data"
-                      id="success-language-level-message{languageIndex}"
-                    ></div>
-                    <div
-                      class="error-user-data"
-                      id="error-language-level-message{languageIndex}"
-                    ></div>
-                  </div>
-                </div>
-              {/if}
-
-              <div class="visual-feedback-group-container" style="width: 100%;">
-                <div class="left-visual-feedback-position" style="width: 50%;">
-                  <div
-                    class="success-user-data form-text"
-                    id="success-language-message{languageIndex}"
-                  ></div>
-                  <div
-                    class="error-user-data form-text"
-                    id="error-language-message{languageIndex}"
-                  ></div>
-                </div>
-
-                <div class="right-visual-feedback-position" style="width: 50%;">
-                  <div
-                    class="success-user-data form-text"
-                    id="success-language-level-message{languageIndex}"
-                  ></div>
-                  <div
-                    class="error-user-data form-text"
-                    id="error-language-level-message{languageIndex}"
-                  ></div>
-                </div>
-              </div>
-            </div>
-          {/each}
-
-          <div class="flex-center-utility">
-            <button
-              type="button"
-              class="btn-add-style {color}"
-              style="background-color: var(--primary-color);"
-              aria-label="Aggiungi lingua"
-              on:click={() => addLanguage()}
-            >
-              <span>Aggiungi Lingua</span>
-              <i class="fa-solid fa-plus ms-2"></i>
-            </button>
-          </div>
         </div>
 
         <!-- Automunito -->
@@ -1045,12 +858,11 @@
               type="radio"
               name="isHasOwnCarRadio"
               id="drivingLicenceUpRadioYes"
-              value="Si"
+              value={true}
               bind:group={$formDataStore.hasOwnCar}
               on:change={() => validators.isHasOwnCarRadiosSelected()}
             />
-            <label class="form-check-label" for="drivingLicenceUpRadioYes"
-              >Sì</label
+            <label class="form-check-label" for="drivingLicenceUpRadioYes">Sì</label
             >
           </div>
 
@@ -1060,13 +872,11 @@
               type="radio"
               name="isHasOwnCarRadio"
               id="drivingLicenceDownRadioNo"
-              value="No"
+              value={false}
               bind:group={$formDataStore.hasOwnCar}
               on:change={() => validators.isHasOwnCarRadiosSelected()}
             />
-            <label class="form-check-label" for="drivingLicenceDownRadioNo"
-              >No</label
-            >
+            <label class="form-check-label" for="drivingLicenceDownRadioNo">No</label>
           </div>
 
           <div class="success-has-own-car-message"></div>
@@ -1100,6 +910,25 @@
           <div class="success-driving-licence-message"></div>
           <div class="error-driving-licence-message"></div>
 
+        </div>
+
+        <!---- Profilo Personale ---->
+        <div class="py-3">
+          <label for="inputProfileSummary">Breve presentazione</label>
+
+          <textarea
+            class="form-control h-auto"
+            id="inputProfileSummary"
+            rows="6"
+            maxlength="500"
+            name="profileSummary"
+            placeholder="Descriviti in poche righe..."
+            bind:value={$formDataStore.profileSummary}
+            on:input={() => validators.checkProfileSummaryInput()}
+          ></textarea>
+
+          <div class="success-profile-summary-message form-text"></div>
+          <div class="error-profile-summary-message form-text"></div>
         </div>
 
         <!-- Dettagli Carriera -->
@@ -1447,6 +1276,211 @@
 
         </div>
 
+          <!-- Competenze digitali -->
+          <div class="py-3">
+
+            <label for="inputDigitalSkills">Competenze</label>
+            
+            {#each $formDataStore.digitalSkills as digitalSkill, digitalSkillIndex}
+  
+  
+              <div class="input-group mb-3">
+                <input
+                  type="text"
+                  class="form-control"
+                  style="width: {digitalSkillIndex > 0 ? '40%' : '50%'};"
+                  id="inputDigitalSkills{digitalSkillIndex}"
+                  autocomplete="off"
+                  name="digitalSkill{digitalSkillIndex}"
+                  placeholder="Competenza"
+                  bind:value={digitalSkill.skill}
+                  on:input={() => validators.checkDigitalSkillsTextInput(digitalSkillIndex)}
+                />
+  
+                <select
+                  class="form-select"
+                  style="width: {digitalSkillIndex > 0 ? '40%' : '50%'};"
+                  id="skillLevelSelect{digitalSkillIndex}"
+                  name="skillLevel{digitalSkillIndex}"
+                  bind:value={digitalSkill.level}
+                  on:change={() =>
+                    validators.checkLevelSkillSelect(digitalSkillIndex)}
+                >
+                  <option value="" disabled>Livello</option>
+  
+                  {#each optionsSkillLevels as optionSkillLevel (optionSkillLevel)}
+                    <option>{optionSkillLevel.level}</option>
+                  {/each}
+                </select>
+  
+                {#if digitalSkillIndex > 0}
+                  <div class="input-group-append px-1" style="width: 20%;">
+                    <button
+                      type="button"
+                      class="btn-remove-style"
+                      on:click={() => {
+                        removeDigitalSkill(digitalSkillIndex);
+                      }}
+                    >
+                      <i class="fa-solid fa-trash"></i>
+                    </button>
+                  </div>
+                {/if}
+  
+                <div class="visual-feedback-group-container" style="width: 100%;">
+                  <div class="left-visual-feedback-position" style="width: {digitalSkillIndex > 0 ? '40%' : '50%'};">
+                    <div class="success-user-data form-text" id="success-digital-skill-message{digitalSkillIndex}"></div>
+                    <div class="error-user-data form-text" id="error-digital-skill-message{digitalSkillIndex}"></div>
+                  </div>
+  
+                  <div class="right-visual-feedback-position" style="width: {digitalSkillIndex > 0 ? '40%' : '50%'};">
+                    <div class="success-user-data form-text" id="success-level-skill-message{digitalSkillIndex}"></div>
+                    <div class="error-user-data form-text" id="error-level-skill-message{digitalSkillIndex}"></div>
+                  </div>
+  
+                </div>
+              </div>
+  
+            {/each}
+  
+          </div>
+  
+          <div class="flex-center-utility">
+            <button
+              type="button"
+              class="btn-add-style {color}"
+              style="background-color: var(--primary-color);"
+              aria-label="Aggiungi competenza"
+              on:click={() => addDigitalSkills()}> 
+              <span>Aggiungi Competenza</span><i class="fa-solid fa-plus ms-2"></i>
+            </button>
+          </div>
+  
+          <!-- Lingue -->
+          <div class="py-3">
+            <label for="inputLanguages">Lingue</label>
+  
+            {#each $formDataStore.languagesSkills as selectedLanguage, languageIndex}
+  
+              <div class="input-group mb-3">
+  
+                <select
+                  class="form-select"
+                  style="width: {languageIndex > 0 ? '40%' : '50%'};"
+                  id="selectLanguages{languageIndex}"
+                  name="languages{languageIndex}"
+                  bind:value={selectedLanguage.lang}
+                  on:change={() => validators.checkLanguageSelect(languageIndex)}
+                >
+                  <option value="" disabled>Lingua</option>
+                  {#each optionsLanguages as optionsLanguage (optionsLanguage.value)}
+                    <option value={optionsLanguage.value}
+                      >{optionsLanguage.label}</option
+                    >
+                  {/each}
+                </select>
+  
+                <select
+                  class="form-select"
+                  style="width: {languageIndex > 0 ? '40%' : '50%'};"
+                  id="selectLanguageLevels{languageIndex}"
+                  name="languageLevels{languageIndex}"
+                  bind:value={selectedLanguage.level}
+                  on:change={() =>
+                    validators.checkLanguageLevelSelect(languageIndex)}
+                >
+                  <option value="" disabled>Livello</option>
+                  {#each optionslanguageLevels as optionslanguageLevel (optionslanguageLevel.value)}
+                    <option value={optionslanguageLevel.value}
+                      >{optionslanguageLevel.label}</option
+                    >
+                  {/each}
+                </select>
+  
+                {#if languageIndex > 0}
+                  <div class="input-group-append px-1" style="width: 20%;">
+                    <button
+                      type="button"
+                      class="btn-remove-style"
+                      on:click={() => removeLanguage(languageIndex)}
+                    >
+                      <i class="fa-solid fa-trash"></i>
+                    </button>
+                  </div>
+  
+                  <div
+                    class="visual-feedback-group-container"
+                    style="width: 100%;"
+                  >
+                    <div
+                      class="left-visual-feedback-position"
+                      style="width: {languageIndex > 0 ? '40%' : '50%'};"
+                    >
+                      <div
+                        class="success-user-data"
+                        id="success-language-message{languageIndex}"
+                      ></div>
+                      <div
+                        class="error-user-data"
+                        id="error-language-message{languageIndex}"
+                      ></div>
+                    </div>
+                    <div
+                      class="right-visual-feedback-position"
+                      style="width: {languageIndex > 0 ? '40%' : '50%'};"
+                    >
+                      <div
+                        class="success-user-data"
+                        id="success-language-level-message{languageIndex}"
+                      ></div>
+                      <div
+                        class="error-user-data"
+                        id="error-language-level-message{languageIndex}"
+                      ></div>
+                    </div>
+                  </div>
+                {/if}
+  
+                <div class="visual-feedback-group-container" style="width: 100%;">
+                  <div class="left-visual-feedback-position" style="width: 50%;">
+                    <div
+                      class="success-user-data form-text"
+                      id="success-language-message{languageIndex}"
+                    ></div>
+                    <div
+                      class="error-user-data form-text"
+                      id="error-language-message{languageIndex}"
+                    ></div>
+                  </div>
+  
+                  <div class="right-visual-feedback-position" style="width: 50%;">
+                    <div
+                      class="success-user-data form-text"
+                      id="success-language-level-message{languageIndex}"
+                    ></div>
+                    <div
+                      class="error-user-data form-text"
+                      id="error-language-level-message{languageIndex}"
+                    ></div>
+                  </div>
+                </div>
+              </div>
+            {/each}
+  
+            <div class="flex-center-utility">
+              <button
+                type="button"
+                class="btn-add-style {color}"
+                style="background-color: var(--primary-color);"
+                aria-label="Aggiungi lingua"
+                on:click={() => addLanguage()}
+              >
+                <span>Aggiungi Lingua</span>
+                <i class="fa-solid fa-plus ms-2"></i>
+              </button>
+            </div>
+          </div>
+
       </div>
 
     </div>
@@ -1528,7 +1562,7 @@
     max-width: 100%;
     flex-shrink: 0;
     padding: 2rem 2rem 160px 2rem;
-    background-color: #3C3C3C;
+    background-color:  #ffffff;
     font-family: "Montserrat", sans-serif;
   }
 
@@ -1645,6 +1679,7 @@
     font-weight: 700;
     padding: 0.8rem;
     cursor: pointer;
+    color: white;
   }
 
   .custom-checkbox {
@@ -1656,7 +1691,7 @@
     font-size: 1rem;
     vertical-align: top;
     font-weight: 600;
-    color: white;
+    color:  #3c3c3f;
   }
 
   .isRequired {

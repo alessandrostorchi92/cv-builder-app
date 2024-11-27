@@ -1,6 +1,6 @@
 import axios from "axios";
 import type { AxiosResponse, ResponseType, AxiosError } from "axios";
-import { formDataStore, formattedWorkAcademicDate, currentCopyrightPolicy, currentTenant } from "../stores/cvForm_data";
+import { formDataStore, formattedWorkDate, formattedAcademicDate, currentCopyrightPolicy, currentTenant } from "../stores/cvForm_data";
 import { readable, get } from "svelte/store";
 
 export const renamedFormDataStore = readable({}, (set) => {
@@ -73,15 +73,15 @@ export const renamedFormDataStore = readable({}, (set) => {
         job_company: jobItem.company,
         job_location: jobItem.location,
         job_description: [jobItem.workExperienceResults],
-        job_start_year: formattedWorkAcademicDate(jobItem.startDateWorkExperience),
-        job_end_year: jobItem.isEmployed ? "Presente" : formattedWorkAcademicDate(jobItem.endDateWorkExperience),
+        job_start_year: formattedWorkDate(jobItem.startDateWorkExperience),
+        job_end_year: jobItem.isEmployed ? "Presente" : formattedWorkDate(jobItem.endDateWorkExperience),
       })),
       education: renamedData.educations.map((educationItem) => ({
         degree: educationItem.qualification,
         major: educationItem.fieldOfStudy,
         school: educationItem.trainingCenter,
         description: educationItem.educationGoals,
-        year: formattedWorkAcademicDate(educationItem.endDateAcademicEducation),
+        year: formattedAcademicDate(educationItem.endDateAcademicEducation),
       })),
       sign_data: renamedData.userSignature?.split(",")[1] ?? "",
       flagTemplate: renamedData.selectedCvTemplate,

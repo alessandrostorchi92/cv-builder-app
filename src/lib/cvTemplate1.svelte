@@ -1,11 +1,14 @@
 <script lang="ts">
 
-import {formDataStore, isAllowed, isPrivacyPolicyApproved} from "../stores/cvForm_data"; 
-import { cvInitialData }  from "../stores/cvDefault_data";
-    
+    import {formDataStore, isAllowed, isPrivacyPolicyApproved} from "../stores/cvForm_data"; 
+    import { cvInitialData }  from "../stores/cvDefault_data";
+        
     export let tenant: any;
     export let color: any;
     export let footer: any;
+
+    $: console.log($formDataStore.isProtectedCategory);
+    
 
 </script>
 
@@ -23,7 +26,7 @@ import { cvInitialData }  from "../stores/cvDefault_data";
     
             {:else}
             
-                <div class="tenant-picture-container" style=" background-color: {$formDataStore.selectedColor || "white"}; padding: 20px;">
+                <div class="tenant-picture-container" style=" background-color: white; padding: 20px;">
                     <div class="tenant-picture" style="background-image:url({tenant == "lavoroexpress" ? 'https://lavoroexpress.it/assets/img/cv/circle.svg' : `https://${tenant}.blob.core.windows.net/cdn/cv/circle.svg`})"></div>
                 </div>
                 
@@ -57,14 +60,24 @@ import { cvInitialData }  from "../stores/cvDefault_data";
 
                     <!-- HasOwnCar Icon -->
                     <div class="info-item">
+
                         <i class="fa-solid fa-car-side {color}" style="color: {$cvInitialData.color}"></i>
-                        <span>Automunito:</span><span class="ms-1">{$cvInitialData.drivingLicences}</span>
+                        {#if $formDataStore.hasOwnCar === true || $formDataStore.hasOwnCar === null}
+                            <span>Automunito</span><span class="ms-1">-</span>
+                        {/if}
+
+                        <span class="ms-1">{$cvInitialData.drivingLicences}</span>
+                      
                     </div>
-                    
+
                     <!-- IsProtectedCategory Icon -->
                     <div class="info-item">
-                        <i class="fa-regular fa-heart {color}" style="color: {$cvInitialData.color}"></i>
-                        <span>Categoria protetta:</span><span style="margin-left: 5px">{$cvInitialData.isProtectedCategory}</span>
+
+                        {#if $formDataStore.isProtectedCategory === true || $formDataStore.isProtectedCategory === null}
+                            <i class="fa-regular fa-heart {color}" style="color: {$cvInitialData.color}"></i>
+                            <span>Categoria protetta:</span><span style="margin-left: 5px">{$cvInitialData.isProtectedCategory}</span>
+                        {/if}
+
                     </div>
        
                 </div>
@@ -72,22 +85,15 @@ import { cvInitialData }  from "../stores/cvDefault_data";
                 <div class="right-section">
                     
                     <!-- House Icon -->
-
                     <div class="info-item">
-
                         <i class="fa-solid fa-house {color}" style="color: {$cvInitialData.color}"></i>
-
                         <span>{$cvInitialData.address.streetAddress},<span class="ms-1">{$cvInitialData.address.postalCode},</span> {$cvInitialData.address.city} - {$cvInitialData.address.region}</span>
-
-
                     </div>
 
                     <!-- Phone Icon-->
                     <div class="info-item">
-
                         <i class="fa-solid fa-mobile-screen {color}" style="color: {$cvInitialData.color}"></i>
-                        <span>{$cvInitialData.phonePrefix} {$cvInitialData.phoneNumber}</span>
-                        
+                        <span>{$cvInitialData.phonePrefix} {$cvInitialData.phoneNumber}</span>  
                     </div>
 
                     <!-- Email Icon -->
@@ -130,7 +136,7 @@ import { cvInitialData }  from "../stores/cvDefault_data";
                                         
                         </div>
                     
-                        <div class="job-dates">{job.startDateWorkExperience}/{job.endDateWorkExperience}</div>
+                        <div class="job-dates"><span class="start-date-work">{job.startDateWorkExperience}</span>/<span class="end-date-work">{job.endDateWorkExperience}</span></div>
                                     
                     </div>
                     
@@ -211,15 +217,11 @@ import { cvInitialData }  from "../stores/cvDefault_data";
                 <div class="policy-privacy-container">
     
                     <div class="policy-privacy">
-    
                         <p>Autorizzo il trattamento dei dati personali nel rispetto della vigente normativa sulla protezione dei dati personali ed in particolare il Regolamento Europeo per la protezione dei dati personali 2016/679, il d.lgs. 30/06/2003 n. 196 e successive modifiche e integrazioni.</p>
-    
                     </div>
     
                     <div class="user-signature-container">
-    
                         <img src="{$formDataStore.userSignature}" alt="Firma digitale" style="width:60%;">
-    
                     </div>
     
                 </div>
@@ -228,10 +230,8 @@ import { cvInitialData }  from "../stores/cvDefault_data";
     
         <!-- Company info Section -->
             <div class="copyright-container">
-        
                 <div class="company-logo" style="background-image:url({tenant == "lavoroexpress" ? 'https://lavoroexpress.it/assets/img/cv/extended-logo.png' : `https://${tenant}.blob.core.windows.net/cdn/cv/extended-logo.png`})"></div>
-                <p class="copyright-text">{footer}</p>
-                    
+                <p class="copyright-text">{footer}</p>   
             </div>                   
      
         </div>
@@ -255,13 +255,17 @@ import { cvInitialData }  from "../stores/cvDefault_data";
         height: auto;
     }
 
+    .profile-picture-container {
+        background-color: white;
+    }
+
     .profile-picture-container, .tenant-picture-container {
         flex-shrink: 0;
-        flex-basis: 20%;
+        flex-basis: 30%;
         aspect-ratio: 1/1;
     }
     
-    .user-profile-picture {
+    .user-profile-picture  {
         height: 100%;
         width: 100%;
         object-position: center;
@@ -279,7 +283,8 @@ import { cvInitialData }  from "../stores/cvDefault_data";
     .profile-info-container {
         display: flex;
         flex-direction: column;
-        flex-basis: 80%;
+        flex-basis: 70%;
+        aspect-ratio: 3 / 1;
         background-color: #f2f2f2;
         padding-left: 1rem;
     }
@@ -376,6 +381,14 @@ import { cvInitialData }  from "../stores/cvDefault_data";
 
     .job-dates, .education-dates {
         font-size: 0.8rem;
+    }
+
+    .job-dates .start-date-work {
+        margin-right: 0.1rem;
+    }
+
+    .job-dates .end-date-work {
+        margin-left: 0.1rem;
     }
 
     .job-details-container, .education-details-container {
