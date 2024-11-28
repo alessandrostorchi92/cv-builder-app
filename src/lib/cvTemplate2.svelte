@@ -93,7 +93,7 @@ import { cvInitialData }  from "../stores/cvDefault_data";
             <p>{$cvInitialData.profileSummary}</p>
         </div>
 
-        <div class="watermark-logo" style="background-image:url({tenant == "lavoroexpress" ? 'https://lavoroexpress.it/assets/img/cv/transparent-logo.png' : `https://${tenant}.blob.core.windows.net/cdn/cv/transparent-logo.png`})"></div>
+        <div class="watermark-logo" style="background-image:url({tenant == "lavoroexpress" ? '/logo-back.svg' : `https://${tenant}.blob.core.windows.net/cdn/cv/transparent-logo.png`}); opacity: {tenant == 'lavoroexpress' ? '0.2' : '1'};"></div>
 
         <!-- Work Experiences --> 
         <div class="work-experience-container py-2 {color}" style="border: 1px solid {$cvInitialData.color};">
@@ -268,6 +268,7 @@ p {
     background-size: cover;
     overflow: hidden;
     z-index: -1;
+    opacity: 0.2;
 }
 
 .work-experience-item, .academic-background-item {

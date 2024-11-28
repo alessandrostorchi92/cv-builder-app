@@ -1561,7 +1561,7 @@
     flex-basis: 35%;
     max-width: 100%;
     flex-shrink: 0;
-    padding: 2rem 2rem 160px 2rem;
+    padding: 2rem;
     background-color:  #ffffff;
     font-family: "Montserrat", sans-serif;
   }
@@ -1628,7 +1628,7 @@
   .description-title-app-style {
     font-size: 1.2rem;
     font-weight: 700;
-    color: white;
+    color: #3c3c3f;
   }
 
   .title-section-style {

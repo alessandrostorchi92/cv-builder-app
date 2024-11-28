@@ -1,14 +1,11 @@
 <script lang="ts">
 
-    import {formDataStore, isAllowed, isPrivacyPolicyApproved} from "../stores/cvForm_data"; 
+    import {formDataStore, isAllowed, isPrivacyPolicyApproved, showPopup} from "../stores/cvForm_data"; 
     import { cvInitialData }  from "../stores/cvDefault_data";
         
     export let tenant: any;
     export let color: any;
     export let footer: any;
-
-    $: console.log($formDataStore.isProtectedCategory);
-    
 
 </script>
 
@@ -27,39 +24,40 @@
             {:else}
             
                 <div class="tenant-picture-container" style=" background-color: white; padding: 20px;">
-                    <div class="tenant-picture" style="background-image:url({tenant == "lavoroexpress" ? 'https://lavoroexpress.it/assets/img/cv/circle.svg' : `https://${tenant}.blob.core.windows.net/cdn/cv/circle.svg`})"></div>
+                    <div class="tenant-picture" style="background-image:url({tenant == 'lavoroexpress' ? '/logo-back-transp.svg' : `https://${tenant}.blob.core.windows.net/cdn/cv/circle.svg`});"></div>
                 </div>
                 
             {/if}
     
         </div>
     
-        <div class="profile-info-container">
+    
+        <div class="{$showPopup ? "profile-info-container-popup" : "profile-info-container"}">
     
             <!-- Profile data -->
     
-            <div class="user-full-name {color}"><strong><span style="color: {$cvInitialData.color};">{$cvInitialData.name}</span> {$cvInitialData.surname}</strong></div>
+            <div class="{$showPopup ? "user-full-name-popup" : "user-full-name"} {color}"><strong><span style="color: {$cvInitialData.color};">{$cvInitialData.name}</span> {$cvInitialData.surname}</strong></div>
             
-            <div class="user-profession">{$cvInitialData.profession}</div>
+            <div class="{$showPopup ? "user-profession-popup" : "user-profession"}">{$cvInitialData.profession}</div>
     
-            <div class="user-personal-info">
+            <div class="user-personal-info {$showPopup ? "user-personal-info-popup" : "user-personal-info"}">
     
                 <div class="left-section">
 
                     <!-- Nationality Icon -->
-                    <div class="info-item">
+                    <div class="{$showPopup ? "info-item-popup" : "info-item"}">
                         <i class="fa-solid fa-earth-americas {color}" style="color: {$cvInitialData.color}"></i>
                         <span>Nazionalità: {$cvInitialData.nationality}</span>
                     </div>
 
                     <!-- BirthCake Icon -->   
-                    <div class="info-item">
+                    <div class="{$showPopup ? "info-item-popup" : "info-item"}">
                         <i class="fa-solid fa-cake-candles {color}" style="color: {$cvInitialData.color}"></i>
                         <span>{$cvInitialData.birthDate}, {$cvInitialData.birthPlace}</span>
                     </div>
 
                     <!-- HasOwnCar Icon -->
-                    <div class="info-item">
+                    <div class="{$showPopup ? "info-item-popup" : "info-item"}">
 
                         <i class="fa-solid fa-car-side {color}" style="color: {$cvInitialData.color}"></i>
                         {#if $formDataStore.hasOwnCar === true || $formDataStore.hasOwnCar === null}
@@ -71,7 +69,7 @@
                     </div>
 
                     <!-- IsProtectedCategory Icon -->
-                    <div class="info-item">
+                    <div class="{$showPopup ? "info-item-popup" : "info-item"}">
 
                         {#if $formDataStore.isProtectedCategory === true || $formDataStore.isProtectedCategory === null}
                             <i class="fa-regular fa-heart {color}" style="color: {$cvInitialData.color}"></i>
@@ -85,19 +83,19 @@
                 <div class="right-section">
                     
                     <!-- House Icon -->
-                    <div class="info-item">
+                    <div class="{$showPopup ? "info-item-popup" : "info-item"}">
                         <i class="fa-solid fa-house {color}" style="color: {$cvInitialData.color}"></i>
                         <span>{$cvInitialData.address.streetAddress},<span class="ms-1">{$cvInitialData.address.postalCode},</span> {$cvInitialData.address.city} - {$cvInitialData.address.region}</span>
                     </div>
 
                     <!-- Phone Icon-->
-                    <div class="info-item">
+                    <div class="{$showPopup ? "info-item-popup" : "info-item"}">
                         <i class="fa-solid fa-mobile-screen {color}" style="color: {$cvInitialData.color}"></i>
                         <span>{$cvInitialData.phonePrefix} {$cvInitialData.phoneNumber}</span>  
                     </div>
 
                     <!-- Email Icon -->
-                    <div class="info-item">
+                    <div class="{$showPopup ? "info-item-popup" : "info-item"}">
                         <i class="fa-regular fa-envelope {color}" style="color: {$cvInitialData.color}"></i>
                         <span>{$cvInitialData.email}</span>
                     </div>
@@ -114,33 +112,33 @@
     
         <!-- Profile Summary Section-->
         <div class="profile-summary-container">
-            <div class="profile-summary-title {color}" style="color: {$cvInitialData.color};">BREVE PRESENTAZIONE</div>
-            <p class="personal-profile-summary">{$cvInitialData.profileSummary}</p>
+            <div class="{$showPopup ? "profile-summary-title-popup" : "profile-summary-title"} {color}" style="color: {$cvInitialData.color};">BREVE PRESENTAZIONE</div>
+            <p class="{$showPopup ? "personal-profile-summary-popup" : "personal-profile-summary"}">{$cvInitialData.profileSummary}</p>
         </div>
     
-        <div class="watermark-logo" style="background-image:url({tenant == "lavoroexpress" ? 'https://lavoroexpress.it/assets/img/cv/transparent-logo.png' : `https://${tenant}.blob.core.windows.net/cdn/cv/transparent-logo.png`})"></div>
+        <div class="watermark-logo" style="background-image:url({tenant == "lavoroexpress" ? '/logo-back.svg' : `https://${tenant}.blob.core.windows.net/cdn/cv/transparent-logo.png`}); opacity: {tenant == 'lavoroexpress' ? '0.2' : '1'};"></div>
 
         <!-- Work Experience Section-->
         <div class="work-experience-container">
     
-            <div class="work-experience-title {color}" style="color:{$cvInitialData.color};">ESPERIENZE</div>
+            <div class="{$showPopup ? "work-experience-title-popup" : "work-experience-title"} {color}" style="color:{$cvInitialData.color};">ESPERIENZE</div>
                 
             {#each $cvInitialData.jobs as job}
     
                     <div class="work-experience-item">
                                     
-                        <div class="job-details-container">
+                        <div class="job-details-container {color}">
                     
-                            <div class="dot-item" style="background-color: {$formDataStore.selectedColor || "black"};"></div>
-                            <div class="job-details">{job.role} - {job.company} - in {job.location}</div>
+                            <div class="{$showPopup ? "dot-item-popup" : "dot-item"}" style="background-color: {$cvInitialData.color};"></div>
+                            <div class="{$showPopup ? "job-details-popup" : "job-details"}">{job.role} - {job.company} - in {job.location}</div>
                                         
                         </div>
                     
-                        <div class="job-dates"><span class="start-date-work">{job.startDateWorkExperience}</span>/<span class="end-date-work">{job.endDateWorkExperience}</span></div>
+                        <div class="job-dates {$showPopup ? "job-dates-popup" : "job-dates"}"><span class="start-date-work">{job.startDateWorkExperience}</span>/<span class="end-date-work">{job.endDateWorkExperience}</span></div>
                                     
                     </div>
                     
-                    <p class="job-results">{job.workExperienceResults}</p>
+                    <p class="{$showPopup ? "job-results-popup" : "job-results"}">{job.workExperienceResults}</p>
                     
             {/each}
             
@@ -149,24 +147,24 @@
         <!-- Academic Background Section -->
         <div class="academic-background-container">
         
-                <div class="academic-background-title {color}" style="color:{$cvInitialData.color};">FORMAZIONE</div>
+                <div class="{$showPopup ? "academic-background-title-popup" : "academic-background-title"} {color}" style="color:{$cvInitialData.color};">FORMAZIONE</div>
             
                 {#each $cvInitialData.educations as education (education)}
         
                     <div class="academic-background-item">
                             
-                        <div class="education-details-container">
+                        <div class="education-details-container {color}">
         
-                            <div class="dot-item" style="background-color: {$formDataStore.selectedColor || "black"};"></div>
-                            <div class="education-details">{education.qualification} - {education.trainingCenter} - {education.fieldOfStudy}</div>
+                            <div class="{$showPopup ? "dot-item-popup" : "dot-item"}" style="background-color: {$cvInitialData.color};"></div>
+                            <div class="{$showPopup ? "education-details-popup" : "education-details"}">{education.qualification} - {education.trainingCenter} - {education.fieldOfStudy}</div>
                             
                         </div>
         
-                        <div class="education-dates">{education.endDateAcademicEducation}</div>
+                        <div class="{$showPopup ? "education-dates-popup" : "education-dates"}">{education.endDateAcademicEducation}</div>
                         
                     </div>
         
-                    <p class="education-goals">{education.educationGoals}</p>
+                    <p class="{$showPopup ? "education-goals-popup" : "education-goals"}">{education.educationGoals}</p>
                     
                 {/each}
         
@@ -175,14 +173,14 @@
         <!-- Language Section -->
         <div class="language-container">
     
-            <div class="language-title {color}" style="color: {$cvInitialData.color};">LINGUE</div>
+            <div class="{$showPopup ? "language-title-popup" : "language-title"} {color}" style="color: {$cvInitialData.color};">LINGUE</div>
             
             {#each $cvInitialData.languagesSkills as selectedLanguage (selectedLanguage)}
         
-                <div class="language-details-container">
+                <div class="language-details-container {color}">
         
-                    <div class="dot-item" style="background-color: {$formDataStore.selectedColor || 'black'};"></div>
-                    <div class="language-details">{selectedLanguage.lang} - {selectedLanguage.level}</div>
+                    <div class="{$showPopup ? "dot-item-popup" : "dot-item"}" style="background-color: {$cvInitialData.color};"></div>
+                    <div class="{$showPopup ? "language-details-popup" : "language-details"}">{selectedLanguage.lang} - {selectedLanguage.level}</div>
                     
                 </div>
         
@@ -193,14 +191,14 @@
         <!-- Hard Skills Section-->
         <div class="hard-skills-container">
     
-            <div class="hard-skills-title {color}" style="color:{$cvInitialData.color};">SKILLS E COMPETENZE DIGITALI</div>
+            <div class="hard-skills-title {$showPopup ? "hard-skills-title-popup" : "hard-skills-title"} {color}" style="color:{$cvInitialData.color};">SKILLS E COMPETENZE DIGITALI</div>
            
             {#each $cvInitialData.digitalSkills as digitalSkill (digitalSkill)}
     
-                <div class="hard-skills-details-container">
+                <div class="hard-skills-details-container {color}">
     
-                    <div class="dot-item" style="background-color: {$formDataStore.selectedColor || "black"};"></div>
-                    <div class="hard-skills-details">{digitalSkill.skill} - {digitalSkill.level}</div>
+                    <div class="{$showPopup ? "dot-item-popup" : "dot-item"}" style="background-color: {$cvInitialData.color};"></div>
+                    <div class="{$showPopup ? "hard-skills-details-popup" : "hard-skills-details"}">{digitalSkill.skill} - {digitalSkill.level}</div>
                     
                 </div>
     
@@ -252,39 +250,35 @@
         display: flex;
         font-family: Ubuntu;
         font-weight: 300;
-        height: auto;
     }
-
-    .profile-picture-container {
-        background-color: white;
-    }
-
+        
     .profile-picture-container, .tenant-picture-container {
         flex-shrink: 0;
         flex-basis: 30%;
-        aspect-ratio: 1/1;
+        aspect-ratio: 1 / 1;
     }
     
-    .user-profile-picture  {
+    .user-profile-picture, .tenant-picture  {
         height: 100%;
         width: 100%;
+    }
+
+    .user-profile-picture {
         object-position: center;
         object-fit: cover;
     }
 
     .tenant-picture {
-        height: 100%;
-        width: 100%;
         background-size: contain;
         background-position: center;
         background-repeat: no-repeat;
     }
 
-    .profile-info-container {
+    .profile-info-container, .profile-info-container-popup {
         display: flex;
         flex-direction: column;
+        flex-grow: 1;
         flex-basis: 70%;
-        aspect-ratio: 3 / 1;
         background-color: #f2f2f2;
         padding-left: 1rem;
     }
@@ -294,17 +288,34 @@
         font-size: 2rem;
     }
 
+    .user-full-name-popup {
+        text-transform: uppercase;
+        font-size: 1.8rem;
+    }
+
     .user-profession {
         opacity: 0.5;
         text-transform: uppercase;
-        font-size: 1.2rem;
+        font-size: 1.8rem;
     }
 
-    .user-personal-info{
+    .user-profession-popup {
+        opacity: 0.5;
+        text-transform: uppercase;
+        font-size: 1.6rem;
+    }
+
+    .user-personal-info {
         display: flex;
         flex-direction: row;
-        gap: 3rem;
-        font-size: 0.6rem;
+        line-height: 12px;
+        padding: 1rem 0;
+    }
+
+    .user-personal-info-popup {
+        display: flex;
+        flex-direction: row;
+        line-height: 12px;
         padding: 1rem 0;
     }
 
@@ -315,16 +326,25 @@
 
     .info-item i {
         text-align: center;
-        line-height: 15px;
         font-size: 0.7rem;
         width: 15px;
         height: 15px;
         aspect-ratio: 1/1;
-        margin-right: 2px;
+    }
+    .info-item span {
+        font-size: 0.65rem;
     }
 
-    .info-item span {
-        font-size: 0.7rem;
+    .info-item-popup i {
+        text-align: center;
+        font-size: 0.6rem;
+        width: 12px;
+        height: 12px;
+        aspect-ratio: 1/1;
+    }
+
+    .info-item-popup span {
+        font-size: 0.6rem;
     }
 
     .main-section {
@@ -345,8 +365,26 @@
         padding: 0.5rem 0;
     }
 
-    .personal-profile-summary {
+    .profile-summary-title-popup, .work-experience-title-popup, .academic-background-title-popup, .language-title-popup, .hard-skills-title-popup {
+        font-weight: bold; 
+        font-size: 1.3rem;
+        padding: 0.3rem 0;
+    }
+
+    .personal-profile-summary, .personal-profile-summary-popup {
         opacity: 0.6;
+    }
+
+    .personal-profile-summary-popup, .job-results-popup, .education-goals-popup {
+        font-size: 0.9rem;
+    }
+
+    .dot-item, .dot-item-popup {
+        display: inline-block; 
+        height: 8px; 
+        width: 8px;
+        border-radius: 50%;
+        margin-right: 12px;
     }
 
     .watermark-logo {
@@ -361,26 +399,24 @@
         z-index: -1;
     }
 
-    .dot-item {
-        display: inline-block; 
-        height: 8px; 
-        width: 8px;
-        border-radius: 50%;
-        margin-right: 12px;
-    }
-
     .work-experience-item, .academic-background-item {
         display: flex;
         flex-direction: row;
         align-items: center;
         justify-content: space-between;
         flex-basis: 100%;
-        font-size: 1rem;
         padding-top: 0.3rem;
     }
 
+    .job-details, .education-details, .job-details-popup, .education-details-popup {
+        font-size: 1rem;
+    }
     .job-dates, .education-dates {
         font-size: 0.8rem;
+    }
+
+    .job-dates-popup, .education-dates-popup {
+        font-size: 0.65rem; 
     }
 
     .job-dates .start-date-work {
@@ -410,6 +446,10 @@
         display: flex;
         flex-direction: row;
         align-items: center;
+    }
+
+    .language-details, .hard-skills-details, .language-details-popup, .hard-skills-details-popup  {
+        font-size: 0.85rem;
     }
 
     .footer-divider {
@@ -476,15 +516,81 @@
             font-size: 1.8rem;
         }
 
-        .user-personal-info{
-            gap: 3rem;
+        .user-profession {
+            font-size: 1.4rem;
+        }
+
+        .profile-info-container {
+            padding-left: 0.3rem;
+        }
+
+        .info-item i {
             font-size: 0.6rem;
-            padding: 1rem 0;
+        }
+
+        .info-item span {
+        font-size: 0.5rem;
+        }
+
+        .info-item-popup i {
+            font-size: 0.5rem;
+            width: 10px;
+            height: 10px;
+            
+        }
+
+        .info-item-popup span {
+            font-size: 0.8rem;
         }
 
         .watermark-logo {
             width: 400px; 
             height: 400px;
+        }
+
+        .profile-summary-title, .work-experience-title, .academic-background-title, .language-title, .hard-skills-title {
+            font-size: 1.3rem;
+        }
+
+        .dot-item {
+            display: inline-block; 
+            height: 6px; 
+            width: 6px;
+        }
+
+        .work-experience-item, .academic-background-item {
+            font-size: 0.8rem;
+        }
+
+        .job-dates, .education-dates {
+            font-size: 0.7rem;
+        }
+
+        .job-results, .education-goals {
+            font-size: 0.75rem;
+        }
+
+        .language-details, .hard-skills-details {
+            font-size: 0.85rem;
+        }
+
+        .policy-privacy {
+            font-size: 0.5rem; 
+        }
+
+        .company-logo {
+            width: 40px; 
+            height: 20px;  
+        }
+
+        .copyright-text {
+            font-size: 8px; 
+            color: #666;
+            flex-grow: 1;
+        }
+
+        .copyright-text {
+            font-size: 6px; 
         }
 
     }
@@ -495,20 +601,78 @@
             font-size: 1.5rem;
         }
 
+        .user-full-name-popup {
+            font-size: 1.2rem;
+        }
+
+        .user-profession {
+            font-size: 1.2rem;
+        }
+
+        .user-profession-popup {
+            opacity: 0.5;
+            text-transform: uppercase;
+            font-size: 1rem;
+        }
+
         .user-personal-info{
-            gap: 1.5rem;
+            gap: 0.1rem;
+        }
+
+        .profile-info-container {
+            padding-left: 0.1rem;
+        }
+
+        .tenant-picture-container {
+            padding: 0.5rem;
+        }
+
+       .tenant-picture-container-popup{
+            height: 140px;
+            width: 140px;
+       }
+
+       .tenant-picture-container-popup {
+        padding: 0.5rem;
+       }
+
+        .user-personal-info{
+            padding: 0;
+        }
+
+        .info-item-popup i {
+            text-align: center;
+            font-size: 0.45rem;
+            width: 10px;
+            height: 10px;
+            aspect-ratio: 1/1;
+
+        }
+
+        .info-item-popup span {
+            font-size: 0.35rem; 
         }
 
         .info-item i {
-            font-size: 0.6rem;
+            font-size: 0.5rem;
         }
 
         .info-item span {
-            font-size: 0.6rem;
+            font-size: 0.45rem;
         }
 
         .profile-summary-title, .work-experience-title, .academic-background-title, .language-title, .hard-skills-title {
             font-size: 1.2rem;
+        }
+
+        .job-details-popup, .education-details-popup {
+            font-size: 0.7rem;
+        }
+
+        .profile-summary-title-popup, .work-experience-title-popup, .academic-background-title-popup, .language-title-popup, .hard-skills-title-popup {
+            font-weight: bold; 
+            font-size: 0.9rem;
+            padding: 0.5rem 0;
         }
 
         .profile-summary-container, .work-experience-container, .academic-background-container, .language-container, .hard-skills-container {
@@ -519,6 +683,10 @@
             font-size: 0.8rem;
         }
 
+        .personal-profile-summary-popup, .job-results-popup, .education-goals-popup {
+            font-size: 0.6rem;
+        }
+
         .job-dates, .education-dates {
             font-size: 0.6rem;
         }
@@ -526,6 +694,18 @@
         .watermark-logo {
             width: 350px; 
             height: 350px;
+        }
+
+        .dot-item-popup {
+            display: inline-block; 
+            height: 4px; 
+            width: 4px;
+            border-radius: 50%;
+            margin-right: 0.4rem;
+        }
+
+        .language-details-popup, .hard-skills-details {
+            font-size: 0.7rem;
         }
 
     }

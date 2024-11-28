@@ -26,7 +26,7 @@ import {cvInitialData}  from "../stores/cvDefault_data";
             {:else}
 
             <div class="tenant-picture-container">
-                <div class="tenant-picture" style="background-image:url({tenant == "lavoroexpress" ? 'https://lavoroexpress.it/assets/img/cv/circle.svg' : `https://${tenant}.blob.core.windows.net/cdn/cv/circle.svg`})"></div>
+                <div class="tenant-picture" style="background-image:url({tenant == "lavoroexpress" ? '/logo-circle.svg' : `https://${tenant}.blob.core.windows.net/cdn/cv/circle.svg`})"></div>
             </div>
                
             {/if}
@@ -100,8 +100,7 @@ import {cvInitialData}  from "../stores/cvDefault_data";
         
         </div>
 
-        <!-- Policy Privacy & UserSignature Section-->
-                 
+        <!-- Policy Privacy & UserSignature Section-->      
         {#if isPrivacyPolicyApproved && $isAllowed}
         
             <div class="auth-container {color}" style="background-color: {$cvInitialData.color};">
@@ -156,7 +155,7 @@ import {cvInitialData}  from "../stores/cvDefault_data";
         <!-- Work Experience Section-->
         <div class="work-experience-container {color}">
         
-                    <div class="watermark-logo" style="background-image:url({tenant == "lavoroexpress" ? 'https://lavoroexpress.it/assets/img/cv/transparent-logo.png' : `https://${tenant}.blob.core.windows.net/cdn/cv/transparent-logo.png`})"></div>
+                    <div class="watermark-logo" style="background-image:url({tenant == "lavoroexpress" ? '/logo-back.svg' : `https://${tenant}.blob.core.windows.net/cdn/cv/transparent-logo.png`}); opacity: {tenant == 'lavoroexpress' ? '0.2' : '1'};"></div>
                     
                     <div class="work-experience-title" style="color: {$cvInitialData.color}; border-bottom: 1px solid {$cvInitialData.color};">ESPERIENZE LAVORATIVE</div>
                         
@@ -211,7 +210,7 @@ import {cvInitialData}  from "../stores/cvDefault_data";
         
         <!-- Footer Section -->
         <div class="footer-container">
-                    <div class="company-logo" style="background-image:url({tenant == "lavoroexpress" ? 'https://lavoroexpress.it/assets/img/cv/extended-logo.png' : `https://${tenant}.blob.core.windows.net/cdn/cv/extended-logo.png`})"></div>
+                    <div class="company-logo" style="background-image:url({tenant == "lavoroexpress" ? 'https://lavoroexpress.it/assets/img/cv/extended-logo.png' : `https://${tenant}.blob.core.windows.net/cdn/cv/extended-logo.png`});"></div>
                     <p class="copyright-text">{footer}</p>               
         </div>                   
                    
@@ -242,7 +241,7 @@ import {cvInitialData}  from "../stores/cvDefault_data";
         height: 100%;
     }
 
-    .profile-picture-container {
+    .profile-picture-container, .tenant-picture-container {
         height: 160px;
         text-align: center;
         vertical-align:top;
@@ -253,12 +252,6 @@ import {cvInitialData}  from "../stores/cvDefault_data";
         height: 160px;
         border-radius: 400px;
         object-fit: cover;
-    }
-
-    .tenant-picture-container {
-        width: 200px;
-        aspect-ratio: 2/1;
-        padding: 0 1rem;
     }
 
     .tenant-picture  {
@@ -359,7 +352,7 @@ import {cvInitialData}  from "../stores/cvDefault_data";
         width: 500px; 
         height: 500px;
         top: 120px;
-        right: -250px;
+        right: -190px;
         aspect-ratio: 1/1;
         background-size: contain;
         overflow: hidden;
