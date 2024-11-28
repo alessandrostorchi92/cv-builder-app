@@ -411,6 +411,7 @@
     .job-details, .education-details, .job-details-popup, .education-details-popup {
         font-size: 1rem;
     }
+
     .job-dates, .education-dates {
         font-size: 0.8rem;
     }
@@ -516,7 +517,15 @@
             font-size: 1.8rem;
         }
 
+        .user-full-name-popup {
+            font-size: 1.6rem;
+        }
+
         .user-profession {
+            font-size: 1.4rem;
+        }
+
+        .user-profession-popup {
             font-size: 1.4rem;
         }
 
@@ -524,23 +533,32 @@
             padding-left: 0.3rem;
         }
 
+        .user-personal-info {
+            line-height: 15px;
+            padding: .5rem 0;
+        }
+
+        .user-personal-info-popup {
+            line-height: 12px;
+            padding: .5rem 0;
+        }
+
         .info-item i {
             font-size: 0.6rem;
         }
 
         .info-item span {
-        font-size: 0.5rem;
+        font-size: 0.6rem;
         }
 
         .info-item-popup i {
             font-size: 0.5rem;
             width: 10px;
-            height: 10px;
-            
+            height: 10px;  
         }
 
         .info-item-popup span {
-            font-size: 0.8rem;
+            font-size: 0.5rem;
         }
 
         .watermark-logo {
@@ -552,7 +570,15 @@
             font-size: 1.3rem;
         }
 
-        .dot-item {
+        .profile-summary-title-popup, .work-experience-title-popup, .academic-background-title-popup, .language-title-popup, .hard-skills-title-popup {
+            font-size: 1.2rem; 
+        }
+
+        .personal-profile-summary, .personal-profile-summary-popup {
+            font-size: 0.8rem;
+        } 
+
+        .dot-item, .dot-item-popup {
             display: inline-block; 
             height: 6px; 
             width: 6px;
@@ -566,8 +592,8 @@
             font-size: 0.7rem;
         }
 
-        .job-results, .education-goals {
-            font-size: 0.75rem;
+        .job-results, .education-goals, .job-results-popup, .education-goals-popup {
+            font-size: 0.8rem;
         }
 
         .language-details, .hard-skills-details {
