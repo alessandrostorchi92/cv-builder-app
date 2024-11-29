@@ -624,7 +624,7 @@
     @media screen and (max-width: 992px) {
 
         .user-full-name {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
         }
 
         .user-full-name-popup {
@@ -632,20 +632,30 @@
         }
 
         .user-profession {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
         }
 
         .user-profession-popup {
-            opacity: 0.5;
-            text-transform: uppercase;
             font-size: 1rem;
         }
 
-        .user-personal-info{
-            gap: 0.1rem;
+        .user-personal-info {
+            line-height: 12px;
+            padding-top: 1rem 0;
+        }
+
+        .user-personal-info-popup {
+            display: flex;
+            flex-direction: row;
+            line-height: 10px;
+            padding: 1rem 0;
         }
 
         .profile-info-container {
+            padding-left: 0.3rem;
+        }
+
+        .profile-info-container-popup {
             padding-left: 0.1rem;
         }
 
@@ -662,17 +672,12 @@
         padding: 0.5rem;
        }
 
-        .user-personal-info{
-            padding: 0;
-        }
-
         .info-item-popup i {
             text-align: center;
             font-size: 0.45rem;
             width: 10px;
             height: 10px;
             aspect-ratio: 1/1;
-
         }
 
         .info-item-popup span {
@@ -684,11 +689,11 @@
         }
 
         .info-item span {
-            font-size: 0.45rem;
+            font-size: 0.5rem;
         }
 
         .profile-summary-title, .work-experience-title, .academic-background-title, .language-title, .hard-skills-title {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
         }
 
         .job-details-popup, .education-details-popup {
@@ -699,6 +704,10 @@
             font-weight: bold; 
             font-size: 0.9rem;
             padding: 0.5rem 0;
+        }
+
+        .profile-summary-title-popup, .work-experience-title-popup, .academic-background-title-popup, .language-title-popup, .hard-skills-title-popup {
+            font-size: 1rem; 
         }
 
         .profile-summary-container, .work-experience-container, .academic-background-container, .language-container, .hard-skills-container {
