@@ -180,7 +180,6 @@ export function checkOptionalProfileDataInputs(inputName: string, successMessage
 }
 
 // ProfilePicture Optional Validation
-
 export function isProfilePictureUploaded(): void {
     checkOptionalProfileDataInputs("filePicture", ".success-file-picture-message", ".error-file-picture-message", "Ottimo lavoro, hai caricato la tua immagine di profilo nel CV", "")
 }
@@ -216,7 +215,7 @@ export function checkStreetAddressInput(): void {
 };
 
 export function checkPostalCodeInput(): void {
-    checkMandatoryProfileDataInputs("postalCode", ".success-postal-code-message", ".error-postal-code-messages", "Ottimo lavoro, il numero civico è stato inserito nel CV", "Mi dispiace , il codice postale può contenere solo numeri")
+    checkMandatoryProfileDataInputs("postalCode", ".success-postal-code-message", ".error-postal-code-messages", "Ottimo lavoro, il codice postale è stato inserito nel CV", "Mi dispiace , il codice postale può contenere solo numeri")
 };
 
 export function checkCityInput(): void {
@@ -228,7 +227,7 @@ export function checkRegionInput(): void {
 };
 
 export function checkPhonePrefixSelect(): void {
-    checkMandatoryProfileDataInputs("phonePrefix", ".success-phoneprefix-message", ".error-phoneprefix-message", "Ottimo lavoro, la regione di residenza è stata inserita nel CV", "")
+    checkMandatoryProfileDataInputs("phonePrefix", ".success-phoneprefix-message", ".error-phoneprefix-message", "Ottimo lavoro, il prefisso è stato inserito nel CV", "")
 };
 
 export function checkPhoneInput(): void {
@@ -236,7 +235,7 @@ export function checkPhoneInput(): void {
 }; 
 
 export function checkEmailInput(): void {
-    checkMandatoryProfileDataInputs("email", ".success-email-message", ".error-email-messages", "Ottimo lavoro, il cellulare è stato inserito nel CV", "Mi dispiace, inserisci un'email valida nel seguente formato: cognome.nome_90@example.com")
+    checkMandatoryProfileDataInputs("email", ".success-email-message", ".error-email-messages", "Ottimo lavoro, l'email è stata inserita nel CV", "Mi dispiace, inserisci un'email valida nel seguente formato: cognome.nome_90@example.com")
 };
 
 // ProfileSummary Optional Validation

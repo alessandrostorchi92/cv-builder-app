@@ -800,10 +800,8 @@
         }
 
         .company-logo {
-            
             width: 30px; 
-            height: 15px; 
-           
+            height: 15px;  
         }
 
         .copyright-text {

@@ -1870,7 +1870,6 @@
       font-size: 0.7rem;
     }
 
-   
 
   }
 
@@ -1934,7 +1933,7 @@
       flex-basis: 100vh;
       flex-basis: 100%;
       width: calc(100% - 0.3rem);
-      padding: 4px 4px 260px 4px;
+      padding: 4px 4px 200px 4px;
     }    
 
   }

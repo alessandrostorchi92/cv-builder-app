@@ -13,6 +13,7 @@
     { name: "cv-template3.png" },
   ];
 
+  // Funzione per nascondere i template e chiudere il popup
   function hideCvTemplates() {
     dispatch("hideCvTemplates");
     $showPopup = false;
@@ -20,13 +21,13 @@
 
   function setClickedCvTemplate(templateName: string) {
     dispatch("setClickedCvTemplate", { template: templateName });
-    $showPopup = true;
+    $showPopup = false;
   }
 
   onMount(() => {
     setTimeout(() => {
       $showPopup = true;
-    }, 600);
+    }, 500);
   });
   
 </script>

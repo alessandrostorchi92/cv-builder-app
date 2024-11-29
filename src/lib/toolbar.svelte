@@ -51,7 +51,7 @@ export let color: any;
 
   <!---- Cv Preview Button---->
   <div class="cv-preview-container">
-    <button class="cv-preview-btn" aria-label="Mostra Cv" on:click={() => {$typeName = true; showCvTemplates()}} disabled={$isModifyBtnDisabled}>MOSTRA CV</button>
+    <button class="cv-preview-btn {color}" style="background-color: var(--primary-color); color: white;" aria-label="Mostra Cv" on:click={() => {$typeName = true; showCvTemplates()}} disabled={$isModifyBtnDisabled}>MOSTRA CV</button>
   </div>
 
   <!---- Download Button ---->
