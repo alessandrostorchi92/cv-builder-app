@@ -111,7 +111,7 @@
     <div class="main-section">
     
         <!-- Profile Summary Section-->
-        <div class="profile-summary-container">
+        <div class="{$showPopup ? "profile-summary-container-popup" : "profile-summary-container"}">
             <div class="{$showPopup ? "profile-summary-title-popup" : "profile-summary-title"} {color}" style="color: {$cvInitialData.color};">BREVE PRESENTAZIONE</div>
             <p class="{$showPopup ? "personal-profile-summary-popup" : "personal-profile-summary"}">{$cvInitialData.profileSummary}</p>
         </div>
@@ -119,7 +119,7 @@
         <div class="watermark-logo" style="background-image:url({tenant == "lavoroexpress" ? '/logo-back.svg' : `https://${tenant}.blob.core.windows.net/cdn/cv/transparent-logo.png`}); opacity: {tenant == 'lavoroexpress' ? '0.2' : '1'};"></div>
 
         <!-- Work Experience Section-->
-        <div class="work-experience-container">
+        <div class="{$showPopup ? "work-experience-container-popup" : "work-experience-container"}">
     
             <div class="{$showPopup ? "work-experience-title-popup" : "work-experience-title"} {color}" style="color:{$cvInitialData.color};">ESPERIENZE</div>
                 
@@ -145,7 +145,7 @@
         </div>
         
         <!-- Academic Background Section -->
-        <div class="academic-background-container">
+        <div class="{$showPopup ? "academic-background-container-popup" : "academic-background-container"}">
         
                 <div class="{$showPopup ? "academic-background-title-popup" : "academic-background-title"} {color}" style="color:{$cvInitialData.color};">FORMAZIONE</div>
             
@@ -171,17 +171,17 @@
         </div>
     
         <!-- Language Section -->
-        <div class="language-container">
+        <div class="{$showPopup ? "language-container-popup" : "language-container"} {color}">
     
-            <div class="{$showPopup ? "language-title-popup" : "language-title"} {color}" style="color: {$cvInitialData.color};">LINGUE</div>
+            <div class="{$showPopup ? "language-title-popup" : "language-title"}" style="color: {$cvInitialData.color};">LINGUE</div>
             
             {#each $cvInitialData.languagesSkills as selectedLanguage (selectedLanguage)}
         
-                <div class="language-details-container {color}">
+                <div class="{$showPopup ? "language-details-container-popup" : "language-details-container"}">
         
                     <div class="{$showPopup ? "dot-item-popup" : "dot-item"}" style="background-color: {$cvInitialData.color};"></div>
                     <div class="{$showPopup ? "language-details-popup" : "language-details"}">{selectedLanguage.lang} - {selectedLanguage.level}</div>
-                    
+
                 </div>
         
             {/each}
@@ -189,9 +189,9 @@
         </div>
         
         <!-- Hard Skills Section-->
-        <div class="hard-skills-container">
+        <div class="{$showPopup ? "hard-skills-container-popup" : "hard-skills-container"} {color}">
     
-            <div class="hard-skills-title {$showPopup ? "hard-skills-title-popup" : "hard-skills-title"} {color}" style="color:{$cvInitialData.color};">SKILLS E COMPETENZE DIGITALI</div>
+            <div class="hard-skills-title {$showPopup ? "hard-skills-title-popup" : "hard-skills-title"}" style="color:{$cvInitialData.color};">SKILLS E COMPETENZE DIGITALI</div>
            
             {#each $cvInitialData.digitalSkills as digitalSkill (digitalSkill)}
     
@@ -448,6 +448,12 @@
         flex-direction: row;
         align-items: center;
     }
+
+    .language-details-container-popup, .hard-skills-details-container-popup {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    } 
 
     .language-details, .hard-skills-details, .language-details-popup, .hard-skills-details-popup  {
         font-size: 0.85rem;
@@ -739,7 +745,7 @@
             margin-right: 0.4rem;
         }
 
-        .language-details-popup, .hard-skills-details {
+        .language-details-popup, .hard-skills-details-popup {
             font-size: 0.7rem;
         }
 
@@ -747,49 +753,59 @@
 
     @media screen and (max-width: 390px) {
 
-        .profile-picture-container, .tenant-picture-container {
-            height: 110px;
-            width: 110px;
-        }
-
-        .user-full-name {
+        .user-full-name-popup {
             font-size: 0.8rem;
         }
 
-        .user-profession {
-            font-size: 0.7rem;
-        }
-
-        .user-personal-info{
-            gap: 0.2rem;
-            font-size: 0.4rem;
-            padding: 0.2rem 0;
-        }
-
-        .info-item i {
-            font-size: 0.4rem;
-        }
-
-        .info-item span {
-            font-size: 0.3rem;
-        }
-
-        .profile-summary-title, .work-experience-title, .academic-background-title, .language-title, .hard-skills-title {
-            font-size: 0.8rem;
-        }
-
-        .profile-summary-container, .work-experience-container, .academic-background-container, .language-container, .hard-skills-container {
+        .user-profession-popup {
             font-size: 0.6rem;
         }
 
-        .work-experience-item, .academic-background-item {
+        .user-personal-info-popup {
+            line-height: 4px;
+            padding: 0.3rem 0;
+        }
+
+        .info-item-popup i {
+            font-size: 0.35rem;
+        }
+
+        .info-item-popup span {
+            font-size: 0.3rem;
+        }
+        
+        .profile-summary-container-popup, .work-experience-container-popup, .academic-background-container-popup, .language-container-popup, .hard-skills-container-popup {
+            padding: 0.1rem;
+        }
+        
+        .profile-summary-title-popup, .work-experience-title-popup, .academic-background-title-popup, .language-title-popup, .hard-skills-title-popup {
+            font-size: 0.7rem;
+            padding: 0.3rem 0;
+        }
+
+        .job-details-popup, .education-details-popup {
+            font-size: 0.6rem;
+        }
+
+        .watermark-logo {
+            position: absolute;
+            width: 400px; 
+            height: 400px;
+            top: -50px;
+            right: -230px;
+            aspect-ratio: 1/1;
+            background-size: cover;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .personal-profile-summary-popup, .job-results-popup, .education-goals-popup {
             font-size: 0.5rem;
         }
 
-        .job-dates, .education-dates {
-            font-size: 0.5rem;
+        .job-dates-popup, .education-dates-popup {
+            font-size: 0.5rem; 
         }
-
         .dot-item { 
             height: 3px; 
             width: 3px;

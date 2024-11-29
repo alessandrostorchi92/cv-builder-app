@@ -4,10 +4,9 @@
   import * as validators from "../validators/form_validation";
   import { onMount } from "svelte";
 
-
   export let color: any;
   export let tenant: any = "";
-  
+
 
   const phonePrefixes = [
     { value: "+93", label: "Afghanistan (+93)" },
@@ -361,9 +360,18 @@
   }
 
   function handlePointerDown(event: PointerEvent): void {
+
+    event.preventDefault();
+
     isDrawing = true;
 
     const { positionX, positionY } = getPointerPosition(event);
+
+    if (event.pointerType === "touch") {
+      console.log("Evento touch iniziato.");
+    } else if (event.pointerType === "mouse") {
+      console.log("Evento mouse iniziato.");
+    }
 
     if (ctx) {
       ctx.beginPath();
@@ -374,8 +382,11 @@
   }
 
   function handlePointerMove(event: PointerEvent): void {
+
     if (!isDrawing || !ctx) return;
 
+    event.preventDefault();
+    
     const { positionX, positionY } = getPointerPosition(event);
     ctx?.lineTo(positionX, positionY);
     ctx?.stroke();
@@ -386,6 +397,9 @@
   }
 
   function handlePointerUp(event: PointerEvent): void {
+
+    event.preventDefault();
+
     isDrawing = false;
 
     if (points.length === 0) return;
@@ -471,7 +485,6 @@
   </div>
 
   <!-- Informazioni di contatto -->
-
   <div class="flex-center-utility py-4">
     <h2 class="title-section-style {color}" style="color: var(--primary-color);">INFORMAZIONI DI CONTATTO</h2>
   </div>

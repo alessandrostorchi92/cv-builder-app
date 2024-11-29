@@ -56,7 +56,7 @@ export let color: any;
 
   <!---- Download Button ---->
   <div class="download-container">
-      <button class="download-btn {color}" style="background-color: var(--primary-color); color: white;" aria-label="Scarica Curriculum Vitae" on:click={() => handleDownloadCv()} disabled={!$isAllowed || !$isPrivacyPolicyApproved}>SCARICA CV <i class="fa-solid fa-download"></i></button>
+      <button class="download-btn {color}" style="background-color: var(--primary-color); color: white;" aria-label="Scarica Curriculum Vitae" on:click={() => handleDownloadCv()} disabled={!$isAllowed || !$isPrivacyPolicyApproved}><span>SCARICA CV</span><i class="fa-solid fa-download"></i></button>
   </div>
 
 </div>
@@ -161,7 +161,6 @@ export let color: any;
     }
 
     @media screen and (max-width: 768px) {
-
       .toolbar {
         position: fixed;
         flex-direction: column;
@@ -181,9 +180,6 @@ export let color: any;
         width: 100%;
       }
 
-      .download-container {
-        display: none;
-      }
       .cv-preview-container {
         display: block;
         width: 100%;
@@ -226,9 +222,28 @@ export let color: any;
         display: block;
       }
 
+    }
+
+    @media screen and (max-width: 390px) {
+
       .download-container {
+        display: block;
+        padding-top: 1rem;
+      }
+
+      .download-btn {
+        width: 3rem;
+        border-radius: 50%;
+      }
+
+      .download-btn span {
         display: none;
       }
+
+      .download-btn i {
+        font-size: 1rem;
+      }
+
     }
 
   </style>
